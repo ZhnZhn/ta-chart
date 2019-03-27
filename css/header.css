@@ -1,0 +1,64 @@
+/* link */
+/* header */
+/* dialog, drawer, modal-pan */
+/*
+$cTitle
+*/
+.progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 0;
+  background: #2f7ed8 none repeat scroll 0% 0%;
+  z-index: 2000;
+}
+@media screen and (min-width: 600px) {
+  .progress-line {
+    height: 3px;
+  }
+}
+
+nav {
+  display: inline-block; }
+
+.header {
+  background-color: #4d4d4d;
+  width: 100%;
+  min-height: 42px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.6); }
+  .header__logo-notes {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    cursor: default;
+    position: absolute;
+    top: 7px;
+    left: 12px; }
+  .header__title-gap {
+    display: inline-block;
+    margin-left: 38px; }
+  .header__title {
+    position: relative;
+    top: 8px;
+    color: #80c040;
+    display: inline-block;
+    padding-right: 4px;
+    font-size: 16px;
+    font-weight: bold; }
+  .header-board__logo_notes {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    cursor: default;
+    position: relative;
+    top: -4px;
+    left: -2px;
+    margin-right: 4px; }
+
+@media screen and (max-width: 500px) {
+  .header-board__title {
+    display: none; } }

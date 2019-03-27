@@ -1,0 +1,83 @@
+{
+  "name": "TA-Chart",
+  "version": "0.1.0",
+  "description": "Web app TA Chart gives the ability to explore technical analysis charts on data from varios data providers",
+  "main": "index.js",
+  "scripts": {    
+    "bundle": "jspm bundle js/**/* - [js/**/*] dependency-bundle.js",
+    "transpile": "babel ./src --out-dir ./js --source-maps --ignore test.js",
+    "transpile:all": "babel ./src --out-dir ./js --source-maps",
+    "css": "gulp",
+    "build:dev:dll": "webpack --colors --progress --config webpack.dev.dll.js",
+    "build:dev:dll-jsx": "webpack --colors --progress --config webpack.dev.dll-jsx.js",
+    "build:dll": "webpack --colors --progress --config webpack.dll.js",
+    "build:dll-jsx": "webpack --colors --progress --config webpack.dll-jsx.js",
+    "stats": "npm run stats:json && npm run stats:report",
+    "stats:json": "webpack --profile --json --config webpack.dll-jsx.js > stats.json",
+    "stats:report": "webpack-bundle-analyzer stats.json --no-open --mode static",
+    "stats:dll": "npm run stats:dll:json && npm run stats:dll:report",
+    "stats:dll:json": "webpack --profile --json --config webpack.dll.js > stats-dll.json",
+    "stats:dll:report": "webpack-bundle-analyzer stats-dll.json --no-open --mode static"
+  },
+  "keywords": [],
+  "author": "Yevhenii Molodyi",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "ccxt-exchanges-loader": "^0.2.0",
+    "del": "^4.0.0",
+    "eslint": "^5.15.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "gulp": "^4.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-inject": "^5.0.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-rev": "^9.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-processing-plugin": "^0.1.2",
+    "jspm": "^0.16.54",
+    "webpack": "^3.12.0",
+    "webpack-bundle-analyzer": "^3.1.0"
+  },
+  "jspm": {
+    "dependencies": {
+      "ccxt": "npm:ccxt@^1.18.364",
+      "d3-format": "npm:d3-format@^1.3.2",
+      "d3-scale": "npm:d3-scale@^2.2.2",
+      "d3-time": "npm:d3-time@^1.0.11",
+      "d3-time-format": "npm:d3-time-format@^2.1.3",
+      "react": "npm:react@^16.8.4",
+      "react-dom": "npm:react-dom@^16.8.4",
+      "react-stockcharts": "npm:react-stockcharts@^0.7.8"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  },
+  "dependencies": {
+    "ccxt": "^1.18.400",
+    "d3-format": "^1.3.2",
+    "d3-scale": "^3.0.0",
+    "d3-time": "^1.0.11",
+    "d3-time-format": "^2.1.3",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-stockcharts": "^0.7.8"
+  }
+}

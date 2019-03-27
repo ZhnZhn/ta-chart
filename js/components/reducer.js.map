@@ -1,0 +1,22 @@
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/reducer.js"
+ ],
+ "file": "../../src/components/reducer.js",
+ "names": [
+  "_isDataValid",
+  "Array",
+  "isArray",
+  "data",
+  "length",
+  "reducer",
+  "state",
+  "action",
+  "type",
+  "providerTitle",
+  "itemTitle",
+  "Error"
+ ],
+ "mappings": ";;;;;;;;;;;;AACA,IAAMA,eAAe,SAAfA,YAAe;AAAA,SAAQC,MAAMC,OAAN,CAAcC,IAAd,KACzBA,KAAKC,MAAL,GAAY,EADK;AAAA,CAArB;;AAGA,IAAMC,UAAU,SAAVA,OAAU,CAACC,KAAD,EAAQC,MAAR,EAAmB;AACjC,UAAOA,OAAOC,IAAd;AACE,SAAK,aAAL;AAAmB;AAAA,YACTL,IADS,GACAI,MADA,CACTJ,IADS;;AAEjB,YAAK,CAACH,aAAaG,IAAb,CAAN,EAA2B;AACzB,iBAAOG,KAAP;AACD;AACD,0CACKA,KADL;AAEEH,gBAAMI,OAAOJ,IAFf;AAGEM,yBAAeF,OAAOE,aAHxB;AAIEC,qBAAWH,OAAOG;AAJpB;AAMD;AACD;AAAS,YAAM,IAAIC,KAAJ,EAAN;AAbX;AAeD,CAhBD;;kBAkBeN,O"
+}
