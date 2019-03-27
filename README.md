@@ -3,7 +3,7 @@ TA Chart is web app that gives the ability to explore technical analysis charts 
 
 Data providers: [IEX Platform](https://iextrading.com/developer/), Binance, Bitfinex, Bittrex by [ccxt](https://github.com/ccxt/ccxt).   
 
-![alt text](https://github.com/ZhnZhn/ta-chart/blob/master/screencast/screencast-of-web-app-ta-chart-release-of-version-0.1.0.png?raw=true "Screencast of web app TA Chart v0.1.0")
+![alt text](screencast/screencast-of-web-app-ta-chart-release-of-version-0.1.0.png?raw=true "Screencast of web app TA Chart v0.1.0")
 
 Time period: Daily.  
 
