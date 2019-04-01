@@ -1,0 +1,17 @@
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/enumFetch.js"
+ ],
+ "file": "../../src/components/enumFetch.js",
+ "names": [
+  "FETCH",
+  "INITIAL",
+  "LOADING",
+  "SUCCESS",
+  "FAILED",
+  "Object",
+  "freeze"
+ ],
+ "mappings": ";;;;;AAAA,IAAMA,QAAQ;AACZC,WAAS,SADG;AAEZC,WAAS,SAFG;AAGZC,WAAS,SAHG;AAIZC,UAAQ;AAJI,CAAd;;kBAOeC,OAAOC,MAAP,CAAcN,KAAd,C"
+}

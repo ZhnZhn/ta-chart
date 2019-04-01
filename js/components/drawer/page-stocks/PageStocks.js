@@ -48,10 +48,13 @@ var PageStocks = function PageStocks(_ref) {
       onPrevPage = _ref.onPrevPage;
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
-      loadData = _useContext.loadData,
+      dataAction = _useContext.dataAction,
       onSelect = function onSelect(item) {
     if (item) {
-      (0, _loadIex2.default)(item.value, loadData);
+      (0, _loadIex2.default)({
+        symbol: item.value,
+        dataAction: dataAction
+      });
     }
   };
 

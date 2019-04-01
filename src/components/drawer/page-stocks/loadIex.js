@@ -14,8 +14,10 @@ const _crUri = symbol => {
   return `${C.BASE_URL}/${symbol}/chart/${C.DF_PERIOD}`;
 };
 
-const loadIex = (symbol, loadData) => fetch(_crUri(symbol))
-  .then(res => {
+const loadIex = ({ symbol, dataAction }) => {
+  dataAction.loading()
+  fetch(_crUri(symbol))
+   .then(res => {
     const { status } = res;
     if (status>=200 && status<400){
        return res.json();
@@ -25,7 +27,7 @@ const loadIex = (symbol, loadData) => fetch(_crUri(symbol))
   })
   .then(json => {
     if ( Array.isArray(json) ) {
-      loadData({
+      dataAction.loadData({
         providerTitle: 'IEX Platform',
         itemTitle: symbol,
         data: toData(json)
@@ -35,7 +37,9 @@ const loadIex = (symbol, loadData) => fetch(_crUri(symbol))
     }
   })
   .catch(err => {
+    dataAction.loadFailed()
     console.log(err)
   });
+}
 
 export default throttle(loadIex, 3000, { trailing: false })

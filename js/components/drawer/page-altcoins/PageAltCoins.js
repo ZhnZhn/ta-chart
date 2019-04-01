@@ -71,7 +71,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
       onPrevPage = _ref.onPrevPage;
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
-      loadData = _useContext.loadData;
+      dataAction = _useContext.dataAction;
 
   var _useReducer = (0, _react.useReducer)(_reducer2.default, _initialState2.default),
       _useReducer2 = (0, _slicedToArray3.default)(_useReducer, 2),
@@ -109,7 +109,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
       (0, _loadPair2.default)({
         exchange: exchange, pair: pair,
         exchImpl: refExchange.current,
-        loadData: loadData
+        dataAction: dataAction
       });
     }
   }, [pair]);

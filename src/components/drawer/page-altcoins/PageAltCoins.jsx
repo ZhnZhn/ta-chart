@@ -25,7 +25,7 @@ const S = {
 const _crExchanges = () => ccxt.exchanges.map(crOptionItem);
 
 const PageAltCoins = ({ style, onPrevPage }) => {
-  const { loadData } = useContext(AppValue)
+  const { dataAction } = useContext(AppValue)
   const [state, dispatch] = useReducer(reducer, initialState)
   , { exchange, pair, isMarkets,
       exchanges, markets
@@ -57,7 +57,7 @@ const PageAltCoins = ({ style, onPrevPage }) => {
       loadPair({
         exchange, pair,
         exchImpl: refExchange.current,
-        loadData
+        dataAction
       })
     }
   }, [pair])

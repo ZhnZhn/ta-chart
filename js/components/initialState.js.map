@@ -1,1 +1,21 @@
-{"version":3,"sources":["../../src/components/initialState.js"],"names":["initialState","providerTitle","C","INITIAL_PROVIDER_TITLE","itemTitle","INITIAL_ITEM_TITLE","data","DF_DATA"],"mappings":";;;;;;AACA;;;;;;AAEA,IAAMA,eAAe;AACnBC,iBAAeC,iBAAEC,sBADE;AAEnBC,aAAWF,iBAAEG,kBAFM;AAGnBC,QAAMJ,iBAAEK;AAHW,CAArB;;kBAMeP,Y","file":"initialState.js","sourcesContent":["\r\nimport C from './config'\r\n\r\nconst initialState = {\r\n  providerTitle: C.INITIAL_PROVIDER_TITLE,\r\n  itemTitle: C.INITIAL_ITEM_TITLE,\r\n  data: C.DF_DATA\r\n};\r\n\r\nexport default initialState\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/initialState.js"
+ ],
+ "file": "../../src/components/initialState.js",
+ "names": [
+  "initialState",
+  "providerTitle",
+  "C",
+  "INITIAL_PROVIDER_TITLE",
+  "itemTitle",
+  "INITIAL_ITEM_TITLE",
+  "data",
+  "DF_DATA",
+  "fetchStatus",
+  "FETCH",
+  "INITIAL"
+ ],
+ "mappings": ";;;;;;AACA;;;;AACA;;;;;;AAEA,IAAMA,eAAe;AACnBC,iBAAeC,iBAAEC,sBADE;AAEnBC,aAAWF,iBAAEG,kBAFM;AAGnBC,QAAMJ,iBAAEK,OAHW;AAInBC,eAAaC,oBAAMC;AAJA,CAArB;;kBAOeV,Y"
+}

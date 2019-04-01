@@ -28,6 +28,10 @@ var _CL = require('../styles/CL');
 
 var _CL2 = _interopRequireDefault(_CL);
 
+var _ProgressLoading = require('./ProgressLoading');
+
+var _ProgressLoading2 = _interopRequireDefault(_ProgressLoading);
+
 var _HeaderDrawer = require('../drawer/HeaderDrawer');
 
 var _HeaderDrawer2 = _interopRequireDefault(_HeaderDrawer);
@@ -35,9 +39,10 @@ var _HeaderDrawer2 = _interopRequireDefault(_HeaderDrawer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Header = function Header(_ref) {
-  var providerTitle = _ref.providerTitle,
+  var fetchStatus = _ref.fetchStatus,
+      providerTitle = _ref.providerTitle,
       itemTitle = _ref.itemTitle,
-      rest = (0, _objectWithoutProperties3.default)(_ref, ['providerTitle', 'itemTitle']);
+      rest = (0, _objectWithoutProperties3.default)(_ref, ['fetchStatus', 'providerTitle', 'itemTitle']);
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
       theme = _useContext.theme;
@@ -50,6 +55,7 @@ var Header = function Header(_ref) {
       className: _CL2.default.HEADER,
       style: headerStyle
     },
+    _react2.default.createElement(_ProgressLoading2.default, { fetchStatus: fetchStatus }),
     _react2.default.createElement(_Logo2.default, null),
     _react2.default.createElement('span', { className: _CL2.default.TITLE_GAP }),
     _react2.default.createElement(

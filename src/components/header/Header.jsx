@@ -6,9 +6,11 @@ import AppThemeId from '../contexts/AppThemeId'
 import Logo from '../zhn/Logo'
 
 import CL from '../styles/CL'
+import ProgressLoading from './ProgressLoading'
 import HeaderDrawer from '../drawer/HeaderDrawer'
 
 const Header = ({
+  fetchStatus,
   providerTitle, itemTitle,
   ...rest
 }) => {
@@ -20,6 +22,7 @@ const Header = ({
       className={CL.HEADER}
       style={headerStyle}
     >
+      <ProgressLoading fetchStatus={fetchStatus} /> 
       <Logo />
       <span className={CL.TITLE_GAP} />
       <span className={CL.HEADER_TITLE}>

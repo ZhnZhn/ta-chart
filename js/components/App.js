@@ -81,6 +81,7 @@ var App = function App() {
       providerTitle = state.providerTitle,
       itemTitle = state.itemTitle,
       data = state.data,
+      fetchStatus = state.fetchStatus,
       appValue = (0, _useInit2.default)(function () {
     return (0, _crAppValue2.default)({
       dispatch: dispatch, theme: _theme2.default
@@ -119,6 +120,7 @@ var App = function App() {
       { value: themeId },
       _react2.default.createElement(_Header2.default, {
         setThemeId: setThemeId,
+        fetchStatus: fetchStatus,
         providerTitle: providerTitle,
         itemTitle: itemTitle
       }),

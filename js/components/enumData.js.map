@@ -1,0 +1,16 @@
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/enumData.js"
+ ],
+ "file": "../../src/components/enumData.js",
+ "names": [
+  "DATA",
+  "LOADING",
+  "LOADED",
+  "LOAD_FAILED",
+  "Object",
+  "freeze"
+ ],
+ "mappings": ";;;;;;AACA,IAAMA,OAAO;AACXC,WAAS,cADE;AAEXC,UAAQ,aAFG;AAGXC,eAAa;AAHF,CAAb;;kBAMeC,OAAOC,MAAP,CAAcL,IAAd,C"
+}

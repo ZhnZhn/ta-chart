@@ -1,0 +1,22 @@
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/header/ProgressLoading.js"
+ ],
+ "file": "../../../src/components/header/ProgressLoading.js",
+ "names": [
+  "C",
+  "LOADING",
+  "FAILED",
+  "_getFetchingState",
+  "fetchStatus",
+  "FETCH",
+  "completed",
+  "color",
+  "SUCCESS",
+  "ProgressLoading",
+  "props",
+  "PureComponent"
+ ],
+ "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAA;;;;AAEA;;;;AACA;;;;;;AAEA,IAAMA,IAAI;AACRC,WAAU,SADF;AAERC,UAAS;AAFD,CAAV;;AAKA,IAAMC,oBAAoB,SAApBA,iBAAoB,CAACC,WAAD,EAAiB;AACzC,UAAQA,WAAR;AACA,SAAKC,oBAAMJ,OAAX;AACE,aAAO,EAAEK,WAAW,EAAb,EAAiBC,OAAOP,EAAEC,OAA1B,EAAP;AACF,SAAKI,oBAAMG,OAAX;AACE,aAAO,EAAEF,WAAW,GAAb,EAAkBC,OAAOP,EAAEC,OAA3B,EAAP;AACF,SAAKI,oBAAMH,MAAX;AACE,aAAO,EAAEI,WAAW,GAAb,EAAkBC,OAAOP,EAAEE,MAA3B,EAAP;AACF;AACE,aAAO,EAAEI,WAAY,CAAd,EAAiBC,OAAQP,EAAEC,OAA3B,EAAP;AARF;AAUD,CAXD;;IAaMQ,e;;;;;;;;;;6BACI;AACA,UAAEL,WAAF,GAAkB,KAAKM,KAAvB,CAAEN,WAAF;AAAA,+BAGFD,kBAAkBC,WAAlB,CAHE;AAAA,UAEJE,SAFI,sBAEJA,SAFI;AAAA,UAEOC,KAFP,sBAEOA,KAFP;;AAIN,aACE,8BAAC,sBAAD;AACG,gBAAQ,CADX;AAEG,eAAOA,KAFV;AAGG,mBAAWD;AAHd,QADF;AAOD;;;EAb2BK,oB;;kBAgBfF,e"
+}

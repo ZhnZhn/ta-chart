@@ -95,9 +95,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-       'process.env' : {
-          'NODE_ENV': JSON.stringify('production')
-       }
+       'process.env.NODE_ENV' : JSON.stringify('production')       
     }),
     new webpack.DllPlugin({
       // The path to the manifest file which maps between

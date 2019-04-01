@@ -10,15 +10,17 @@ var loadPair = function loadPair(_ref) {
   var exchImpl = _ref.exchImpl,
       exchange = _ref.exchange,
       pair = _ref.pair,
-      loadData = _ref.loadData;
+      dataAction = _ref.dataAction;
 
+  dataAction.loading();
   exchImpl.fetchOHLCV(pair, '1d').then(function (ohlcv) {
-    return loadData({
+    return dataAction.loadData({
       providerTitle: exchange,
       itemTitle: pair,
       data: ohlcv.map(_pageFns.crPoint)
     });
   }).catch(function (err) {
+    dataAction.loadFailed();
     console.log(err.message);
   });
 };

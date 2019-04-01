@@ -35,7 +35,7 @@ const App = () => {
   , [state, dispatch] = useReducer(reducer, initialState)
   , {
     providerTitle, itemTitle,
-    data
+    data, fetchStatus
   } = state
   , appValue = useInit(() => crAppValue({
        dispatch, theme
@@ -52,7 +52,7 @@ const App = () => {
      window.addEventListener("resize", hResize);
      return () => window.removeEventListener("resize", hResize);
   }, [])
-   
+
   /*
   console.log(JSON.stringify(data.map(obj => ({
     date: obj.date,
@@ -70,6 +70,7 @@ const App = () => {
     <AppThemeId.Provider value={themeId}>
       <Header
         setThemeId={setThemeId}
+        fetchStatus={fetchStatus}
         providerTitle={providerTitle}
         itemTitle={itemTitle}
       />

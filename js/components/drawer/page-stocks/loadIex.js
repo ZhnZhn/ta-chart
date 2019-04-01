@@ -26,8 +26,12 @@ var _crUri = function _crUri(symbol) {
   return C.BASE_URL + '/' + symbol + '/chart/' + C.DF_PERIOD;
 };
 
-var loadIex = function loadIex(symbol, loadData) {
-  return fetch(_crUri(symbol)).then(function (res) {
+var loadIex = function loadIex(_ref) {
+  var symbol = _ref.symbol,
+      dataAction = _ref.dataAction;
+
+  dataAction.loading();
+  fetch(_crUri(symbol)).then(function (res) {
     var status = res.status;
 
     if (status >= 200 && status < 400) {
@@ -37,7 +41,7 @@ var loadIex = function loadIex(symbol, loadData) {
     }
   }).then(function (json) {
     if (Array.isArray(json)) {
-      loadData({
+      dataAction.loadData({
         providerTitle: 'IEX Platform',
         itemTitle: symbol,
         data: (0, _toData2.default)(json)
@@ -46,6 +50,7 @@ var loadIex = function loadIex(symbol, loadData) {
       throw new Error("Json response is empty");
     }
   }).catch(function (err) {
+    dataAction.loadFailed();
     console.log(err);
   });
 };

@@ -1,1 +1,22 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-stocks/PageStocks.jsx"],"names":["S","PAGE","height","PageStocks","style","onPrevPage","AppValue","loadData","onSelect","item","value"],"mappings":";;;;;;;;;;AAAA;;;;AAEA;;;;AAEA;;;;AACA;;;;AAEA;;;;;;AAEA,IAAMA,IAAI;AACRC,QAAM;AACJC,YAAQ;AADJ;AAGN;;;;;;;AAJQ,CAAV;;AAaA,IAAMC,aAAa,SAAbA,UAAa,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACvB,uBAAWC,kBAAX,CADuB;AAAA,MACpCC,QADoC,eACpCA,QADoC;AAAA,MAE1CC,QAF0C,GAE/B,SAAXA,QAAW,CAACC,IAAD,EAAU;AACrB,QAAIA,IAAJ,EAAU;AACR,6BAAQA,KAAKC,KAAb,EAAoBH,QAApB;AACD;AACF,GAN2C;;AAQ5C,SACE;AAAA;AAAA,MAAK,kCAAWP,EAAEC,IAAb,EAAsBG,KAAtB,CAAL;AACE,kCAAC,oBAAD,IAAY,SAASC,UAArB,GADF;AAEE,kCAAC,wBAAD;AACE,oBAAc,KADhB;AAEE,mBAAY,QAFd;AAGE,iBAAU,2BAHZ;AAIE,mBAAa,IAJf;AAKE,gBAAUG;AALZ;AAFF,GADF;AAYD,CApBD;;kBAsBeL,U","file":"PageStocks.js","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppValue from '../../contexts/AppValue'\r\n\r\nimport BackMenuBt from '../BackMenuBt'\r\nimport SelectWithLoad from '../../rows/SelectWithLoad'\r\n\r\nimport loadIex from './loadIex'\r\n\r\nconst S = {\r\n  PAGE: {\r\n    height: 400\r\n  },\r\n  /*\r\n  TEXT: {\r\n    color: '#1b2836',\r\n    paddingLeft: 16,\r\n    fontWeight: 600\r\n  }\r\n  */\r\n};\r\n\r\nconst PageStocks = ({ style, onPrevPage }) => {\r\n  const { loadData } = useContext(AppValue)\r\n  , onSelect = (item) => {\r\n    if (item) {\r\n      loadIex(item.value, loadData)\r\n    }\r\n  };\r\n\r\n  return (\r\n    <div style={{...S.PAGE, ...style }}>\r\n      <BackMenuBt onClick={onPrevPage} />\r\n      <SelectWithLoad\r\n        isShowLabels={false}\r\n        placeholder=\"Symbol\"\r\n        optionURI=\"./data/stock-symbols.json\"\r\n        isWithInput={true}\r\n        onSelect={onSelect}\r\n      />\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default PageStocks\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-stocks/PageStocks.js"
+ ],
+ "file": "../../../../src/components/drawer/page-stocks/PageStocks.js",
+ "names": [
+  "S",
+  "PAGE",
+  "height",
+  "PageStocks",
+  "style",
+  "onPrevPage",
+  "AppValue",
+  "dataAction",
+  "onSelect",
+  "item",
+  "symbol",
+  "value"
+ ],
+ "mappings": ";;;;;;;;;;AAAA;;;;AAEA;;;;AAEA;;;;AACA;;;;AAEA;;;;;;AAEA,IAAMA,IAAI;AACRC,QAAM;AACJC,YAAQ;AADJ;AAGN;;;;;;;AAJQ,CAAV;;AAaA,IAAMC,aAAa,SAAbA,UAAa,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACrB,uBAAWC,kBAAX,CADqB;AAAA,MACpCC,UADoC,eACpCA,UADoC;AAAA,MAE1CC,QAF0C,GAE/B,SAAXA,QAAW,CAACC,IAAD,EAAU;AACrB,QAAIA,IAAJ,EAAU;AACR,6BAAQ;AACNC,gBAAQD,KAAKE,KADP;AAENJ;AAFM,OAAR;AAID;AACF,GAT2C;;AAW5C,SACE;AAAA;AAAA,MAAK,kCAAWP,EAAEC,IAAb,EAAsBG,KAAtB,CAAL;AACE,kCAAC,oBAAD,IAAY,SAASC,UAArB,GADF;AAEE,kCAAC,wBAAD;AACE,oBAAc,KADhB;AAEE,mBAAY,QAFd;AAGE,iBAAU,2BAHZ;AAIE,mBAAa,IAJf;AAKE,gBAAUG;AALZ;AAFF,GADF;AAYD,CAvBD;;kBAyBeL,U"
+}

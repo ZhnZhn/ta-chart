@@ -1,1 +1,26 @@
-{"version":3,"sources":["../../../src/components/header/Header.jsx"],"names":["Header","providerTitle","itemTitle","rest","AppValue","theme","themeId","AppThemeId","headerStyle","getHeaderStyle","CL","HEADER","TITLE_GAP","HEADER_TITLE","defaultProps"],"mappings":";;;;;;;;;;AAAA;;;;AAEA;;;;AACA;;;;AAEA;;;;AAEA;;;;AACA;;;;;;AAEA,IAAMA,SAAS,SAATA,MAAS,OAGT;AAAA,MAFJC,aAEI,QAFJA,aAEI;AAAA,MAFWC,SAEX,QAFWA,SAEX;AAAA,MADDC,IACC;;AAAA,oBACc,uBAAWC,kBAAX,CADd;AAAA,MACIC,KADJ,eACIA,KADJ;;AAEJ,MAAMC,UAAU,uBAAWC,oBAAX,CAAhB;AACA,MAAMC,cAAcH,MAAMI,cAAN,CAAqBH,OAArB,CAApB;AACA,SACE;AAAA;AAAA;AACE,iBAAWI,aAAGC,MADhB;AAEE,aAAOH;AAFT;AAIE,kCAAC,cAAD,OAJF;AAKE,4CAAM,WAAWE,aAAGE,SAApB,GALF;AAME;AAAA;AAAA,QAAM,WAAWF,aAAGG,YAApB;AACGZ;AADH,KANF;AASE;AAAA;AAAA,QAAM,WAAWS,aAAGG,YAApB;AAAA;AAAA,KATF;AAUE;AAAA;AAAA,QAAM,WAAWH,aAAGG,YAApB;AACGX;AADH,KAVF;AAaE,kCAAC,sBAAD,EAAkBC,IAAlB;AAbF,GADF;AAiBD,CAxBD;;AA0BAH,OAAOc,YAAP,GAAsB;AACpBb,iBAAe,EADK;AAEpBC,aAAW;AAFS,CAAtB;;kBAKeF,M","file":"Header.js","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppValue from '../contexts/AppValue'\r\nimport AppThemeId from '../contexts/AppThemeId'\r\n\r\nimport Logo from '../zhn/Logo'\r\n\r\nimport CL from '../styles/CL'\r\nimport HeaderDrawer from '../drawer/HeaderDrawer'\r\n\r\nconst Header = ({\r\n  providerTitle, itemTitle,\r\n  ...rest\r\n}) => {\r\n  const { theme } = useContext(AppValue);\r\n  const themeId = useContext(AppThemeId);\r\n  const headerStyle = theme.getHeaderStyle(themeId);\r\n  return (\r\n    <header\r\n      className={CL.HEADER}\r\n      style={headerStyle}\r\n    >\r\n      <Logo />\r\n      <span className={CL.TITLE_GAP} />\r\n      <span className={CL.HEADER_TITLE}>\r\n        {providerTitle}\r\n      </span>\r\n      <span className={CL.HEADER_TITLE}>:&nbsp;</span>\r\n      <span className={CL.HEADER_TITLE}>\r\n        {itemTitle}\r\n      </span>\r\n      <HeaderDrawer {...rest} />\r\n    </header>\r\n  );\r\n}\r\n\r\nHeader.defaultProps = {\r\n  providerTitle: '',\r\n  itemTitle: ''\r\n}\r\n\r\nexport default Header\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/header/Header.js"
+ ],
+ "file": "../../../src/components/header/Header.js",
+ "names": [
+  "Header",
+  "fetchStatus",
+  "providerTitle",
+  "itemTitle",
+  "rest",
+  "AppValue",
+  "theme",
+  "themeId",
+  "AppThemeId",
+  "headerStyle",
+  "getHeaderStyle",
+  "CL",
+  "HEADER",
+  "TITLE_GAP",
+  "HEADER_TITLE",
+  "defaultProps"
+ ],
+ "mappings": ";;;;;;;;;;AAAA;;;;AAEA;;;;AACA;;;;AAEA;;;;AAEA;;;;AACA;;;;AACA;;;;;;AAEA,IAAMA,SAAS,SAATA,MAAS,OAIT;AAAA,MAHJC,WAGI,QAHJA,WAGI;AAAA,MAFJC,aAEI,QAFJA,aAEI;AAAA,MAFWC,SAEX,QAFWA,SAEX;AAAA,MADDC,IACC;;AAAA,oBACc,uBAAWC,kBAAX,CADd;AAAA,MACIC,KADJ,eACIA,KADJ;;AAEJ,MAAMC,UAAU,uBAAWC,oBAAX,CAAhB;AACA,MAAMC,cAAcH,MAAMI,cAAN,CAAqBH,OAArB,CAApB;AACA,SACE;AAAA;AAAA;AACE,iBAAWI,aAAGC,MADhB;AAEE,aAAOH;AAFT;AAIE,kCAAC,yBAAD,IAAiB,aAAaR,WAA9B,GAJF;AAKE,kCAAC,cAAD,OALF;AAME,4CAAM,WAAWU,aAAGE,SAApB,GANF;AAOE;AAAA;AAAA,QAAM,WAAWF,aAAGG,YAApB;AACGZ;AADH,KAPF;AAUE;AAAA;AAAA,QAAM,WAAWS,aAAGG,YAApB;AAAA;AAAA,KAVF;AAWE;AAAA;AAAA,QAAM,WAAWH,aAAGG,YAApB;AACGX;AADH,KAXF;AAcE,kCAAC,sBAAD,EAAkBC,IAAlB;AAdF,GADF;AAkBD,CA1BD;;AA4BAJ,OAAOe,YAAP,GAAsB;AACpBb,iBAAe,EADK;AAEpBC,aAAW;AAFS,CAAtB;;kBAKeH,M"
+}

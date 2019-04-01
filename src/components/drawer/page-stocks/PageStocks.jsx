@@ -21,10 +21,13 @@ const S = {
 };
 
 const PageStocks = ({ style, onPrevPage }) => {
-  const { loadData } = useContext(AppValue)
+  const { dataAction } = useContext(AppValue)
   , onSelect = (item) => {
     if (item) {
-      loadIex(item.value, loadData)
+      loadIex({
+        symbol: item.value,
+        dataAction
+      })
     }
   };
 
