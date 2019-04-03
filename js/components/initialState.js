@@ -18,6 +18,7 @@ var initialState = {
   providerTitle: _config2.default.INITIAL_PROVIDER_TITLE,
   itemTitle: _config2.default.INITIAL_ITEM_TITLE,
   data: _config2.default.DF_DATA,
+  timeframe: _config2.default.DF_TIMEFRAME,
   fetchStatus: _enumFetch2.default.INITIAL
 };
 

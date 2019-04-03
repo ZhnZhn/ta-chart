@@ -23,7 +23,7 @@ var reducer = function reducer(state, action) {
         markets: action.markets,
         isMarkets: { loading: false, failed: false }
       });
-    case "MARKET_FAIL":
+    case "MARKET_LOADING_FAIL":
       return (0, _extends3.default)({}, state, {
         isMarkets: { loading: false, failed: true }
       });
@@ -33,7 +33,8 @@ var reducer = function reducer(state, action) {
       });
     case "EXCHANGE_SET":
       return (0, _extends3.default)({}, state, {
-        exchange: action.exchange
+        exchange: action.exchange,
+        pair: undefined
       });
     case "PAIR_SET":
       return (0, _extends3.default)({}, state, {

@@ -1,1 +1,25 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-altcoins/loadMarkets.js"],"names":["loadMarkets","dispatch","exchImpl","exchange","type","then","markets","symbols","map","crOptionItem","catch","console","log","err","message"],"mappings":";;;;;;AAAA;;AAEA,IAAMA,cAAc,SAAdA,WAAc,OAAsC;AAAA,MAAnCC,QAAmC,QAAnCA,QAAmC;AAAA,MAAzBC,QAAyB,QAAzBA,QAAyB;AAAA,MAAfC,QAAe,QAAfA,QAAe;;AACxDF,WAAS,EAAEG,MAAM,gBAAR,EAAT;AACAF,WAASF,WAAT,GACGK,IADH,CACQ,YAAM;AACVJ,aAAS;AACPG,YAAM,eADC;AAEPD,wBAFO;AAGPG,eAASJ,SAASK,OAAT,CAAiBC,GAAjB,CAAqBC,qBAArB;AAHF,KAAT;AAKD,GAPH,EAQGC,KARH,CAQS,eAAO;AACZC,YAAQC,GAAR,CAAYC,IAAIC,OAAhB;AACD,GAVH;AAWD,CAbD;;kBAeed,W","file":"loadMarkets.js","sourcesContent":["import { crOptionItem } from './pageFns';\r\n\r\nconst loadMarkets = ({ dispatch, exchImpl, exchange }) => {\r\n  dispatch({ type: \"MARKET_LOADING\" })\r\n  exchImpl.loadMarkets()\r\n    .then(() => {\r\n      dispatch({\r\n        type: \"MARKET_LOADED\",\r\n        exchange,\r\n        markets: exchImpl.symbols.map(crOptionItem)\r\n      })\r\n    })\r\n    .catch(err => {\r\n      console.log(err.message)\r\n    })\r\n}\r\n\r\nexport default loadMarkets\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-altcoins/loadMarkets.js"
+ ],
+ "file": "../../../../src/components/drawer/page-altcoins/loadMarkets.js",
+ "names": [
+  "loadMarkets",
+  "dispatch",
+  "exchImpl",
+  "exchange",
+  "type",
+  "then",
+  "markets",
+  "symbols",
+  "map",
+  "crOptionItem",
+  "catch",
+  "console",
+  "log",
+  "err",
+  "message"
+ ],
+ "mappings": ";;;;;;AAAA;;AAEA,IAAMA,cAAc,SAAdA,WAAc,OAAsC;AAAA,MAAnCC,QAAmC,QAAnCA,QAAmC;AAAA,MAAzBC,QAAyB,QAAzBA,QAAyB;AAAA,MAAfC,QAAe,QAAfA,QAAe;;AACxDF,WAAS,EAAEG,MAAM,gBAAR,EAAT;AACAF,WAASF,WAAT,GACGK,IADH,CACQ,YAAM;AACVJ,aAAS;AACPG,YAAM,eADC;AAEPD,wBAFO;AAGPG,eAASJ,SAASK,OAAT,CAAiBC,GAAjB,CAAqBC,qBAArB;AAHF,KAAT;AAKD,GAPH,EAQGC,KARH,CAQS,eAAO;AACZT,aAAS,EAAEG,MAAM,qBAAR,EAAT;AACAO,YAAQC,GAAR,CAAYC,IAAIC,OAAhB;AACD,GAXH;AAYD,CAdD;;kBAgBed,W"
+}

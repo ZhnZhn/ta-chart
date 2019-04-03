@@ -12,11 +12,15 @@ const {
   sma, rsi, bollingerBand,
   fitWidth
 } = Ch;
-const { scaleTime } = chartFns;
+const {
+  scaleTime,
+  crTimeInterval,
+  crTimeFormat
+} = chartFns;
 
 const MARGIN = {
 	left: 50,
-	right: 50,
+	right: 80,
 	//top: 10,
 	top: 0,
 	bottom: 30
@@ -24,7 +28,7 @@ const MARGIN = {
 
 const S = {
 	EL: {
-		width: '95%'
+		width: '98%'
 	}
 };
 
@@ -32,13 +36,27 @@ const _xAccessor = d => d
  ? d.date
  : 0;
 
+const ITEMS_NUM = 150;
+let fromDate, toDate, xExtends = [];
+const _crExtends = (data, itemsNum) => {
+  const _max = data.length - 1
+  , _from = _max < itemsNum
+       ? data[0].date
+       : data[_max-itemsNum].date
+  , _to = data.slice(-1)[0].date;
+  return _from === fromDate && _to === toDate
+    ? xExtends
+    : fromDate = _from, toDate = _to, (xExtends = [_from, _to]);
+};
+
 const HollowChart = (props) => {
   const {
 		id,
 		style,
     data,
 		width,
-		resize
+		resize,
+    timeframe
 	} = props;
 
   const sma20 = sma()
@@ -70,10 +88,13 @@ const HollowChart = (props) => {
 } = xScaleProvider(calculatedData);
 */
 
-
   useEffect(() => {
 		resize()
 	}, [])
+
+  const timeInterval = crTimeInterval(timeframe)
+  , timeFormat = crTimeFormat(timeframe)
+  , xExtents = _crExtends(calculatedData, ITEMS_NUM);
 
   return (
 		<div
@@ -86,16 +107,23 @@ const HollowChart = (props) => {
       height={550}
 			margin={MARGIN}
       type="hybrid"
-			seriesName="Coin"
+			seriesName="Item"
       data={calculatedData}
 			xAccessor={_xAccessor}
 			xScale={scaleTime()}
-			//xExtents={xExtents}
+			xExtents={xExtents}
      >
 			 {RsiSeria({ id: 1, height: 100, width: width, rsi: rsi14 })}
 			 {CloseSeria({ id: 2, height: 100})}
-			 {CandleSeria({ id: 3, height: 300, sma20, sma50, bb})}
-			 {VolumeSeria({ id: 4, height: 120 })}
+			 {CandleSeria({
+          id: 3, height: 300,
+          timeInterval, timeFormat,
+          sma20, sma50, bb
+        })}
+			  {VolumeSeria({
+           id: 4, height: 120,
+           timeInterval, timeFormat
+        })}
         {<Ch.CrossHairCursor />}
 		 </Ch.ChartCanvas>
 		  </div>

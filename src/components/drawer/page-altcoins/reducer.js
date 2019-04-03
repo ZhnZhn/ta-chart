@@ -12,7 +12,7 @@ const reducer = (state, action) => {
         markets: action.markets,
         isMarkets: { loading: false, failed: false },
       };
-    case "MARKET_FAIL":
+    case "MARKET_LOADING_FAIL":
       return {
         ...state,
         isMarkets: { loading: false, failed: true }
@@ -25,7 +25,8 @@ const reducer = (state, action) => {
     case "EXCHANGE_SET":
      return {
        ...state,
-       exchange: action.exchange
+       exchange: action.exchange,
+       pair: undefined
      };
     case "PAIR_SET":
      return {

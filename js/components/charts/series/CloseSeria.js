@@ -46,8 +46,8 @@ var CloseSeria = function CloseSeria(_ref) {
       stroke: 'black'
     }),
     _react2.default.createElement(_Ch2.default.MouseCoordinateY, {
-      at: 'right', orient: 'right',
-      displayFormat: format(".4f")
+      at: 'left', orient: 'left',
+      displayFormat: format(".2f")
     })
   );
 };

@@ -20,9 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var C = _chartFns2.default.C,
     timeIntervalBarWidth = _chartFns2.default.timeIntervalBarWidth,
-    format = _chartFns2.default.format,
-    timeFormat = _chartFns2.default.timeFormat,
-    utcDay = _chartFns2.default.utcDay;
+    format = _chartFns2.default.format;
 
 
 var _fill = function _fill(d, dPrev) {
@@ -31,16 +29,17 @@ var _fill = function _fill(d, dPrev) {
 
 var VolumeSeria = function VolumeSeria(_ref) {
   var id = _ref.id,
-      height = _ref.height;
+      height = _ref.height,
+      timeInterval = _ref.timeInterval,
+      timeFormat = _ref.timeFormat;
   return _react2.default.createElement(
     _Ch2.default.Chart,
     {
       id: id, height: height,
       yExtents: function yExtents(d) {
         return d.volume;
-      }
-      //origin={(w, h) => [0, h - 220]}
-      , origin: function origin(w, h) {
+      },
+      origin: function origin(w, h) {
         return [0, h - 140];
       }
     },
@@ -54,7 +53,7 @@ var VolumeSeria = function VolumeSeria(_ref) {
       displayFormat: format(".4s")
     }),
     _react2.default.createElement(_Ch2.default.BarSeries, {
-      width: timeIntervalBarWidth(utcDay),
+      width: timeIntervalBarWidth(timeInterval),
       yAccessor: function yAccessor(d) {
         return d.volume;
       },
@@ -67,7 +66,7 @@ var VolumeSeria = function VolumeSeria(_ref) {
     }),
     _react2.default.createElement(_Ch2.default.MouseCoordinateX, {
       at: 'bottom', orient: 'bottom',
-      displayFormat: timeFormat("%Y-%m-%d")
+      displayFormat: timeFormat
     })
   );
 };

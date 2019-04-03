@@ -21,7 +21,9 @@ var CoinSelect = function CoinSelect(_ref) {
       _ref$isMarkets = _ref.isMarkets,
       isMarkets = _ref$isMarkets === undefined ? {} : _ref$isMarkets,
       markets = _ref.markets,
-      onSelectMarket = _ref.onSelectMarket;
+      onSelectMarket = _ref.onSelectMarket,
+      timeframes = _ref.timeframes,
+      onSelectTimeframe = _ref.onSelectTimeframe;
   return _react2.default.createElement(
     'div',
     { style: style },
@@ -30,6 +32,12 @@ var CoinSelect = function CoinSelect(_ref) {
       placeholder: 'Exchanges',
       options: exchanges,
       onSelect: onSelectExchange
+    }),
+    _react2.default.createElement(_RowInputSelect2.default, {
+      isShowLabels: false,
+      placeholder: 'Time Frames (Default: 1d)',
+      options: timeframes,
+      onSelect: onSelectTimeframe
     }),
     _react2.default.createElement(_RowInputSelect2.default, {
       isShowLabels: false,

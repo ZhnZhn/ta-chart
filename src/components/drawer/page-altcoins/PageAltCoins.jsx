@@ -1,20 +1,26 @@
-import React, { useReducer, useEffect, useRef, useContext } from 'react'
-
-import ccxt from 'ccxt'
+import React, { useState, useReducer, useEffect, useRef, useContext } from 'react'
 
 import BackMenuBt from '../BackMenuBt'
 
 import AppValue from '../../contexts/AppValue'
 import CoinSelect from './CoinSelect'
 
-import C from '../../config'
 import reducer from './reducer'
 import initialState from './initialState'
 
 import loadMarkets from './loadMarkets'
 import loadPair from './loadPair'
 
-import { crOptionItem } from './pageFns';
+import pageFns from './pageFns';
+
+const {
+  crExchange,
+  crExchanges,
+  crTimeframes
+} = pageFns;
+
+
+const DF_TIMEFRAME = '1d';
 
 const S = {
   ROOT: {
@@ -22,7 +28,6 @@ const S = {
   }
 };
 
-const _crExchanges = () => ccxt.exchanges.map(crOptionItem);
 
 const PageAltCoins = ({ style, onPrevPage }) => {
   const { dataAction } = useContext(AppValue)
@@ -30,21 +35,23 @@ const PageAltCoins = ({ style, onPrevPage }) => {
   , { exchange, pair, isMarkets,
       exchanges, markets
   } = state
+  , [timeframes, setTimeframes] = useState([])
+  , [timeframe, setTimeframe] = useState(DF_TIMEFRAME)
   , refExchange = useRef(null);
+
 
   useEffect(() => {
     dispatch({
       type: "EXCHANGES_SET",
-      exchanges: _crExchanges()
+      exchanges: crExchanges()
     })
   }, [])
 
   useEffect(()=>{
     if (exchange) {
-      refExchange.current = new ccxt[exchange]({
-        proxy: C.PROXY,
-        rateLimit: C.RATE_LIMIT
-      });
+      refExchange.current = crExchange(exchange)
+      setTimeframe(DF_TIMEFRAME)
+      setTimeframes(crTimeframes(refExchange.current.timeframes))
       loadMarkets({
         dispatch, exchange,
         exchImpl: refExchange.current
@@ -53,21 +60,28 @@ const PageAltCoins = ({ style, onPrevPage }) => {
   }, [exchange])
 
   useEffect(() => {
-    if (pair) {
+    if (pair && timeframe) {
       loadPair({
         exchange, pair,
+        timeframe: timeframe,
         exchImpl: refExchange.current,
         dataAction
       })
     }
-  }, [pair])
+  }, [pair, timeframe])
 
   const onSelectExchange = (item) => {
-    if (item) {
+    if (item && item.value) {
       dispatch({
         type: "EXCHANGE_SET",
-        exchange: item.value || C.INITIAL_EXCHANGE
+        exchange: item.value
       })
+    }
+  }
+
+  const onSelectTimeframe = (item) => {
+    if (item) {
+      setTimeframe(item.value)
     }
   }
 
@@ -91,6 +105,8 @@ const PageAltCoins = ({ style, onPrevPage }) => {
         isMarkets={isMarkets}
         markets={markets}
         onSelectMarket={onSelectMarket}
+        timeframes={timeframes}
+        onSelectTimeframe={onSelectTimeframe}
       />
     </div>
   );

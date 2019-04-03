@@ -11,6 +11,7 @@ const loadMarkets = ({ dispatch, exchImpl, exchange }) => {
       })
     })
     .catch(err => {
+      dispatch({ type: "MARKET_LOADING_FAIL" })
       console.log(err.message)
     })
 }

@@ -20,8 +20,8 @@ const CloseSeria = ({ id, height }) => (
       stroke="black"
     />
     <Ch.MouseCoordinateY
-      at="right" orient="right"
-      displayFormat={format(".4f")}
+      at="left" orient="left"
+      displayFormat={format(".2f")}
     />
   </Ch.Chart>
 );

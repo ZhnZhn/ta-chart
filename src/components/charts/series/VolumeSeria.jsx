@@ -6,20 +6,20 @@ import fns from '../chartFns'
 const {
   C,
   timeIntervalBarWidth,
-  format,
-  timeFormat,
-  utcDay
+  format
 } = fns;
 
 const _fill = (d, dPrev) => d.close > dPrev.close
  ? C.UP
  : C.DOWN;
 
-const VolumeSeria = ({ id, height }) => (
+const VolumeSeria = ({
+  id, height,
+  timeInterval, timeFormat
+}) => (
   <Ch.Chart
       id={id} height={height}
       yExtents={d => d.volume}
-      //origin={(w, h) => [0, h - 220]}
       origin={(w, h) => [0, h - 140]}
   >
     <Ch.YAxis
@@ -33,7 +33,7 @@ const VolumeSeria = ({ id, height }) => (
     />
 
     <Ch.BarSeries
-        width={timeIntervalBarWidth(utcDay)}
+        width={timeIntervalBarWidth(timeInterval)}
         yAccessor={d => d.volume}
         fill={_fill}
         stroke={_fill}
@@ -45,7 +45,7 @@ const VolumeSeria = ({ id, height }) => (
     />
     <Ch.MouseCoordinateX
       at="bottom" orient="bottom"
-      displayFormat={timeFormat("%Y-%m-%d")}
+      displayFormat={timeFormat}
     />
   </Ch.Chart>
 );

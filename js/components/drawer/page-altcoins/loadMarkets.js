@@ -19,6 +19,7 @@ var loadMarkets = function loadMarkets(_ref) {
       markets: exchImpl.symbols.map(_pageFns.crOptionItem)
     });
   }).catch(function (err) {
+    dispatch({ type: "MARKET_LOADING_FAIL" });
     console.log(err.message);
   });
 };

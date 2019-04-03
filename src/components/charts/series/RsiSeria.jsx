@@ -28,7 +28,7 @@ const RsiSeria = ({ id, height, width, rsi }) => (
       tickValues={[30, 50, 70]}
     />
     <Ch.MouseCoordinateY
-      at="left" orient="left"
+      at="right" orient="right"
       displayFormat={format(".2f")}
     />
     <Ch.RSISeries

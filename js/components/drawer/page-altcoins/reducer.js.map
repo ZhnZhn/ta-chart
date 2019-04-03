@@ -1,1 +1,23 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-altcoins/reducer.js"],"names":["reducer","state","action","type","isMarkets","loading","failed","exchange","markets","exchanges","pair","Error"],"mappings":";;;;;;;;;;;;AAAA,IAAMA,UAAU,SAAVA,OAAU,CAACC,KAAD,EAAQC,MAAR,EAAmB;AACjC;AACA,UAAOA,OAAOC,IAAd;AACE,SAAK,gBAAL;AACE,wCAAWF,KAAX;AACEG,mBAAW,EAAEC,SAAS,IAAX,EAAiBC,QAAQ,KAAzB;AADb;AAGF,SAAK,eAAL;AACE,wCACKL,KADL;AAEEM,kBAAUL,OAAOK,QAFnB;AAGEC,iBAASN,OAAOM,OAHlB;AAIEJ,mBAAW,EAAEC,SAAS,KAAX,EAAkBC,QAAQ,KAA1B;AAJb;AAMF,SAAK,aAAL;AACE,wCACKL,KADL;AAEEG,mBAAW,EAAEC,SAAS,KAAX,EAAkBC,QAAQ,IAA1B;AAFb;AAIF,SAAK,eAAL;AACC,wCACKL,KADL;AAEEQ,mBAAWP,OAAOO;AAFpB;AAID,SAAK,cAAL;AACC,wCACKR,KADL;AAEEM,kBAAUL,OAAOK;AAFnB;AAID,SAAK,UAAL;AACC,wCACKN,KADL;AAEES,cAAMR,OAAOQ;AAFf;AAID;AAAS,YAAM,IAAIC,KAAJ,EAAN;AAhCX;AAkCD,CApCD;;kBAsCeX,O","file":"reducer.js","sourcesContent":["const reducer = (state, action) => {\r\n  //console.log(action.type)\r\n  switch(action.type){\r\n    case \"MARKET_LOADING\":\r\n      return {...state,\r\n        isMarkets: { loading: true, failed: false }\r\n      };\r\n    case \"MARKET_LOADED\":\r\n      return {\r\n        ...state,\r\n        exchange: action.exchange,\r\n        markets: action.markets,\r\n        isMarkets: { loading: false, failed: false },\r\n      };\r\n    case \"MARKET_FAIL\":\r\n      return {\r\n        ...state,\r\n        isMarkets: { loading: false, failed: true }\r\n      }\r\n    case \"EXCHANGES_SET\":\r\n     return {\r\n       ...state,\r\n       exchanges: action.exchanges\r\n     };\r\n    case \"EXCHANGE_SET\":\r\n     return {\r\n       ...state,\r\n       exchange: action.exchange\r\n     };\r\n    case \"PAIR_SET\":\r\n     return {\r\n       ...state,\r\n       pair: action.pair\r\n     };\r\n    default: throw new Error();\r\n  }\r\n}\r\n\r\nexport default reducer\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-altcoins/reducer.js"
+ ],
+ "file": "../../../../src/components/drawer/page-altcoins/reducer.js",
+ "names": [
+  "reducer",
+  "state",
+  "action",
+  "type",
+  "isMarkets",
+  "loading",
+  "failed",
+  "exchange",
+  "markets",
+  "exchanges",
+  "pair",
+  "undefined",
+  "Error"
+ ],
+ "mappings": ";;;;;;;;;;;;AAAA,IAAMA,UAAU,SAAVA,OAAU,CAACC,KAAD,EAAQC,MAAR,EAAmB;AACjC;AACA,UAAOA,OAAOC,IAAd;AACE,SAAK,gBAAL;AACE,wCAAWF,KAAX;AACEG,mBAAW,EAAEC,SAAS,IAAX,EAAiBC,QAAQ,KAAzB;AADb;AAGF,SAAK,eAAL;AACE,wCACKL,KADL;AAEEM,kBAAUL,OAAOK,QAFnB;AAGEC,iBAASN,OAAOM,OAHlB;AAIEJ,mBAAW,EAAEC,SAAS,KAAX,EAAkBC,QAAQ,KAA1B;AAJb;AAMF,SAAK,qBAAL;AACE,wCACKL,KADL;AAEEG,mBAAW,EAAEC,SAAS,KAAX,EAAkBC,QAAQ,IAA1B;AAFb;AAIF,SAAK,eAAL;AACC,wCACKL,KADL;AAEEQ,mBAAWP,OAAOO;AAFpB;AAID,SAAK,cAAL;AACC,wCACKR,KADL;AAEEM,kBAAUL,OAAOK,QAFnB;AAGEG,cAAMC;AAHR;AAKD,SAAK,UAAL;AACC,wCACKV,KADL;AAEES,cAAMR,OAAOQ;AAFf;AAID;AAAS,YAAM,IAAIE,KAAJ,EAAN;AAjCX;AAmCD,CArCD;;kBAuCeZ,O"
+}

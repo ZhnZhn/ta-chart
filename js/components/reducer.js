@@ -39,6 +39,7 @@ var reducer = function reducer(state, action) {
           data: action.data,
           providerTitle: action.providerTitle,
           itemTitle: action.itemTitle,
+          timeframe: action.timeframe,
           fetchStatus: _enumFetch2.default.SUCCESS
         });
       }

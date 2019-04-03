@@ -38,17 +38,36 @@ var _HeaderDrawer2 = _interopRequireDefault(_HeaderDrawer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Header = function Header(_ref) {
-  var fetchStatus = _ref.fetchStatus,
-      providerTitle = _ref.providerTitle,
-      itemTitle = _ref.itemTitle,
-      rest = (0, _objectWithoutProperties3.default)(_ref, ['fetchStatus', 'providerTitle', 'itemTitle']);
+var TitleSpan = function TitleSpan(_ref) {
+  var text = _ref.text,
+      is = _ref.is;
+  return _react2.default.createElement(
+    'span',
+    { className: _CL2.default.HEADER_TITLE },
+    text,
+    !is && _react2.default.createElement(
+      'span',
+      null,
+      ':\xA0'
+    )
+  );
+};
+
+var Header = function Header(_ref2) {
+  var fetchStatus = _ref2.fetchStatus,
+      _ref2$providerTitle = _ref2.providerTitle,
+      providerTitle = _ref2$providerTitle === undefined ? '' : _ref2$providerTitle,
+      _ref2$itemTitle = _ref2.itemTitle,
+      itemTitle = _ref2$itemTitle === undefined ? '' : _ref2$itemTitle,
+      _ref2$timeframe = _ref2.timeframe,
+      timeframe = _ref2$timeframe === undefined ? '' : _ref2$timeframe,
+      rest = (0, _objectWithoutProperties3.default)(_ref2, ['fetchStatus', 'providerTitle', 'itemTitle', 'timeframe']);
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
-      theme = _useContext.theme;
+      theme = _useContext.theme,
+      themeId = (0, _react.useContext)(_AppThemeId2.default),
+      headerStyle = theme.getHeaderStyle(themeId);
 
-  var themeId = (0, _react.useContext)(_AppThemeId2.default);
-  var headerStyle = theme.getHeaderStyle(themeId);
   return _react2.default.createElement(
     'header',
     {
@@ -58,28 +77,11 @@ var Header = function Header(_ref) {
     _react2.default.createElement(_ProgressLoading2.default, { fetchStatus: fetchStatus }),
     _react2.default.createElement(_Logo2.default, null),
     _react2.default.createElement('span', { className: _CL2.default.TITLE_GAP }),
-    _react2.default.createElement(
-      'span',
-      { className: _CL2.default.HEADER_TITLE },
-      providerTitle
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _CL2.default.HEADER_TITLE },
-      ':\xA0'
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _CL2.default.HEADER_TITLE },
-      itemTitle
-    ),
+    _react2.default.createElement(TitleSpan, { text: providerTitle }),
+    _react2.default.createElement(TitleSpan, { text: itemTitle }),
+    _react2.default.createElement(TitleSpan, { text: timeframe, is: true }),
     _react2.default.createElement(_HeaderDrawer2.default, rest)
   );
-};
-
-Header.defaultProps = {
-  providerTitle: '',
-  itemTitle: ''
 };
 
 exports.default = Header;

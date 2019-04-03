@@ -81,6 +81,7 @@ var App = function App() {
       providerTitle = state.providerTitle,
       itemTitle = state.itemTitle,
       data = state.data,
+      timeframe = state.timeframe,
       fetchStatus = state.fetchStatus,
       appValue = (0, _useInit2.default)(function () {
     return (0, _crAppValue2.default)({
@@ -122,7 +123,8 @@ var App = function App() {
         setThemeId: setThemeId,
         fetchStatus: fetchStatus,
         providerTitle: providerTitle,
-        itemTitle: itemTitle
+        itemTitle: itemTitle,
+        timeframe: timeframe
       }),
       _react2.default.createElement(
         'main',
@@ -132,7 +134,8 @@ var App = function App() {
           width: width,
           height: 550,
           data: data,
-          resize: hResize
+          resize: hResize,
+          timeframe: timeframe
         })
       )
     )

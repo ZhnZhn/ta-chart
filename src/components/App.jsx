@@ -35,7 +35,7 @@ const App = () => {
   , [state, dispatch] = useReducer(reducer, initialState)
   , {
     providerTitle, itemTitle,
-    data, fetchStatus
+    data, timeframe, fetchStatus
   } = state
   , appValue = useInit(() => crAppValue({
        dispatch, theme
@@ -73,6 +73,7 @@ const App = () => {
         fetchStatus={fetchStatus}
         providerTitle={providerTitle}
         itemTitle={itemTitle}
+        timeframe={timeframe}
       />
       <main style={S.MAIN}>
         <HollowChart
@@ -81,6 +82,7 @@ const App = () => {
           height={550}
           data={data}
           resize={hResize}
+          timeframe={timeframe}
         />
       </main>
     </AppThemeId.Provider>

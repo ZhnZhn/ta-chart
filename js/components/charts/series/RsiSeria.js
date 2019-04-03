@@ -52,7 +52,7 @@ var RsiSeria = function RsiSeria(_ref) {
       tickValues: [30, 50, 70]
     }),
     _react2.default.createElement(_Ch2.default.MouseCoordinateY, {
-      at: 'left', orient: 'left',
+      at: 'right', orient: 'right',
       displayFormat: format(".2f")
     }),
     _react2.default.createElement(_Ch2.default.RSISeries, {

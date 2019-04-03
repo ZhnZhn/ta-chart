@@ -21,6 +21,7 @@ const reducer = (state, action) => {
         data: action.data,
         providerTitle: action.providerTitle,
         itemTitle: action.itemTitle,
+        timeframe: action.timeframe,
         fetchStatus: FETCH.SUCCESS
       };
     }

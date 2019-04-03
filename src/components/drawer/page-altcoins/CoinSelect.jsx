@@ -8,7 +8,9 @@ const CoinSelect = ({
   onSelectExchange,
   isMarkets={},
   markets,
-  onSelectMarket
+  onSelectMarket,
+  timeframes,
+  onSelectTimeframe
 }) => (
   <div style={style}>
     <RowInputSelect
@@ -16,6 +18,12 @@ const CoinSelect = ({
       placeholder="Exchanges"
       options={exchanges}
       onSelect={onSelectExchange}
+    />
+    <RowInputSelect
+      isShowLabels={false}
+      placeholder="Time Frames (Default: 1d)"
+      options={timeframes}
+      onSelect={onSelectTimeframe}
     />
     <RowInputSelect
       isShowLabels={false}

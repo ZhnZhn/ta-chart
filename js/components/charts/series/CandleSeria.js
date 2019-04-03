@@ -20,7 +20,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var C = _chartFns2.default.C,
     timeIntervalBarWidth = _chartFns2.default.timeIntervalBarWidth,
-    utcDay = _chartFns2.default.utcDay,
     format = _chartFns2.default.format;
 
 
@@ -32,14 +31,6 @@ var _fill = function _fill(d, dPrev) {
   return d.close > d.open ? C.TRANSPARENT : _stroke(d, dPrev);
 };
 
-var _onContextMenu = function _onContextMenu() {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  console.log(args);
-};
-
 var bbStroke = {
   top: "#964B00",
   middle: "#000000",
@@ -48,12 +39,28 @@ var bbStroke = {
 
 var bbFill = "#4682B4";
 
+var _crMaTooltipOption = function _crMaTooltipOption(accessor, options) {
+  return {
+    type: "SMA",
+    yAccessor: accessor,
+    stroke: options.stroke,
+    windowSize: options.windowSize
+  };
+};
+
 var CandleSeria = function CandleSeria(_ref) {
   var id = _ref.id,
       height = _ref.height,
+      timeInterval = _ref.timeInterval,
+      timeFormat = _ref.timeFormat,
       sma20 = _ref.sma20,
       sma50 = _ref.sma50,
       bb = _ref.bb;
+
+  var accessorSma20 = sma20.accessor(),
+      optionsSma20 = sma20.options(),
+      accessorSma50 = sma50.accessor(),
+      optionsSma50 = sma50.options();
   return _react2.default.createElement(
     _Ch2.default.Chart,
     {
@@ -64,8 +71,8 @@ var CandleSeria = function CandleSeria(_ref) {
       },
       origin: function origin(w, h) {
         return [0, h - 420];
-      },
-      onContextMenu: _onContextMenu
+      }
+      //onContextMenu={_onContextMenu}
     },
     _react2.default.createElement(_Ch2.default.YAxis, {
       axisAt: 'right', orient: 'right',
@@ -79,15 +86,15 @@ var CandleSeria = function CandleSeria(_ref) {
       fill: bbFill
     }),
     _react2.default.createElement(_Ch2.default.LineSeries, {
-      yAccessor: sma20.accessor(),
-      stroke: sma20.options().stroke
+      yAccessor: accessorSma20,
+      stroke: optionsSma20.stroke
     }),
     _react2.default.createElement(_Ch2.default.LineSeries, {
-      yAccessor: sma50.accessor(),
-      stroke: sma50.options().stroke
+      yAccessor: accessorSma50,
+      stroke: optionsSma50.stroke
     }),
     _react2.default.createElement(_Ch2.default.CandlestickSeries, {
-      width: timeIntervalBarWidth(utcDay),
+      width: timeIntervalBarWidth(timeInterval),
       fill: _fill,
       stroke: _stroke,
       wickStroke: _stroke,
@@ -101,29 +108,16 @@ var CandleSeria = function CandleSeria(_ref) {
     _react2.default.createElement(_Ch2.default.OHLCTooltip, {
       fontSize: 15
       //labelFill="#1b2836"
-      , textFill: 'black',
-      ohclFormat: format(".4f"),
-      forChart: 1, origin: [10, -85]
+      , xDisplayFormat: timeFormat,
+      textFill: 'black',
+      ohlcFormat: format(".8f"),
+      forChart: 3,
+      origin: [5, -90]
     }),
     _react2.default.createElement(_Ch2.default.MovingAverageTooltip, {
       fontSize: 15,
-      onClick: function onClick(e) {
-        return console.log(e);
-      },
       origin: [5, 320],
-      options: [{
-        yAccessor: sma20.accessor(),
-        type: "SMA",
-        stroke: sma20.options().stroke,
-        windowSize: sma20.options().windowSize,
-        echo: "some echo here"
-      }, {
-        yAccessor: sma50.accessor(),
-        type: "SMA",
-        stroke: sma50.options().stroke,
-        windowSize: sma50.options().windowSize,
-        echo: "some echo here"
-      }]
+      options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)]
     }),
     _react2.default.createElement(_Ch2.default.BollingerBandTooltip, {
       fontSize: 15,
