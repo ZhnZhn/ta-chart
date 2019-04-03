@@ -7,6 +7,7 @@ import CoinSelect from './CoinSelect'
 
 import reducer from './reducer'
 import initialState from './initialState'
+import ALTCOIN from './enumAltcoin'
 
 import loadMarkets from './loadMarkets'
 import loadPair from './loadPair'
@@ -42,7 +43,7 @@ const PageAltCoins = ({ style, onPrevPage }) => {
 
   useEffect(() => {
     dispatch({
-      type: "EXCHANGES_SET",
+      type: ALTCOIN.EXCHANGES_SET,
       exchanges: crExchanges()
     })
   }, [])
@@ -73,25 +74,21 @@ const PageAltCoins = ({ style, onPrevPage }) => {
   const onSelectExchange = (item) => {
     if (item && item.value) {
       dispatch({
-        type: "EXCHANGE_SET",
+        type: ALTCOIN.EXCHANGE_SET,
         exchange: item.value
       })
     }
   }
 
   const onSelectTimeframe = (item) => {
-    if (item) {
-      setTimeframe(item.value)
-    }
+    setTimeframe((item && item.value) || DF_TIMEFRAME)
   }
 
   const onSelectMarket = (item) => {
-    if (item){
-      dispatch({
-        type: 'PAIR_SET',
-        pair: item.value
-      })
-    }
+    dispatch({
+      type: ALTCOIN.PAIR_SET,
+      pair: item && item.value || undefined
+    })
   }
 
   return  (

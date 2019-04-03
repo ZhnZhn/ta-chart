@@ -1,39 +1,40 @@
+import ALTCOIN from './enumAltcoin'
+
 const reducer = (state, action) => {
-  //console.log(action.type)
   switch(action.type){
-    case "MARKET_LOADING":
+    case ALTCOIN.MARKET_LOADING:
       return {...state,
         isMarkets: { loading: true, failed: false }
       };
-    case "MARKET_LOADED":
+    case ALTCOIN.MARKET_LOADED:
       return {
         ...state,
         exchange: action.exchange,
         markets: action.markets,
         isMarkets: { loading: false, failed: false },
       };
-    case "MARKET_LOADING_FAIL":
+    case ALTCOIN.MARKET_LOADING_FAIL:
       return {
         ...state,
         isMarkets: { loading: false, failed: true }
       }
-    case "EXCHANGES_SET":
+    case ALTCOIN.EXCHANGES_SET:
      return {
        ...state,
        exchanges: action.exchanges
      };
-    case "EXCHANGE_SET":
+    case ALTCOIN.EXCHANGE_SET:
      return {
        ...state,
        exchange: action.exchange,
        pair: undefined
      };
-    case "PAIR_SET":
+    case ALTCOIN.PAIR_SET:
      return {
        ...state,
        pair: action.pair
      };
-    default: throw new Error();
+    default: throw new TypeError('Not existed action', action.type);
   }
 }
 

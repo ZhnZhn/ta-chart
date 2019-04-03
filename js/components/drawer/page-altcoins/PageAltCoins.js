@@ -36,6 +36,10 @@ var _initialState = require('./initialState');
 
 var _initialState2 = _interopRequireDefault(_initialState);
 
+var _enumAltcoin = require('./enumAltcoin');
+
+var _enumAltcoin2 = _interopRequireDefault(_enumAltcoin);
+
 var _loadMarkets = require('./loadMarkets');
 
 var _loadMarkets2 = _interopRequireDefault(_loadMarkets);
@@ -91,7 +95,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
 
   (0, _react.useEffect)(function () {
     dispatch({
-      type: "EXCHANGES_SET",
+      type: _enumAltcoin2.default.EXCHANGES_SET,
       exchanges: crExchanges()
     });
   }, []);
@@ -122,25 +126,21 @@ var PageAltCoins = function PageAltCoins(_ref) {
   var onSelectExchange = function onSelectExchange(item) {
     if (item && item.value) {
       dispatch({
-        type: "EXCHANGE_SET",
+        type: _enumAltcoin2.default.EXCHANGE_SET,
         exchange: item.value
       });
     }
   };
 
   var onSelectTimeframe = function onSelectTimeframe(item) {
-    if (item) {
-      setTimeframe(item.value);
-    }
+    setTimeframe(item && item.value || DF_TIMEFRAME);
   };
 
   var onSelectMarket = function onSelectMarket(item) {
-    if (item) {
-      dispatch({
-        type: 'PAIR_SET',
-        pair: item.value
-      });
-    }
+    dispatch({
+      type: _enumAltcoin2.default.PAIR_SET,
+      pair: item && item.value || undefined
+    });
   };
 
   return _react2.default.createElement(

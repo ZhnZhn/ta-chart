@@ -1,17 +1,1 @@
-{
- "version": 3,
- "sources": [
-  "../../src/components/enumFetch.js"
- ],
- "file": "../../src/components/enumFetch.js",
- "names": [
-  "FETCH",
-  "INITIAL",
-  "LOADING",
-  "SUCCESS",
-  "FAILED",
-  "Object",
-  "freeze"
- ],
- "mappings": ";;;;;AAAA,IAAMA,QAAQ;AACZC,WAAS,SADG;AAEZC,WAAS,SAFG;AAGZC,WAAS,SAHG;AAIZC,UAAQ;AAJI,CAAd;;kBAOeC,OAAOC,MAAP,CAAcN,KAAd,C"
-}
+{"version":3,"sources":["../../src/components/enumFetch.js"],"names":["FETCH","INITIAL","LOADING","SUCCESS","FAILED","Object","freeze"],"mappings":";;;;;AAAA,IAAMA,QAAQ;AACZC,WAAS,SADG;AAEZC,WAAS,SAFG;AAGZC,WAAS,SAHG;AAIZC,UAAQ;AAJI,CAAd;;kBAOeC,OAAOC,MAAP,CAAcN,KAAd,C","file":"enumFetch.js","sourcesContent":["const FETCH = {\r\n  INITIAL: 'INITIAL',\r\n  LOADING: 'LOADING',\r\n  SUCCESS: 'SUCCESS',\r\n  FAILED: 'FAILED'\r\n};\r\n\r\nexport default Object.freeze(FETCH)\r\n"]}
