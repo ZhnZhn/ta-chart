@@ -44,8 +44,11 @@ var sma = _Ch2.default.sma,
     fitWidth = _Ch2.default.fitWidth;
 var scaleTime = _chartFns2.default.scaleTime,
     crTimeInterval = _chartFns2.default.crTimeInterval,
-    crTimeFormat = _chartFns2.default.crTimeFormat;
+    crTimeFormat = _chartFns2.default.crTimeFormat,
+    crExtends = _chartFns2.default.crExtends;
 
+
+var ITEMS_NUM = 150;
 
 var MARGIN = {
   left: 50,
@@ -63,17 +66,6 @@ var S = {
 
 var _xAccessor = function _xAccessor(d) {
   return d ? d.date : 0;
-};
-
-var ITEMS_NUM = 150;
-var fromDate = void 0,
-    toDate = void 0,
-    xExtends = [];
-var _crExtends = function _crExtends(data, itemsNum) {
-  var _max = data.length - 1,
-      _from = _max < itemsNum ? data[0].date : data[_max - itemsNum].date,
-      _to = data.slice(-1)[0].date;
-  return _from === fromDate && _to === toDate ? xExtends : fromDate = _from, toDate = _to, xExtends = [_from, _to];
 };
 
 var HollowChart = function HollowChart(props) {
@@ -125,7 +117,7 @@ var HollowChart = function HollowChart(props) {
 
   var timeInterval = crTimeInterval(timeframe),
       timeFormat = crTimeFormat(timeframe),
-      xExtents = _crExtends(calculatedData, ITEMS_NUM);
+      xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
 
   return _react2.default.createElement(
     'div',
@@ -163,5 +155,5 @@ var HollowChart = function HollowChart(props) {
   );
 };
 
-exports.default = fitWidth(HollowChart);
+exports.default = fitWidth(_react2.default.memo(HollowChart));
 //# sourceMappingURL=HollowChart.js.map

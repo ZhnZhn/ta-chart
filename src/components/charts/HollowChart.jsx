@@ -15,8 +15,11 @@ const {
 const {
   scaleTime,
   crTimeInterval,
-  crTimeFormat
+  crTimeFormat,
+  crExtends
 } = chartFns;
+
+const ITEMS_NUM = 150;
 
 const MARGIN = {
 	left: 50,
@@ -35,19 +38,6 @@ const S = {
 const _xAccessor = d => d
  ? d.date
  : 0;
-
-const ITEMS_NUM = 150;
-let fromDate, toDate, xExtends = [];
-const _crExtends = (data, itemsNum) => {
-  const _max = data.length - 1
-  , _from = _max < itemsNum
-       ? data[0].date
-       : data[_max-itemsNum].date
-  , _to = data.slice(-1)[0].date;
-  return _from === fromDate && _to === toDate
-    ? xExtends
-    : fromDate = _from, toDate = _to, (xExtends = [_from, _to]);
-};
 
 const HollowChart = (props) => {
   const {
@@ -94,7 +84,7 @@ const HollowChart = (props) => {
 
   const timeInterval = crTimeInterval(timeframe)
   , timeFormat = crTimeFormat(timeframe)
-  , xExtents = _crExtends(calculatedData, ITEMS_NUM);
+  , xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
 
   return (
 		<div
@@ -130,4 +120,4 @@ const HollowChart = (props) => {
   );
 }
 
-export default fitWidth(HollowChart)
+export default fitWidth(React.memo(HollowChart))

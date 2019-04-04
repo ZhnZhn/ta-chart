@@ -44,7 +44,7 @@ var reducer = function reducer(state, action) {
         pair: action.pair
       });
     default:
-      throw new TypeError('Not existed action', action.type);
+      throw new TypeError('Not existed action ' + action.type);
   }
 };
 

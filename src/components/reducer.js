@@ -30,7 +30,12 @@ const reducer = (state, action) => {
         ...state,
         fetchStatus: FETCH.FAILED
       };
-    default: throw new TypeError('Not existed action', action.type);
+    case DATA.UPDATE:
+      return {
+        ...state,
+        data: [ ...state.data, action.point ]
+      };
+    default: throw new TypeError('Not existed action ' + action.type);
   }
 }
 

@@ -19,7 +19,8 @@ var initialState = {
   itemTitle: _config2.default.INITIAL_ITEM_TITLE,
   data: _config2.default.DF_DATA,
   timeframe: _config2.default.DF_TIMEFRAME,
-  fetchStatus: _enumFetch2.default.INITIAL
+  fetchStatus: _enumFetch2.default.INITIAL,
+  isLiveUpdating: false
 };
 
 exports.default = initialState;

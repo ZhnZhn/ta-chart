@@ -50,6 +50,17 @@ var crTimeInterval = function crTimeInterval(timeframe) {
   return _d3Time.utcDay;
 };
 
+var fromDate = void 0,
+    toDate = void 0,
+    xExtends = [];
+var crExtends = function crExtends(data, timeframe, itemsNum) {
+  var _max = data.length - 1,
+      _from = _max < itemsNum ? data[0].date : data[_max - itemsNum].date,
+      _recentDate = data.slice(-1)[0].date,
+      _to = timeframe === '1m' ? _recentDate + 60 * 1000 * 5 : _recentDate;
+  return _from === fromDate && _to === toDate ? xExtends : fromDate = _from, toDate = _to, xExtends = [_from, _to];
+};
+
 var crTimeFormat = function crTimeFormat(timeframe) {
   return _isStr(timeframe) && (_isInclude(timeframe, 'm') || _isInclude(timeframe, 'h')) ? (0, _d3TimeFormat.timeFormat)('%m-%d %H:%M') : (0, _d3TimeFormat.timeFormat)("%Y-%m-%d");
 };
@@ -67,7 +78,9 @@ var chartFns = {
   utcDay: _d3Time.utcDay,
 
   format: _d3Format.format,
-  timeFormat: _d3TimeFormat.timeFormat
+  timeFormat: _d3TimeFormat.timeFormat,
+
+  crExtends: crExtends
 };
 
 exports.default = chartFns;

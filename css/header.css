@@ -58,6 +58,11 @@ nav {
     top: -4px;
     left: -2px;
     margin-right: 4px; }
+  span.header__spinner {
+    display: inline-block;
+    width: 20px ;
+    height: 20px
+  }
 
 @media screen and (max-width: 500px) {
   .header-board__title {

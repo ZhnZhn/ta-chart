@@ -34,7 +34,7 @@ const reducer = (state, action) => {
        ...state,
        pair: action.pair
      };
-    default: throw new TypeError('Not existed action', action.type);
+    default: throw new TypeError('Not existed action ' + action.type);
   }
 }
 

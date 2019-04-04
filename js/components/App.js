@@ -24,6 +24,10 @@ var _AppThemeId = require('./contexts/AppThemeId');
 
 var _AppThemeId2 = _interopRequireDefault(_AppThemeId);
 
+var _AppLiveUpdating = require('./contexts/AppLiveUpdating');
+
+var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
+
 var _theme = require('./styles/theme');
 
 var _theme2 = _interopRequireDefault(_theme);
@@ -83,9 +87,13 @@ var App = function App() {
       data = state.data,
       timeframe = state.timeframe,
       fetchStatus = state.fetchStatus,
+      _useState5 = (0, _react.useState)({ isLiveUpdating: false, sec: '' }),
+      _useState6 = (0, _slicedToArray3.default)(_useState5, 2),
+      liveUpdating = _useState6[0],
+      setLiveUpdating = _useState6[1],
       appValue = (0, _useInit2.default)(function () {
     return (0, _crAppValue2.default)({
-      dispatch: dispatch, theme: _theme2.default
+      dispatch: dispatch, theme: _theme2.default, setLiveUpdating: setLiveUpdating
     });
   });
 
@@ -119,24 +127,28 @@ var App = function App() {
     _react2.default.createElement(
       _AppThemeId2.default.Provider,
       { value: themeId },
-      _react2.default.createElement(_Header2.default, {
-        setThemeId: setThemeId,
-        fetchStatus: fetchStatus,
-        providerTitle: providerTitle,
-        itemTitle: itemTitle,
-        timeframe: timeframe
-      }),
       _react2.default.createElement(
-        'main',
-        { style: S.MAIN },
-        _react2.default.createElement(_HollowChart2.default, {
-          id: EL_ID,
-          width: width,
-          height: 550,
-          data: data,
-          resize: hResize,
+        _AppLiveUpdating2.default.Provider,
+        { value: liveUpdating },
+        _react2.default.createElement(_Header2.default, {
+          setThemeId: setThemeId,
+          fetchStatus: fetchStatus,
+          providerTitle: providerTitle,
+          itemTitle: itemTitle,
           timeframe: timeframe
-        })
+        }),
+        _react2.default.createElement(
+          'main',
+          { style: S.MAIN },
+          _react2.default.createElement(_HollowChart2.default, {
+            id: EL_ID,
+            width: width,
+            height: 550,
+            data: data,
+            resize: hResize,
+            timeframe: timeframe
+          })
+        )
       )
     )
   );

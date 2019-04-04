@@ -14,7 +14,7 @@ var _CL2 = _interopRequireDefault(_CL);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TITLE = "Logo of web app TA Chart v0.1.0";
+var TITLE = "Logo of web app TA Chart v0.2.0";
 
 var IconLogoErc = function IconLogoErc(_ref) {
   var _ref$className = _ref.className,

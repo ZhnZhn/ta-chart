@@ -1,9 +1,11 @@
 import React, { useState, useReducer, useEffect, useRef, useContext } from 'react'
 
-import BackMenuBt from '../BackMenuBt'
-
 import AppValue from '../../contexts/AppValue'
+import AppLiveUpdating from '../../contexts/AppLiveUpdating'
+
+import BackMenuBt from '../BackMenuBt'
 import CoinSelect from './CoinSelect'
+import FlatButton from '../../zhn-m/FlatButton'
 
 import reducer from './reducer'
 import initialState from './initialState'
@@ -26,12 +28,23 @@ const DF_TIMEFRAME = '1d';
 const S = {
   ROOT: {
     height: 400
+  },
+  DIV_BTS: {
+    paddingLeft: 8
+  },
+  BT_LIVE_UPDATE: {
+    display: 'block',
+    paddingLeft: 8
   }
 };
 
 
 const PageAltCoins = ({ style, onPrevPage }) => {
-  const { dataAction } = useContext(AppValue)
+  const {
+    dataAction,
+    onLiveUpdate, onStopUpdate
+  } = useContext(AppValue)
+  , { isLiveUpdating } = useContext(AppLiveUpdating)
   const [state, dispatch] = useReducer(reducer, initialState)
   , { exchange, pair, isMarkets,
       exchanges, markets
@@ -105,6 +118,14 @@ const PageAltCoins = ({ style, onPrevPage }) => {
         timeframes={timeframes}
         onSelectTimeframe={onSelectTimeframe}
       />
+      { (exchange === 'binance' && timeframe === '1m') && <div
+         style={S.DIV_BTS}>
+          <FlatButton
+            caption={isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min'}
+            onClick={isLiveUpdating ? onStopUpdate : () => onLiveUpdate(pair)}
+          />
+       </div>
+      }
     </div>
   );
 }

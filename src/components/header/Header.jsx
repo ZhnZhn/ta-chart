@@ -8,6 +8,7 @@ import Logo from '../zhn/Logo'
 import CL from '../styles/CL'
 import ProgressLoading from './ProgressLoading'
 import HeaderDrawer from '../drawer/HeaderDrawer'
+import LiveUpdatingBt from './LiveUpdatingBt'
 
 const TitleSpan = ({ text, is }) => (
   <span className={CL.HEADER_TITLE}>
@@ -21,9 +22,10 @@ const Header = ({
   providerTitle='',
   itemTitle='',
   timeframe='',
+  isLiveUpdating,
   ...rest
 }) => {
-  const { theme } = useContext(AppValue)
+  const { theme, onStopUpdate } = useContext(AppValue)
   , themeId = useContext(AppThemeId)
   , headerStyle = theme.getHeaderStyle(themeId);
   return (
@@ -37,6 +39,10 @@ const Header = ({
       <TitleSpan text={providerTitle} />
       <TitleSpan text={itemTitle} />
       <TitleSpan text={timeframe} is={true} />
+      <LiveUpdatingBt
+        spinnerCn={CL.SPINNER}        
+        onStopUpdate={onStopUpdate}
+      />
       <HeaderDrawer {...rest} />
     </header>
   );

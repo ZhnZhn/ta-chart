@@ -36,6 +36,10 @@ var _HeaderDrawer = require('../drawer/HeaderDrawer');
 
 var _HeaderDrawer2 = _interopRequireDefault(_HeaderDrawer);
 
+var _LiveUpdatingBt = require('./LiveUpdatingBt');
+
+var _LiveUpdatingBt2 = _interopRequireDefault(_LiveUpdatingBt);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TitleSpan = function TitleSpan(_ref) {
@@ -61,10 +65,12 @@ var Header = function Header(_ref2) {
       itemTitle = _ref2$itemTitle === undefined ? '' : _ref2$itemTitle,
       _ref2$timeframe = _ref2.timeframe,
       timeframe = _ref2$timeframe === undefined ? '' : _ref2$timeframe,
-      rest = (0, _objectWithoutProperties3.default)(_ref2, ['fetchStatus', 'providerTitle', 'itemTitle', 'timeframe']);
+      isLiveUpdating = _ref2.isLiveUpdating,
+      rest = (0, _objectWithoutProperties3.default)(_ref2, ['fetchStatus', 'providerTitle', 'itemTitle', 'timeframe', 'isLiveUpdating']);
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
       theme = _useContext.theme,
+      onStopUpdate = _useContext.onStopUpdate,
       themeId = (0, _react.useContext)(_AppThemeId2.default),
       headerStyle = theme.getHeaderStyle(themeId);
 
@@ -80,6 +86,10 @@ var Header = function Header(_ref2) {
     _react2.default.createElement(TitleSpan, { text: providerTitle }),
     _react2.default.createElement(TitleSpan, { text: itemTitle }),
     _react2.default.createElement(TitleSpan, { text: timeframe, is: true }),
+    _react2.default.createElement(_LiveUpdatingBt2.default, {
+      spinnerCn: _CL2.default.SPINNER,
+      onStopUpdate: onStopUpdate
+    }),
     _react2.default.createElement(_HeaderDrawer2.default, rest)
   );
 };

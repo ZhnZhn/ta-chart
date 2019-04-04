@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -47,8 +51,12 @@ var reducer = function reducer(state, action) {
       return (0, _extends3.default)({}, state, {
         fetchStatus: _enumFetch2.default.FAILED
       });
+    case _enumData2.default.UPDATE:
+      return (0, _extends3.default)({}, state, {
+        data: [].concat((0, _toConsumableArray3.default)(state.data), [action.point])
+      });
     default:
-      throw new TypeError('Not existed action', action.type);
+      throw new TypeError('Not existed action ' + action.type);
   }
 };
 

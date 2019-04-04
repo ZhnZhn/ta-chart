@@ -16,17 +16,25 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _BackMenuBt = require('../BackMenuBt');
-
-var _BackMenuBt2 = _interopRequireDefault(_BackMenuBt);
-
 var _AppValue = require('../../contexts/AppValue');
 
 var _AppValue2 = _interopRequireDefault(_AppValue);
 
+var _AppLiveUpdating = require('../../contexts/AppLiveUpdating');
+
+var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
+
+var _BackMenuBt = require('../BackMenuBt');
+
+var _BackMenuBt2 = _interopRequireDefault(_BackMenuBt);
+
 var _CoinSelect = require('./CoinSelect');
 
 var _CoinSelect2 = _interopRequireDefault(_CoinSelect);
+
+var _FlatButton = require('../../zhn-m/FlatButton');
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
 var _reducer = require('./reducer');
 
@@ -64,6 +72,13 @@ var DF_TIMEFRAME = '1d';
 var S = {
   ROOT: {
     height: 400
+  },
+  DIV_BTS: {
+    paddingLeft: 8
+  },
+  BT_LIVE_UPDATE: {
+    display: 'block',
+    paddingLeft: 8
   }
 };
 
@@ -72,7 +87,11 @@ var PageAltCoins = function PageAltCoins(_ref) {
       onPrevPage = _ref.onPrevPage;
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
-      dataAction = _useContext.dataAction;
+      dataAction = _useContext.dataAction,
+      onLiveUpdate = _useContext.onLiveUpdate,
+      onStopUpdate = _useContext.onStopUpdate,
+      _useContext2 = (0, _react.useContext)(_AppLiveUpdating2.default),
+      isLiveUpdating = _useContext2.isLiveUpdating;
 
   var _useReducer = (0, _react.useReducer)(_reducer2.default, _initialState2.default),
       _useReducer2 = (0, _slicedToArray3.default)(_useReducer, 2),
@@ -157,7 +176,18 @@ var PageAltCoins = function PageAltCoins(_ref) {
       onSelectMarket: onSelectMarket,
       timeframes: timeframes,
       onSelectTimeframe: onSelectTimeframe
-    })
+    }),
+    exchange === 'binance' && timeframe === '1m' && _react2.default.createElement(
+      'div',
+      {
+        style: S.DIV_BTS },
+      _react2.default.createElement(_FlatButton2.default, {
+        caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
+        onClick: isLiveUpdating ? onStopUpdate : function () {
+          return onLiveUpdate(pair);
+        }
+      })
+    )
   );
 };
 

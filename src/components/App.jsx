@@ -4,6 +4,7 @@ import useInit from './hooks/useInit'
 
 import AppValue from './contexts/AppValue'
 import AppThemeId from './contexts/AppThemeId'
+import AppLiveUpdating from './contexts/AppLiveUpdating'
 
 import theme from './styles/theme'
 
@@ -35,10 +36,11 @@ const App = () => {
   , [state, dispatch] = useReducer(reducer, initialState)
   , {
     providerTitle, itemTitle,
-    data, timeframe, fetchStatus
+    data, timeframe, fetchStatus,
   } = state
+  , [ liveUpdating, setLiveUpdating] = useState({ isLiveUpdating: false, sec: '' })
   , appValue = useInit(() => crAppValue({
-       dispatch, theme
+       dispatch, theme, setLiveUpdating
   }));
 
 
@@ -68,6 +70,7 @@ const App = () => {
   return (
     <AppValue.Provider value={appValue}>
     <AppThemeId.Provider value={themeId}>
+    <AppLiveUpdating.Provider value={liveUpdating}>
       <Header
         setThemeId={setThemeId}
         fetchStatus={fetchStatus}
@@ -85,6 +88,7 @@ const App = () => {
           timeframe={timeframe}
         />
       </main>
+    </AppLiveUpdating.Provider>
     </AppThemeId.Provider>
     </AppValue.Provider>
    )

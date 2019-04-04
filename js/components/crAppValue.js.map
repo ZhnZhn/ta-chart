@@ -1,1 +1,42 @@
-{"version":3,"sources":["../../src/components/crAppValue.js"],"names":["crAppValue","dispatch","theme","dataAction","loading","type","DATA","LOADING","loadData","timeframe","C","DF_TIMEFRAME","rest","LOADED","loadFailed","LOAD_FAILED"],"mappings":";;;;;;;;;;;;;;AACA;;;;AACA;;;;;;AAEA,IAAMA,aAAa,SAAbA,UAAa;AAAA,MAAGC,QAAH,QAAGA,QAAH;AAAA,MAAaC,KAAb,QAAaA,KAAb;AAAA,SAA0B;AAC3CA,gBAD2C;AAE3CC,gBAAY;AACVC,eAAS;AAAA,eAAMH,SAAS;AACtBI,gBAAMC,mBAAKC;AADW,SAAT,CAAN;AAAA,OADC;AAIVC,gBAAU;AAAA,oCAAGC,SAAH;AAAA,YAAGA,SAAH,mCAAaC,iBAAEC,YAAf;AAAA,YAAgCC,IAAhC;AAAA,eAA2CX;AACnDI,gBAAMC,mBAAKO,MADwC;AAEnDJ;AAFmD,WAGhDG,IAHgD,EAA3C;AAAA,OAJA;AASVE,kBAAY;AAAA,eAAMb,SAAS;AACzBI,gBAAMC,mBAAKS;AADc,SAAT,CAAN;AAAA;AATF;AAF+B,GAA1B;AAAA,CAAnB;;kBAkBef,U","file":"crAppValue.js","sourcesContent":["\r\nimport C from './config'\r\nimport DATA from './enumData'\r\n\r\nconst crAppValue = ({ dispatch, theme }) => ({\r\n  theme,\r\n  dataAction: {\r\n    loading: () => dispatch({\r\n      type: DATA.LOADING\r\n    }),\r\n    loadData: ({ timeframe=C.DF_TIMEFRAME, ...rest }) => dispatch({\r\n      type: DATA.LOADED,\r\n      timeframe,\r\n      ...rest\r\n    }),\r\n    loadFailed: () => dispatch({\r\n      type: DATA.LOAD_FAILED\r\n    })\r\n  }\r\n});\r\n\r\n\r\nexport default crAppValue\r\n"]}
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/crAppValue.js"
+ ],
+ "file": "../../src/components/crAppValue.js",
+ "names": [
+  "crAppValue",
+  "dispatch",
+  "theme",
+  "setLiveUpdating",
+  "dataAction",
+  "loading",
+  "type",
+  "DATA",
+  "LOADING",
+  "loadData",
+  "timeframe",
+  "C",
+  "DF_TIMEFRAME",
+  "rest",
+  "isLiveUpdating",
+  "updateWs",
+  "stopLiveUpdate",
+  "LOADED",
+  "loadFailed",
+  "LOAD_FAILED",
+  "onLiveUpdate",
+  "pair",
+  "onMessage",
+  "point",
+  "second",
+  "UPDATE",
+  "onOpen",
+  "onClose",
+  "onSecond",
+  "sec",
+  "startLiveUpdate",
+  "onStopUpdate"
+ ],
+ "mappings": ";;;;;;;;;;;;;;AACA;;;;AACA;;;;AAEA;;;;;;AAEA,IAAMA,aAAa,SAAbA,UAAa;AAAA,MAAGC,QAAH,QAAGA,QAAH;AAAA,MAAaC,KAAb,QAAaA,KAAb;AAAA,MAAoBC,eAApB,QAAoBA,eAApB;AAAA,SAA2C;AAC5DD,gBAD4D;AAE5DE,gBAAY;AACVC,eAAS;AAAA,eAAMJ,SAAS;AACtBK,gBAAMC,mBAAKC;AADW,SAAT,CAAN;AAAA,OADC;AAIVC,gBAAU,yBAA2C;AAAA,oCAAxCC,SAAwC;AAAA,YAAxCA,SAAwC,mCAA9BC,iBAAEC,YAA4B;AAAA,YAAXC,IAAW;;AACnDV,wBAAgB,EAAEW,gBAAgB,KAAlB,EAAhB;AACAC,2BAASC,cAAT;AACAf;AACGK,gBAAMC,mBAAKU,MADd;AAEGP;AAFH,WAGMG,IAHN;AAKD,OAZS;AAaVK,kBAAY;AAAA,eAAMjB,SAAS;AACzBK,gBAAMC,mBAAKY;AADc,SAAT,CAAN;AAAA;AAbF,KAFgD;AAmB5DC,kBAAc,sBAACC,IAAD,EAAU;AACtB,UAAMC,YAAY,SAAZA,SAAY,CAACC,KAAD,EAAQC,MAAR;AAAA,eAAmBvB,SAAS;AAC5CK,gBAAMC,mBAAKkB,MADiC,EACzBF;AADyB,SAAT,CAAnB;AAAA,OAAlB;AAAA,UAGEG,SAAS,SAATA,MAAS;AAAA,eAAMvB,gBAAgB,EAAEW,gBAAgB,IAAlB,EAAhB,CAAN;AAAA,OAHX;AAAA,UAIEa,UAAU,SAAVA,OAAU;AAAA,eAAMxB,gBAAgB,EAAEW,gBAAgB,KAAlB,EAAhB,CAAN;AAAA,OAJZ;AAAA,UAKEc,WAAW,SAAXA,QAAW,CAACC,GAAD;AAAA,eAAS1B,gBAAgB,EAAEW,gBAAgB,IAAlB,EAAwBe,KAAKA,GAA7B,EAAhB,CAAT;AAAA,OALb;AAMAd,yBAASe,eAAT,CAAyB;AACvBT,kBADuB,EACjBC,oBADiB,EACNI,cADM,EACEC,gBADF,EACWC;AADX,OAAzB;AAGD,KA7B2D;AA8B5DG,kBAAc,wBAAM;AAClBhB,yBAASC,cAAT;AACD;AAhC2D,GAA3C;AAAA,CAAnB;;kBAoCehB,U"
+}
