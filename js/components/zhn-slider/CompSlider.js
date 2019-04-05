@@ -199,7 +199,7 @@ var ModalSlider = (_temp = _class = function (_Component) {
   }]);
   return ModalSlider;
 }(_react.Component), _class.defaultProps = {
-  pageWidth: 300,
+  pageWidth: 330,
   maxPages: 3
 }, _temp);
 exports.default = ModalSlider;

@@ -49,7 +49,7 @@ class ModalSlider extends Component {
   */
 
   static defaultProps = {
-    pageWidth: 300,
+    pageWidth: 330,
     maxPages: 3
   }
 

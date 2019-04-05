@@ -49,7 +49,7 @@ var S = {
   },
   DRAWER_OFF: {
     //transform: 'translateX(-264px)',
-    transform: 'translateX(324px)',
+    transform: 'translateX(334px)',
     pointerEvents: 'none'
   },
   DRAWER_ON: {

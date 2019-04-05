@@ -4,8 +4,15 @@ import DATA from './enumData'
 
 import updateWs from './updateWs'
 
-const crAppValue = ({ dispatch, theme, setLiveUpdating }) => ({
+const crAppValue = ({
+  appSettings,
+  theme, setThemeId,
+  dispatch,
+  setLiveUpdating
+}) => ({
+  appSettings,
   theme,
+  setThemeId,
   dataAction: {
     loading: () => dispatch({
       type: DATA.LOADING

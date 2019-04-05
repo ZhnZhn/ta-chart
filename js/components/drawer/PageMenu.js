@@ -39,9 +39,9 @@ var PageMenu = function PageMenu(_ref) {
       null,
       _react2.default.createElement(_FlatButton2.default, {
         className: CL.BT,
-        caption: 'Stocks',
+        caption: 'App Settings',
         onClick: function onClick() {
-          return onNextPage("p1-2");
+          return onNextPage("p1-1");
         }
       })
     ),
@@ -52,7 +52,18 @@ var PageMenu = function PageMenu(_ref) {
         className: CL.BT,
         caption: 'AltCoins',
         onClick: function onClick() {
-          return onNextPage("p1-1");
+          return onNextPage("p1-2");
+        }
+      })
+    ),
+    _react2.default.createElement(
+      'li',
+      null,
+      _react2.default.createElement(_FlatButton2.default, {
+        className: CL.BT,
+        caption: 'Stocks',
+        onClick: function onClick() {
+          return onNextPage("p1-3");
         }
       })
     )

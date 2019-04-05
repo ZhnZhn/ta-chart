@@ -1,16 +1,1 @@
-{
- "version": 3,
- "sources": [
-  "../../../src/components/styles/CL.js"
- ],
- "file": "../../../src/components/styles/CL.js",
- "names": [
-  "CL",
-  "HEADER",
-  "LOGO",
-  "TITLE_GAP",
-  "HEADER_TITLE",
-  "SPINNER"
- ],
- "mappings": ";;;;;AAAA,IAAMA,KAAK;AACTC,UAAQ,QADC;AAETC,QAAM,oBAFG;AAGTC,aAAW,mBAHF;AAITC,gBAAc,eAJL;AAKTC,WAAS;AALA,CAAX;;kBAQeL,E"
-}
+{"version":3,"sources":["../../../src/components/styles/CL.js"],"names":["CL","HEADER","LOGO","TITLE_GAP","HEADER_TITLE","SPINNER"],"mappings":";;;;;AAAA,IAAMA,KAAK;AACTC,UAAQ,QADC;AAETC,QAAM,oBAFG;AAGTC,aAAW,mBAHF;AAITC,gBAAc,eAJL;AAKTC,WAAS;AALA,CAAX;;kBAQeL,E","file":"CL.js","sourcesContent":["const CL = {\r\n  HEADER: 'header',\r\n  LOGO: 'header__logo-notes',\r\n  TITLE_GAP: 'header__title-gap',\r\n  HEADER_TITLE: 'header__title',\r\n  SPINNER: 'header__spinner'\r\n}\r\n\r\nexport default CL\r\n"]}

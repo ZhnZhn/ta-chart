@@ -41,6 +41,7 @@ const S = {
 
 const PageAltCoins = ({ style, onPrevPage }) => {
   const {
+    appSettings,
     dataAction,
     onLiveUpdate, onStopUpdate
   } = useContext(AppValue)
@@ -51,8 +52,8 @@ const PageAltCoins = ({ style, onPrevPage }) => {
   } = state
   , [timeframes, setTimeframes] = useState([])
   , [timeframe, setTimeframe] = useState(DF_TIMEFRAME)
-  , refExchange = useRef(null);
-
+  , refExchange = useRef(null)
+  , proxy = appSettings.proxy();
 
   useEffect(() => {
     dispatch({
@@ -63,7 +64,7 @@ const PageAltCoins = ({ style, onPrevPage }) => {
 
   useEffect(()=>{
     if (exchange) {
-      refExchange.current = crExchange(exchange)
+      refExchange.current = crExchange(exchange, proxy)
       setTimeframe(DF_TIMEFRAME)
       setTimeframes(crTimeframes(refExchange.current.timeframes))
       loadMarkets({
@@ -71,7 +72,7 @@ const PageAltCoins = ({ style, onPrevPage }) => {
         exchImpl: refExchange.current
       })
     }
-  }, [exchange])
+  }, [exchange, proxy])
 
   useEffect(() => {
     if (pair && timeframe) {

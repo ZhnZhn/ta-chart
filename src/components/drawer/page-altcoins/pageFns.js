@@ -28,8 +28,8 @@ const crTimeframes = (obj) => {
 }
 
 const crExchanges = () => ccxt.exchanges.map(crOptionItem);
-const crExchange = (exchange) => new ccxt[exchange]({
-  proxy: C.PROXY,
+const crExchange = (exchange, proxy) => new ccxt[exchange]({
+  proxy: proxy || C.PROXY,
   rateLimit: C.RATE_LIMIT
 });
 

@@ -12,10 +12,10 @@ const CL = {
   ROOT: 'drawer__list'
 };
 
-const DrawerMenu = ({ onCloseDrawer, setThemeId }) => {
-  const { theme } = useContext(AppValue);
-  const themeId = useContext(AppThemeId);
-  const drawerStyle = theme.getDrawerStyle(themeId);
+const DrawerMenu = ({ onCloseDrawer }) => {
+  const { theme, setThemeId } = useContext(AppValue)
+  , themeId = useContext(AppThemeId)
+  , drawerStyle = theme.getDrawerStyle(themeId);
   return (
     <div
       className={CL.ROOT}
@@ -28,6 +28,7 @@ const DrawerMenu = ({ onCloseDrawer, setThemeId }) => {
       <CompSlider
         pageRouter={pageRouter}
         initialPageId="p1"
+        maxPages={4}
       />
     </div>
   );

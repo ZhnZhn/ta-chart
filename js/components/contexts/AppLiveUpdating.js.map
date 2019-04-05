@@ -1,13 +1,1 @@
-{
- "version": 3,
- "sources": [
-  "../../../src/components/contexts/AppLiveUpdating.js"
- ],
- "file": "../../../src/components/contexts/AppLiveUpdating.js",
- "names": [
-  "AppLiveUpdating",
-  "React",
-  "createContext"
- ],
- "mappings": ";;;;;;AAAA;;;;;;AAEA,IAAMA,kBAAkBC,gBAAMC,aAAN,EAAxB;;kBAEeF,e"
-}
+{"version":3,"sources":["../../../src/components/contexts/AppLiveUpdating.js"],"names":["AppLiveUpdating","React","createContext"],"mappings":";;;;;;AAAA;;;;;;AAEA,IAAMA,kBAAkBC,gBAAMC,aAAN,EAAxB;;kBAEeF,e","file":"AppLiveUpdating.js","sourcesContent":["import React from 'react'\r\n\r\nconst AppLiveUpdating = React.createContext();\r\n\r\nexport default AppLiveUpdating\r\n"]}

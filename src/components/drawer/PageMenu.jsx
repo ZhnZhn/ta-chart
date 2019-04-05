@@ -17,17 +17,24 @@ const PageMenu = ({ style, onNextPage }) => (
     <li>
       <FlatButton
         className={CL.BT}
-        caption="Stocks"
-        onClick={() => onNextPage("p1-2")}
+        caption="App Settings"
+        onClick={() => onNextPage("p1-1")}
       />
     </li>
     <li>
       <FlatButton
         className={CL.BT}
         caption="AltCoins"
-        onClick={() => onNextPage("p1-1")}
+        onClick={() => onNextPage("p1-2")}
       />
-    </li>    
+    </li>
+    <li>
+      <FlatButton
+        className={CL.BT}
+        caption="Stocks"
+        onClick={() => onNextPage("p1-3")}
+      />
+    </li>
   </ul>
 );
 

@@ -1,17 +1,1 @@
-{
- "version": 3,
- "sources": [
-  "../../src/components/enumData.js"
- ],
- "file": "../../src/components/enumData.js",
- "names": [
-  "DATA",
-  "LOADING",
-  "LOADED",
-  "LOAD_FAILED",
-  "UPDATE",
-  "Object",
-  "freeze"
- ],
- "mappings": ";;;;;;AACA,IAAMA,OAAO;AACXC,WAAS,cADE;AAEXC,UAAQ,aAFG;AAGXC,eAAa,kBAHF;;AAKXC,UAAQ;AALG,CAAb;;kBAQeC,OAAOC,MAAP,CAAcN,IAAd,C"
-}
+{"version":3,"sources":["../../src/components/enumData.js"],"names":["DATA","LOADING","LOADED","LOAD_FAILED","UPDATE","Object","freeze"],"mappings":";;;;;;AACA,IAAMA,OAAO;AACXC,WAAS,cADE;AAEXC,UAAQ,aAFG;AAGXC,eAAa,kBAHF;;AAKXC,UAAQ;AALG,CAAb;;kBAQeC,OAAOC,MAAP,CAAcN,IAAd,C","file":"enumData.js","sourcesContent":["\r\nconst DATA = {\r\n  LOADING: \"DATA_LOADING\",\r\n  LOADED: \"DATA_LOADED\",\r\n  LOAD_FAILED: \"DATA_LOAD_FAILED\",\r\n\r\n  UPDATE: \"DATA_UPDATE\"  \r\n};\r\n\r\nexport default Object.freeze(DATA)\r\n"]}

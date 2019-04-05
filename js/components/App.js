@@ -28,6 +28,10 @@ var _AppLiveUpdating = require('./contexts/AppLiveUpdating');
 
 var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
 
+var _appSettings = require('./appSettings');
+
+var _appSettings2 = _interopRequireDefault(_appSettings);
+
 var _theme = require('./styles/theme');
 
 var _theme2 = _interopRequireDefault(_theme);
@@ -93,7 +97,10 @@ var App = function App() {
       setLiveUpdating = _useState6[1],
       appValue = (0, _useInit2.default)(function () {
     return (0, _crAppValue2.default)({
-      dispatch: dispatch, theme: _theme2.default, setLiveUpdating: setLiveUpdating
+      appSettings: _appSettings2.default,
+      theme: _theme2.default, setThemeId: setThemeId,
+      dispatch: dispatch,
+      setLiveUpdating: setLiveUpdating
     });
   });
 
@@ -131,7 +138,6 @@ var App = function App() {
         _AppLiveUpdating2.default.Provider,
         { value: liveUpdating },
         _react2.default.createElement(_Header2.default, {
-          setThemeId: setThemeId,
           fetchStatus: fetchStatus,
           providerTitle: providerTitle,
           itemTitle: itemTitle,

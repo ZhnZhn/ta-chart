@@ -75,7 +75,7 @@ $bgNotification, $cNotification
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
-  width: 300px;
+  width: 330px;
   height: 100vh;
   outline: none;
   overflow-y: auto;
@@ -109,7 +109,7 @@ $bgNotification, $cNotification
   flex: 1 0 auto;
   flex-direction: column;
   background-color: #fff;
-  width: 300px;
+  width: 330px;
   height: 100vh;
   outline: none;
   overflow-y: auto;

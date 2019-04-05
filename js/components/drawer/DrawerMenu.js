@@ -35,14 +35,14 @@ var CL = {
 };
 
 var DrawerMenu = function DrawerMenu(_ref) {
-  var onCloseDrawer = _ref.onCloseDrawer,
-      setThemeId = _ref.setThemeId;
+  var onCloseDrawer = _ref.onCloseDrawer;
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
-      theme = _useContext.theme;
+      theme = _useContext.theme,
+      setThemeId = _useContext.setThemeId,
+      themeId = (0, _react.useContext)(_AppThemeId2.default),
+      drawerStyle = theme.getDrawerStyle(themeId);
 
-  var themeId = (0, _react.useContext)(_AppThemeId2.default);
-  var drawerStyle = theme.getDrawerStyle(themeId);
   return _react2.default.createElement(
     'div',
     {
@@ -55,7 +55,8 @@ var DrawerMenu = function DrawerMenu(_ref) {
     }),
     _react2.default.createElement(_CompSlider2.default, {
       pageRouter: _pageRouter2.default,
-      initialPageId: 'p1'
+      initialPageId: 'p1',
+      maxPages: 4
     })
   );
 };

@@ -10,9 +10,12 @@ import ProgressLoading from './ProgressLoading'
 import HeaderDrawer from '../drawer/HeaderDrawer'
 import LiveUpdatingBt from './LiveUpdatingBt'
 
+const _toFirstCapital = text => text
+ .charAt(0).toUpperCase() + text.substr(1);
+
 const TitleSpan = ({ text, is }) => (
   <span className={CL.HEADER_TITLE}>
-    {text}
+    {_toFirstCapital(text)}
     { !is && <span>:&nbsp;</span> }
   </span>
 );
@@ -40,7 +43,7 @@ const Header = ({
       <TitleSpan text={itemTitle} />
       <TitleSpan text={timeframe} is={true} />
       <LiveUpdatingBt
-        spinnerCn={CL.SPINNER}        
+        spinnerCn={CL.SPINNER}
         onStopUpdate={onStopUpdate}
       />
       <HeaderDrawer {...rest} />

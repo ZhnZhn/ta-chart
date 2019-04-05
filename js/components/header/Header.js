@@ -42,13 +42,17 @@ var _LiveUpdatingBt2 = _interopRequireDefault(_LiveUpdatingBt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _toFirstCapital = function _toFirstCapital(text) {
+  return text.charAt(0).toUpperCase() + text.substr(1);
+};
+
 var TitleSpan = function TitleSpan(_ref) {
   var text = _ref.text,
       is = _ref.is;
   return _react2.default.createElement(
     'span',
     { className: _CL2.default.HEADER_TITLE },
-    text,
+    _toFirstCapital(text),
     !is && _react2.default.createElement(
       'span',
       null,

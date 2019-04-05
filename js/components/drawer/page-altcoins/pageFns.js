@@ -47,9 +47,9 @@ var crTimeframes = function crTimeframes(obj) {
 var crExchanges = function crExchanges() {
   return _ccxt2.default.exchanges.map(crOptionItem);
 };
-var crExchange = function crExchange(exchange) {
+var crExchange = function crExchange(exchange, proxy) {
   return new _ccxt2.default[exchange]({
-    proxy: _config2.default.PROXY,
+    proxy: proxy || _config2.default.PROXY,
     rateLimit: _config2.default.RATE_LIMIT
   });
 };

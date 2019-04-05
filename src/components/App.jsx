@@ -6,6 +6,7 @@ import AppValue from './contexts/AppValue'
 import AppThemeId from './contexts/AppThemeId'
 import AppLiveUpdating from './contexts/AppLiveUpdating'
 
+import appSettings from './appSettings'
 import theme from './styles/theme'
 
 import Header from './header/Header'
@@ -40,7 +41,10 @@ const App = () => {
   } = state
   , [ liveUpdating, setLiveUpdating] = useState({ isLiveUpdating: false, sec: '' })
   , appValue = useInit(() => crAppValue({
-       dispatch, theme, setLiveUpdating
+       appSettings,
+       theme, setThemeId,
+       dispatch,       
+       setLiveUpdating
   }));
 
 
@@ -72,7 +76,6 @@ const App = () => {
     <AppThemeId.Provider value={themeId}>
     <AppLiveUpdating.Provider value={liveUpdating}>
       <Header
-        setThemeId={setThemeId}
         fetchStatus={fetchStatus}
         providerTitle={providerTitle}
         itemTitle={itemTitle}

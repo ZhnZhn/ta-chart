@@ -26,6 +26,8 @@ var _DialogStyles2 = _interopRequireDefault(_DialogStyles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var WIDTH = "270";
+
 var RowInputSelect = function RowInputSelect(_ref) {
   var _ref$isShowLabels = _ref.isShowLabels,
       isShowLabels = _ref$isShowLabels === undefined ? true : _ref$isShowLabels,
@@ -38,7 +40,7 @@ var RowInputSelect = function RowInputSelect(_ref) {
       rowStyle = _STYLE$crRowLabelStyl.rowStyle,
       labelStyle = _STYLE$crRowLabelStyl.labelStyle,
       optionName = isShowLabels ? '' : caption.replace(':', ''),
-      _options = (0, _extends3.default)({ width: "250" }, rest, { optionName: optionName });
+      _options = (0, _extends3.default)({ width: WIDTH }, rest, { optionName: optionName });
 
   return _react2.default.createElement(
     'div',

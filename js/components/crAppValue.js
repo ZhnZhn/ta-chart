@@ -27,11 +27,15 @@ var _updateWs2 = _interopRequireDefault(_updateWs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var crAppValue = function crAppValue(_ref) {
-  var dispatch = _ref.dispatch,
+  var appSettings = _ref.appSettings,
       theme = _ref.theme,
+      setThemeId = _ref.setThemeId,
+      dispatch = _ref.dispatch,
       setLiveUpdating = _ref.setLiveUpdating;
   return {
+    appSettings: appSettings,
     theme: theme,
+    setThemeId: setThemeId,
     dataAction: {
       loading: function loading() {
         return dispatch({

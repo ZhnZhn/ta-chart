@@ -87,6 +87,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
       onPrevPage = _ref.onPrevPage;
 
   var _useContext = (0, _react.useContext)(_AppValue2.default),
+      appSettings = _useContext.appSettings,
       dataAction = _useContext.dataAction,
       onLiveUpdate = _useContext.onLiveUpdate,
       onStopUpdate = _useContext.onStopUpdate,
@@ -110,7 +111,8 @@ var PageAltCoins = function PageAltCoins(_ref) {
       _useState4 = (0, _slicedToArray3.default)(_useState3, 2),
       timeframe = _useState4[0],
       setTimeframe = _useState4[1],
-      refExchange = (0, _react.useRef)(null);
+      refExchange = (0, _react.useRef)(null),
+      proxy = appSettings.proxy();
 
   (0, _react.useEffect)(function () {
     dispatch({
@@ -121,7 +123,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
 
   (0, _react.useEffect)(function () {
     if (exchange) {
-      refExchange.current = crExchange(exchange);
+      refExchange.current = crExchange(exchange, proxy);
       setTimeframe(DF_TIMEFRAME);
       setTimeframes(crTimeframes(refExchange.current.timeframes));
       (0, _loadMarkets2.default)({
@@ -129,7 +131,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
         exchImpl: refExchange.current
       });
     }
-  }, [exchange]);
+  }, [exchange, proxy]);
 
   (0, _react.useEffect)(function () {
     if (pair && timeframe) {
