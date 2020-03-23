@@ -6,6 +6,8 @@ var C = {
   URI_BASE: 'wss://stream.binance.com:9443/ws/',
   URI_SUFFIX: '@kline_1m'
 };
+var NORMAL_CLOSE = 1000;
+var NO_STATUS_RECEIVED = 1005;
 
 var _crPoint = function _crPoint(E, k) {
   return {
@@ -20,9 +22,13 @@ var _crPoint = function _crPoint(E, k) {
 
 var ws;
 
-function closeWs() {
+function closeWs(code) {
+  if (code === void 0) {
+    code = NO_STATUS_RECEIVED;
+  }
+
   if (ws) {
-    ws.close();
+    ws.close(code);
   }
 }
 
@@ -76,7 +82,7 @@ var updateWs = {
   },
   stopLiveUpdate: function stopLiveUpdate() {
     try {
-      closeWs();
+      closeWs(NORMAL_CLOSE);
     } catch (err) {
       console.log(err);
     }

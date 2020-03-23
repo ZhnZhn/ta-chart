@@ -3,6 +3,9 @@ const C = {
   URI_SUFFIX: '@kline_1m'
 }
 
+const NORMAL_CLOSE = 1000;
+const NO_STATUS_RECEIVED = 1005;
+
 const _crPoint = (E, k) => ({
   date: E,
   high: parseFloat(k.h),
@@ -14,8 +17,8 @@ const _crPoint = (E, k) => ({
 
 let ws;
 
-function closeWs(){
-  if (ws) { ws.close() }
+function closeWs(code=NO_STATUS_RECEIVED){
+  if (ws) { ws.close(code) }
 }
 
 function connect(pair, onMessage, onOpen, onClose, onSecond){
@@ -60,7 +63,7 @@ const updateWs = {
   },
   stopLiveUpdate: () => {
      try {
-       closeWs()
+       closeWs(NORMAL_CLOSE)
      } catch(err) {
        console.log(err)
      }
