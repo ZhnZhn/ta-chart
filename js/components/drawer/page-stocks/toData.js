@@ -1,21 +1,19 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _ymdToUTC = require('../../../utils/ymdToUTC');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _ymdToUTC2 = _interopRequireDefault(_ymdToUTC);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _ymdToUTC = _interopRequireDefault(require("../../../utils/ymdToUTC"));
 
 var toData = function toData(json) {
   return json.map(function (p) {
-    p.date = (0, _ymdToUTC2.default)(p.date);
+    p.date = (0, _ymdToUTC["default"])(p.date);
     return p;
   });
 };
 
-exports.default = toData;
+var _default = toData;
+exports["default"] = _default;
 //# sourceMappingURL=toData.js.map

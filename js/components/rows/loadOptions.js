@@ -1,15 +1,13 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 
 var loadOptions = function loadOptions(_ref) {
   var uri = _ref.uri,
       setOptions = _ref.setOptions,
       setIsLoading = _ref.setIsLoading,
       setIsLoadingFailed = _ref.setIsLoadingFailed;
-
   setIsLoading(true);
   fetch(uri).then(function (response) {
     var status = response.status;
@@ -25,12 +23,13 @@ var loadOptions = function loadOptions(_ref) {
       setIsLoadingFailed(false);
       setOptions(json.items);
     }
-  }).catch(function (err) {
+  })["catch"](function (err) {
     setIsLoading(false);
     setIsLoadingFailed(true);
     console.log(err);
   });
 };
 
-exports.default = loadOptions;
+var _default = loadOptions;
+exports["default"] = _default;
 //# sourceMappingURL=loadOptions.js.map

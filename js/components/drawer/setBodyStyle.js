@@ -1,8 +1,7 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 
 var setBodyStyle = function setBodyStyle(color) {
   if (color) {
@@ -10,5 +9,6 @@ var setBodyStyle = function setBodyStyle(color) {
   }
 };
 
-exports.default = setBodyStyle;
+var _default = setBodyStyle;
+exports["default"] = _default;
 //# sourceMappingURL=setBodyStyle.js.map

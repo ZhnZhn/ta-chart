@@ -1,62 +1,35 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _react = require('react');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _useInit = _interopRequireDefault(require("./hooks/useInit"));
 
-var _useInit = require('./hooks/useInit');
+var _AppValue = _interopRequireDefault(require("./contexts/AppValue"));
 
-var _useInit2 = _interopRequireDefault(_useInit);
+var _AppThemeId = _interopRequireDefault(require("./contexts/AppThemeId"));
 
-var _AppValue = require('./contexts/AppValue');
+var _AppLiveUpdating = _interopRequireDefault(require("./contexts/AppLiveUpdating"));
 
-var _AppValue2 = _interopRequireDefault(_AppValue);
+var _appSettings = _interopRequireDefault(require("./appSettings"));
 
-var _AppThemeId = require('./contexts/AppThemeId');
+var _theme = _interopRequireDefault(require("./styles/theme"));
 
-var _AppThemeId2 = _interopRequireDefault(_AppThemeId);
+var _Header = _interopRequireDefault(require("./header/Header"));
 
-var _AppLiveUpdating = require('./contexts/AppLiveUpdating');
+var _HollowChart = _interopRequireDefault(require("./charts/HollowChart"));
 
-var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
+var _initialState = _interopRequireDefault(require("./initialState"));
 
-var _appSettings = require('./appSettings');
+var _reducer = _interopRequireDefault(require("./reducer"));
 
-var _appSettings2 = _interopRequireDefault(_appSettings);
-
-var _theme = require('./styles/theme');
-
-var _theme2 = _interopRequireDefault(_theme);
-
-var _Header = require('./header/Header');
-
-var _Header2 = _interopRequireDefault(_Header);
-
-var _HollowChart = require('./charts/HollowChart');
-
-var _HollowChart2 = _interopRequireDefault(_HollowChart);
-
-var _initialState = require('./initialState');
-
-var _initialState2 = _interopRequireDefault(_initialState);
-
-var _reducer = require('./reducer');
-
-var _reducer2 = _interopRequireDefault(_reducer);
-
-var _crAppValue = require('./crAppValue');
-
-var _crAppValue2 = _interopRequireDefault(_crAppValue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _crAppValue = _interopRequireDefault(require("./crAppValue"));
 
 var S = {
   MAIN: {
@@ -70,35 +43,34 @@ var S = {
     verticalAlign: 'top'
   }
 };
-
 var EL_ID = "chart_wrapper";
 
 var App = function App() {
   var _useState = (0, _react.useState)(900),
-      _useState2 = (0, _slicedToArray3.default)(_useState, 2),
-      width = _useState2[0],
-      setWidth = _useState2[1],
-      _useState3 = (0, _react.useState)(1),
-      _useState4 = (0, _slicedToArray3.default)(_useState3, 2),
-      themeId = _useState4[0],
-      setThemeId = _useState4[1],
-      _useReducer = (0, _react.useReducer)(_reducer2.default, _initialState2.default),
-      _useReducer2 = (0, _slicedToArray3.default)(_useReducer, 2),
-      state = _useReducer2[0],
-      dispatch = _useReducer2[1],
+      width = _useState[0],
+      setWidth = _useState[1],
+      _useState2 = (0, _react.useState)(1),
+      themeId = _useState2[0],
+      setThemeId = _useState2[1],
+      _useReducer = (0, _react.useReducer)(_reducer["default"], _initialState["default"]),
+      state = _useReducer[0],
+      dispatch = _useReducer[1],
       providerTitle = state.providerTitle,
       itemTitle = state.itemTitle,
       data = state.data,
       timeframe = state.timeframe,
       fetchStatus = state.fetchStatus,
-      _useState5 = (0, _react.useState)({ isLiveUpdating: false, sec: '' }),
-      _useState6 = (0, _slicedToArray3.default)(_useState5, 2),
-      liveUpdating = _useState6[0],
-      setLiveUpdating = _useState6[1],
-      appValue = (0, _useInit2.default)(function () {
-    return (0, _crAppValue2.default)({
-      appSettings: _appSettings2.default,
-      theme: _theme2.default, setThemeId: setThemeId,
+      _useState3 = (0, _react.useState)({
+    isLiveUpdating: false,
+    sec: ''
+  }),
+      liveUpdating = _useState3[0],
+      setLiveUpdating = _useState3[1],
+      appValue = (0, _useInit["default"])(function () {
+    return (0, _crAppValue["default"])({
+      appSettings: _appSettings["default"],
+      theme: _theme["default"],
+      setThemeId: setThemeId,
       dispatch: dispatch,
       setLiveUpdating: setLiveUpdating
     });
@@ -108,15 +80,16 @@ var App = function App() {
     var _el = document.getElementById(EL_ID),
         _style = window.getComputedStyle(_el),
         _w = Math.round(parseFloat(_style.width));
+
     setWidth(_w);
   };
+
   (0, _react.useEffect)(function () {
     window.addEventListener("resize", hResize);
     return function () {
       return window.removeEventListener("resize", hResize);
     };
   }, []);
-
   /*
   console.log(JSON.stringify(data.map(obj => ({
     date: obj.date,
@@ -128,37 +101,29 @@ var App = function App() {
   }))))
   */
 
-  return _react2.default.createElement(
-    _AppValue2.default.Provider,
-    { value: appValue },
-    _react2.default.createElement(
-      _AppThemeId2.default.Provider,
-      { value: themeId },
-      _react2.default.createElement(
-        _AppLiveUpdating2.default.Provider,
-        { value: liveUpdating },
-        _react2.default.createElement(_Header2.default, {
-          fetchStatus: fetchStatus,
-          providerTitle: providerTitle,
-          itemTitle: itemTitle,
-          timeframe: timeframe
-        }),
-        _react2.default.createElement(
-          'main',
-          { style: S.MAIN },
-          _react2.default.createElement(_HollowChart2.default, {
-            id: EL_ID,
-            width: width,
-            height: 550,
-            data: data,
-            resize: hResize,
-            timeframe: timeframe
-          })
-        )
-      )
-    )
-  );
+  return /*#__PURE__*/_react["default"].createElement(_AppValue["default"].Provider, {
+    value: appValue
+  }, /*#__PURE__*/_react["default"].createElement(_AppThemeId["default"].Provider, {
+    value: themeId
+  }, /*#__PURE__*/_react["default"].createElement(_AppLiveUpdating["default"].Provider, {
+    value: liveUpdating
+  }, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
+    fetchStatus: fetchStatus,
+    providerTitle: providerTitle,
+    itemTitle: itemTitle,
+    timeframe: timeframe
+  }), /*#__PURE__*/_react["default"].createElement("main", {
+    style: S.MAIN
+  }, /*#__PURE__*/_react["default"].createElement(_HollowChart["default"], {
+    id: EL_ID,
+    width: width,
+    height: 550,
+    data: data,
+    resize: hResize,
+    timeframe: timeframe
+  })))));
 };
 
-exports.default = App;
+var _default = App;
+exports["default"] = _default;
 //# sourceMappingURL=App.js.map

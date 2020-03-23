@@ -1,27 +1,19 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
-
-var _FlatButton = require('../zhn-m/FlatButton');
-
-var _FlatButton2 = _interopRequireDefault(_FlatButton);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _FlatButton = _interopRequireDefault(require("../zhn-m/FlatButton"));
 
 var CL = {
   BT: 'drawer__list-bt'
 };
-
 var S = {
   UL: {
     listStyleType: 'none'
@@ -31,44 +23,29 @@ var S = {
 var PageMenu = function PageMenu(_ref) {
   var style = _ref.style,
       onNextPage = _ref.onNextPage;
-  return _react2.default.createElement(
-    'ul',
-    { style: (0, _extends3.default)({}, S.UL, style) },
-    _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(_FlatButton2.default, {
-        className: CL.BT,
-        caption: 'App Settings',
-        onClick: function onClick() {
-          return onNextPage("p1-1");
-        }
-      })
-    ),
-    _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(_FlatButton2.default, {
-        className: CL.BT,
-        caption: 'AltCoins',
-        onClick: function onClick() {
-          return onNextPage("p1-2");
-        }
-      })
-    ),
-    _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(_FlatButton2.default, {
-        className: CL.BT,
-        caption: 'Stocks',
-        onClick: function onClick() {
-          return onNextPage("p1-3");
-        }
-      })
-    )
-  );
+  return /*#__PURE__*/_react["default"].createElement("ul", {
+    style: (0, _extends2["default"])({}, S.UL, {}, style)
+  }, /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
+    className: CL.BT,
+    caption: "App Settings",
+    onClick: function onClick() {
+      return onNextPage("p1-1");
+    }
+  })), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
+    className: CL.BT,
+    caption: "AltCoins",
+    onClick: function onClick() {
+      return onNextPage("p1-2");
+    }
+  })), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
+    className: CL.BT,
+    caption: "Stocks",
+    onClick: function onClick() {
+      return onNextPage("p1-3");
+    }
+  })));
 };
 
-exports.default = PageMenu;
+var _default = PageMenu;
+exports["default"] = _default;
 //# sourceMappingURL=PageMenu.js.map

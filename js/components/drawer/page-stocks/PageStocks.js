@@ -1,34 +1,23 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends3 = _interopRequireDefault(_extends2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _react = require('react');
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireWildcard(require("react"));
 
-var _AppValue = require('../../contexts/AppValue');
+var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
 
-var _AppValue2 = _interopRequireDefault(_AppValue);
+var _BackMenuBt = _interopRequireDefault(require("../BackMenuBt"));
 
-var _BackMenuBt = require('../BackMenuBt');
+var _SelectWithLoad = _interopRequireDefault(require("../../rows/SelectWithLoad"));
 
-var _BackMenuBt2 = _interopRequireDefault(_BackMenuBt);
-
-var _SelectWithLoad = require('../../rows/SelectWithLoad');
-
-var _SelectWithLoad2 = _interopRequireDefault(_SelectWithLoad);
-
-var _loadIex = require('./loadIex');
-
-var _loadIex2 = _interopRequireDefault(_loadIex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _loadIex = _interopRequireDefault(require("./loadIex"));
 
 var S = {
   PAGE: {
@@ -41,36 +30,37 @@ var S = {
     fontWeight: 600
   }
   */
+
 };
 
 var PageStocks = function PageStocks(_ref) {
   var style = _ref.style,
       onPrevPage = _ref.onPrevPage;
 
-  var _useContext = (0, _react.useContext)(_AppValue2.default),
+  var _useContext = (0, _react.useContext)(_AppValue["default"]),
       dataAction = _useContext.dataAction,
       onSelect = function onSelect(item) {
     if (item) {
-      (0, _loadIex2.default)({
+      (0, _loadIex["default"])({
         symbol: item.value,
         dataAction: dataAction
       });
     }
   };
 
-  return _react2.default.createElement(
-    'div',
-    { style: (0, _extends3.default)({}, S.PAGE, style) },
-    _react2.default.createElement(_BackMenuBt2.default, { onClick: onPrevPage }),
-    _react2.default.createElement(_SelectWithLoad2.default, {
-      isShowLabels: false,
-      placeholder: 'Symbol',
-      optionURI: './data/stock-symbols.json',
-      isWithInput: true,
-      onSelect: onSelect
-    })
-  );
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    style: (0, _extends2["default"])({}, S.PAGE, {}, style)
+  }, /*#__PURE__*/_react["default"].createElement(_BackMenuBt["default"], {
+    onClick: onPrevPage
+  }), /*#__PURE__*/_react["default"].createElement(_SelectWithLoad["default"], {
+    isShowLabels: false,
+    placeholder: "Symbol",
+    optionURI: "./data/stock-symbols.json",
+    isWithInput: true,
+    onSelect: onSelect
+  }));
 };
 
-exports.default = PageStocks;
+var _default = PageStocks;
+exports["default"] = _default;
 //# sourceMappingURL=PageStocks.js.map

@@ -1,38 +1,27 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _enumFetch = _interopRequireDefault(require("../enumFetch"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _ProgressLine = _interopRequireDefault(require("../zhn/ProgressLine"));
 
-var _react = require('react');
+function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _react2 = _interopRequireDefault(_react);
-
-var _enumFetch = require('../enumFetch');
-
-var _enumFetch2 = _interopRequireDefault(_enumFetch);
-
-var _ProgressLine = require('../zhn/ProgressLine');
-
-var _ProgressLine2 = _interopRequireDefault(_ProgressLine);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 var C = {
   LOADING: '#2f7ed8',
@@ -41,42 +30,59 @@ var C = {
 
 var _getFetchingState = function _getFetchingState(fetchStatus) {
   switch (fetchStatus) {
-    case _enumFetch2.default.LOADING:
-      return { completed: 35, color: C.LOADING };
-    case _enumFetch2.default.SUCCESS:
-      return { completed: 100, color: C.LOADING };
-    case _enumFetch2.default.FAILED:
-      return { completed: 100, color: C.FAILED };
+    case _enumFetch["default"].LOADING:
+      return {
+        completed: 35,
+        color: C.LOADING
+      };
+
+    case _enumFetch["default"].SUCCESS:
+      return {
+        completed: 100,
+        color: C.LOADING
+      };
+
+    case _enumFetch["default"].FAILED:
+      return {
+        completed: 100,
+        color: C.FAILED
+      };
+
     default:
-      return { completed: 0, color: C.LOADING };
+      return {
+        completed: 0,
+        color: C.LOADING
+      };
   }
 };
 
-var ProgressLoading = function (_PureComponent) {
-  (0, _inherits3.default)(ProgressLoading, _PureComponent);
+var ProgressLoading = /*#__PURE__*/function (_PureComponent) {
+  (0, _inheritsLoose2["default"])(ProgressLoading, _PureComponent);
+
+  var _super = _createSuper(ProgressLoading);
 
   function ProgressLoading() {
-    (0, _classCallCheck3.default)(this, ProgressLoading);
-    return (0, _possibleConstructorReturn3.default)(this, (ProgressLoading.__proto__ || Object.getPrototypeOf(ProgressLoading)).apply(this, arguments));
+    return _PureComponent.apply(this, arguments) || this;
   }
 
-  (0, _createClass3.default)(ProgressLoading, [{
-    key: 'render',
-    value: function render() {
-      var fetchStatus = this.props.fetchStatus,
-          _getFetchingState2 = _getFetchingState(fetchStatus),
-          completed = _getFetchingState2.completed,
-          color = _getFetchingState2.color;
+  var _proto = ProgressLoading.prototype;
 
-      return _react2.default.createElement(_ProgressLine2.default, {
-        height: 3,
-        color: color,
-        completed: completed
-      });
-    }
-  }]);
+  _proto.render = function render() {
+    var fetchStatus = this.props.fetchStatus,
+        _getFetchingState2 = _getFetchingState(fetchStatus),
+        completed = _getFetchingState2.completed,
+        color = _getFetchingState2.color;
+
+    return /*#__PURE__*/_react["default"].createElement(_ProgressLine["default"], {
+      height: 3,
+      color: color,
+      completed: completed
+    });
+  };
+
   return ProgressLoading;
 }(_react.PureComponent);
 
-exports.default = ProgressLoading;
+var _default = ProgressLoading;
+exports["default"] = _default;
 //# sourceMappingURL=ProgressLoading.js.map

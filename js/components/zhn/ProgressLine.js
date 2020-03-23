@@ -1,36 +1,26 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _class, _temp;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 var CL = 'progress-line';
 var DF_COLOR = '#2f7ed8';
-
 var TR = {
   WIDTH: 'width 500ms ease-out',
   OPACITY: 'opacity 400ms linear'
@@ -46,13 +36,15 @@ var _crStyle = function _crStyle(backgroundColor, opacity, width, height, transi
   };
 };
 
-var ProgressLine = (_temp = _class = function (_Component) {
-  (0, _inherits3.default)(ProgressLine, _Component);
+var ProgressLine = /*#__PURE__*/function (_Component) {
+  (0, _inheritsLoose2["default"])(ProgressLine, _Component);
+
+  var _super = _createSuper(ProgressLine);
 
   function ProgressLine(props) {
-    (0, _classCallCheck3.default)(this, ProgressLine);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ProgressLine.__proto__ || Object.getPrototypeOf(ProgressLine)).call(this, props));
+    _this = _Component.call(this, props) || this;
 
     _this._crLineStyle = function (color, height) {
       if (_this.wasOpacied) {
@@ -71,7 +63,8 @@ var ProgressLine = (_temp = _class = function (_Component) {
           completed = 100;
           _this.wasCompleted = true;
         }
-        return _crStyle(color, 1, completed + '%', height, TR.WIDTH);
+
+        return _crStyle(color, 1, completed + "%", height, TR.WIDTH);
       }
     };
 
@@ -82,48 +75,55 @@ var ProgressLine = (_temp = _class = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(ProgressLine, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      if (this.idCompleted) {
-        clearTimeout(this.idCompleted);
-      }
-      if (this.idOpacied) {
-        clearTimeout(this.idOpacied);
-      }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var _this2 = this;
+  var _proto = ProgressLine.prototype;
 
-      if (this.wasCompleted) {
-        this.idCompleted = setTimeout(function () {
-          _this2.idCompleted = null;
-          _this2.forceUpdate();
-        }, 800);
-      } else if (this.wasOpacied) {
-        this.idOpacied = setTimeout(function () {
-          _this2.idOpacied = null;
-          _this2.forceUpdate();
-        }, 800);
-      }
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    if (this.idCompleted) {
+      clearTimeout(this.idCompleted);
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          color = _props.color,
-          height = _props.height,
-          _style = this._crLineStyle(color, height);
 
-      return _react2.default.createElement('div', { className: CL, style: _style });
+    if (this.idOpacied) {
+      clearTimeout(this.idOpacied);
     }
-  }]);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate() {
+    var _this2 = this;
+
+    if (this.wasCompleted) {
+      this.idCompleted = setTimeout(function () {
+        _this2.idCompleted = null;
+
+        _this2.forceUpdate();
+      }, 800);
+    } else if (this.wasOpacied) {
+      this.idOpacied = setTimeout(function () {
+        _this2.idOpacied = null;
+
+        _this2.forceUpdate();
+      }, 800);
+    }
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        color = _this$props.color,
+        height = _this$props.height,
+        _style = this._crLineStyle(color, height);
+
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: CL,
+      style: _style
+    });
+  };
+
   return ProgressLine;
-}(_react.Component), _class.defaultProps = {
+}(_react.Component);
+
+ProgressLine.defaultProps = {
   color: DF_COLOR,
   height: 3
-}, _temp);
-exports.default = ProgressLine;
+};
+var _default = ProgressLine;
+exports["default"] = _default;
 //# sourceMappingURL=ProgressLine.js.map

@@ -1,21 +1,15 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.crOptionItem = exports.crPoint = undefined;
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _ccxt = require('ccxt');
+exports.__esModule = true;
+exports["default"] = exports.crOptionItem = exports.crPoint = void 0;
 
-var _ccxt2 = _interopRequireDefault(_ccxt);
+var _ccxt = _interopRequireDefault(require("ccxt"));
 
-var _config = require('../../config');
+var _config = _interopRequireDefault(require("../../config"));
 
-var _config2 = _interopRequireDefault(_config);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var crPoint = exports.crPoint = function crPoint(p) {
+var crPoint = function crPoint(p) {
   return {
     date: p[0],
     open: p[1],
@@ -26,31 +20,38 @@ var crPoint = exports.crPoint = function crPoint(p) {
   };
 };
 
-var crOptionItem = exports.crOptionItem = function crOptionItem(str) {
+exports.crPoint = crPoint;
+
+var crOptionItem = function crOptionItem(str) {
   return {
     caption: str,
     value: str
   };
 };
 
+exports.crOptionItem = crOptionItem;
+
 var crTimeframes = function crTimeframes(obj) {
   var arr = [];
+
   for (var key in obj) {
     arr.push({
       value: key,
       caption: obj[key]
     });
   }
+
   return arr;
 };
 
 var crExchanges = function crExchanges() {
-  return _ccxt2.default.exchanges.map(crOptionItem);
+  return _ccxt["default"].exchanges.map(crOptionItem);
 };
+
 var crExchange = function crExchange(exchange, proxy) {
-  return new _ccxt2.default[exchange]({
-    proxy: proxy || _config2.default.PROXY,
-    rateLimit: _config2.default.RATE_LIMIT
+  return new _ccxt["default"][exchange]({
+    proxy: proxy || _config["default"].PROXY,
+    rateLimit: _config["default"].RATE_LIMIT
   });
 };
 
@@ -59,6 +60,6 @@ var pageFns = {
   crExchanges: crExchanges,
   crTimeframes: crTimeframes
 };
-
-exports.default = pageFns;
+var _default = pageFns;
+exports["default"] = _default;
 //# sourceMappingURL=pageFns.js.map

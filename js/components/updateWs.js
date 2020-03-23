@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 var C = {
   URI_BASE: 'wss://stream.binance.com:9443/ws/',
   URI_SUFFIX: '@kline_1m'
@@ -19,7 +18,7 @@ var _crPoint = function _crPoint(E, k) {
   };
 };
 
-var ws = void 0;
+var ws;
 
 function closeWs() {
   if (ws) {
@@ -28,9 +27,9 @@ function closeWs() {
 }
 
 function connect(pair, onMessage, onOpen, onClose, onSecond) {
-  var _prevMinute = void 0;
-  ws = new WebSocket('' + C.URI_BASE + pair + C.URI_SUFFIX);
+  var _prevMinute;
 
+  ws = new WebSocket("" + C.URI_BASE + pair + C.URI_SUFFIX);
   ws.addEventListener('open', function () {
     _prevMinute = new Date().getMinutes();
     onOpen();
@@ -73,7 +72,6 @@ var updateWs = {
         onOpen = _ref.onOpen,
         onClose = _ref.onClose,
         onSecond = _ref.onSecond;
-
     connect(_toPair(pair), onMessage, onOpen, onClose, onSecond);
   },
   stopLiveUpdate: function stopLiveUpdate() {
@@ -84,6 +82,6 @@ var updateWs = {
     }
   }
 };
-
-exports.default = updateWs;
+var _default = updateWs;
+exports["default"] = _default;
 //# sourceMappingURL=updateWs.js.map

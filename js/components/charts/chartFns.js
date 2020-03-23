@@ -1,8 +1,9 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+exports.__esModule = true;
+exports["default"] = void 0;
 
 var _d3Scale = require("d3-scale");
 
@@ -12,15 +13,9 @@ var _d3Format = require("d3-format");
 
 var _d3TimeFormat = require("d3-time-format");
 
-var _timeIntervalBarWidth = require("./utils/timeIntervalBarWidth");
+var _timeIntervalBarWidth = _interopRequireDefault(require("./utils/timeIntervalBarWidth"));
 
-var _timeIntervalBarWidth2 = _interopRequireDefault(_timeIntervalBarWidth);
-
-var _config = require("./config");
-
-var _config2 = _interopRequireDefault(_config);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _config = _interopRequireDefault(require("./config"));
 
 var _isStr = function _isStr(str) {
   return typeof str === 'string';
@@ -34,7 +29,9 @@ var crTimeInterval = function crTimeInterval(timeframe) {
   if (!timeframe || !_isStr(timeframe)) {
     return _d3Time.utcDay;
   }
+
   var _n = parseInt(timeframe, 10);
+
   if (_isInclude(timeframe, 'm')) {
     return _d3Time.utcMinute.every(_n);
   } else if (_isInclude(timeframe, 'h')) {
@@ -50,14 +47,16 @@ var crTimeInterval = function crTimeInterval(timeframe) {
   return _d3Time.utcDay;
 };
 
-var fromDate = void 0,
-    toDate = void 0,
+var fromDate,
+    toDate,
     xExtends = [];
+
 var crExtends = function crExtends(data, timeframe, itemsNum) {
   var _max = data.length - 1,
       _from = _max < itemsNum ? data[0].date : data[_max - itemsNum].date,
       _recentDate = data.slice(-1)[0].date,
       _to = timeframe === '1m' ? _recentDate + 60 * 1000 * 5 : _recentDate;
+
   return _from === fromDate && _to === toDate ? xExtends : fromDate = _from, toDate = _to, xExtends = [_from, _to];
 };
 
@@ -66,22 +65,18 @@ var crTimeFormat = function crTimeFormat(timeframe) {
 };
 
 var chartFns = {
-  C: _config2.default,
-  timeIntervalBarWidth: _timeIntervalBarWidth2.default,
-
+  C: _config["default"],
+  timeIntervalBarWidth: _timeIntervalBarWidth["default"],
   scaleTime: _d3Scale.scaleTime,
-
   crTimeInterval: crTimeInterval,
   crTimeFormat: crTimeFormat,
   utcMinute: _d3Time.utcMinute,
   utcHour: _d3Time.utcHour,
   utcDay: _d3Time.utcDay,
-
   format: _d3Format.format,
   timeFormat: _d3TimeFormat.timeFormat,
-
   crExtends: crExtends
 };
-
-exports.default = chartFns;
+var _default = chartFns;
+exports["default"] = _default;
 //# sourceMappingURL=chartFns.js.map

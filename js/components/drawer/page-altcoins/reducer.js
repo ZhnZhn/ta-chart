@@ -1,52 +1,63 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _enumAltcoin = require('./enumAltcoin');
-
-var _enumAltcoin2 = _interopRequireDefault(_enumAltcoin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _enumAltcoin = _interopRequireDefault(require("./enumAltcoin"));
 
 var reducer = function reducer(state, action) {
   switch (action.type) {
-    case _enumAltcoin2.default.MARKET_LOADING:
-      return (0, _extends3.default)({}, state, {
-        isMarkets: { loading: true, failed: false }
+    case _enumAltcoin["default"].MARKET_LOADING:
+      return (0, _extends2["default"])({}, state, {
+        isMarkets: {
+          loading: true,
+          failed: false
+        }
       });
-    case _enumAltcoin2.default.MARKET_LOADED:
-      return (0, _extends3.default)({}, state, {
+
+    case _enumAltcoin["default"].MARKET_LOADED:
+      return (0, _extends2["default"])({}, state, {
         exchange: action.exchange,
         markets: action.markets,
-        isMarkets: { loading: false, failed: false }
+        isMarkets: {
+          loading: false,
+          failed: false
+        }
       });
-    case _enumAltcoin2.default.MARKET_LOADING_FAIL:
-      return (0, _extends3.default)({}, state, {
-        isMarkets: { loading: false, failed: true }
+
+    case _enumAltcoin["default"].MARKET_LOADING_FAIL:
+      return (0, _extends2["default"])({}, state, {
+        isMarkets: {
+          loading: false,
+          failed: true
+        }
       });
-    case _enumAltcoin2.default.EXCHANGES_SET:
-      return (0, _extends3.default)({}, state, {
+
+    case _enumAltcoin["default"].EXCHANGES_SET:
+      return (0, _extends2["default"])({}, state, {
         exchanges: action.exchanges
       });
-    case _enumAltcoin2.default.EXCHANGE_SET:
-      return (0, _extends3.default)({}, state, {
+
+    case _enumAltcoin["default"].EXCHANGE_SET:
+      return (0, _extends2["default"])({}, state, {
         exchange: action.exchange,
         pair: undefined
       });
-    case _enumAltcoin2.default.PAIR_SET:
-      return (0, _extends3.default)({}, state, {
+
+    case _enumAltcoin["default"].PAIR_SET:
+      return (0, _extends2["default"])({}, state, {
         pair: action.pair
       });
+
     default:
       throw new TypeError('Not existed action ' + action.type);
   }
 };
 
-exports.default = reducer;
+var _default = reducer;
+exports["default"] = _default;
 //# sourceMappingURL=reducer.js.map

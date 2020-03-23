@@ -1,9 +1,7 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
+exports.__esModule = true;
+exports["default"] = void 0;
 var enumAltcoin = {
   MARKET_LOADING: "MARKET_LOADING",
   MARKET_LOADED: "MARKET_LOADED",
@@ -13,5 +11,7 @@ var enumAltcoin = {
   PAIR_SET: "PAIR_SET"
 };
 
-exports.default = Object.freeze(enumAltcoin);
+var _default = Object.freeze(enumAltcoin);
+
+exports["default"] = _default;
 //# sourceMappingURL=enumAltcoin.js.map

@@ -1,14 +1,13 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var obj = void 0;
+exports.__esModule = true;
+exports["default"] = void 0;
+var obj;
 
 var useInit = function useInit(fn) {
   return obj ? obj : obj = fn();
 };
 
-exports.default = useInit;
+var _default = useInit;
+exports["default"] = _default;
 //# sourceMappingURL=useInit.js.map

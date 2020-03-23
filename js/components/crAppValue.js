@@ -1,30 +1,19 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+var _config = _interopRequireDefault(require("./config"));
 
-var _config = require('./config');
+var _enumData = _interopRequireDefault(require("./enumData"));
 
-var _config2 = _interopRequireDefault(_config);
-
-var _enumData = require('./enumData');
-
-var _enumData2 = _interopRequireDefault(_enumData);
-
-var _updateWs = require('./updateWs');
-
-var _updateWs2 = _interopRequireDefault(_updateWs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _updateWs = _interopRequireDefault(require("./updateWs"));
 
 var crAppValue = function crAppValue(_ref) {
   var appSettings = _ref.appSettings,
@@ -39,51 +28,68 @@ var crAppValue = function crAppValue(_ref) {
     dataAction: {
       loading: function loading() {
         return dispatch({
-          type: _enumData2.default.LOADING
+          type: _enumData["default"].LOADING
         });
       },
       loadData: function loadData(_ref2) {
         var _ref2$timeframe = _ref2.timeframe,
-            timeframe = _ref2$timeframe === undefined ? _config2.default.DF_TIMEFRAME : _ref2$timeframe,
-            rest = (0, _objectWithoutProperties3.default)(_ref2, ['timeframe']);
+            timeframe = _ref2$timeframe === void 0 ? _config["default"].DF_TIMEFRAME : _ref2$timeframe,
+            rest = (0, _objectWithoutPropertiesLoose2["default"])(_ref2, ["timeframe"]);
+        setLiveUpdating({
+          isLiveUpdating: false
+        });
 
-        setLiveUpdating({ isLiveUpdating: false });
-        _updateWs2.default.stopLiveUpdate();
-        dispatch((0, _extends3.default)({
-          type: _enumData2.default.LOADED,
+        _updateWs["default"].stopLiveUpdate();
+
+        dispatch((0, _extends2["default"])({
+          type: _enumData["default"].LOADED,
           timeframe: timeframe
         }, rest));
       },
       loadFailed: function loadFailed() {
         return dispatch({
-          type: _enumData2.default.LOAD_FAILED
+          type: _enumData["default"].LOAD_FAILED
         });
       }
     },
     onLiveUpdate: function onLiveUpdate(pair) {
       var onMessage = function onMessage(point, second) {
         return dispatch({
-          type: _enumData2.default.UPDATE, point: point
+          type: _enumData["default"].UPDATE,
+          point: point
         });
       },
           onOpen = function onOpen() {
-        return setLiveUpdating({ isLiveUpdating: true });
+        return setLiveUpdating({
+          isLiveUpdating: true
+        });
       },
           onClose = function onClose() {
-        return setLiveUpdating({ isLiveUpdating: false });
+        return setLiveUpdating({
+          isLiveUpdating: false
+        });
       },
           onSecond = function onSecond(sec) {
-        return setLiveUpdating({ isLiveUpdating: true, sec: sec });
+        return setLiveUpdating({
+          isLiveUpdating: true,
+          sec: sec
+        });
       };
-      _updateWs2.default.startLiveUpdate({
-        pair: pair, onMessage: onMessage, onOpen: onOpen, onClose: onClose, onSecond: onSecond
+
+      _updateWs["default"].startLiveUpdate({
+        pair: pair,
+        onMessage: onMessage,
+        onOpen: onOpen,
+        onClose: onClose,
+        onSecond: onSecond
       });
     },
     onStopUpdate: function onStopUpdate() {
-      _updateWs2.default.stopLiveUpdate();
+      _updateWs["default"].stopLiveUpdate();
     }
   };
 };
 
-exports.default = crAppValue;
+var _default = crAppValue;
+exports["default"] = _default;
 //# sourceMappingURL=crAppValue.js.map

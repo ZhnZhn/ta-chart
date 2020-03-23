@@ -1,35 +1,25 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _react = require('react');
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _react2 = _interopRequireDefault(_react);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _AppValue = require('../contexts/AppValue');
+var _react = _interopRequireWildcard(require("react"));
 
-var _AppValue2 = _interopRequireDefault(_AppValue);
+var _AppValue = _interopRequireDefault(require("../contexts/AppValue"));
 
-var _SvgClose = require('../zhn/SvgClose');
+var _SvgClose = _interopRequireDefault(require("../zhn/SvgClose"));
 
-var _SvgClose2 = _interopRequireDefault(_SvgClose);
+var _BtTriple = _interopRequireDefault(require("../zhn/BtTriple"));
 
-var _BtTriple = require('../zhn/BtTriple');
-
-var _BtTriple2 = _interopRequireDefault(_BtTriple);
-
-var _setBodyStyle = require('./setBodyStyle');
-
-var _setBodyStyle2 = _interopRequireDefault(_setBodyStyle);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _setBodyStyle = _interopRequireDefault(require("./setBodyStyle"));
 
 var CL = {
   TITLE: 'drawer__title'
 };
-
 var S = {
   TITLE: {
     paddingTop: 12,
@@ -48,33 +38,29 @@ var DrawerTitle = function DrawerTitle(_ref) {
   var onClose = _ref.onClose,
       setThemeId = _ref.setThemeId;
 
-  var _useContext = (0, _react.useContext)(_AppValue2.default),
+  var _useContext = (0, _react.useContext)(_AppValue["default"]),
       theme = _useContext.theme;
 
   var _onClick = function _onClick(value) {
-    (0, _setBodyStyle2.default)(theme.getBgColor(value));
+    (0, _setBodyStyle["default"])(theme.getBgColor(value));
     setThemeId(value);
   };
 
-  return _react2.default.createElement(
-    'div',
-    {
-      className: CL.TITLE,
-      style: S.TITLE
-    },
-    _react2.default.createElement(_BtTriple2.default, {
-      style: S.BT_TRIPLE,
-      oneC: 'GREY',
-      twoC: 'LIGHT',
-      threeC: 'SAND',
-      onClick: _onClick
-    }),
-    _react2.default.createElement(_SvgClose2.default, {
-      style: S.BT_CLOSE,
-      onClick: onClose
-    })
-  );
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: CL.TITLE,
+    style: S.TITLE
+  }, /*#__PURE__*/_react["default"].createElement(_BtTriple["default"], {
+    style: S.BT_TRIPLE,
+    oneC: "GREY",
+    twoC: "LIGHT",
+    threeC: "SAND",
+    onClick: _onClick
+  }), /*#__PURE__*/_react["default"].createElement(_SvgClose["default"], {
+    style: S.BT_CLOSE,
+    onClick: onClose
+  }));
 };
 
-exports.default = DrawerTitle;
+var _default = DrawerTitle;
+exports["default"] = _default;
 //# sourceMappingURL=DrawerTitle.js.map

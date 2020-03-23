@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 var CL = {
   HEADER: 'header',
   LOGO: 'header__logo-notes',
@@ -10,6 +9,6 @@ var CL = {
   HEADER_TITLE: 'header__title',
   SPINNER: 'header__spinner'
 };
-
-exports.default = CL;
+var _default = CL;
+exports["default"] = _default;
 //# sourceMappingURL=CL.js.map

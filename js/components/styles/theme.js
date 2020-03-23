@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 var BG = {
   '1': '#5f5f5f',
   '2': '#e1e1e1',
@@ -10,10 +9,13 @@ var BG = {
 };
 var HEADER = {
   '1': {},
-  '2': { backgroundColor: '#d4d4d4' },
-  '3': { backgroundColor: '#e8dcbe' }
+  '2': {
+    backgroundColor: '#d4d4d4'
+  },
+  '3': {
+    backgroundColor: '#e8dcbe'
+  }
 };
-
 var theme = {
   getBgColor: function getBgColor(value) {
     return BG['' + value];
@@ -25,6 +27,6 @@ var theme = {
     return HEADER['' + value];
   }
 };
-
-exports.default = theme;
+var _default = theme;
+exports["default"] = _default;
 //# sourceMappingURL=theme.js.map

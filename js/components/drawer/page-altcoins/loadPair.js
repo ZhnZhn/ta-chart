@@ -1,10 +1,9 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _pageFns = require('./pageFns');
+var _pageFns = require("./pageFns");
 
 var loadPair = function loadPair(_ref) {
   var exchImpl = _ref.exchImpl,
@@ -12,7 +11,6 @@ var loadPair = function loadPair(_ref) {
       pair = _ref.pair,
       timeframe = _ref.timeframe,
       dataAction = _ref.dataAction;
-
   dataAction.loading();
   exchImpl.fetchOHLCV(pair, timeframe).then(function (ohlcv) {
     return dataAction.loadData({
@@ -21,11 +19,12 @@ var loadPair = function loadPair(_ref) {
       data: ohlcv.map(_pageFns.crPoint),
       timeframe: timeframe
     });
-  }).catch(function (err) {
+  })["catch"](function (err) {
     dataAction.loadFailed();
     console.log(err.message);
   });
 };
 
-exports.default = loadPair;
+var _default = loadPair;
+exports["default"] = _default;
 //# sourceMappingURL=loadPair.js.map

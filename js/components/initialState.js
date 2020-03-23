@@ -1,27 +1,22 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _enumFetch = require('./enumFetch');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _enumFetch2 = _interopRequireDefault(_enumFetch);
+var _enumFetch = _interopRequireDefault(require("./enumFetch"));
 
-var _config = require('./config');
-
-var _config2 = _interopRequireDefault(_config);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _config = _interopRequireDefault(require("./config"));
 
 var initialState = {
-  providerTitle: _config2.default.INITIAL_PROVIDER_TITLE,
-  itemTitle: _config2.default.INITIAL_ITEM_TITLE,
-  data: _config2.default.DF_DATA,
-  timeframe: _config2.default.DF_TIMEFRAME,
-  fetchStatus: _enumFetch2.default.INITIAL,
+  providerTitle: _config["default"].INITIAL_PROVIDER_TITLE,
+  itemTitle: _config["default"].INITIAL_ITEM_TITLE,
+  data: _config["default"].DF_DATA,
+  timeframe: _config["default"].DF_TIMEFRAME,
+  fetchStatus: _enumFetch["default"].INITIAL,
   isLiveUpdating: false
 };
-
-exports.default = initialState;
+var _default = initialState;
+exports["default"] = _default;
 //# sourceMappingURL=initialState.js.map

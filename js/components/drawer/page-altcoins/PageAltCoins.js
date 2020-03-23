@@ -1,74 +1,42 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends3 = _interopRequireDefault(_extends2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _react = require('react');
+var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
 
-var _react2 = _interopRequireDefault(_react);
+var _AppLiveUpdating = _interopRequireDefault(require("../../contexts/AppLiveUpdating"));
 
-var _AppValue = require('../../contexts/AppValue');
+var _BackMenuBt = _interopRequireDefault(require("../BackMenuBt"));
 
-var _AppValue2 = _interopRequireDefault(_AppValue);
+var _CoinSelect = _interopRequireDefault(require("./CoinSelect"));
 
-var _AppLiveUpdating = require('../../contexts/AppLiveUpdating');
+var _FlatButton = _interopRequireDefault(require("../../zhn-m/FlatButton"));
 
-var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
+var _reducer = _interopRequireDefault(require("./reducer"));
 
-var _BackMenuBt = require('../BackMenuBt');
+var _initialState = _interopRequireDefault(require("./initialState"));
 
-var _BackMenuBt2 = _interopRequireDefault(_BackMenuBt);
+var _enumAltcoin = _interopRequireDefault(require("./enumAltcoin"));
 
-var _CoinSelect = require('./CoinSelect');
+var _loadMarkets = _interopRequireDefault(require("./loadMarkets"));
 
-var _CoinSelect2 = _interopRequireDefault(_CoinSelect);
+var _loadPair = _interopRequireDefault(require("./loadPair"));
 
-var _FlatButton = require('../../zhn-m/FlatButton');
+var _pageFns = _interopRequireDefault(require("./pageFns"));
 
-var _FlatButton2 = _interopRequireDefault(_FlatButton);
-
-var _reducer = require('./reducer');
-
-var _reducer2 = _interopRequireDefault(_reducer);
-
-var _initialState = require('./initialState');
-
-var _initialState2 = _interopRequireDefault(_initialState);
-
-var _enumAltcoin = require('./enumAltcoin');
-
-var _enumAltcoin2 = _interopRequireDefault(_enumAltcoin);
-
-var _loadMarkets = require('./loadMarkets');
-
-var _loadMarkets2 = _interopRequireDefault(_loadMarkets);
-
-var _loadPair = require('./loadPair');
-
-var _loadPair2 = _interopRequireDefault(_loadPair);
-
-var _pageFns = require('./pageFns');
-
-var _pageFns2 = _interopRequireDefault(_pageFns);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var crExchange = _pageFns2.default.crExchange,
-    crExchanges = _pageFns2.default.crExchanges,
-    crTimeframes = _pageFns2.default.crTimeframes;
-
-
+var crExchange = _pageFns["default"].crExchange,
+    crExchanges = _pageFns["default"].crExchanges,
+    crTimeframes = _pageFns["default"].crTimeframes;
 var DF_TIMEFRAME = '1d';
-
 var S = {
   ROOT: {
     height: 400
@@ -86,57 +54,54 @@ var PageAltCoins = function PageAltCoins(_ref) {
   var style = _ref.style,
       onPrevPage = _ref.onPrevPage;
 
-  var _useContext = (0, _react.useContext)(_AppValue2.default),
+  var _useContext = (0, _react.useContext)(_AppValue["default"]),
       appSettings = _useContext.appSettings,
       dataAction = _useContext.dataAction,
       onLiveUpdate = _useContext.onLiveUpdate,
       onStopUpdate = _useContext.onStopUpdate,
-      _useContext2 = (0, _react.useContext)(_AppLiveUpdating2.default),
+      _useContext2 = (0, _react.useContext)(_AppLiveUpdating["default"]),
       isLiveUpdating = _useContext2.isLiveUpdating;
 
-  var _useReducer = (0, _react.useReducer)(_reducer2.default, _initialState2.default),
-      _useReducer2 = (0, _slicedToArray3.default)(_useReducer, 2),
-      state = _useReducer2[0],
-      dispatch = _useReducer2[1],
+  var _useReducer = (0, _react.useReducer)(_reducer["default"], _initialState["default"]),
+      state = _useReducer[0],
+      dispatch = _useReducer[1],
       exchange = state.exchange,
       pair = state.pair,
       isMarkets = state.isMarkets,
       exchanges = state.exchanges,
       markets = state.markets,
       _useState = (0, _react.useState)([]),
-      _useState2 = (0, _slicedToArray3.default)(_useState, 2),
-      timeframes = _useState2[0],
-      setTimeframes = _useState2[1],
-      _useState3 = (0, _react.useState)(DF_TIMEFRAME),
-      _useState4 = (0, _slicedToArray3.default)(_useState3, 2),
-      timeframe = _useState4[0],
-      setTimeframe = _useState4[1],
+      timeframes = _useState[0],
+      setTimeframes = _useState[1],
+      _useState2 = (0, _react.useState)(DF_TIMEFRAME),
+      timeframe = _useState2[0],
+      setTimeframe = _useState2[1],
       refExchange = (0, _react.useRef)(null),
       proxy = appSettings.proxy();
 
   (0, _react.useEffect)(function () {
     dispatch({
-      type: _enumAltcoin2.default.EXCHANGES_SET,
+      type: _enumAltcoin["default"].EXCHANGES_SET,
       exchanges: crExchanges()
     });
   }, []);
-
   (0, _react.useEffect)(function () {
     if (exchange) {
       refExchange.current = crExchange(exchange, proxy);
       setTimeframe(DF_TIMEFRAME);
       setTimeframes(crTimeframes(refExchange.current.timeframes));
-      (0, _loadMarkets2.default)({
-        dispatch: dispatch, exchange: exchange,
+      (0, _loadMarkets["default"])({
+        dispatch: dispatch,
+        exchange: exchange,
         exchImpl: refExchange.current
       });
     }
   }, [exchange, proxy]);
-
   (0, _react.useEffect)(function () {
     if (pair && timeframe) {
-      (0, _loadPair2.default)({
-        exchange: exchange, pair: pair,
+      (0, _loadPair["default"])({
+        exchange: exchange,
+        pair: pair,
         timeframe: timeframe,
         exchImpl: refExchange.current,
         dataAction: dataAction
@@ -147,7 +112,7 @@ var PageAltCoins = function PageAltCoins(_ref) {
   var onSelectExchange = function onSelectExchange(item) {
     if (item && item.value) {
       dispatch({
-        type: _enumAltcoin2.default.EXCHANGE_SET,
+        type: _enumAltcoin["default"].EXCHANGE_SET,
         exchange: item.value
       });
     }
@@ -159,39 +124,33 @@ var PageAltCoins = function PageAltCoins(_ref) {
 
   var onSelectMarket = function onSelectMarket(item) {
     dispatch({
-      type: _enumAltcoin2.default.PAIR_SET,
+      type: _enumAltcoin["default"].PAIR_SET,
       pair: item && item.value || undefined
     });
   };
 
-  return _react2.default.createElement(
-    'div',
-    { style: (0, _extends3.default)({}, S.ROOT, style) },
-    _react2.default.createElement(_BackMenuBt2.default, {
-      onClick: onPrevPage
-    }),
-    _react2.default.createElement(_CoinSelect2.default, {
-      exchanges: exchanges,
-      onSelectExchange: onSelectExchange,
-      isMarkets: isMarkets,
-      markets: markets,
-      onSelectMarket: onSelectMarket,
-      timeframes: timeframes,
-      onSelectTimeframe: onSelectTimeframe
-    }),
-    exchange === 'binance' && timeframe === '1m' && _react2.default.createElement(
-      'div',
-      {
-        style: S.DIV_BTS },
-      _react2.default.createElement(_FlatButton2.default, {
-        caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
-        onClick: isLiveUpdating ? onStopUpdate : function () {
-          return onLiveUpdate(pair);
-        }
-      })
-    )
-  );
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    style: (0, _extends2["default"])({}, S.ROOT, {}, style)
+  }, /*#__PURE__*/_react["default"].createElement(_BackMenuBt["default"], {
+    onClick: onPrevPage
+  }), /*#__PURE__*/_react["default"].createElement(_CoinSelect["default"], {
+    exchanges: exchanges,
+    onSelectExchange: onSelectExchange,
+    isMarkets: isMarkets,
+    markets: markets,
+    onSelectMarket: onSelectMarket,
+    timeframes: timeframes,
+    onSelectTimeframe: onSelectTimeframe
+  }), exchange === 'binance' && timeframe === '1m' && /*#__PURE__*/_react["default"].createElement("div", {
+    style: S.DIV_BTS
+  }, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
+    caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
+    onClick: isLiveUpdating ? onStopUpdate : function () {
+      return onLiveUpdate(pair);
+    }
+  })));
 };
 
-exports.default = PageAltCoins;
+var _default = PageAltCoins;
+exports["default"] = _default;
 //# sourceMappingURL=PageAltCoins.js.map

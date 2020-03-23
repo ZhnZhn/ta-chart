@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+exports["default"] = void 0;
 var FETCH = {
   INITIAL: 'INITIAL',
   LOADING: 'LOADING',
@@ -10,5 +9,7 @@ var FETCH = {
   FAILED: 'FAILED'
 };
 
-exports.default = Object.freeze(FETCH);
+var _default = Object.freeze(FETCH);
+
+exports["default"] = _default;
 //# sourceMappingURL=enumFetch.js.map

@@ -1,22 +1,23 @@
 'use strict'
 
 const path = require('path')
-    //, fs = require('fs')
     , webpack = require('webpack')
     , HtmlWebpackPlugin = require('html-webpack-plugin')
-    , HtmlWebpackProcessingPlugin = require('html-webpack-processing-plugin')
-    , postProcessing = require('./plugins/post-processing');
-
+    , postProcessing = require('./plugins/post-processing')
+    , HtmlProcessingWebpackPlugin = require('./plugins/html-processing-webpack-plugin')
+    , babelConfig = require('./babel.config')
+    , TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+  mode: "production",
   cache: true,
   entry: {
     app: path.resolve('src', 'index.jsx')
   },
   output: {
       path: path.resolve('app'),
-      filename: "[name]_[chunkhash].js",
-      chunkFilename: "[name]_[chunkhash].js",
+      filename: "[name]_[contenthash].js",
+      chunkFilename: "[name]_[contenthash].js",
       publicPath: 'app/'
   },
   module: {
@@ -27,26 +28,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            "cacheDirectory": true,
-            "plugins" : [
-                          "transform-decorators-legacy",
-                         [ "transform-react-remove-prop-types", {
-                             "mode": "wrap",
-                             "ignoreFilenames":["node_modules"]
-                         }],
-                         [ "transform-runtime", {
-                             "helpers": true,
-                             "polyfill": false,
-                             "regenerator": false,
-                             "moduleName": "babel-runtime"
-                         }]
-            ],
-            presets: [
-                      //'env',
-                      ['es2015', {modules: false}],
-                      'react',
-                      'stage-2'
-            ]
+             cacheDirectory: true,
+             ...babelConfig  
           }
         },
         include: [
@@ -60,35 +43,29 @@ module.exports = {
     modules: ['local_modules','node_modules'],
     extensions: ['.js', '.jsx']
   },
-  plugins : [
-    new webpack.DefinePlugin({
-       'process.env' : {
-          'NODE_ENV': JSON.stringify('production')
-       }
-    }),
+  plugins : [    
     new webpack.DllReferencePlugin({
       context: '.',
       manifest: require('./dll/lib-manifest.json')
+    }), 
+    /*
+    new webpack.ids.DeterministicModuleIdsPlugin({
+      maxLength: 5
     }),
-    new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-           warnings: false
-        },
-        output: {
-           comments: false
-        }
-    }),
+    */   
     new HtmlWebpackPlugin({
         filename: path.resolve('index.html'),
         template: path.resolve('template', 'index.ejs'),
         inject: false,
         postProcessing: postProcessing
     }),
-    new HtmlWebpackProcessingPlugin()
-  ]
+    new HtmlProcessingWebpackPlugin()
+  ],
+  optimization: {
+    //moduleIds: false,
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    minimize: true,
+    minimizer: [new TerserPlugin()]
+  }
 }

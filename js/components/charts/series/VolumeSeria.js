@@ -1,27 +1,19 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _react = require('react');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _Ch = require('../Ch');
+var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _Ch2 = _interopRequireDefault(_Ch);
+var _chartFns = _interopRequireDefault(require("../chartFns"));
 
-var _chartFns = require('../chartFns');
-
-var _chartFns2 = _interopRequireDefault(_chartFns);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var C = _chartFns2.default.C,
-    timeIntervalBarWidth = _chartFns2.default.timeIntervalBarWidth,
-    format = _chartFns2.default.format;
-
+var C = _chartFns["default"].C,
+    timeIntervalBarWidth = _chartFns["default"].timeIntervalBarWidth,
+    format = _chartFns["default"].format;
 
 var _fill = function _fill(d, dPrev) {
   return d.close > dPrev.close ? C.UP : C.DOWN;
@@ -32,44 +24,43 @@ var VolumeSeria = function VolumeSeria(_ref) {
       height = _ref.height,
       timeInterval = _ref.timeInterval,
       timeFormat = _ref.timeFormat;
-  return _react2.default.createElement(
-    _Ch2.default.Chart,
-    {
-      id: id, height: height,
-      yExtents: function yExtents(d) {
-        return d.volume;
-      },
-      origin: function origin(w, h) {
-        return [0, h - 140];
-      }
+  return /*#__PURE__*/_react["default"].createElement(_Ch["default"].Chart, {
+    id: id,
+    height: height,
+    yExtents: function yExtents(d) {
+      return d.volume;
     },
-    _react2.default.createElement(_Ch2.default.YAxis, {
-      axisAt: 'left', orient: 'left',
-      ticks: 5, tickFormat: format(".0s"),
-      stroke: 'black'
-    }),
-    _react2.default.createElement(_Ch2.default.MouseCoordinateY, {
-      at: 'left', orient: 'left',
-      displayFormat: format(".4s")
-    }),
-    _react2.default.createElement(_Ch2.default.BarSeries, {
-      width: timeIntervalBarWidth(timeInterval),
-      yAccessor: function yAccessor(d) {
-        return d.volume;
-      },
-      fill: _fill,
-      stroke: _fill
-    }),
-    _react2.default.createElement(_Ch2.default.XAxis, {
-      axisAt: 'bottom', orient: 'bottom',
-      ticks: 6
-    }),
-    _react2.default.createElement(_Ch2.default.MouseCoordinateX, {
-      at: 'bottom', orient: 'bottom',
-      displayFormat: timeFormat
-    })
-  );
+    origin: function origin(w, h) {
+      return [0, h - 140];
+    }
+  }, /*#__PURE__*/_react["default"].createElement(_Ch["default"].YAxis, {
+    axisAt: "left",
+    orient: "left",
+    ticks: 5,
+    tickFormat: format(".0s"),
+    stroke: "black"
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MouseCoordinateY, {
+    at: "left",
+    orient: "left",
+    displayFormat: format(".4s")
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].BarSeries, {
+    width: timeIntervalBarWidth(timeInterval),
+    yAccessor: function yAccessor(d) {
+      return d.volume;
+    },
+    fill: _fill,
+    stroke: _fill
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].XAxis, {
+    axisAt: "bottom",
+    orient: "bottom",
+    ticks: 6
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MouseCoordinateX, {
+    at: "bottom",
+    orient: "bottom",
+    displayFormat: timeFormat
+  }));
 };
 
-exports.default = VolumeSeria;
+var _default = VolumeSeria;
+exports["default"] = _default;
 //# sourceMappingURL=VolumeSeria.js.map

@@ -1,56 +1,47 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _react = require('react');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _Ch = require('../Ch');
+var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _Ch2 = _interopRequireDefault(_Ch);
+var _chartFns = _interopRequireDefault(require("../chartFns"));
 
-var _chartFns = require('../chartFns');
-
-var _chartFns2 = _interopRequireDefault(_chartFns);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var format = _chartFns2.default.format;
-
+var format = _chartFns["default"].format;
 
 var CloseSeria = function CloseSeria(_ref) {
   var id = _ref.id,
       height = _ref.height;
-  return _react2.default.createElement(
-    _Ch2.default.Chart,
-    {
-      id: id, height: height,
-      yExtents: function yExtents(d) {
-        return [d.high, d.low];
-      },
-      origin: function origin(w, h) {
-        return [0, h - 510];
-      }
+  return /*#__PURE__*/_react["default"].createElement(_Ch["default"].Chart, {
+    id: id,
+    height: height,
+    yExtents: function yExtents(d) {
+      return [d.high, d.low];
     },
-    _react2.default.createElement(_Ch2.default.YAxis, {
-      axisAt: 'left', orient: 'left',
-      stroke: 'black', ticks: 5
-    }),
-    _react2.default.createElement(_Ch2.default.LineSeries, {
-      yAccessor: function yAccessor(d) {
-        return d.close;
-      },
-      stroke: 'black'
-    }),
-    _react2.default.createElement(_Ch2.default.MouseCoordinateY, {
-      at: 'left', orient: 'left',
-      displayFormat: format(".2f")
-    })
-  );
+    origin: function origin(w, h) {
+      return [0, h - 510];
+    }
+  }, /*#__PURE__*/_react["default"].createElement(_Ch["default"].YAxis, {
+    axisAt: "left",
+    orient: "left",
+    stroke: "black",
+    ticks: 5
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].LineSeries, {
+    yAccessor: function yAccessor(d) {
+      return d.close;
+    },
+    stroke: "black"
+  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MouseCoordinateY, {
+    at: "left",
+    orient: "left",
+    displayFormat: format(".2f")
+  }));
 };
 
-exports.default = CloseSeria;
+var _default = CloseSeria;
+exports["default"] = _default;
 //# sourceMappingURL=CloseSeria.js.map

@@ -1,34 +1,23 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _react = require('react');
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _react2 = _interopRequireDefault(_react);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _AppValue = require('../contexts/AppValue');
+var _react = _interopRequireWildcard(require("react"));
 
-var _AppValue2 = _interopRequireDefault(_AppValue);
+var _AppValue = _interopRequireDefault(require("../contexts/AppValue"));
 
-var _AppThemeId = require('../contexts/AppThemeId');
+var _AppThemeId = _interopRequireDefault(require("../contexts/AppThemeId"));
 
-var _AppThemeId2 = _interopRequireDefault(_AppThemeId);
+var _DrawerTitle = _interopRequireDefault(require("./DrawerTitle"));
 
-var _DrawerTitle = require('./DrawerTitle');
+var _CompSlider = _interopRequireDefault(require("../zhn-slider/CompSlider"));
 
-var _DrawerTitle2 = _interopRequireDefault(_DrawerTitle);
-
-var _CompSlider = require('../zhn-slider/CompSlider');
-
-var _CompSlider2 = _interopRequireDefault(_CompSlider);
-
-var _pageRouter = require('./pageRouter');
-
-var _pageRouter2 = _interopRequireDefault(_pageRouter);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _pageRouter = _interopRequireDefault(require("./pageRouter"));
 
 var CL = {
   ROOT: 'drawer__list'
@@ -37,29 +26,25 @@ var CL = {
 var DrawerMenu = function DrawerMenu(_ref) {
   var onCloseDrawer = _ref.onCloseDrawer;
 
-  var _useContext = (0, _react.useContext)(_AppValue2.default),
+  var _useContext = (0, _react.useContext)(_AppValue["default"]),
       theme = _useContext.theme,
       setThemeId = _useContext.setThemeId,
-      themeId = (0, _react.useContext)(_AppThemeId2.default),
+      themeId = (0, _react.useContext)(_AppThemeId["default"]),
       drawerStyle = theme.getDrawerStyle(themeId);
 
-  return _react2.default.createElement(
-    'div',
-    {
-      className: CL.ROOT,
-      style: drawerStyle
-    },
-    _react2.default.createElement(_DrawerTitle2.default, {
-      setThemeId: setThemeId,
-      onClose: onCloseDrawer
-    }),
-    _react2.default.createElement(_CompSlider2.default, {
-      pageRouter: _pageRouter2.default,
-      initialPageId: 'p1',
-      maxPages: 4
-    })
-  );
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: CL.ROOT,
+    style: drawerStyle
+  }, /*#__PURE__*/_react["default"].createElement(_DrawerTitle["default"], {
+    setThemeId: setThemeId,
+    onClose: onCloseDrawer
+  }), /*#__PURE__*/_react["default"].createElement(_CompSlider["default"], {
+    pageRouter: _pageRouter["default"],
+    initialPageId: "p1",
+    maxPages: 4
+  }));
 };
 
-exports.default = DrawerMenu;
+var _default = DrawerMenu;
+exports["default"] = _default;
 //# sourceMappingURL=DrawerMenu.js.map

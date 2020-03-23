@@ -1,18 +1,15 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _react = require('react');
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _react2 = _interopRequireDefault(_react);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _AppLiveUpdating = require('../contexts/AppLiveUpdating');
+var _react = _interopRequireWildcard(require("react"));
 
-var _AppLiveUpdating2 = _interopRequireDefault(_AppLiveUpdating);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _AppLiveUpdating = _interopRequireDefault(require("../contexts/AppLiveUpdating"));
 
 var S = {
   BT_LOADING: {
@@ -36,26 +33,21 @@ var LiveUpdatingBt = function LiveUpdatingBt(_ref) {
   var spinnerCn = _ref.spinnerCn,
       onStopUpdate = _ref.onStopUpdate;
 
-  var _useContext = (0, _react.useContext)(_AppLiveUpdating2.default),
+  var _useContext = (0, _react.useContext)(_AppLiveUpdating["default"]),
       isLiveUpdating = _useContext.isLiveUpdating,
       sec = _useContext.sec;
 
-  return isLiveUpdating && _react2.default.createElement(
-    'button',
-    {
-      style: S.BT_LOADING,
-      onClick: onStopUpdate },
-    _react2.default.createElement('span', {
-      className: spinnerCn,
-      'data-loader': 'circle'
-    }),
-    _react2.default.createElement(
-      'span',
-      { style: S.SEC },
-      sec
-    )
-  );
+  return isLiveUpdating && /*#__PURE__*/_react["default"].createElement("button", {
+    style: S.BT_LOADING,
+    onClick: onStopUpdate
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: spinnerCn,
+    "data-loader": "circle"
+  }), /*#__PURE__*/_react["default"].createElement("span", {
+    style: S.SEC
+  }, sec));
 };
 
-exports.default = LiveUpdatingBt;
+var _default = LiveUpdatingBt;
+exports["default"] = _default;
 //# sourceMappingURL=LiveUpdatingBt.js.map

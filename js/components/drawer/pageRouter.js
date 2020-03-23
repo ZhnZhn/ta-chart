@@ -1,33 +1,24 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _PageMenu = require('./PageMenu');
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _PageMenu2 = _interopRequireDefault(_PageMenu);
+var _PageMenu = _interopRequireDefault(require("./PageMenu"));
 
-var _PageAltCoins = require('./page-altcoins/PageAltCoins');
+var _PageAltCoins = _interopRequireDefault(require("./page-altcoins/PageAltCoins"));
 
-var _PageAltCoins2 = _interopRequireDefault(_PageAltCoins);
+var _PageStocks = _interopRequireDefault(require("./page-stocks/PageStocks"));
 
-var _PageStocks = require('./page-stocks/PageStocks');
-
-var _PageStocks2 = _interopRequireDefault(_PageStocks);
-
-var _PageSettings = require('./page-settings/PageSettings');
-
-var _PageSettings2 = _interopRequireDefault(_PageSettings);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _PageSettings = _interopRequireDefault(require("./page-settings/PageSettings"));
 
 var pageRouter = {
-  "p1": _PageMenu2.default,
-  "p1-1": _PageSettings2.default,
-  "p1-2": _PageAltCoins2.default,
-  "p1-3": _PageStocks2.default
+  "p1": _PageMenu["default"],
+  "p1-1": _PageSettings["default"],
+  "p1-2": _PageAltCoins["default"],
+  "p1-3": _PageStocks["default"]
 };
-
-exports.default = pageRouter;
+var _default = pageRouter;
+exports["default"] = _default;
 //# sourceMappingURL=pageRouter.js.map

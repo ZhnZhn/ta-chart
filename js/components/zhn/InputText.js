@@ -1,39 +1,27 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _extends3 = _interopRequireDefault(_extends2);
+exports.__esModule = true;
+exports["default"] = void 0;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _class, _temp;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 //import PropTypes from "prop-types";
-
 var S = {
   INPUT_TEXT: {
     display: 'inline',
@@ -51,7 +39,6 @@ var S = {
     marginRight: '5px'
   }
 };
-
 var C = {
   BLANK: '',
   TEXT: 'text',
@@ -72,44 +59,11 @@ var _getInitStateFrom = function _getInitStateFrom(_ref) {
   };
 };
 
-var InputText = (_temp = _class = function (_Component) {
-  (0, _inherits3.default)(InputText, _Component);
+var InputText = /*#__PURE__*/function (_Component) {
+  (0, _inheritsLoose2["default"])(InputText, _Component);
 
-  function InputText(props) {
-    (0, _classCallCheck3.default)(this, InputText);
+  var _super = _createSuper(InputText);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (InputText.__proto__ || Object.getPrototypeOf(InputText)).call(this, props));
-
-    _this._handleInputChange = function (event) {
-      var value = event.target.value,
-          maxLenght = _this.props.maxLenght;
-
-      if (value.length <= maxLenght) {
-        _this.setState({ value: value });
-      }
-    };
-
-    _this._handleKeyDown = function (event) {
-      switch (event.keyCode) {
-        case 27:case 46:
-          event.preventDefault();
-          _this.setState({ value: C.BLANK });
-          break;
-        case 13:
-          if (_this.isOnEnter) {
-            _this.props.onEnter(event.target.value);
-          }
-          break;
-        default:
-          return;
-      }
-    };
-
-    _this.isOnEnter = _isFn(props.onEnter) ? true : false;
-
-    _this.state = _getInitStateFrom(props);
-    return _this;
-  }
   /*
   static propTypes = {
     style: PropTypes.object,
@@ -119,65 +73,109 @@ var InputText = (_temp = _class = function (_Component) {
     onEnter: PropTypes.func
   }
   */
+  function InputText(props) {
+    var _this;
 
+    _this = _Component.call(this, props) || this;
 
-  (0, _createClass3.default)(InputText, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var onReg = this.props.onReg;
+    _this._handleInputChange = function (event) {
+      var value = event.target.value,
+          maxLenght = _this.props.maxLenght;
 
-      if (_isFn(onReg)) {
-        onReg(this);
+      if (value.length <= maxLenght) {
+        _this.setState({
+          value: value
+        });
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          style = _props.style,
-          type = _props.type,
-          spellCheck = _props.spellCheck,
-          placeholder = _props.placeholder,
-          maxLenght = _props.maxLenght,
-          value = this.state.value,
-          _autoCorrect = spellCheck ? C.ON : C.OFF,
-          _spellCheck = spellCheck ? true : false;
+    };
 
-      return _react2.default.createElement('input', {
-        style: (0, _extends3.default)({}, S.INPUT_TEXT, style),
-        type: type || C.TEXT,
-        name: C.TEXT,
-        autoCapitalize: C.OFF,
-        autoComplete: C.OFF,
-        autoCorrect: _autoCorrect,
-        spellCheck: _spellCheck,
-        translate: false,
-        value: value,
-        placeholder: placeholder,
-        maxLength: maxLenght,
-        onChange: this._handleInputChange,
-        onKeyDown: this._handleKeyDown
-      });
+    _this._handleKeyDown = function (event) {
+      switch (event.keyCode) {
+        case 27:
+        case 46:
+          event.preventDefault();
+
+          _this.setState({
+            value: C.BLANK
+          });
+
+          break;
+
+        case 13:
+          if (_this.isOnEnter) {
+            _this.props.onEnter(event.target.value);
+          }
+
+          break;
+
+        default:
+          return;
+      }
+    };
+
+    _this.isOnEnter = _isFn(props.onEnter) ? true : false;
+    _this.state = _getInitStateFrom(props);
+    return _this;
+  }
+
+  var _proto = InputText.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    var onReg = this.props.onReg;
+
+    if (_isFn(onReg)) {
+      onReg(this);
     }
-  }, {
-    key: 'getValue',
-    value: function getValue() {
-      return this.state.value;
-    }
-  }, {
-    key: 'setValue',
-    value: function setValue(value) {
-      this.setState({ value: value });
-    }
-  }], [{
-    key: 'getDerivedStateFromProps',
-    value: function getDerivedStateFromProps(props, state) {
-      return props.initValue !== state.initValue ? _getInitStateFrom(props) : null;
-    }
-  }]);
+  };
+
+  InputText.getDerivedStateFromProps = function getDerivedStateFromProps(props, state) {
+    return props.initValue !== state.initValue ? _getInitStateFrom(props) : null;
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        style = _this$props.style,
+        type = _this$props.type,
+        spellCheck = _this$props.spellCheck,
+        placeholder = _this$props.placeholder,
+        maxLenght = _this$props.maxLenght,
+        value = this.state.value,
+        _autoCorrect = spellCheck ? C.ON : C.OFF,
+        _spellCheck = spellCheck ? true : false;
+
+    return /*#__PURE__*/_react["default"].createElement("input", {
+      style: (0, _extends2["default"])({}, S.INPUT_TEXT, {}, style),
+      type: type || C.TEXT,
+      name: C.TEXT,
+      autoCapitalize: C.OFF,
+      autoComplete: C.OFF,
+      autoCorrect: _autoCorrect,
+      spellCheck: _spellCheck,
+      translate: false,
+      value: value,
+      placeholder: placeholder,
+      maxLength: maxLenght,
+      onChange: this._handleInputChange,
+      onKeyDown: this._handleKeyDown
+    });
+  };
+
+  _proto.getValue = function getValue() {
+    return this.state.value;
+  };
+
+  _proto.setValue = function setValue(value) {
+    this.setState({
+      value: value
+    });
+  };
+
   return InputText;
-}(_react.Component), _class.defaultProps = {
+}(_react.Component);
+
+InputText.defaultProps = {
   maxLenght: 125
-}, _temp);
-exports.default = InputText;
+};
+var _default = InputText;
+exports["default"] = _default;
 //# sourceMappingURL=InputText.js.map
