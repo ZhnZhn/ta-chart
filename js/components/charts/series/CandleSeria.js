@@ -14,6 +14,9 @@ var _chartFns = _interopRequireDefault(require("../chartFns"));
 var C = _chartFns["default"].C,
     timeIntervalBarWidth = _chartFns["default"].timeIntervalBarWidth,
     format = _chartFns["default"].format;
+var CL_TOOLTIP = 'rs-tooltip';
+
+var _noop = function _noop() {};
 
 var _stroke = function _stroke(d, dPrev) {
   return d.close > dPrev.close ? C.UP : C.DOWN;
@@ -95,18 +98,24 @@ var CandleSeria = function CandleSeria(_ref) {
     textFill: "black",
     ohlcFormat: format(".8f"),
     forChart: 3,
-    origin: [5, -90]
+    origin: [5, -90],
+    onClick: _noop
   }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MovingAverageTooltip, {
+    className: CL_TOOLTIP,
+    width: 100,
     fontSize: 15,
     origin: [5, 320],
-    options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)]
+    options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)],
+    onClick: _noop
   }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].BollingerBandTooltip, {
+    className: CL_TOOLTIP,
     fontSize: 15,
     origin: [190, 440],
     yAccessor: function yAccessor(d) {
       return d.bb;
     },
-    options: bb.options()
+    options: bb.options(),
+    onClick: _noop
   }));
 };
 

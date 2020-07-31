@@ -5,6 +5,10 @@ import fns from '../chartFns'
 
 const { format } = fns;
 
+const CL_TOOLTIP = 'rs-tooltip'
+
+const _noop = () => {}
+
 const _rsiStroke = {
   line: "#000000",
   top: "#b8b2bb",
@@ -36,11 +40,13 @@ const RsiSeria = ({ id, height, width, rsi }) => (
       stroke={_rsiStroke}
     />
     <Ch.RSITooltip
+      className={CL_TOOLTIP}
       origin={[width-160, 10]}
       fontSize={15}
       //labelFill="#1b2836"
       yAccessor={d => d.rsi}
       options={rsi.options()}
+      onClick={_noop}
     />
   </Ch.Chart>
 );

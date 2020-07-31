@@ -9,6 +9,10 @@ const {
   format
 } = fns;
 
+const CL_TOOLTIP = 'rs-tooltip'
+
+const _noop = () => {}
+
 const _stroke = (d, dPrev) => d.close > dPrev.close
   ? C.UP
   : C.DOWN;
@@ -92,20 +96,26 @@ const CandleSeria = ({
       ohlcFormat={format(".8f")}
       forChart={3}
       origin={[5, -90]}
+      onClick={_noop}
     />
     <Ch.MovingAverageTooltip
+      className={CL_TOOLTIP}
+      width={100}
       fontSize={15}
       origin={[5, 320]}
       options={[
         _crMaTooltipOption(accessorSma20, optionsSma20),
         _crMaTooltipOption(accessorSma50, optionsSma50)
       ]}
+      onClick={_noop}
     />
     <Ch.BollingerBandTooltip
+      className={CL_TOOLTIP}
       fontSize={15}
       origin={[190, 440]}
       yAccessor={d => d.bb}
       options={bb.options()}
+      onClick={_noop}
     />
   </Ch.Chart>
   );

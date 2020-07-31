@@ -12,6 +12,10 @@ var _Ch = _interopRequireDefault(require("../Ch"));
 var _chartFns = _interopRequireDefault(require("../chartFns"));
 
 var format = _chartFns["default"].format;
+var CL_TOOLTIP = 'rs-tooltip';
+
+var _noop = function _noop() {};
+
 var _rsiStroke = {
   line: "#000000",
   top: "#b8b2bb",
@@ -50,13 +54,15 @@ var RsiSeria = function RsiSeria(_ref) {
     },
     stroke: _rsiStroke
   }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].RSITooltip, {
+    className: CL_TOOLTIP,
     origin: [width - 160, 10],
     fontSize: 15 //labelFill="#1b2836"
     ,
     yAccessor: function yAccessor(d) {
       return d.rsi;
     },
-    options: rsi.options()
+    options: rsi.options(),
+    onClick: _noop
   }));
 };
 
