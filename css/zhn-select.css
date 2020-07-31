@@ -59,7 +59,7 @@
   width: 160px;
   //height: 160px;
   border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;  
+  border-bottom-right-radius: 5px;
 }
 
 .zhn-select__options__div {
@@ -76,11 +76,12 @@
 }
 
 
-.zhn-select__row {  
+.zhn-select__row {
   background-color: #d5d5bc;
   padding-top: 6px;
   padding-left: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: solid 2px transparent;
   cursor: pointer;
 }
 .zhn-select__row:nth-child(odd) {

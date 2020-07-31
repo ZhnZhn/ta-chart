@@ -1,0 +1,9 @@
+.rs-tooltip {
+  font-weight: bold;
+}
+
+.react-stockcharts-tooltip {
+    font-weight: bold;
+    pointer-events: all;
+    cursor: pointer;
+}
