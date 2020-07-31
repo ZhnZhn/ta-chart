@@ -1,1 +1,14 @@
-{"version":3,"sources":["../../../src/components/drawer/pageRouter.js"],"names":["pageRouter","PageMenu","PageSettings","PageAltCoins","PageStocks"],"mappings":";;;;;;;AACA;;AACA;;AACA;;AACA;;AAEA,IAAMA,UAAU,GAAG;AACjB,QAAMC,oBADW;AAEjB,UAAQC,wBAFS;AAGjB,UAAQC,wBAHS;AAIjB,UAAQC;AAJS,CAAnB;eAOeJ,U","sourcesContent":["\r\nimport PageMenu from './PageMenu'\r\nimport PageAltCoins from './page-altcoins/PageAltCoins'\r\nimport PageStocks from './page-stocks/PageStocks'\r\nimport PageSettings from './page-settings/PageSettings'\r\n\r\nconst pageRouter = {\r\n  \"p1\": PageMenu,\r\n  \"p1-1\": PageSettings,\r\n  \"p1-2\": PageAltCoins,\r\n  \"p1-3\": PageStocks,  \r\n};\r\n\r\nexport default pageRouter\r\n"],"file":"pageRouter.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/drawer/pageRouter.js"
+ ],
+ "file": "../../../src/components/drawer/pageRouter.js",
+ "names": [
+  "pageRouter",
+  "PageMenu",
+  "PageSettings",
+  "PageAltCoins"
+ ],
+ "mappings": ";;;;;;;AACA;;AACA;;AAEA;;AADA;AAGA,IAAMA,UAAU,GAAG;AACjB,QAAMC,oBADW;AAEjB,UAAQC,wBAFS;AAGjB,UAAQC,wBAHS,CAIjB;;AAJiB,CAAnB;eAOeH,U"
+}

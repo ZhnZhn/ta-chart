@@ -1,1 +1,18 @@
-{"version":3,"sources":["../../../src/components/drawer/PageMenu.jsx"],"names":["CL","BT","S","UL","listStyleType","PageMenu","style","onNextPage"],"mappings":";;;;;;;;;AAAA;;AAEA;;AAEA,IAAMA,EAAE,GAAG;AACTC,EAAAA,EAAE,EAAE;AADK,CAAX;AAIA,IAAMC,CAAC,GAAG;AACRC,EAAAA,EAAE,EAAE;AACFC,IAAAA,aAAa,EAAE;AADb;AADI,CAAV;;AAMA,IAAMC,QAAQ,GAAG,SAAXA,QAAW;AAAA,MAAGC,KAAH,QAAGA,KAAH;AAAA,MAAUC,UAAV,QAAUA,UAAV;AAAA,sBACf;AAAI,IAAA,KAAK,gCAAML,CAAC,CAACC,EAAR,MAAeG,KAAf;AAAT,kBACE,yDACE,gCAAC,sBAAD;AACE,IAAA,SAAS,EAAEN,EAAE,CAACC,EADhB;AAEE,IAAA,OAAO,EAAC,cAFV;AAGE,IAAA,OAAO,EAAE;AAAA,aAAMM,UAAU,CAAC,MAAD,CAAhB;AAAA;AAHX,IADF,CADF,eAQE,yDACE,gCAAC,sBAAD;AACE,IAAA,SAAS,EAAEP,EAAE,CAACC,EADhB;AAEE,IAAA,OAAO,EAAC,UAFV;AAGE,IAAA,OAAO,EAAE;AAAA,aAAMM,UAAU,CAAC,MAAD,CAAhB;AAAA;AAHX,IADF,CARF,eAeE,yDACE,gCAAC,sBAAD;AACE,IAAA,SAAS,EAAEP,EAAE,CAACC,EADhB;AAEE,IAAA,OAAO,EAAC,QAFV;AAGE,IAAA,OAAO,EAAE;AAAA,aAAMM,UAAU,CAAC,MAAD,CAAhB;AAAA;AAHX,IADF,CAfF,CADe;AAAA,CAAjB;;eA0BeF,Q","sourcesContent":["import React from 'react'\r\n\r\nimport FlatButton from '../zhn-m/FlatButton'\r\n\r\nconst CL = {\r\n  BT: 'drawer__list-bt'\r\n};\r\n\r\nconst S = {\r\n  UL: {\r\n    listStyleType: 'none'\r\n  }\r\n};\r\n\r\nconst PageMenu = ({ style, onNextPage }) => (\r\n  <ul style={{...S.UL, ...style }}>\r\n    <li>\r\n      <FlatButton\r\n        className={CL.BT}\r\n        caption=\"App Settings\"\r\n        onClick={() => onNextPage(\"p1-1\")}\r\n      />\r\n    </li>\r\n    <li>\r\n      <FlatButton\r\n        className={CL.BT}\r\n        caption=\"AltCoins\"\r\n        onClick={() => onNextPage(\"p1-2\")}\r\n      />\r\n    </li>\r\n    <li>\r\n      <FlatButton\r\n        className={CL.BT}\r\n        caption=\"Stocks\"\r\n        onClick={() => onNextPage(\"p1-3\")}\r\n      />\r\n    </li>\r\n  </ul>\r\n);\r\n\r\nexport default PageMenu\r\n"],"file":"PageMenu.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/drawer/PageMenu.js"
+ ],
+ "file": "../../../src/components/drawer/PageMenu.js",
+ "names": [
+  "CL",
+  "BT",
+  "S",
+  "UL",
+  "listStyleType",
+  "PageMenu",
+  "style",
+  "onNextPage"
+ ],
+ "mappings": ";;;;;;;;;AAAA;;AAEA;;AAEA,IAAMA,EAAE,GAAG;AACTC,EAAAA,EAAE,EAAE;AADK,CAAX;AAIA,IAAMC,CAAC,GAAG;AACRC,EAAAA,EAAE,EAAE;AACFC,IAAAA,aAAa,EAAE;AADb;AADI,CAAV;;AAMA,IAAMC,QAAQ,GAAG,SAAXA,QAAW;AAAA,MAAGC,KAAH,QAAGA,KAAH;AAAA,MAAUC,UAAV,QAAUA,UAAV;AAAA,sBACf;AAAI,IAAA,KAAK,gCAAML,CAAC,CAACC,EAAR,MAAeG,KAAf;AAAT,kBACE,yDACE,gCAAC,sBAAD;AACE,IAAA,SAAS,EAAEN,EAAE,CAACC,EADhB;AAEE,IAAA,OAAO,EAAC,cAFV;AAGE,IAAA,OAAO,EAAE;AAAA,aAAMM,UAAU,CAAC,MAAD,CAAhB;AAAA;AAHX,IADF,CADF,eAQE,yDACE,gCAAC,sBAAD;AACE,IAAA,SAAS,EAAEP,EAAE,CAACC,EADhB;AAEE,IAAA,OAAO,EAAC,UAFV;AAGE,IAAA,OAAO,EAAE;AAAA,aAAMM,UAAU,CAAC,MAAD,CAAhB;AAAA;AAHX,IADF,CARF,CADe;AAAA,CAAjB;;eA4BeF,Q"
+}

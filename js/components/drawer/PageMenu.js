@@ -37,12 +37,6 @@ var PageMenu = function PageMenu(_ref) {
     onClick: function onClick() {
       return onNextPage("p1-2");
     }
-  })), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
-    className: CL.BT,
-    caption: "Stocks",
-    onClick: function onClick() {
-      return onNextPage("p1-3");
-    }
   })));
 };
 

@@ -28,6 +28,7 @@ const PageMenu = ({ style, onNextPage }) => (
         onClick={() => onNextPage("p1-2")}
       />
     </li>
+    {/*
     <li>
       <FlatButton
         className={CL.BT}
@@ -35,6 +36,7 @@ const PageMenu = ({ style, onNextPage }) => (
         onClick={() => onNextPage("p1-3")}
       />
     </li>
+    */}
   </ul>
 );
 
