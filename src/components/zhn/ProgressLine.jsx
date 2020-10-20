@@ -1,5 +1,4 @@
-
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 const CL = 'progress-line';
 const DF_COLOR = '#2f7ed8';

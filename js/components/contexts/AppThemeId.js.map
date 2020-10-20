@@ -1,1 +1,11 @@
-{"version":3,"sources":["../../../src/components/contexts/AppThemeId.js"],"names":["AppThemeId","React","createContext"],"mappings":";;;;;;;AAAA;;AAEA,IAAMA,UAAU,GAAGC,kBAAMC,aAAN,EAAnB;;eAEeF,U","sourcesContent":["import React from 'react'\r\n\r\nconst AppThemeId = React.createContext();\r\n\r\nexport default AppThemeId\r\n"],"file":"AppThemeId.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/contexts/AppThemeId.js"
+ ],
+ "file": "../../../src/components/contexts/AppThemeId.js",
+ "names": [
+  "AppThemeId"
+ ],
+ "mappings": ";;;;;AAAA;;AAEA,IAAMA,UAAU,gBAAG,2BAAnB;eAEeA,U"
+}

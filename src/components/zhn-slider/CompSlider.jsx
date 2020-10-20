@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component, createRef, createElement, cloneElement } from 'react'
 
 import throttleOnce from '../../utils/throttleOnce'
 
@@ -60,7 +60,7 @@ class ModalSlider extends Component {
       initialPageId
     } = props;
 
-    this._refPages = React.createRef()
+    this._refPages = createRef()
 
     this.hNextPage = throttleOnce(
       this.hNextPage.bind(this)
@@ -84,13 +84,12 @@ class ModalSlider extends Component {
     }
   }
 
-  _crPageElement = id => React
-     .createElement(this.props.pageRouter[id], {
-        key: id,
-        style: this._pageStyle,
-        onPrevPage: this.hPrevPage,
-        onNextPage: this.hNextPage
-      })
+  _crPageElement = id => createElement(this.props.pageRouter[id], {
+     key: id,
+     style: this._pageStyle,
+     onPrevPage: this.hPrevPage,
+     onNextPage: this.hNextPage
+  })
 
   hPrevPage = () => {
     this.setState(prevState => {
@@ -135,11 +134,10 @@ class ModalSlider extends Component {
 
   _renderPages = () => {
     const { pages, pageCurrent } = this.state;
-    return pages.map((Page, index) => React
-      .cloneElement(Page, {
-         pageCurrent,
-         pageNumber: index + 1,
-       }))
+    return pages.map((Page, index) => cloneElement(Page, {
+      pageCurrent,
+      pageNumber: index + 1,
+    }))
   }
 
   render(){

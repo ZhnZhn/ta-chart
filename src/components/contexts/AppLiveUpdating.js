@@ -1,5 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
 
-const AppLiveUpdating = React.createContext();
+const AppLiveUpdating = createContext();
 
 export default AppLiveUpdating

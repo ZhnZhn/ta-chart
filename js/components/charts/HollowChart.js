@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,7 +7,9 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _Ch = _interopRequireDefault(require("./Ch"));
 
@@ -102,45 +102,47 @@ var HollowChart = function HollowChart(props) {
   var timeInterval = crTimeInterval(timeframe),
       timeFormat = crTimeFormat(timeframe),
       xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
-  return /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     id: id,
-    style: (0, _extends2["default"])({}, S.EL, {}, style)
-  }, /*#__PURE__*/_react["default"].createElement(_Ch["default"].ChartCanvas, {
-    ratio: 2,
-    width: width,
-    height: 550,
-    margin: MARGIN,
-    type: "hybrid",
-    seriesName: "Item",
-    data: calculatedData,
-    xAccessor: _xAccessor,
-    xScale: scaleTime(),
-    xExtents: xExtents
-  }, (0, _RsiSeria["default"])({
-    id: 1,
-    height: 100,
-    width: width,
-    rsi: rsi14
-  }), (0, _CloseSeria["default"])({
-    id: 2,
-    height: 100
-  }), (0, _CandleSeria["default"])({
-    id: 3,
-    height: 300,
-    timeInterval: timeInterval,
-    timeFormat: timeFormat,
-    sma20: sma20,
-    sma50: sma50,
-    bb: bb
-  }), (0, _VolumeSeria["default"])({
-    id: 4,
-    height: 120,
-    timeInterval: timeInterval,
-    timeFormat: timeFormat
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].CrossHairCursor, null)));
+    style: (0, _extends2["default"])({}, S.EL, style),
+    children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].ChartCanvas, {
+      ratio: 2,
+      width: width,
+      height: 550,
+      margin: MARGIN,
+      type: "hybrid",
+      seriesName: "Item",
+      data: calculatedData,
+      xAccessor: _xAccessor,
+      xScale: scaleTime(),
+      xExtents: xExtents,
+      children: [(0, _RsiSeria["default"])({
+        id: 1,
+        height: 100,
+        width: width,
+        rsi: rsi14
+      }), (0, _CloseSeria["default"])({
+        id: 2,
+        height: 100
+      }), (0, _CandleSeria["default"])({
+        id: 3,
+        height: 300,
+        timeInterval: timeInterval,
+        timeFormat: timeFormat,
+        sma20: sma20,
+        sma50: sma50,
+        bb: bb
+      }), (0, _VolumeSeria["default"])({
+        id: 4,
+        height: 120,
+        timeInterval: timeInterval,
+        timeFormat: timeFormat
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].CrossHairCursor, {})]
+    })
+  });
 };
 
-var _default = fitWidth(_react["default"].memo(HollowChart));
+var _default = fitWidth( /*#__PURE__*/(0, _react.memo)(HollowChart));
 
 exports["default"] = _default;
 //# sourceMappingURL=HollowChart.js.map

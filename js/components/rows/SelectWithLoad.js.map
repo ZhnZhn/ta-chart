@@ -1,1 +1,21 @@
-{"version":3,"sources":["../../../src/components/rows/SelectWithLoad.jsx"],"names":["SelectWithLoad","props","optionURI","options","setOptions","isLoading","setIsLoading","isLoadingFailed","setIsLoadingFailed","_onLoadOptions","uri"],"mappings":";;;;;;;;;;;AAAA;;AAEA;;AACA;;AAEA,IAAMA,cAAc,GAAG,SAAjBA,cAAiB,CAACC,KAAD,EAAW;AAC1B,MAAEC,SAAF,GAAgBD,KAAhB,CAAEC,SAAF;AAAA,kBACoB,qBAAS,EAAT,CADpB;AAAA,MACHC,OADG;AAAA,MACMC,UADN;AAAA,mBAEwB,qBAAS,KAAT,CAFxB;AAAA,MAEHC,SAFG;AAAA,MAEQC,YAFR;AAAA,mBAGoC,qBAAS,KAAT,CAHpC;AAAA,MAGHC,eAHG;AAAA,MAGcC,kBAHd;;AAKN,MAAMC,cAAc,GAAG,SAAjBA,cAAiB;AAAA,WAAM,6BAAY;AACvCC,MAAAA,GAAG,EAAER,SADkC;AAEvCE,MAAAA,UAAU,EAAVA,UAFuC;AAE3BE,MAAAA,YAAY,EAAZA,YAF2B;AAEbE,MAAAA,kBAAkB,EAAlBA;AAFa,KAAZ,CAAN;AAAA,GAAvB;;AAKA,wBAAUC,cAAV,EAA0B,CAACP,SAAD,CAA1B;AAEA,sBACE,gCAAC,0BAAD,gCACOD,KADP;AAEG,IAAA,OAAO,EAAEE,OAFZ;AAGG,IAAA,SAAS,EAAEE,SAHd;AAIG,IAAA,eAAe,EAAEE,eAJpB;AAKG,IAAA,YAAY,EAAEE;AALjB,KADF;AASD,CAtBD;;eAwBeT,c","sourcesContent":["import React, { useState, useEffect } from 'react'\r\n\r\nimport RowInputSelect from './RowInputSelect'\r\nimport loadOptions from './loadOptions'\r\n\r\nconst SelectWithLoad = (props) => {\r\n  const { optionURI } = props\r\n  , [options, setOptions] = useState([])\r\n  , [isLoading, setIsLoading] = useState(false)\r\n  , [isLoadingFailed, setIsLoadingFailed] = useState(false);\r\n\r\n  const _onLoadOptions = () => loadOptions({\r\n    uri: optionURI,\r\n    setOptions, setIsLoading, setIsLoadingFailed\r\n  })\r\n\r\n  useEffect(_onLoadOptions, [optionURI])\r\n\r\n  return (\r\n    <RowInputSelect\r\n       {...props}\r\n       options={options}\r\n       isLoading={isLoading}\r\n       isLoadingFailed={isLoadingFailed}\r\n       onLoadOption={_onLoadOptions}\r\n    />\r\n  );\r\n}\r\n\r\nexport default SelectWithLoad\r\n"],"file":"SelectWithLoad.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/rows/SelectWithLoad.js"
+ ],
+ "file": "../../../src/components/rows/SelectWithLoad.js",
+ "names": [
+  "SelectWithLoad",
+  "props",
+  "optionURI",
+  "options",
+  "setOptions",
+  "isLoading",
+  "setIsLoading",
+  "isLoadingFailed",
+  "setIsLoadingFailed",
+  "_onLoadOptions",
+  "uri"
+ ],
+ "mappings": ";;;;;;;;;;;AAAA;;AAEA;;AACA;;AAEA,IAAMA,cAAc,GAAG,SAAjBA,cAAiB,CAACC,KAAD,EAAW;AAC1B,MAAEC,SAAF,GAAgBD,KAAhB,CAAEC,SAAF;AAAA,kBACoB,qBAAS,EAAT,CADpB;AAAA,MACHC,OADG;AAAA,MACMC,UADN;AAAA,mBAEwB,qBAAS,KAAT,CAFxB;AAAA,MAEHC,SAFG;AAAA,MAEQC,YAFR;AAAA,mBAGoC,qBAAS,KAAT,CAHpC;AAAA,MAGHC,eAHG;AAAA,MAGcC,kBAHd;;AAKN,MAAMC,cAAc,GAAG,SAAjBA,cAAiB;AAAA,WAAM,6BAAY;AACvCC,MAAAA,GAAG,EAAER,SADkC;AAEvCE,MAAAA,UAAU,EAAVA,UAFuC;AAE3BE,MAAAA,YAAY,EAAZA,YAF2B;AAEbE,MAAAA,kBAAkB,EAAlBA;AAFa,KAAZ,CAAN;AAAA,GAAvB;;AAKA,wBAAUC,cAAV,EAA0B,CAACP,SAAD,CAA1B;AAEA,sBACE,qBAAC,0BAAD,gCACOD,KADP;AAEG,IAAA,OAAO,EAAEE,OAFZ;AAGG,IAAA,SAAS,EAAEE,SAHd;AAIG,IAAA,eAAe,EAAEE,eAJpB;AAKG,IAAA,YAAY,EAAEE;AALjB,KADF;AASD,CAtBD;;eAwBeT,c"
+}

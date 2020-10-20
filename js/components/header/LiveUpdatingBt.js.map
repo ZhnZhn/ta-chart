@@ -1,1 +1,29 @@
-{"version":3,"sources":["../../../src/components/header/LiveUpdatingBt.jsx"],"names":["S","BT_LOADING","position","top","left","display","verticalAlign","cursor","SEC","color","paddingLeft","fontSize","fontWeight","LiveUpdatingBt","spinnerCn","onStopUpdate","AppLiveUpdating","isLiveUpdating","sec"],"mappings":";;;;;;;;;AAAA;;AAEA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,UAAU,EAAE;AACVC,IAAAA,QAAQ,EAAE,UADA;AAEVC,IAAAA,GAAG,EAAE,CAFK;AAGVC,IAAAA,IAAI,EAAE,CAHI;AAIVC,IAAAA,OAAO,EAAE,cAJC;AAKVC,IAAAA,aAAa,EAAE,QALL;AAMVC,IAAAA,MAAM,EAAE;AANE,GADJ;AASRC,EAAAA,GAAG,EAAE;AACHC,IAAAA,KAAK,EAAE,SADJ;AAEHJ,IAAAA,OAAO,EAAE,cAFN;AAGHK,IAAAA,WAAW,EAAE,CAHV;AAIHC,IAAAA,QAAQ,EAAE,EAJP;AAKHC,IAAAA,UAAU,EAAE;AALT;AATG,CAAV;;AAkBA,IAAMC,cAAc,GAAG,SAAjBA,cAAiB,OAGjB;AAAA,MAFJC,SAEI,QAFJA,SAEI;AAAA,MADJC,YACI,QADJA,YACI;;AAAA,oBAC2B,uBAAWC,2BAAX,CAD3B;AAAA,MACIC,cADJ,eACIA,cADJ;AAAA,MACoBC,GADpB,eACoBA,GADpB;;AAEJ,SACED,cAAc,iBAAI;AACf,IAAA,KAAK,EAAEjB,CAAC,CAACC,UADM;AAEf,IAAA,OAAO,EAAEc;AAFM,kBAGd;AACE,IAAA,SAAS,EAAED,SADb;AAEE,mBAAY;AAFd,IAHc,eAOd;AAAM,IAAA,KAAK,EAAEd,CAAC,CAACQ;AAAf,KAAqBU,GAArB,CAPc,CADpB;AAWD,CAhBD;;eAkBeL,c","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppLiveUpdating from '../contexts/AppLiveUpdating'\r\n\r\nconst S = {\r\n  BT_LOADING: {\r\n    position: 'relative',\r\n    top: 6,\r\n    left: 8,\r\n    display: 'inline-block',\r\n    verticalAlign: 'middle',\r\n    cursor: 'pointer'\r\n  },\r\n  SEC: {\r\n    color: '#80c040',\r\n    display: 'inline-block',\r\n    paddingLeft: 6,\r\n    fontSize: 16,\r\n    fontWeight: 'bold'\r\n  }\r\n};\r\n\r\nconst LiveUpdatingBt = ({\r\n  spinnerCn,\r\n  onStopUpdate\r\n}) => {\r\n  const { isLiveUpdating, sec} = useContext(AppLiveUpdating);\r\n  return (\r\n    isLiveUpdating && <button\r\n       style={S.BT_LOADING}\r\n       onClick={onStopUpdate}>\r\n        <span\r\n          className={spinnerCn}\r\n          data-loader=\"circle\"\r\n        />\r\n        <span style={S.SEC}>{sec}</span>\r\n      </button>\r\n  );\r\n};\r\n\r\nexport default LiveUpdatingBt\r\n"],"file":"LiveUpdatingBt.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/header/LiveUpdatingBt.js"
+ ],
+ "file": "../../../src/components/header/LiveUpdatingBt.js",
+ "names": [
+  "S",
+  "BT_LOADING",
+  "position",
+  "top",
+  "left",
+  "display",
+  "verticalAlign",
+  "cursor",
+  "SEC",
+  "color",
+  "paddingLeft",
+  "fontSize",
+  "fontWeight",
+  "LiveUpdatingBt",
+  "spinnerCn",
+  "onStopUpdate",
+  "AppLiveUpdating",
+  "isLiveUpdating",
+  "sec"
+ ],
+ "mappings": ";;;;;;;;;AAAA;;AAEA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,UAAU,EAAE;AACVC,IAAAA,QAAQ,EAAE,UADA;AAEVC,IAAAA,GAAG,EAAE,CAFK;AAGVC,IAAAA,IAAI,EAAE,CAHI;AAIVC,IAAAA,OAAO,EAAE,cAJC;AAKVC,IAAAA,aAAa,EAAE,QALL;AAMVC,IAAAA,MAAM,EAAE;AANE,GADJ;AASRC,EAAAA,GAAG,EAAE;AACHC,IAAAA,KAAK,EAAE,SADJ;AAEHJ,IAAAA,OAAO,EAAE,cAFN;AAGHK,IAAAA,WAAW,EAAE,CAHV;AAIHC,IAAAA,QAAQ,EAAE,EAJP;AAKHC,IAAAA,UAAU,EAAE;AALT;AATG,CAAV;;AAkBA,IAAMC,cAAc,GAAG,SAAjBA,cAAiB,OAGjB;AAAA,MAFJC,SAEI,QAFJA,SAEI;AAAA,MADJC,YACI,QADJA,YACI;;AAAA,oBAC2B,uBAAWC,2BAAX,CAD3B;AAAA,MACIC,cADJ,eACIA,cADJ;AAAA,MACoBC,GADpB,eACoBA,GADpB;;AAEJ,SACED,cAAc,iBAAI;AACf,IAAA,KAAK,EAAEjB,CAAC,CAACC,UADM;AAEf,IAAA,OAAO,EAAEc,YAFM;AAAA,4BAGd;AACE,MAAA,SAAS,EAAED,SADb;AAEE,qBAAY;AAFd,MAHc,eAOd;AAAM,MAAA,KAAK,EAAEd,CAAC,CAACQ,GAAf;AAAA,gBAAqBU;AAArB,MAPc;AAAA,IADpB;AAWD,CAhBD;;eAkBeL,c"
+}

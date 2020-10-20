@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 //import PropTypes from 'prop-types'
 
 import ArrowCell from './ArrowCell';
@@ -511,7 +511,7 @@ class InputSelect extends Component {
         <span
           className={CL.SPINNER}
           data-loader="circle"
-        />        
+        />
       );
     } else if (isLoadingFailed) {
        _placeholder=`Loading ${optionNames} Failed`;

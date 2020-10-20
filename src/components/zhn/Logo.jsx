@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CL from '../styles/CL'
 
 const TITLE = "Logo of web app TA Chart v0.2.0";

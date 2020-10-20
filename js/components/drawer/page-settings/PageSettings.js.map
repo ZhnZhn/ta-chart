@@ -1,1 +1,42 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-settings/PageSettings.jsx"],"names":["S","PAGE","paddingLeft","LABEL","display","paddingBottom","color","fontWeight","INPUT","width","height","paddingTop","BTS","paddingRight","PageSetting","style","onPrevPage","AppValue","appSettings","refInput","proxyKey","forceUpdate","onEnterProxy","str","proxy","onApply","current","getValue","onRestore","restoreProxy","n","_proxy"],"mappings":";;;;;;;;;;;AAAA;;AAEA;;AAEA;;AACA;;AACA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,IAAI,EAAE;AACJC,IAAAA,WAAW,EAAE;AADT,GADE;AAIRC,EAAAA,KAAK,EAAE;AACLC,IAAAA,OAAO,EAAE,cADJ;AAELF,IAAAA,WAAW,EAAE,CAFR;AAGLG,IAAAA,aAAa,EAAE,CAHV;AAILC,IAAAA,KAAK,EAAE,SAJF;AAKLC,IAAAA,UAAU,EAAE;AALP,GAJC;AAWRC,EAAAA,KAAK,EAAE;AACLJ,IAAAA,OAAO,EAAE,OADJ;AAELK,IAAAA,KAAK,EAAE,KAFF;AAGLC,IAAAA,MAAM,EAAE,EAHH;AAILC,IAAAA,UAAU,EAAE,CAJP;AAKLN,IAAAA,aAAa,EAAE;AALV,GAXC;AAkBRO,EAAAA,GAAG,EAAE;AACH,aAAO,OADJ;AAEHD,IAAAA,UAAU,EAAE,CAFT;AAGHE,IAAAA,YAAY,EAAE;AAHX;AAlBG,CAAV;;AAyBA,IAAMC,WAAW,GAAG,SAAdA,WAAc,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACrB,uBAAWC,oBAAX,CADqB;AAAA,MACrCC,WADqC,eACrCA,WADqC;AAAA,MAE3CC,QAF2C,GAEhC,oBAFgC;AAAA,kBAGjB,qBAAS,CAAT,CAHiB;AAAA,MAG1CC,QAH0C;AAAA,MAGhCC,WAHgC;AAAA,MAI3CC,YAJ2C,GAI5B,SAAfA,YAAe,CAACC,GAAD,EAAS;AACvBL,IAAAA,WAAW,CAACM,KAAZ,CAAkBD,GAAlB;AACF,GAN4C;AAAA,MAO3CE,OAP2C,GAOjC,SAAVA,OAAU,GAAM;AACfP,IAAAA,WAAW,CAACM,KAAZ,CAAkBL,QAAQ,CAACO,OAAT,CAAiBC,QAAjB,EAAlB;AACF,GAT4C;AAAA,MAU3CC,SAV2C,GAU/B,SAAZA,SAAY,GAAM;AACjBV,IAAAA,WAAW,CAACW,YAAZ;AACAR,IAAAA,WAAW,CAAC,UAAAS,CAAC;AAAA,aAAIA,CAAC,GAAC,CAAN;AAAA,KAAF,CAAX;AACF,GAb4C;AAAA,MAc3CC,MAd2C,GAclCb,WAAW,CAACM,KAAZ,EAdkC;;AAe7C,sBACE;AAAK,IAAA,KAAK,gCAAOxB,CAAC,CAACC,IAAT,MAAkBc,KAAlB;AAAV,kBACE,gCAAC,sBAAD;AAAY,IAAA,OAAO,EAAEC;AAArB,IADF,eAEE,0DACE;AAAM,IAAA,KAAK,EAAEhB,CAAC,CAACG;AAAf,oBADF,eAIE,gCAAC,qBAAD;AACE,IAAA,GAAG,EAAEiB,QADP;AAEE,IAAA,GAAG,EAAED,QAFP;AAGE,IAAA,KAAK,EAAEnB,CAAC,CAACQ,KAHX;AAIE,IAAA,SAAS,EAAEuB,MAJb;AAKE,IAAA,OAAO,EAAET;AALX,IAJF,eAWE;AAAK,IAAA,KAAK,EAAEtB,CAAC,CAACY;AAAd,kBACE,gCAAC,sBAAD;AACE,IAAA,OAAO,EAAC,SADV;AAEE,IAAA,OAAO,EAAEgB;AAFX,IADF,eAKE,gCAAC,sBAAD;AACE,IAAA,OAAO,EAAC,OADV;AAEE,IAAA,OAAO,EAAEH;AAFX,IALF,CAXF,CAFF,CADF;AA2BD,CA1CD;;eA4CeX,W","sourcesContent":["import React, { useContext, useRef, useState } from 'react'\r\n\r\nimport AppValue from '../../contexts/AppValue'\r\n\r\nimport InputText from '../../zhn/InputText'\r\nimport FlatButton from '../../zhn-m/FlatButton'\r\nimport BackMenuBt from '../BackMenuBt'\r\n\r\nconst S = {\r\n  PAGE: {\r\n    paddingLeft: 4\r\n  },\r\n  LABEL: {\r\n    display: 'inline-block',\r\n    paddingLeft: 8,\r\n    paddingBottom: 4,\r\n    color: '#265782',\r\n    fontWeight: 'bold'\r\n  },\r\n  INPUT: {\r\n    display: 'block',\r\n    width: '92%',\r\n    height: 32,\r\n    paddingTop: 8,\r\n    paddingBottom: 8\r\n  },\r\n  BTS: {\r\n    float: 'right',\r\n    paddingTop: 6,\r\n    paddingRight: 22\r\n  }\r\n}\r\n\r\nconst PageSetting = ({ style, onPrevPage }) => {\r\n  const { appSettings } = useContext(AppValue)\r\n  , refInput = useRef()\r\n  , [proxyKey, forceUpdate] = useState(0)\r\n  , onEnterProxy = (str) => {\r\n     appSettings.proxy(str)\r\n  }\r\n  , onApply = () => {\r\n     appSettings.proxy(refInput.current.getValue())\r\n  }\r\n  , onRestore = () => {\r\n     appSettings.restoreProxy()\r\n     forceUpdate(n => n+1)\r\n  }\r\n  , _proxy = appSettings.proxy()\r\n  return (\r\n    <div style={{ ...S.PAGE, ...style }}>\r\n      <BackMenuBt onClick={onPrevPage} />\r\n      <div>\r\n        <span style={S.LABEL}>\r\n          Proxy Server\r\n        </span>\r\n        <InputText\r\n          key={proxyKey}\r\n          ref={refInput}\r\n          style={S.INPUT}\r\n          initValue={_proxy}\r\n          onEnter={onEnterProxy}\r\n        />\r\n        <div style={S.BTS}>\r\n          <FlatButton\r\n            caption=\"Restore\"\r\n            onClick={onRestore}\r\n          />\r\n          <FlatButton\r\n            caption=\"Apply\"\r\n            onClick={onApply}\r\n          />\r\n        </div>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default PageSetting\r\n"],"file":"PageSettings.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-settings/PageSettings.js"
+ ],
+ "file": "../../../../src/components/drawer/page-settings/PageSettings.js",
+ "names": [
+  "S",
+  "PAGE",
+  "paddingLeft",
+  "LABEL",
+  "display",
+  "paddingBottom",
+  "color",
+  "fontWeight",
+  "INPUT",
+  "width",
+  "height",
+  "paddingTop",
+  "BTS",
+  "paddingRight",
+  "PageSetting",
+  "style",
+  "onPrevPage",
+  "AppValue",
+  "appSettings",
+  "refInput",
+  "proxyKey",
+  "forceUpdate",
+  "onEnterProxy",
+  "str",
+  "proxy",
+  "onApply",
+  "current",
+  "getValue",
+  "onRestore",
+  "restoreProxy",
+  "n",
+  "_proxy"
+ ],
+ "mappings": ";;;;;;;;;;;AAAA;;AAEA;;AAEA;;AACA;;AACA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,IAAI,EAAE;AACJC,IAAAA,WAAW,EAAE;AADT,GADE;AAIRC,EAAAA,KAAK,EAAE;AACLC,IAAAA,OAAO,EAAE,cADJ;AAELF,IAAAA,WAAW,EAAE,CAFR;AAGLG,IAAAA,aAAa,EAAE,CAHV;AAILC,IAAAA,KAAK,EAAE,SAJF;AAKLC,IAAAA,UAAU,EAAE;AALP,GAJC;AAWRC,EAAAA,KAAK,EAAE;AACLJ,IAAAA,OAAO,EAAE,OADJ;AAELK,IAAAA,KAAK,EAAE,KAFF;AAGLC,IAAAA,MAAM,EAAE,EAHH;AAILC,IAAAA,UAAU,EAAE,CAJP;AAKLN,IAAAA,aAAa,EAAE;AALV,GAXC;AAkBRO,EAAAA,GAAG,EAAE;AACH,aAAO,OADJ;AAEHD,IAAAA,UAAU,EAAE,CAFT;AAGHE,IAAAA,YAAY,EAAE;AAHX;AAlBG,CAAV;;AAyBA,IAAMC,WAAW,GAAG,SAAdA,WAAc,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACrB,uBAAWC,oBAAX,CADqB;AAAA,MACrCC,WADqC,eACrCA,WADqC;AAAA,MAE3CC,QAF2C,GAEhC,oBAFgC;AAAA,kBAGjB,qBAAS,CAAT,CAHiB;AAAA,MAG1CC,QAH0C;AAAA,MAGhCC,WAHgC;AAAA,MAI3CC,YAJ2C,GAI5B,SAAfA,YAAe,CAACC,GAAD,EAAS;AACvBL,IAAAA,WAAW,CAACM,KAAZ,CAAkBD,GAAlB;AACF,GAN4C;AAAA,MAO3CE,OAP2C,GAOjC,SAAVA,OAAU,GAAM;AACfP,IAAAA,WAAW,CAACM,KAAZ,CAAkBL,QAAQ,CAACO,OAAT,CAAiBC,QAAjB,EAAlB;AACF,GAT4C;AAAA,MAU3CC,SAV2C,GAU/B,SAAZA,SAAY,GAAM;AACjBV,IAAAA,WAAW,CAACW,YAAZ;AACAR,IAAAA,WAAW,CAAC,UAAAS,CAAC;AAAA,aAAIA,CAAC,GAAC,CAAN;AAAA,KAAF,CAAX;AACF,GAb4C;AAAA,MAc3CC,MAd2C,GAclCb,WAAW,CAACM,KAAZ,EAdkC;;AAe7C,sBACE;AAAK,IAAA,KAAK,gCAAOxB,CAAC,CAACC,IAAT,EAAkBc,KAAlB,CAAV;AAAA,4BACE,qBAAC,sBAAD;AAAY,MAAA,OAAO,EAAEC;AAArB,MADF,eAEE;AAAA,8BACE;AAAM,QAAA,KAAK,EAAEhB,CAAC,CAACG,KAAf;AAAA;AAAA,QADF,eAIE,qBAAC,qBAAD;AAEE,QAAA,GAAG,EAAEgB,QAFP;AAGE,QAAA,KAAK,EAAEnB,CAAC,CAACQ,KAHX;AAIE,QAAA,SAAS,EAAEuB,MAJb;AAKE,QAAA,OAAO,EAAET;AALX,SACOF,QADP,CAJF,eAWE;AAAK,QAAA,KAAK,EAAEpB,CAAC,CAACY,GAAd;AAAA,gCACE,qBAAC,sBAAD;AACE,UAAA,OAAO,EAAC,SADV;AAEE,UAAA,OAAO,EAAEgB;AAFX,UADF,eAKE,qBAAC,sBAAD;AACE,UAAA,OAAO,EAAC,OADV;AAEE,UAAA,OAAO,EAAEH;AAFX,UALF;AAAA,QAXF;AAAA,MAFF;AAAA,IADF;AA2BD,CA1CD;;eA4CeX,W"
+}

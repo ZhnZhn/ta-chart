@@ -1,1 +1,36 @@
-{"version":3,"sources":["../../../src/components/header/Header.jsx"],"names":["_toFirstCapital","text","charAt","toUpperCase","substr","TitleSpan","is","CL","HEADER_TITLE","Header","fetchStatus","providerTitle","itemTitle","timeframe","isLiveUpdating","rest","AppValue","theme","onStopUpdate","themeId","AppThemeId","headerStyle","getHeaderStyle","HEADER","TITLE_GAP","SPINNER"],"mappings":";;;;;;;;;;;AAAA;;AAEA;;AACA;;AAEA;;AAEA;;AACA;;AACA;;AACA;;AAEA,IAAMA,eAAe,GAAG,SAAlBA,eAAkB,CAAAC,IAAI;AAAA,SAAIA,IAAI,CAClCC,MAD8B,CACvB,CADuB,EACpBC,WADoB,KACJF,IAAI,CAACG,MAAL,CAAY,CAAZ,CADA;AAAA,CAA5B;;AAGA,IAAMC,SAAS,GAAG,SAAZA,SAAY;AAAA,MAAGJ,IAAH,QAAGA,IAAH;AAAA,MAASK,EAAT,QAASA,EAAT;AAAA,sBAChB;AAAM,IAAA,SAAS,EAAEC,eAAGC;AAApB,KACGR,eAAe,CAACC,IAAD,CADlB,EAEI,CAACK,EAAD,iBAAO,sDAFX,CADgB;AAAA,CAAlB;;AAOA,IAAMG,MAAM,GAAG,SAATA,MAAS,QAOT;AAAA,MANJC,WAMI,SANJA,WAMI;AAAA,kCALJC,aAKI;AAAA,MALJA,aAKI,oCALU,EAKV;AAAA,8BAJJC,SAII;AAAA,MAJJA,SAII,gCAJM,EAIN;AAAA,8BAHJC,SAGI;AAAA,MAHJA,SAGI,gCAHM,EAGN;AAAA,MAFJC,cAEI,SAFJA,cAEI;AAAA,MADDC,IACC;;AAAA,oBAC4B,uBAAWC,oBAAX,CAD5B;AAAA,MACIC,KADJ,eACIA,KADJ;AAAA,MACWC,YADX,eACWA,YADX;AAAA,MAEFC,OAFE,GAEQ,uBAAWC,sBAAX,CAFR;AAAA,MAGFC,WAHE,GAGYJ,KAAK,CAACK,cAAN,CAAqBH,OAArB,CAHZ;;AAIJ,sBACE;AACE,IAAA,SAAS,EAAEZ,eAAGgB,MADhB;AAEE,IAAA,KAAK,EAAEF;AAFT,kBAIE,gCAAC,2BAAD;AAAiB,IAAA,WAAW,EAAEX;AAA9B,IAJF,eAKE,gCAAC,gBAAD,OALF,eAME;AAAM,IAAA,SAAS,EAAEH,eAAGiB;AAApB,IANF,eAOE,gCAAC,SAAD;AAAW,IAAA,IAAI,EAAEb;AAAjB,IAPF,eAQE,gCAAC,SAAD;AAAW,IAAA,IAAI,EAAEC;AAAjB,IARF,eASE,gCAAC,SAAD;AAAW,IAAA,IAAI,EAAEC,SAAjB;AAA4B,IAAA,EAAE,EAAE;AAAhC,IATF,eAUE,gCAAC,0BAAD;AACE,IAAA,SAAS,EAAEN,eAAGkB,OADhB;AAEE,IAAA,YAAY,EAAEP;AAFhB,IAVF,eAcE,gCAAC,wBAAD,EAAkBH,IAAlB,CAdF,CADF;AAkBD,CA7BD;;eA+BeN,M","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppValue from '../contexts/AppValue'\r\nimport AppThemeId from '../contexts/AppThemeId'\r\n\r\nimport Logo from '../zhn/Logo'\r\n\r\nimport CL from '../styles/CL'\r\nimport ProgressLoading from './ProgressLoading'\r\nimport HeaderDrawer from '../drawer/HeaderDrawer'\r\nimport LiveUpdatingBt from './LiveUpdatingBt'\r\n\r\nconst _toFirstCapital = text => text\r\n .charAt(0).toUpperCase() + text.substr(1);\r\n\r\nconst TitleSpan = ({ text, is }) => (\r\n  <span className={CL.HEADER_TITLE}>\r\n    {_toFirstCapital(text)}\r\n    { !is && <span>:&nbsp;</span> }\r\n  </span>\r\n);\r\n\r\nconst Header = ({\r\n  fetchStatus,\r\n  providerTitle='',\r\n  itemTitle='',\r\n  timeframe='',\r\n  isLiveUpdating,\r\n  ...rest\r\n}) => {\r\n  const { theme, onStopUpdate } = useContext(AppValue)\r\n  , themeId = useContext(AppThemeId)\r\n  , headerStyle = theme.getHeaderStyle(themeId);\r\n  return (\r\n    <header\r\n      className={CL.HEADER}\r\n      style={headerStyle}\r\n    >\r\n      <ProgressLoading fetchStatus={fetchStatus} />\r\n      <Logo />\r\n      <span className={CL.TITLE_GAP} />\r\n      <TitleSpan text={providerTitle} />\r\n      <TitleSpan text={itemTitle} />\r\n      <TitleSpan text={timeframe} is={true} />\r\n      <LiveUpdatingBt\r\n        spinnerCn={CL.SPINNER}\r\n        onStopUpdate={onStopUpdate}\r\n      />\r\n      <HeaderDrawer {...rest} />\r\n    </header>\r\n  );\r\n}\r\n\r\nexport default Header\r\n"],"file":"Header.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/header/Header.js"
+ ],
+ "file": "../../../src/components/header/Header.js",
+ "names": [
+  "_toFirstCapital",
+  "text",
+  "charAt",
+  "toUpperCase",
+  "substr",
+  "TitleSpan",
+  "is",
+  "CL",
+  "HEADER_TITLE",
+  "Header",
+  "fetchStatus",
+  "providerTitle",
+  "itemTitle",
+  "timeframe",
+  "isLiveUpdating",
+  "rest",
+  "AppValue",
+  "theme",
+  "onStopUpdate",
+  "themeId",
+  "AppThemeId",
+  "headerStyle",
+  "getHeaderStyle",
+  "HEADER",
+  "TITLE_GAP",
+  "SPINNER"
+ ],
+ "mappings": ";;;;;;;;;;;;;AAAA;;AAEA;;AACA;;AAEA;;AAEA;;AACA;;AACA;;AACA;;AAEA,IAAMA,eAAe,GAAG,SAAlBA,eAAkB,CAAAC,IAAI;AAAA,SAAIA,IAAI,CAClCC,MAD8B,CACvB,CADuB,EACpBC,WADoB,KACJF,IAAI,CAACG,MAAL,CAAY,CAAZ,CADA;AAAA,CAA5B;;AAGA,IAAMC,SAAS,GAAG,SAAZA,SAAY;AAAA,MAAGJ,IAAH,QAAGA,IAAH;AAAA,MAASK,EAAT,QAASA,EAAT;AAAA,sBAChB;AAAM,IAAA,SAAS,EAAEC,eAAGC,YAApB;AAAA,eACGR,eAAe,CAACC,IAAD,CADlB,EAEI,CAACK,EAAD,iBAAO;AAAA;AAAA,MAFX;AAAA,IADgB;AAAA,CAAlB;;AAOA,IAAMG,MAAM,GAAG,SAATA,MAAS,QAOT;AAAA,MANJC,WAMI,SANJA,WAMI;AAAA,kCALJC,aAKI;AAAA,MALJA,aAKI,oCALU,EAKV;AAAA,8BAJJC,SAII;AAAA,MAJJA,SAII,gCAJM,EAIN;AAAA,8BAHJC,SAGI;AAAA,MAHJA,SAGI,gCAHM,EAGN;AAAA,MAFJC,cAEI,SAFJA,cAEI;AAAA,MADDC,IACC;;AAAA,oBAC4B,uBAAWC,oBAAX,CAD5B;AAAA,MACIC,KADJ,eACIA,KADJ;AAAA,MACWC,YADX,eACWA,YADX;AAAA,MAEFC,OAFE,GAEQ,uBAAWC,sBAAX,CAFR;AAAA,MAGFC,WAHE,GAGYJ,KAAK,CAACK,cAAN,CAAqBH,OAArB,CAHZ;;AAIJ,sBACE;AACE,IAAA,SAAS,EAAEZ,eAAGgB,MADhB;AAEE,IAAA,KAAK,EAAEF,WAFT;AAAA,4BAIE,qBAAC,2BAAD;AAAiB,MAAA,WAAW,EAAEX;AAA9B,MAJF,eAKE,qBAAC,gBAAD,KALF,eAME;AAAM,MAAA,SAAS,EAAEH,eAAGiB;AAApB,MANF,eAOE,qBAAC,SAAD;AAAW,MAAA,IAAI,EAAEb;AAAjB,MAPF,eAQE,qBAAC,SAAD;AAAW,MAAA,IAAI,EAAEC;AAAjB,MARF,eASE,qBAAC,SAAD;AAAW,MAAA,IAAI,EAAEC,SAAjB;AAA4B,MAAA,EAAE,EAAE;AAAhC,MATF,eAUE,qBAAC,0BAAD;AACE,MAAA,SAAS,EAAEN,eAAGkB,OADhB;AAEE,MAAA,YAAY,EAAEP;AAFhB,MAVF,eAcE,qBAAC,wBAAD,gCAAkBH,IAAlB,EAdF;AAAA,IADF;AAkBD,CA7BD;;eA+BeN,M"
+}

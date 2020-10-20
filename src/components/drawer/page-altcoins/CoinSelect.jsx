@@ -1,5 +1,3 @@
-import React from 'react'
-
 import RowInputSelect from '../../rows/RowInputSelect'
 
 const CoinSelect = ({

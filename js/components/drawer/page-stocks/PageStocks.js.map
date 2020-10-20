@@ -1,1 +1,22 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-stocks/PageStocks.jsx"],"names":["S","PAGE","height","PageStocks","style","onPrevPage","AppValue","dataAction","onSelect","item","symbol","value"],"mappings":";;;;;;;;;;;AAAA;;AAEA;;AAEA;;AACA;;AAEA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,IAAI,EAAE;AACJC,IAAAA,MAAM,EAAE;AADJ;AAGN;;;;;;;;AAJQ,CAAV;;AAaA,IAAMC,UAAU,GAAG,SAAbA,UAAa,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACrB,uBAAWC,oBAAX,CADqB;AAAA,MACpCC,UADoC,eACpCA,UADoC;AAAA,MAE1CC,QAF0C,GAE/B,SAAXA,QAAW,CAACC,IAAD,EAAU;AACrB,QAAIA,IAAJ,EAAU;AACR,+BAAQ;AACNC,QAAAA,MAAM,EAAED,IAAI,CAACE,KADP;AAENJ,QAAAA,UAAU,EAAVA;AAFM,OAAR;AAID;AACF,GAT2C;;AAW5C,sBACE;AAAK,IAAA,KAAK,gCAAMP,CAAC,CAACC,IAAR,MAAiBG,KAAjB;AAAV,kBACE,gCAAC,sBAAD;AAAY,IAAA,OAAO,EAAEC;AAArB,IADF,eAEE,gCAAC,0BAAD;AACE,IAAA,YAAY,EAAE,KADhB;AAEE,IAAA,WAAW,EAAC,QAFd;AAGE,IAAA,SAAS,EAAC,2BAHZ;AAIE,IAAA,WAAW,EAAE,IAJf;AAKE,IAAA,QAAQ,EAAEG;AALZ,IAFF,CADF;AAYD,CAvBD;;eAyBeL,U","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppValue from '../../contexts/AppValue'\r\n\r\nimport BackMenuBt from '../BackMenuBt'\r\nimport SelectWithLoad from '../../rows/SelectWithLoad'\r\n\r\nimport loadIex from './loadIex'\r\n\r\nconst S = {\r\n  PAGE: {\r\n    height: 400\r\n  },\r\n  /*\r\n  TEXT: {\r\n    color: '#1b2836',\r\n    paddingLeft: 16,\r\n    fontWeight: 600\r\n  }\r\n  */\r\n};\r\n\r\nconst PageStocks = ({ style, onPrevPage }) => {\r\n  const { dataAction } = useContext(AppValue)\r\n  , onSelect = (item) => {\r\n    if (item) {\r\n      loadIex({\r\n        symbol: item.value,\r\n        dataAction\r\n      })\r\n    }\r\n  };\r\n\r\n  return (\r\n    <div style={{...S.PAGE, ...style }}>\r\n      <BackMenuBt onClick={onPrevPage} />\r\n      <SelectWithLoad\r\n        isShowLabels={false}\r\n        placeholder=\"Symbol\"\r\n        optionURI=\"./data/stock-symbols.json\"\r\n        isWithInput={true}\r\n        onSelect={onSelect}\r\n      />\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default PageStocks\r\n"],"file":"PageStocks.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-stocks/PageStocks.js"
+ ],
+ "file": "../../../../src/components/drawer/page-stocks/PageStocks.js",
+ "names": [
+  "S",
+  "PAGE",
+  "height",
+  "PageStocks",
+  "style",
+  "onPrevPage",
+  "AppValue",
+  "dataAction",
+  "onSelect",
+  "item",
+  "symbol",
+  "value"
+ ],
+ "mappings": ";;;;;;;;;;;AAAA;;AAEA;;AAEA;;AACA;;AAEA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,IAAI,EAAE;AACJC,IAAAA,MAAM,EAAE;AADJ;AAGN;AACF;AACA;AACA;AACA;AACA;AACA;;AAVU,CAAV;;AAaA,IAAMC,UAAU,GAAG,SAAbA,UAAa,OAA2B;AAAA,MAAxBC,KAAwB,QAAxBA,KAAwB;AAAA,MAAjBC,UAAiB,QAAjBA,UAAiB;;AAAA,oBACrB,uBAAWC,oBAAX,CADqB;AAAA,MACpCC,UADoC,eACpCA,UADoC;AAAA,MAE1CC,QAF0C,GAE/B,SAAXA,QAAW,CAACC,IAAD,EAAU;AACrB,QAAIA,IAAJ,EAAU;AACR,+BAAQ;AACNC,QAAAA,MAAM,EAAED,IAAI,CAACE,KADP;AAENJ,QAAAA,UAAU,EAAVA;AAFM,OAAR;AAID;AACF,GAT2C;;AAW5C,sBACE;AAAK,IAAA,KAAK,gCAAMP,CAAC,CAACC,IAAR,EAAiBG,KAAjB,CAAV;AAAA,4BACE,qBAAC,sBAAD;AAAY,MAAA,OAAO,EAAEC;AAArB,MADF,eAEE,qBAAC,0BAAD;AACE,MAAA,YAAY,EAAE,KADhB;AAEE,MAAA,WAAW,EAAC,QAFd;AAGE,MAAA,SAAS,EAAC,2BAHZ;AAIE,MAAA,WAAW,EAAE,IAJf;AAKE,MAAA,QAAQ,EAAEG;AALZ,MAFF;AAAA,IADF;AAYD,CAvBD;;eAyBeL,U"
+}

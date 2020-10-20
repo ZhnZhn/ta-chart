@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,7 +7,9 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
 
@@ -48,17 +48,18 @@ var PageStocks = function PageStocks(_ref) {
     }
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    style: (0, _extends2["default"])({}, S.PAGE, {}, style)
-  }, /*#__PURE__*/_react["default"].createElement(_BackMenuBt["default"], {
-    onClick: onPrevPage
-  }), /*#__PURE__*/_react["default"].createElement(_SelectWithLoad["default"], {
-    isShowLabels: false,
-    placeholder: "Symbol",
-    optionURI: "./data/stock-symbols.json",
-    isWithInput: true,
-    onSelect: onSelect
-  }));
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: (0, _extends2["default"])({}, S.PAGE, style),
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_BackMenuBt["default"], {
+      onClick: onPrevPage
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_SelectWithLoad["default"], {
+      isShowLabels: false,
+      placeholder: "Symbol",
+      optionURI: "./data/stock-symbols.json",
+      isWithInput: true,
+      onSelect: onSelect
+    })]
+  });
 };
 
 var _default = PageStocks;

@@ -9,7 +9,7 @@ var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends")
 
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 
-var _react = _interopRequireDefault(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
 
 var CL = 'zhn-bt-circle2';
 
@@ -21,11 +21,15 @@ var ButtonCircle2 = function ButtonCircle2(_ref) {
       caption = _ref$caption === void 0 ? '' : _ref$caption,
       onClick = _ref.onClick,
       rest = (0, _objectWithoutPropertiesLoose2["default"])(_ref, ["className", "style", "caption", "onClick"]);
-  return /*#__PURE__*/_react["default"].createElement("button", (0, _extends2["default"])({
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", (0, _extends2["default"])({
     className: CL + " " + className,
     style: style,
     onClick: onClick
-  }, rest), /*#__PURE__*/_react["default"].createElement("div", null, caption));
+  }, rest, {
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      children: caption
+    })
+  }));
 };
 
 var _default = ButtonCircle2;

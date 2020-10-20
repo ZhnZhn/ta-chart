@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,7 +7,9 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
 
@@ -129,26 +129,28 @@ var PageAltCoins = function PageAltCoins(_ref) {
     });
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    style: (0, _extends2["default"])({}, S.ROOT, {}, style)
-  }, /*#__PURE__*/_react["default"].createElement(_BackMenuBt["default"], {
-    onClick: onPrevPage
-  }), /*#__PURE__*/_react["default"].createElement(_CoinSelect["default"], {
-    exchanges: exchanges,
-    onSelectExchange: onSelectExchange,
-    isMarkets: isMarkets,
-    markets: markets,
-    onSelectMarket: onSelectMarket,
-    timeframes: timeframes,
-    onSelectTimeframe: onSelectTimeframe
-  }), exchange === 'binance' && timeframe === '1m' && /*#__PURE__*/_react["default"].createElement("div", {
-    style: S.DIV_BTS
-  }, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
-    caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
-    onClick: isLiveUpdating ? onStopUpdate : function () {
-      return onLiveUpdate(pair);
-    }
-  })));
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: (0, _extends2["default"])({}, S.ROOT, style),
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_BackMenuBt["default"], {
+      onClick: onPrevPage
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_CoinSelect["default"], {
+      exchanges: exchanges,
+      onSelectExchange: onSelectExchange,
+      isMarkets: isMarkets,
+      markets: markets,
+      onSelectMarket: onSelectMarket,
+      timeframes: timeframes,
+      onSelectTimeframe: onSelectTimeframe
+    }), exchange === 'binance' && timeframe === '1m' && /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: S.DIV_BTS,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_FlatButton["default"], {
+        caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
+        onClick: isLiveUpdating ? onStopUpdate : function () {
+          return onLiveUpdate(pair);
+        }
+      })
+    })]
+  });
 };
 
 var _default = PageAltCoins;

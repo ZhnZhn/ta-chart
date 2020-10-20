@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,17 +7,11 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
 
-function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+var _react = require("react");
 
 //import withTheme from '../hoc/withTheme'
 //import styleConfig from '../style/Comp.Style'
@@ -60,8 +52,6 @@ var S = {
 
 var Drawer = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(Drawer, _Component);
-
-  var _super = _createSuper(Drawer);
 
   function Drawer() {
     var _this;
@@ -108,38 +98,39 @@ var Drawer = /*#__PURE__*/function (_Component) {
         _onClickWrapper = isOpen ? this._hToggle : undefined; //, TS = theme.createStyle(styleConfig);
 
 
-    return [/*#__PURE__*/_react["default"].createElement("button", {
-      key: "bt-drawer",
+    return [/*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
       className: CL.DRAWER_BT,
-      style: (0, _extends2["default"])({}, S.BT_DRAWER, {}, btStyle),
+      style: (0, _extends2["default"])({}, S.BT_DRAWER, btStyle),
       "aria-label": "Open Drawer",
-      onClick: this._hToggle
-    }, /*#__PURE__*/_react["default"].createElement("span", {
-      className: CL.DRAWER_SPAN
-    }, /*#__PURE__*/_react["default"].createElement("svg", {
-      className: CL.DRAWER_SVG,
-      focusable: "false",
-      viewBox: "0 0 24 24",
-      "aria-hidden": "true"
-    }, /*#__PURE__*/_react["default"].createElement("path", {
-      fill: "none",
-      d: "M0 0h24v24H0z"
-    }), /*#__PURE__*/_react["default"].createElement("path", {
-      d: "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-    })))), /*#__PURE__*/_react["default"].createElement("div", {
-      key: "wrapper",
+      onClick: this._hToggle,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+        className: CL.DRAWER_SPAN,
+        children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("svg", {
+          className: CL.DRAWER_SVG,
+          focusable: "false",
+          viewBox: "0 0 24 24",
+          "aria-hidden": "true",
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+            fill: "none",
+            d: "M0 0h24v24H0z"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+            d: "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+          })]
+        })
+      })
+    }, "bt-drawer"), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       "aria-hidden": !isOpen,
       className: CL.DRAWER_MODAL,
       style: _drawerModalStyle,
       onClick: _onClickWrapper
-    }), /*#__PURE__*/_react["default"].createElement("aside", {
-      key: "aside",
+    }, "wrapper"), /*#__PURE__*/(0, _jsxRuntime.jsx)("aside", {
       className: CL.DRAWER //style={{ ..._drawerStyle, ...TS.COMP }}
       ,
-      style: _drawerStyle
-    }, _react["default"].cloneElement(children, {
-      onCloseDrawer: this._hToggle
-    }))];
+      style: _drawerStyle,
+      children: /*#__PURE__*/(0, _react.cloneElement)(children, {
+        onCloseDrawer: this._hToggle
+      })
+    }, "aside")];
   };
 
   return Drawer;

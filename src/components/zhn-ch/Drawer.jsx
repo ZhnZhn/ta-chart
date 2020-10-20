@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component, cloneElement } from 'react'
 
 //import withTheme from '../hoc/withTheme'
 //import styleConfig from '../style/Comp.Style'
@@ -108,7 +108,7 @@ class Drawer extends Component {
           style={_drawerStyle}
          >
           {
-            React.cloneElement(children, {
+            cloneElement(children, {
               onCloseDrawer: this._hToggle
             })
            }

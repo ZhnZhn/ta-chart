@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 const STYLE = {
   ARROW_CELL : {
@@ -43,8 +43,7 @@ class ArrowCell extends Component {
         <span
            ref={this._refArrow}
            style={{ ...STYLE.ARROW, ...arrowStyle}}
-        >
-        </span>
+        />        
       </span>
     );
   }

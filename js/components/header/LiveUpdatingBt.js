@@ -2,12 +2,12 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppLiveUpdating = _interopRequireDefault(require("../contexts/AppLiveUpdating"));
 
@@ -37,15 +37,17 @@ var LiveUpdatingBt = function LiveUpdatingBt(_ref) {
       isLiveUpdating = _useContext.isLiveUpdating,
       sec = _useContext.sec;
 
-  return isLiveUpdating && /*#__PURE__*/_react["default"].createElement("button", {
+  return isLiveUpdating && /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
     style: S.BT_LOADING,
-    onClick: onStopUpdate
-  }, /*#__PURE__*/_react["default"].createElement("span", {
-    className: spinnerCn,
-    "data-loader": "circle"
-  }), /*#__PURE__*/_react["default"].createElement("span", {
-    style: S.SEC
-  }, sec));
+    onClick: onStopUpdate,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      className: spinnerCn,
+      "data-loader": "circle"
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      style: S.SEC,
+      children: sec
+    })]
+  });
 };
 
 var _default = LiveUpdatingBt;

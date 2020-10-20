@@ -1,1 +1,39 @@
-{"version":3,"sources":["../../../src/components/zhn/ProgressLine.jsx"],"names":["CL","DF_COLOR","TR","WIDTH","OPACITY","_crStyle","backgroundColor","opacity","width","height","transition","ProgressLine","props","_crLineStyle","color","wasOpacied","wasCompleted","completed","idCompleted","idOpacied","componentWillUnmount","clearTimeout","componentDidUpdate","setTimeout","forceUpdate","render","_style","Component","defaultProps"],"mappings":"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","sourcesContent":["\r\nimport React, { Component } from 'react'\r\n\r\nconst CL = 'progress-line';\r\nconst DF_COLOR = '#2f7ed8';\r\n\r\n\r\nconst TR = {\r\n  WIDTH: 'width 500ms ease-out',\r\n  OPACITY: 'opacity 400ms linear'\r\n};\r\n\r\nconst _crStyle = (\r\n  backgroundColor,\r\n  opacity,\r\n  width,\r\n  height,\r\n  transition\r\n) => ({\r\n  backgroundColor,\r\n  opacity,\r\n  width,\r\n  height,\r\n  transition\r\n});\r\n\r\nclass ProgressLine extends Component {\r\n  static defaultProps = {\r\n    color: DF_COLOR,\r\n    height: 3\r\n  }\r\n\r\n  constructor(props){\r\n    super(props);\r\n    this.wasCompleted = false;\r\n    this.idCompleted = null;\r\n    this.wasOpacied = false;\r\n    this.idOpacied = null;\r\n  }\r\n\r\n  componentWillUnmount(){\r\n    if (this.idCompleted){\r\n      clearTimeout(this.idCompleted)\r\n    }\r\n    if (this.idOpacied){\r\n      clearTimeout(this.idOpacied)\r\n    }\r\n  }\r\n\r\n  componentDidUpdate(){\r\n    if (this.wasCompleted){\r\n      this.idCompleted = setTimeout(()=>{\r\n        this.idCompleted = null;\r\n        this.forceUpdate();\r\n      }, 800)\r\n    } else if (this.wasOpacied){\r\n      this.idOpacied = setTimeout(()=>{\r\n        this.idOpacied = null;\r\n        this.forceUpdate();\r\n      }, 800)\r\n    }\r\n  }\r\n\r\n  _crLineStyle = (color, height) => {\r\n    if (this.wasOpacied) {\r\n      this.wasOpacied = false;\r\n      return _crStyle(color, 1, 0, height);\r\n    } else if (this.wasCompleted) {\r\n      this.wasCompleted = false;\r\n      this.wasOpacied = true;\r\n      return _crStyle(color, 0, '100%', height, TR.OPACITY);\r\n    } else {\r\n       let { completed } = this.props;\r\n       if (completed < 0) {\r\n         completed = 0;\r\n       } else if (completed >= 100) {\r\n         completed = 100;\r\n         this.wasCompleted = true\r\n       }\r\n       return _crStyle(color, 1, `${completed}%`, height, TR.WIDTH);\r\n    }\r\n  }\r\n\r\n  render(){\r\n    const { color, height } = this.props\r\n    , _style = this._crLineStyle(color, height);\r\n\r\n    return (\r\n      <div className={CL} style={_style} />\r\n    );\r\n  }\r\n}\r\n\r\nexport default ProgressLine\r\n"],"file":"ProgressLine.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/zhn/ProgressLine.js"
+ ],
+ "file": "../../../src/components/zhn/ProgressLine.js",
+ "names": [
+  "CL",
+  "DF_COLOR",
+  "TR",
+  "WIDTH",
+  "OPACITY",
+  "_crStyle",
+  "backgroundColor",
+  "opacity",
+  "width",
+  "height",
+  "transition",
+  "ProgressLine",
+  "props",
+  "_crLineStyle",
+  "color",
+  "wasOpacied",
+  "wasCompleted",
+  "completed",
+  "idCompleted",
+  "idOpacied",
+  "componentWillUnmount",
+  "clearTimeout",
+  "componentDidUpdate",
+  "setTimeout",
+  "forceUpdate",
+  "render",
+  "_style",
+  "Component",
+  "defaultProps"
+ ],
+ "mappings": "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"
+}

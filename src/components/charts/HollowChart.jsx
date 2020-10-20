@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 import Ch from './Ch'
 import chartFns from './chartFns'
@@ -120,4 +120,4 @@ const HollowChart = (props) => {
   );
 }
 
-export default fitWidth(React.memo(HollowChart))
+export default fitWidth(memo(HollowChart))

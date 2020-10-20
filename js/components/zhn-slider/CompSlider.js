@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -11,19 +9,13 @@ var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends")
 
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _throttleOnce = _interopRequireDefault(require("../../utils/throttleOnce"));
-
-function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 var PERIOD_MS = 750;
 var S = {
@@ -61,8 +53,6 @@ var _addElTo2 = function _addElTo2(arr, el) {
 var ModalSlider = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(ModalSlider, _Component);
 
-  var _super = _createSuper(ModalSlider);
-
   /*
   static propTypes = {
     rootStyle: PropTypes.object,
@@ -79,7 +69,7 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
     _this = _Component.call(this, props) || this;
 
     _this._crPageElement = function (id) {
-      return _react["default"].createElement(_this.props.pageRouter[id], {
+      return /*#__PURE__*/(0, _react.createElement)(_this.props.pageRouter[id], {
         key: id,
         style: _this._pageStyle,
         onPrevPage: _this.hPrevPage,
@@ -135,7 +125,7 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
           pages = _this$state.pages,
           pageCurrent = _this$state.pageCurrent;
       return pages.map(function (Page, index) {
-        return _react["default"].cloneElement(Page, {
+        return /*#__PURE__*/(0, _react.cloneElement)(Page, {
           pageCurrent: pageCurrent,
           pageNumber: index + 1
         });
@@ -145,7 +135,7 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
     var pageWidth = props.pageWidth,
         maxPages = props.maxPages,
         initialPageId = props.initialPageId;
-    _this._refPages = _react["default"].createRef();
+    _this._refPages = /*#__PURE__*/(0, _react.createRef)();
     _this.hNextPage = (0, _throttleOnce["default"])(_this.hNextPage.bind((0, _assertThisInitialized2["default"])(_this)));
     _this.hPrevPage = (0, _throttleOnce["default"])(_this.hPrevPage.bind((0, _assertThisInitialized2["default"])(_this)));
     _this._PAGE_WIDTH = pageWidth;
@@ -168,14 +158,16 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
   _proto.render = function render() {
     var _pagesStyle = this._pagesStyle,
         _transform = this._crTransform(),
-        _divStyle = (0, _extends2["default"])({}, S.PAGES, {}, _pagesStyle, {}, _transform);
+        _divStyle = (0, _extends2["default"])({}, S.PAGES, _pagesStyle, _transform);
 
-    return /*#__PURE__*/_react["default"].createElement("div", {
-      style: S.SHOW_HIDE
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      ref: this._refPages,
-      style: _divStyle
-    }, this._renderPages()));
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: S.SHOW_HIDE,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        ref: this._refPages,
+        style: _divStyle,
+        children: this._renderPages()
+      })
+    });
   };
 
   return ModalSlider;

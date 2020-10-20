@@ -1,1 +1,12 @@
-{"version":3,"sources":["../src/index.jsx"],"names":["document","getElementById"],"mappings":";;;;AAAA;;AACA;;AAEA;;AAIA;;AAEA;;;;;;;;;;;;;;AAeA,oCACE,gCAAC,eAAD,OADF,EAEEA,QAAQ,CAACC,cAAT,CAAwB,KAAxB,CAFF","sourcesContent":["import React from 'react'\r\nimport { render } from 'react-dom'\r\n\r\nimport App from './components/App'\r\n\r\n\r\n\r\n//console.log(ccxt.exchanges)\r\n\r\n/*\r\nccxt.exchanges.forEach(id => {\r\n  try {\r\n    const _exch = new ccxt[id]()\r\n    if (_exch.hasCORS) {\r\n      console.log(id)\r\n      console.log(_exch)\r\n    }\r\n  } catch(err) {\r\n    console.log('error', id)\r\n    console.log(err.message)\r\n  }\r\n})\r\n*/\r\n\r\nrender(\r\n  <App />,\r\n  document.getElementById('app')\r\n)\r\n"],"file":"index.js"}
+{
+ "version": 3,
+ "sources": [
+  "../src/index.js"
+ ],
+ "file": "../src/index.js",
+ "names": [
+  "document",
+  "getElementById"
+ ],
+ "mappings": ";;;;;;AAAA;;AAEA;;AAIA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AAEA,oCACE,qBAAC,eAAD,KADF,EAEEA,QAAQ,CAACC,cAAT,CAAwB,KAAxB,CAFF"
+}

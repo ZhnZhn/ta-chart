@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Ch from '../Ch'
 import fns from '../chartFns'
 

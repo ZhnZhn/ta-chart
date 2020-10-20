@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
 
 var _Ch = _interopRequireDefault(require("../Ch"));
 
@@ -54,7 +54,7 @@ var CandleSeria = function CandleSeria(_ref) {
       optionsSma20 = sma20.options(),
       accessorSma50 = sma50.accessor(),
       optionsSma50 = sma50.options();
-  return /*#__PURE__*/_react["default"].createElement(_Ch["default"].Chart, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
     yExtents: function yExtents(d) {
@@ -63,60 +63,61 @@ var CandleSeria = function CandleSeria(_ref) {
     origin: function origin(w, h) {
       return [0, h - 420];
     } //onContextMenu={_onContextMenu}
-
-  }, /*#__PURE__*/_react["default"].createElement(_Ch["default"].YAxis, {
-    axisAt: "right",
-    orient: "right",
-    ticks: 5,
-    stroke: "black"
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].BollingerSeries, {
-    yAccessor: function yAccessor(d) {
-      return d.bb;
-    },
-    stroke: bbStroke,
-    fill: bbFill
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].LineSeries, {
-    yAccessor: accessorSma20,
-    stroke: optionsSma20.stroke
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].LineSeries, {
-    yAccessor: accessorSma50,
-    stroke: optionsSma50.stroke
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].CandlestickSeries, {
-    width: timeIntervalBarWidth(timeInterval),
-    fill: _fill,
-    stroke: _stroke,
-    wickStroke: _stroke,
-    candleStrokeWidth: 0.8
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MouseCoordinateY, {
-    at: "right",
-    orient: "right",
-    displayFormat: format(".4f")
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].OHLCTooltip, {
-    fontSize: 15 //labelFill="#1b2836"
     ,
-    xDisplayFormat: timeFormat,
-    textFill: "black",
-    ohlcFormat: format(".8f"),
-    forChart: 3,
-    origin: [5, -90],
-    onClick: _noop
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].MovingAverageTooltip, {
-    className: CL_TOOLTIP,
-    width: 100,
-    fontSize: 15,
-    origin: [5, 320],
-    options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)],
-    onClick: _noop
-  }), /*#__PURE__*/_react["default"].createElement(_Ch["default"].BollingerBandTooltip, {
-    className: CL_TOOLTIP,
-    fontSize: 15,
-    origin: [190, 440],
-    yAccessor: function yAccessor(d) {
-      return d.bb;
-    },
-    options: bb.options(),
-    onClick: _noop
-  }));
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
+      axisAt: "right",
+      orient: "right",
+      ticks: 5,
+      stroke: "black"
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BollingerSeries, {
+      yAccessor: function yAccessor(d) {
+        return d.bb;
+      },
+      stroke: bbStroke,
+      fill: bbFill
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].LineSeries, {
+      yAccessor: accessorSma20,
+      stroke: optionsSma20.stroke
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].LineSeries, {
+      yAccessor: accessorSma50,
+      stroke: optionsSma50.stroke
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].CandlestickSeries, {
+      width: timeIntervalBarWidth(timeInterval),
+      fill: _fill,
+      stroke: _stroke,
+      wickStroke: _stroke,
+      candleStrokeWidth: 0.8
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
+      at: "right",
+      orient: "right",
+      displayFormat: format(".4f")
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].OHLCTooltip, {
+      fontSize: 15 //labelFill="#1b2836"
+      ,
+      xDisplayFormat: timeFormat,
+      textFill: "black",
+      ohlcFormat: format(".8f"),
+      forChart: 3,
+      origin: [5, -90],
+      onClick: _noop
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MovingAverageTooltip, {
+      className: CL_TOOLTIP,
+      width: 100,
+      fontSize: 15,
+      origin: [5, 320],
+      options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)],
+      onClick: _noop
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BollingerBandTooltip, {
+      className: CL_TOOLTIP,
+      fontSize: 15,
+      origin: [190, 440],
+      yAccessor: function yAccessor(d) {
+        return d.bb;
+      },
+      options: bb.options(),
+      onClick: _noop
+    })]
+  });
 };
 
 var _default = CandleSeria;

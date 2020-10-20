@@ -2,12 +2,12 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../contexts/AppValue"));
 
@@ -46,19 +46,20 @@ var DrawerTitle = function DrawerTitle(_ref) {
     setThemeId(value);
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     className: CL.TITLE,
-    style: S.TITLE
-  }, /*#__PURE__*/_react["default"].createElement(_BtTriple["default"], {
-    style: S.BT_TRIPLE,
-    oneC: "GREY",
-    twoC: "LIGHT",
-    threeC: "SAND",
-    onClick: _onClick
-  }), /*#__PURE__*/_react["default"].createElement(_SvgClose["default"], {
-    style: S.BT_CLOSE,
-    onClick: onClose
-  }));
+    style: S.TITLE,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_BtTriple["default"], {
+      style: S.BT_TRIPLE,
+      oneC: "GREY",
+      twoC: "LIGHT",
+      threeC: "SAND",
+      onClick: _onClick
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_SvgClose["default"], {
+      style: S.BT_CLOSE,
+      onClick: onClose
+    })]
+  });
 };
 
 var _default = DrawerTitle;

@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,17 +7,11 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
 
-function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+var _react = require("react");
 
 //import PropTypes from "prop-types";
 var S = {
@@ -61,8 +53,6 @@ var _getInitStateFrom = function _getInitStateFrom(_ref) {
 
 var InputText = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(InputText, _Component);
-
-  var _super = _createSuper(InputText);
 
   /*
   static propTypes = {
@@ -143,8 +133,8 @@ var InputText = /*#__PURE__*/function (_Component) {
         _autoCorrect = spellCheck ? C.ON : C.OFF,
         _spellCheck = spellCheck ? true : false;
 
-    return /*#__PURE__*/_react["default"].createElement("input", {
-      style: (0, _extends2["default"])({}, S.INPUT_TEXT, {}, style),
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+      style: (0, _extends2["default"])({}, S.INPUT_TEXT, style),
       type: type || C.TEXT,
       name: C.TEXT,
       autoCapitalize: C.OFF,

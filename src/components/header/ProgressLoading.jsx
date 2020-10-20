@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'react'
 
 import FETCH from '../enumFetch';
 import ProgressLine from '../zhn/ProgressLine';

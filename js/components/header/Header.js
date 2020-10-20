@@ -1,15 +1,17 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
 exports["default"] = void 0;
 
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../contexts/AppValue"));
 
@@ -32,9 +34,12 @@ var _toFirstCapital = function _toFirstCapital(text) {
 var TitleSpan = function TitleSpan(_ref) {
   var text = _ref.text,
       is = _ref.is;
-  return /*#__PURE__*/_react["default"].createElement("span", {
-    className: _CL["default"].HEADER_TITLE
-  }, _toFirstCapital(text), !is && /*#__PURE__*/_react["default"].createElement("span", null, ":\xA0"));
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+    className: _CL["default"].HEADER_TITLE,
+    children: [_toFirstCapital(text), !is && /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      children: ":\xA0"
+    })]
+  });
 };
 
 var Header = function Header(_ref2) {
@@ -54,24 +59,25 @@ var Header = function Header(_ref2) {
       themeId = (0, _react.useContext)(_AppThemeId["default"]),
       headerStyle = theme.getHeaderStyle(themeId);
 
-  return /*#__PURE__*/_react["default"].createElement("header", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("header", {
     className: _CL["default"].HEADER,
-    style: headerStyle
-  }, /*#__PURE__*/_react["default"].createElement(_ProgressLoading["default"], {
-    fetchStatus: fetchStatus
-  }), /*#__PURE__*/_react["default"].createElement(_Logo["default"], null), /*#__PURE__*/_react["default"].createElement("span", {
-    className: _CL["default"].TITLE_GAP
-  }), /*#__PURE__*/_react["default"].createElement(TitleSpan, {
-    text: providerTitle
-  }), /*#__PURE__*/_react["default"].createElement(TitleSpan, {
-    text: itemTitle
-  }), /*#__PURE__*/_react["default"].createElement(TitleSpan, {
-    text: timeframe,
-    is: true
-  }), /*#__PURE__*/_react["default"].createElement(_LiveUpdatingBt["default"], {
-    spinnerCn: _CL["default"].SPINNER,
-    onStopUpdate: onStopUpdate
-  }), /*#__PURE__*/_react["default"].createElement(_HeaderDrawer["default"], rest));
+    style: headerStyle,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_ProgressLoading["default"], {
+      fetchStatus: fetchStatus
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Logo["default"], {}), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      className: _CL["default"].TITLE_GAP
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(TitleSpan, {
+      text: providerTitle
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(TitleSpan, {
+      text: itemTitle
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(TitleSpan, {
+      text: timeframe,
+      is: true
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LiveUpdatingBt["default"], {
+      spinnerCn: _CL["default"].SPINNER,
+      onStopUpdate: onStopUpdate
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_HeaderDrawer["default"], (0, _extends2["default"])({}, rest))]
+  });
 };
 
 var _default = Header;

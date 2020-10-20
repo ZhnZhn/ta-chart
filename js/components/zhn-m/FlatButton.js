@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -11,19 +9,13 @@ var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends")
 
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _CaptionInput = _interopRequireDefault(require("./CaptionInput"));
-
-function _createSuper(Derived) { return function () { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 var CL = {
   BT: 'bt-flat',
@@ -39,8 +31,6 @@ var POINTER_EVENTS = 'pointer-events';
 
 var FlatButton = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(FlatButton, _Component);
-
-  var _super = _createSuper(FlatButton);
 
   function FlatButton() {
     var _this;
@@ -93,26 +83,28 @@ var FlatButton = /*#__PURE__*/function (_Component) {
         caption = _this$props2.caption,
         accessKey = _this$props2.accessKey,
         children = _this$props2.children,
-        _style = isPrimary ? (0, _extends2["default"])({}, rootStyle, {}, S.PRIMARY) : rootStyle,
+        _style = isPrimary ? (0, _extends2["default"])({}, rootStyle, S.PRIMARY) : rootStyle,
         _className = className ? CL.BT + " " + className : CL.BT,
         _clCaption = clCaption ? CL.BT_SPAN + " " + clCaption : CL.BT_SPAN,
         _title = accessKey ? title + " [" + accessKey + "]" : title;
 
-    return /*#__PURE__*/_react["default"].createElement("button", {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
       ref: this._refNode,
       className: _className,
       style: _style,
       accessKey: accessKey,
       tabIndex: 0,
       title: _title,
-      onClick: this._hClick
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: clDiv
-    }, /*#__PURE__*/_react["default"].createElement(_CaptionInput["default"], {
-      className: _clCaption,
-      caption: caption,
-      accessKey: accessKey
-    }), children));
+      onClick: this._hClick,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        className: clDiv,
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_CaptionInput["default"], {
+          className: _clCaption,
+          caption: caption,
+          accessKey: accessKey
+        }), children]
+      })
+    });
   };
 
   _proto.focus = function focus() {

@@ -1,1 +1,11 @@
-{"version":3,"sources":["../../../src/components/contexts/AppValue.js"],"names":["AppValueContext","React","createContext"],"mappings":";;;;;;;AAAA;;AAEA,IAAMA,eAAe,GAAGC,kBAAMC,aAAN,CAAoB,EAApB,CAAxB;;eAEeF,e","sourcesContent":["import React from 'react'\r\n\r\nconst AppValueContext = React.createContext({})\r\n\r\nexport default AppValueContext\r\n"],"file":"AppValue.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/contexts/AppValue.js"
+ ],
+ "file": "../../../src/components/contexts/AppValue.js",
+ "names": [
+  "AppValueContext"
+ ],
+ "mappings": ";;;;;AAAA;;AAEA,IAAMA,eAAe,gBAAG,0BAAc,EAAd,CAAxB;eAEeA,e"
+}

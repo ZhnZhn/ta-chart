@@ -16,8 +16,8 @@ module.exports = {
   },
   output: {
       path: path.resolve('app'),
-      filename: "[name]_[contenthash].js",
-      chunkFilename: "[name]_[contenthash].js",
+      filename: "[name]_[chunkhash].js",
+      chunkFilename: "[name]_[chunkhash].js",
       publicPath: 'app/'
   },
   module: {
@@ -45,15 +45,11 @@ module.exports = {
   },
   plugins : [    
     new webpack.DllReferencePlugin({
-      context: '.',
+      context: __dirname,
       manifest: require('./dll/lib-manifest.json')
-    }), 
-    /*
-    new webpack.ids.DeterministicModuleIdsPlugin({
-      maxLength: 5
-    }),
-    */   
+    }),    
     new HtmlWebpackPlugin({
+        minify: false,
         filename: path.resolve('index.html'),
         template: path.resolve('template', 'index.ejs'),
         inject: false,
@@ -62,8 +58,7 @@ module.exports = {
     new HtmlProcessingWebpackPlugin()
   ],
   optimization: {
-    //moduleIds: false,
-    moduleIds: 'hashed',
+    moduleIds: 'deterministic',
     runtimeChunk: 'single',
     minimize: true,
     minimizer: [new TerserPlugin()]

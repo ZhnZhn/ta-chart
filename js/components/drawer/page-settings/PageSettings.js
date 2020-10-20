@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,7 +7,9 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
 
@@ -68,27 +68,31 @@ var PageSetting = function PageSetting(_ref) {
   },
       _proxy = appSettings.proxy();
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    style: (0, _extends2["default"])({}, S.PAGE, {}, style)
-  }, /*#__PURE__*/_react["default"].createElement(_BackMenuBt["default"], {
-    onClick: onPrevPage
-  }), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", {
-    style: S.LABEL
-  }, "Proxy Server"), /*#__PURE__*/_react["default"].createElement(_InputText["default"], {
-    key: proxyKey,
-    ref: refInput,
-    style: S.INPUT,
-    initValue: _proxy,
-    onEnter: onEnterProxy
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    style: S.BTS
-  }, /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
-    caption: "Restore",
-    onClick: onRestore
-  }), /*#__PURE__*/_react["default"].createElement(_FlatButton["default"], {
-    caption: "Apply",
-    onClick: onApply
-  }))));
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: (0, _extends2["default"])({}, S.PAGE, style),
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_BackMenuBt["default"], {
+      onClick: onPrevPage
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+        style: S.LABEL,
+        children: "Proxy Server"
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_InputText["default"], {
+        ref: refInput,
+        style: S.INPUT,
+        initValue: _proxy,
+        onEnter: onEnterProxy
+      }, proxyKey), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: S.BTS,
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_FlatButton["default"], {
+          caption: "Restore",
+          onClick: onRestore
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_FlatButton["default"], {
+          caption: "Apply",
+          onClick: onApply
+        })]
+      })]
+    })]
+  });
 };
 
 var _default = PageSetting;

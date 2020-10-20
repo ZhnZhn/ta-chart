@@ -2,12 +2,12 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _useInit = _interopRequireDefault(require("./hooks/useInit"));
 
@@ -101,27 +101,31 @@ var App = function App() {
   }))))
   */
 
-  return /*#__PURE__*/_react["default"].createElement(_AppValue["default"].Provider, {
-    value: appValue
-  }, /*#__PURE__*/_react["default"].createElement(_AppThemeId["default"].Provider, {
-    value: themeId
-  }, /*#__PURE__*/_react["default"].createElement(_AppLiveUpdating["default"].Provider, {
-    value: liveUpdating
-  }, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
-    fetchStatus: fetchStatus,
-    providerTitle: providerTitle,
-    itemTitle: itemTitle,
-    timeframe: timeframe
-  }), /*#__PURE__*/_react["default"].createElement("main", {
-    style: S.MAIN
-  }, /*#__PURE__*/_react["default"].createElement(_HollowChart["default"], {
-    id: EL_ID,
-    width: width,
-    height: 550,
-    data: data,
-    resize: hResize,
-    timeframe: timeframe
-  })))));
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_AppValue["default"].Provider, {
+    value: appValue,
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_AppThemeId["default"].Provider, {
+      value: themeId,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_AppLiveUpdating["default"].Provider, {
+        value: liveUpdating,
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Header["default"], {
+          fetchStatus: fetchStatus,
+          providerTitle: providerTitle,
+          itemTitle: itemTitle,
+          timeframe: timeframe
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("main", {
+          style: S.MAIN,
+          children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_HollowChart["default"], {
+            id: EL_ID,
+            width: width,
+            height: 550,
+            data: data,
+            resize: hResize,
+            timeframe: timeframe
+          })
+        })]
+      })
+    })
+  });
 };
 
 var _default = App;

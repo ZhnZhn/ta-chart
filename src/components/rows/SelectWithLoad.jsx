@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import RowInputSelect from './RowInputSelect'
 import loadOptions from './loadOptions'

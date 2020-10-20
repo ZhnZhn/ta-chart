@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
@@ -9,7 +7,9 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
+
+var _react = require("react");
 
 var _RowInputSelect = _interopRequireDefault(require("./RowInputSelect"));
 
@@ -37,7 +37,7 @@ var SelectWithLoad = function SelectWithLoad(props) {
   };
 
   (0, _react.useEffect)(_onLoadOptions, [optionURI]);
-  return /*#__PURE__*/_react["default"].createElement(_RowInputSelect["default"], (0, _extends2["default"])({}, props, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_RowInputSelect["default"], (0, _extends2["default"])({}, props, {
     options: options,
     isLoading: isLoading,
     isLoadingFailed: isLoadingFailed,

@@ -1,1 +1,22 @@
-{"version":3,"sources":["../../../src/components/drawer/DrawerMenu.jsx"],"names":["CL","ROOT","DrawerMenu","onCloseDrawer","AppValue","theme","setThemeId","themeId","AppThemeId","drawerStyle","getDrawerStyle","pageRouter"],"mappings":";;;;;;;;;AAAA;;AAEA;;AACA;;AAEA;;AAEA;;AACA;;AAEA,IAAMA,EAAE,GAAG;AACTC,EAAAA,IAAI,EAAE;AADG,CAAX;;AAIA,IAAMC,UAAU,GAAG,SAAbA,UAAa,OAAuB;AAAA,MAApBC,aAAoB,QAApBA,aAAoB;;AAAA,oBACV,uBAAWC,oBAAX,CADU;AAAA,MAChCC,KADgC,eAChCA,KADgC;AAAA,MACzBC,UADyB,eACzBA,UADyB;AAAA,MAEtCC,OAFsC,GAE5B,uBAAWC,sBAAX,CAF4B;AAAA,MAGtCC,WAHsC,GAGxBJ,KAAK,CAACK,cAAN,CAAqBH,OAArB,CAHwB;;AAIxC,sBACE;AACE,IAAA,SAAS,EAAEP,EAAE,CAACC,IADhB;AAEE,IAAA,KAAK,EAAEQ;AAFT,kBAIE,gCAAC,uBAAD;AACE,IAAA,UAAU,EAAEH,UADd;AAEE,IAAA,OAAO,EAAEH;AAFX,IAJF,eAQE,gCAAC,sBAAD;AACE,IAAA,UAAU,EAAEQ,sBADd;AAEE,IAAA,aAAa,EAAC,IAFhB;AAGE,IAAA,QAAQ,EAAE;AAHZ,IARF,CADF;AAgBD,CApBD;;eAsBeT,U","sourcesContent":["import React, { useContext } from 'react'\r\n\r\nimport AppValue from '../contexts/AppValue'\r\nimport AppThemeId from '../contexts/AppThemeId'\r\n\r\nimport DrawerTitle from './DrawerTitle'\r\n\r\nimport CompSlider from '../zhn-slider/CompSlider'\r\nimport pageRouter from './pageRouter'\r\n\r\nconst CL = {\r\n  ROOT: 'drawer__list'\r\n};\r\n\r\nconst DrawerMenu = ({ onCloseDrawer }) => {\r\n  const { theme, setThemeId } = useContext(AppValue)\r\n  , themeId = useContext(AppThemeId)\r\n  , drawerStyle = theme.getDrawerStyle(themeId);\r\n  return (\r\n    <div\r\n      className={CL.ROOT}\r\n      style={drawerStyle}\r\n    >\r\n      <DrawerTitle\r\n        setThemeId={setThemeId}\r\n        onClose={onCloseDrawer}\r\n      />\r\n      <CompSlider\r\n        pageRouter={pageRouter}\r\n        initialPageId=\"p1\"\r\n        maxPages={4}\r\n      />\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default DrawerMenu\r\n"],"file":"DrawerMenu.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/drawer/DrawerMenu.js"
+ ],
+ "file": "../../../src/components/drawer/DrawerMenu.js",
+ "names": [
+  "CL",
+  "ROOT",
+  "DrawerMenu",
+  "onCloseDrawer",
+  "AppValue",
+  "theme",
+  "setThemeId",
+  "themeId",
+  "AppThemeId",
+  "drawerStyle",
+  "getDrawerStyle",
+  "pageRouter"
+ ],
+ "mappings": ";;;;;;;;;AAAA;;AAEA;;AACA;;AAEA;;AAEA;;AACA;;AAEA,IAAMA,EAAE,GAAG;AACTC,EAAAA,IAAI,EAAE;AADG,CAAX;;AAIA,IAAMC,UAAU,GAAG,SAAbA,UAAa,OAAuB;AAAA,MAApBC,aAAoB,QAApBA,aAAoB;;AAAA,oBACV,uBAAWC,oBAAX,CADU;AAAA,MAChCC,KADgC,eAChCA,KADgC;AAAA,MACzBC,UADyB,eACzBA,UADyB;AAAA,MAEtCC,OAFsC,GAE5B,uBAAWC,sBAAX,CAF4B;AAAA,MAGtCC,WAHsC,GAGxBJ,KAAK,CAACK,cAAN,CAAqBH,OAArB,CAHwB;;AAIxC,sBACE;AACE,IAAA,SAAS,EAAEP,EAAE,CAACC,IADhB;AAEE,IAAA,KAAK,EAAEQ,WAFT;AAAA,4BAIE,qBAAC,uBAAD;AACE,MAAA,UAAU,EAAEH,UADd;AAEE,MAAA,OAAO,EAAEH;AAFX,MAJF,eAQE,qBAAC,sBAAD;AACE,MAAA,UAAU,EAAEQ,sBADd;AAEE,MAAA,aAAa,EAAC,IAFhB;AAGE,MAAA,QAAQ,EAAE;AAHZ,MARF;AAAA,IADF;AAgBD,CApBD;;eAsBeT,U"
+}

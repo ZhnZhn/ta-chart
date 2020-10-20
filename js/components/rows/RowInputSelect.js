@@ -9,7 +9,7 @@ var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends")
 
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 
-var _react = _interopRequireDefault(require("react"));
+var _jsxRuntime = require("react/jsx-runtime");
 
 var _InputSelect = _interopRequireDefault(require("../zhn-select/InputSelect"));
 
@@ -36,11 +36,13 @@ var RowInputSelect = function RowInputSelect(_ref) {
     optionName: optionName
   });
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    style: rowStyle
-  }, /*#__PURE__*/_react["default"].createElement("span", {
-    style: (0, _extends2["default"])({}, labelStyle, {}, captionStyle)
-  }, _caption), /*#__PURE__*/_react["default"].createElement(_InputSelect["default"], _options));
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: rowStyle,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      style: (0, _extends2["default"])({}, labelStyle, captionStyle),
+      children: _caption
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_InputSelect["default"], (0, _extends2["default"])({}, _options))]
+  });
 };
 
 var _default = RowInputSelect;

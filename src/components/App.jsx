@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import { useState, useReducer, useEffect } from 'react'
 
 import useInit from './hooks/useInit'
 
@@ -43,7 +43,7 @@ const App = () => {
   , appValue = useInit(() => crAppValue({
        appSettings,
        theme, setThemeId,
-       dispatch,       
+       dispatch,
        setLiveUpdating
   }));
 

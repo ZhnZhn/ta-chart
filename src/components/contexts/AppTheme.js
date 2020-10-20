@@ -1,5 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
 
-const AppTheme = React.createContext();
+const AppTheme = createContext();
 
 export default AppTheme
