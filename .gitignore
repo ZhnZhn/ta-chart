@@ -1,13 +1,7 @@
 .languagebabel
-jspm_packages
 node_modules
 local_modules
 _start_server.bat
-bundle.min.js
-bundle.min.js.map
-config.js
-dependency-bundle.js
-dependency-bundle.js.map
 ta-chart.html
 lint.txt
 lib-dev
@@ -18,7 +12,11 @@ out.txt
 coverage
 dll
 _codemods
+dev
+ut
+webpack.dev.js
 webpack.dev.dll.js
 webpack.dev.dll-jsx.js
 app/*_dev_*.js
+
 
