@@ -1,27 +1,25 @@
-import FlatButton from '../zhn-m/FlatButton'
+import FlatButton from '../zhn-m/FlatButton';
 
-const CL = {
-  BT: 'drawer__list-bt'
-};
+const CL_LIST_BT = 'drawer__list-bt'
+, S_UL = { listStyleType: 'none' };
 
-const S = {
-  UL: {
-    listStyleType: 'none'
-  }
-};
-
-const PageMenu = ({ style, onNextPage }) => (
-  <ul style={{...S.UL, ...style }}>
+const PageMenu = ({
+  style,
+  onNextPage
+}) => (
+  <ul style={{...S_UL, ...style}}>
+    {/*
     <li>
       <FlatButton
-        className={CL.BT}
+        className={CL_LIST_BT}
         caption="App Settings"
         onClick={() => onNextPage("p1-1")}
       />
     </li>
+    */}
     <li>
       <FlatButton
-        className={CL.BT}
+        className={CL_LIST_BT}
         caption="AltCoins"
         onClick={() => onNextPage("p1-2")}
       />
