@@ -9,13 +9,13 @@ const {
 
 const CL_TOOLTIP = 'rs-tooltip'
 
-const _noop = () => {}
+const _noop = () => {};
 
-const _stroke = (d, dPrev) => d.close > dPrev.close
+const _stroke = (d, dPrev) => (d || {}).close > (dPrev || {}).close
   ? C.UP
   : C.DOWN;
 
-const _fill = (d, dPrev) => d.close > d.open
+const _fill = (d, dPrev) => (d || {}).close > (d || {}).open
   ? C.TRANSPARENT
   : _stroke(d, dPrev);
 
