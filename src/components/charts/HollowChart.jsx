@@ -9,7 +9,9 @@ import RsiSeria from './series/RsiSeria'
 import CloseSeria from './series/CloseSeria'
 
 const {
-  sma, rsi, bollingerBand,
+  sma,
+  rsi,
+  bollingerBand,
   fitWidth
 } = Ch;
 const {
@@ -29,26 +31,20 @@ const MARGIN = {
 	bottom: 30
 };
 
-const S = {
-	EL: {
-		width: '98%'
-	}
-};
+const S_EL = { width: '98%' };
 
 const _xAccessor = d => d
  ? d.date
  : 0;
 
-const HollowChart = (props) => {
-  const {
-		id,
-		style,
-    data,
-		width,
-		resize,
-    timeframe
-	} = props;
-
+ const HollowChart = ({
+  id,
+  style,
+  data,
+  width,
+  resize,
+  timeframe
+}) => {
   const sma20 = sma()
 		.options({ windowSize: 20, stroke: 'green' })
 		.merge((d, c) => {d.sma20 = c;})
@@ -78,9 +74,13 @@ const HollowChart = (props) => {
 } = xScaleProvider(calculatedData);
 */
 
+  /*eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
 		resize()
 	}, [])
+  // resize
+  /*eslint-enable react-hooks/exhaustive-deps */
+
 
   const timeInterval = crTimeInterval(timeframe)
   , timeFormat = crTimeFormat(timeframe)
@@ -89,35 +89,40 @@ const HollowChart = (props) => {
   return (
 		<div
 			id={id}
-			style={{...S.EL, ...style }}
+			style={{...S_EL, ...style}}
 		>
-    <Ch.ChartCanvas
-			ratio={2}
-			width={width}
-      height={550}
-			margin={MARGIN}
-      type="hybrid"
-			seriesName="Item"
-      data={calculatedData}
-			xAccessor={_xAccessor}
-			xScale={scaleTime()}
-			xExtents={xExtents}
+     <Ch.ChartCanvas
+       ratio={2}
+       width={width}
+       height={550}
+       margin={MARGIN}
+       type="hybrid"
+       seriesName="Item"
+       data={calculatedData}
+       xAccessor={_xAccessor}
+       displayXAccessor={_xAccessor}
+       xScale={scaleTime()}
+       xExtents={xExtents}
      >
-			 {RsiSeria({ id: 1, height: 100, width: width, rsi: rsi14 })}
+			 {RsiSeria({
+         id: 1,
+         height: 100,
+         width: width,
+         rsi: rsi14 })}
 			 {CloseSeria({ id: 2, height: 100})}
 			 {CandleSeria({
-          id: 3, height: 300,
-          timeInterval, timeFormat,
-          sma20, sma50, bb
+         id: 3, height: 300,
+         timeInterval, timeFormat,
+         sma20, sma50, bb
         })}
-			  {VolumeSeria({
-           id: 4, height: 120,
-           timeInterval, timeFormat
-        })}
-        {<Ch.CrossHairCursor />}
+			 {VolumeSeria({
+         id: 4, height: 120,
+         timeInterval, timeFormat
+       })}
+       {<Ch.CrossHairCursor />}
 		 </Ch.ChartCanvas>
-		  </div>
+		 </div>
   );
-}
+};
 
 export default fitWidth(memo(HollowChart))
