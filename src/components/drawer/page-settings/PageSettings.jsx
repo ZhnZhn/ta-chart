@@ -1,10 +1,14 @@
-import { useContext, useRef, useState } from 'react'
+import {
+  useContext,
+  useRef,
+  useState
+} from 'react';
 
-import AppValue from '../../contexts/AppValue'
+import AppValue from '../../contexts/AppValue';
 
-import InputText from '../../zhn/InputText'
-import FlatButton from '../../zhn-m/FlatButton'
-import BackMenuBt from '../BackMenuBt'
+import InputText from '../../zhn/InputText';
+import FlatButton from '../../zhn-m/FlatButton';
+import BackMenuBt from '../BackMenuBt';
 
 const S_PAGE = { paddingLeft: 4 }
 , S_LABEL = {
@@ -43,7 +47,7 @@ const PageSetting = ({
      forceUpdate(n => n+1)
   }
   , _proxy = appSettings.proxy();
-  
+
   return (
     <div style={{...S_PAGE, ...style}}>
       <BackMenuBt onClick={onPrevPage} />
@@ -71,6 +75,6 @@ const PageSetting = ({
       </div>
     </div>
   );
-}
+};
 
 export default PageSetting
