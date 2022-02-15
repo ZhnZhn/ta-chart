@@ -1,22 +1,26 @@
-import { Component, createRef, createElement, cloneElement } from 'react'
+import {
+  Component,
+  createRef,
+  createElement,
+  cloneElement
+} from 'react'
 
 import throttleOnce from '../../utils/throttleOnce'
 
 const PERIOD_MS = 750;
 
-const S = {
-  SHOW_HIDE: {
-    position: 'absolute',
-    overflow: 'hidden'
-  },
-  PAGES: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'flex-start',
-    overflowX: 'hidden',
-    transition: `all ${PERIOD_MS}ms ease-out`
-  }
+const S_SHOW_HIDE = {
+  position: 'absolute',
+  overflow: 'hidden'
+}
+, S_PAGES = {
+  display: 'flex',
+  flexFlow: 'row nowrap',
+  alignItems: 'flex-start',
+  overflowX: 'hidden',
+  transition: `all ${PERIOD_MS}ms ease-out`
 };
+
 
 const _getTranslateX = node => parseInt(node
  .style.transform
@@ -144,12 +148,12 @@ class ModalSlider extends Component {
     const { _pagesStyle } = this
     , _transform = this._crTransform()
     , _divStyle = {
-        ...S.PAGES,
+        ...S_PAGES,
         ..._pagesStyle,
         ..._transform
       };
     return (
-      <div style={S.SHOW_HIDE}>
+      <div style={S_SHOW_HIDE}>
         <div
           ref={this._refPages}
           style={_divStyle}
