@@ -2,6 +2,7 @@
 import fetchImpl from '../utils/fetchImpl';
 import {
   getItems,
+  compareByCaption,
   isObj
 } from './adapter-fns'
 
@@ -24,6 +25,7 @@ const binance = {
           }
           return result;
        }, [])
+       .sort(compareByCaption)
     ),
 
     getTimeframes: () => [
