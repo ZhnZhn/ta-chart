@@ -1,27 +1,23 @@
-import { useState } from 'react'
+import { useState } from '../uiApi';
 
-const CL = {
-  BT: 'bt-triple',
-  BT_ONE: 'bt-triple__one',
-  BT_TWO: 'bt-triple__two',
-  BT_THREE: 'bt-triple__three',
-};
+const CL_BT = 'bt-triple'
+, CL_BT_ONE = 'bt-triple__one'
+, CL_BT_TWO = 'bt-triple__two'
+, CL_BT_THREE = 'bt-triple__three'
 
-const S = {
-  SELECTED: {
-    backgroundColor: '#1b2836'
-  }
-};
+, S_SELECTED = { backgroundColor: '#1b2836' };
 
 const _crBtStyle = (nowValue, btValue) => nowValue === btValue
-  ? S.SELECTED
-  : undefined;
+  ? S_SELECTED
+  : void 0;
 
 const BtTriple = ({
   style,
-  tabIndex,
-  initialValue,
-  oneC, twoC, threeC,
+  tabIndex=-1,
+  initialValue=1,
+  oneC='One',
+  twoC='Two',
+  threeC='Three',
   onClick
 }) => {
   const [value, setValue] = useState(initialValue)
@@ -34,9 +30,9 @@ const BtTriple = ({
   };
 
   return (
-  <div className={CL.BT} style={style}>
+  <div className={CL_BT} style={style}>
     <button
-      className={CL.BT_ONE}
+      className={CL_BT_ONE}
       style={_oneStyle}
       tabIndex={tabIndex}
       onClick={_onClick.bind(null, 1)}
@@ -44,7 +40,7 @@ const BtTriple = ({
       {oneC}
     </button>
     <button
-      className={CL.BT_TWO}
+      className={CL_BT_TWO}
       style={_twoStyle}
       tabIndex={tabIndex}
       onClick={_onClick.bind(null, 2)}
@@ -52,7 +48,7 @@ const BtTriple = ({
       {twoC}
     </button>
     <button
-      className={CL.BT_THREE}
+      className={CL_BT_THREE}
       style={_threeStyle}
       tabIndex={tabIndex}
       onClick={_onClick.bind(null, 3)}
@@ -60,15 +56,7 @@ const BtTriple = ({
       {threeC}
     </button>
   </div>
- )
+  );
 };
-
-BtTriple.defaultProps = {
-  tabIndex: -1,
-  initialValue: 1,
-  oneC: 'One',
-  twoC: 'Two',
-  threeC: 'Three'
-}
 
 export default BtTriple

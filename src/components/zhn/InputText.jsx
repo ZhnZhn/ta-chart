@@ -1,23 +1,21 @@
 import { Component } from 'react';
 //import PropTypes from "prop-types";
 
-const S = {
-  INPUT_TEXT : {
-    display : 'inline',
-    background: 'transparent none repeat scroll 0 0',
-    border: 'medium none',
-    outline: 'medium none',
-    height: '26px',
-    paddingLeft: '5px',
-    color: 'green',
-    width: '40px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    backgroundColor : '#E1E1CB',
-    marginLeft : '5px',
-    marginRight : '5px',
-  }
+const S_INPUT_TEXT = {
+  display : 'inline',
+  background: 'transparent none repeat scroll 0 0',
+  border: 'medium none',
+  outline: 'medium none',
+  color: 'green',
+  height: 26,
+  width: 40,
+  paddingLeft: 5,
+  margin: '0 5px',
+  fontSize: '16px',
+  fontWeight: 'bold',
+  backgroundColor : '#e1e1cb',
 };
+
 
 const C = {
   BLANK: '',
@@ -107,7 +105,7 @@ class InputText extends Component {
              : false;
     return (
       <input
-        style={{ ...S.INPUT_TEXT, ...style }}
+        style={{...S_INPUT_TEXT, ...style}}
         type={type || C.TEXT}
         name={C.TEXT}
         autoCapitalize={C.OFF}
@@ -121,7 +119,7 @@ class InputText extends Component {
         onChange={this._handleInputChange}
         onKeyDown={this._handleKeyDown}
       />
-    )
+    );
   }
 
   getValue() {

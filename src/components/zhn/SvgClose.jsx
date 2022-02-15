@@ -1,40 +1,34 @@
-//import PropTypes from "prop-types";
 
-const CL = "svg-close";
+const STROKE_COLOR = '#f44336'
+, CL = "svg-close"
+, S_SVG = { padding: 3 };
 
-const S = {
-  //"#ED5813"
-  COLOR: '#f44336',
-  SVG: {
-    padding: 3,
-  }
-};
-
-const SvgClose = ({ style, tabIndex=-1, onClick }) => (
+const SvgClose = ({
+  style,
+  tabIndex=-1,
+  onClick 
+}) => (
    <button
       className={CL}
       style={style}
       tabIndex={tabIndex}
       onClick={onClick}
    >
-     <svg viewBox="0 0 12 12" width="100%" height="100%"
-          style={S.SVG} preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
-          strokeWidth="2"
-          stroke={S.COLOR}
-          strokeLinecap="round"
+     <svg
+        viewBox="0 0 12 12"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={S_SVG}
+        strokeWidth="2"
+        stroke={STROKE_COLOR}
+        strokeLinecap="round"
       >
         <path d="M 0,0 L 12,12" />
         <path d="M 12,0 L 0,12" />
      </svg>
    </button>
-)
-
-/*
-SvgClose.propTypes = {
-  style: PropTypes.object,
-  onClose: PropTypes.func
-}
-*/
-
+);
 
 export default SvgClose
