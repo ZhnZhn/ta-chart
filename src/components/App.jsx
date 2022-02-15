@@ -1,4 +1,8 @@
-import { useState, useReducer, useEffect } from 'react'
+import {
+  useState,
+  useReducer,
+  useEffect
+} from './uiApi'
 
 import useInit from './hooks/useInit'
 
@@ -16,60 +20,45 @@ import initialState from './initialState'
 import reducer from './reducer'
 import crAppValue from './crAppValue'
 
-const S = {
-  MAIN: {
-    paddingTop: 8
-  },
-  INLINE: {
-    display: 'inline-block'
-  },
-  SELECTS: {
-    display: 'inline-block',
-    verticalAlign: 'top'
-  }
+const HOLLOW_EL_ID = "chart_wrapper"
+, S_MAIN = { paddingTop: 8 }
+, INITIAL_UPDATING_STATE = {
+  isLiveUpdating: false,
+  sec: ''
 };
-
-const EL_ID = "chart_wrapper";
 
 const App = () => {
   const [width, setWidth] = useState(900)
   , [themeId, setThemeId] = useState(1)
   , [state, dispatch] = useReducer(reducer, initialState)
   , {
-    providerTitle, itemTitle,
-    data, timeframe, fetchStatus,
-  } = state
-  , [ liveUpdating, setLiveUpdating] = useState({ isLiveUpdating: false, sec: '' })
+      providerTitle,
+      itemTitle,
+      data,
+      timeframe,
+      fetchStatus
+    } = state
+  , [liveUpdating, setLiveUpdating] = useState(INITIAL_UPDATING_STATE)
   , appValue = useInit(() => crAppValue({
-       appSettings,
-       theme, setThemeId,
-       dispatch,
-       setLiveUpdating
+      appSettings,
+      theme,
+      setThemeId,
+      dispatch,
+      setLiveUpdating
   }));
 
 
   const hResize = () => {
-    const _el = document.getElementById(EL_ID)
+    const _el = document.getElementById(HOLLOW_EL_ID)
     , _style = window.getComputedStyle(_el)
     , _w = Math.round(parseFloat(_style.width));
     setWidth(_w)
   };
+
   useEffect(()=>{
      window.addEventListener("resize", hResize);
      return () => window.removeEventListener("resize", hResize);
   }, [])
-
-  /*
-  console.log(JSON.stringify(data.map(obj => ({
-    date: obj.date,
-    open: obj.open,
-    high: obj.high,
-    low: obj.low,
-    close: obj.close,
-    volume: obj.volume
-  }))))
-  */
-
 
   return (
     <AppValue.Provider value={appValue}>
@@ -81,9 +70,9 @@ const App = () => {
         itemTitle={itemTitle}
         timeframe={timeframe}
       />
-      <main style={S.MAIN}>
+      <main style={S_MAIN}>
         <HollowChart
-          id={EL_ID}
+          id={HOLLOW_EL_ID}
           width={width}
           height={550}
           data={data}

@@ -1,5 +1,7 @@
 export {
   useContext,
   useRef,
-  useState
+  useState,
+  useReducer,
+  useEffect
 } from 'react';
