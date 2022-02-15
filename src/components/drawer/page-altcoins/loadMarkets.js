@@ -1,20 +1,27 @@
-import { crOptionItem } from './pageFns';
-import ALTCOIN from './enumAltcoin'
+import {
+  MARKET_LOADING,
+  MARKET_LOADED,
+  MARKET_LOADING_FAIL
+} from './enumAltcoin';
 
-const loadMarkets = ({ dispatch, exchImpl, exchange }) => {
-  dispatch({ type: ALTCOIN.MARKET_LOADING })
-  exchImpl.loadMarkets()
-    .then(() => {
+const loadMarkets = ({
+  dispatch,
+  exchImpl,
+  exchange
+}) => {
+  dispatch({ type: MARKET_LOADING })
+  exchImpl.fetchMarkets()
+    .then(markets => {
       dispatch({
-        type: ALTCOIN.MARKET_LOADED,
+        type: MARKET_LOADED,
         exchange,
-        markets: exchImpl.symbols.map(crOptionItem)
+        markets
       })
     })
     .catch(err => {
-      dispatch({ type: ALTCOIN.MARKET_LOADING_FAIL })
+      dispatch({ type: MARKET_LOADING_FAIL })
       console.log(err.message)
     })
-}
+};
 
 export default loadMarkets

@@ -1,35 +1,42 @@
-import ALTCOIN from './enumAltcoin'
+import {
+  MARKET_LOADING,
+  MARKET_LOADED,
+  MARKET_LOADING_FAIL,
+  EXCHANGES_SET,
+  EXCHANGE_SET,
+  PAIR_SET
+} from './enumAltcoin'
 
 const reducer = (state, action) => {
   switch(action.type){
-    case ALTCOIN.MARKET_LOADING:
+    case MARKET_LOADING:
       return {...state,
         isMarkets: { loading: true, failed: false }
       };
-    case ALTCOIN.MARKET_LOADED:
+    case MARKET_LOADED:
       return {
         ...state,
         exchange: action.exchange,
         markets: action.markets,
         isMarkets: { loading: false, failed: false },
       };
-    case ALTCOIN.MARKET_LOADING_FAIL:
+    case MARKET_LOADING_FAIL:
       return {
         ...state,
         isMarkets: { loading: false, failed: true }
       }
-    case ALTCOIN.EXCHANGES_SET:
+    case EXCHANGES_SET:
      return {
        ...state,
        exchanges: action.exchanges
      };
-    case ALTCOIN.EXCHANGE_SET:
+    case EXCHANGE_SET:
      return {
        ...state,
        exchange: action.exchange,
-       pair: undefined
+       pair: void 0
      };
-    case ALTCOIN.PAIR_SET:
+    case PAIR_SET:
      return {
        ...state,
        pair: action.pair

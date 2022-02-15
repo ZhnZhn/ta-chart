@@ -1,4 +1,10 @@
-import { useState, useReducer, useEffect, useRef, useContext } from 'react'
+import {
+  useContext,
+  useRef,
+  useState,
+  useReducer,
+  useEffect
+} from 'react';
 
 import AppValue from '../../contexts/AppValue'
 import AppLiveUpdating from '../../contexts/AppLiveUpdating'
@@ -9,46 +15,46 @@ import FlatButton from '../../zhn-m/FlatButton'
 
 import reducer from './reducer'
 import initialState from './initialState'
-import ALTCOIN from './enumAltcoin'
+import {
+  EXCHANGES_SET,
+  EXCHANGE_SET,
+  PAIR_SET
+} from './enumAltcoin'
 
 import loadMarkets from './loadMarkets'
 import loadPair from './loadPair'
 
-import pageFns from './pageFns';
-
-const {
+import {
   crExchange,
-  crExchanges,
-  crTimeframes
-} = pageFns;
-
+  crExchanges
+} from './pageFns';
 
 const DF_TIMEFRAME = '1d';
 
-const S = {
-  ROOT: {
-    height: 400
-  },
-  DIV_BTS: {
-    paddingLeft: 8
-  },
-  BT_LIVE_UPDATE: {
-    display: 'block',
-    paddingLeft: 8
-  }
-};
+const S_ROOT = { height: 400 }
+, S_DIV_BTS = { paddingLeft: 8 };
 
+const _isLiveUpdate = (exchange, timeframe) =>
+  exchange === 'binance' && timeframe === '1m';
 
-const PageAltCoins = ({ style, onPrevPage }) => {
+const PageAltCoins = ({
+  style,
+  onPrevPage
+}) => {
   const {
     appSettings,
     dataAction,
-    onLiveUpdate, onStopUpdate
+    onLiveUpdate,
+    onStopUpdate
   } = useContext(AppValue)
   , { isLiveUpdating } = useContext(AppLiveUpdating)
   const [state, dispatch] = useReducer(reducer, initialState)
-  , { exchange, pair, isMarkets,
-      exchanges, markets
+  , {
+      exchange,
+      pair,
+      isMarkets,
+      exchanges,
+      markets
   } = state
   , [timeframes, setTimeframes] = useState([])
   , [timeframe, setTimeframe] = useState(DF_TIMEFRAME)
@@ -57,7 +63,7 @@ const PageAltCoins = ({ style, onPrevPage }) => {
 
   useEffect(() => {
     dispatch({
-      type: ALTCOIN.EXCHANGES_SET,
+      type: EXCHANGES_SET,
       exchanges: crExchanges()
     })
   }, [])
@@ -66,29 +72,35 @@ const PageAltCoins = ({ style, onPrevPage }) => {
     if (exchange) {
       refExchange.current = crExchange(exchange, proxy)
       setTimeframe(DF_TIMEFRAME)
-      setTimeframes(crTimeframes(refExchange.current.timeframes))
+      setTimeframes(refExchange.current.getTimeframes())
       loadMarkets({
-        dispatch, exchange,
+        dispatch,
+        exchange,
         exchImpl: refExchange.current
       })
     }
   }, [exchange, proxy])
 
+  /*eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (pair && timeframe) {
       loadPair({
-        exchange, pair,
+        exchange,
+        pair,
         timeframe: timeframe,
         exchImpl: refExchange.current,
         dataAction
       })
     }
   }, [pair, timeframe])
+  // dataAction, exchange
+  /*eslint-enable react-hooks/exhaustive-deps */
+
 
   const onSelectExchange = (item) => {
     if (item && item.value) {
       dispatch({
-        type: ALTCOIN.EXCHANGE_SET,
+        type: EXCHANGE_SET,
         exchange: item.value
       })
     }
@@ -100,13 +112,13 @@ const PageAltCoins = ({ style, onPrevPage }) => {
 
   const onSelectMarket = (item) => {
     dispatch({
-      type: ALTCOIN.PAIR_SET,
-      pair: item && item.value || undefined
+      type: PAIR_SET,
+      pair: item && item.value || void 0
     })
   }
 
   return  (
-    <div style={{ ...S.ROOT, ...style }}>
+    <div style={{...S_ROOT, ...style}}>
       <BackMenuBt
         onClick={onPrevPage}
       />
@@ -119,8 +131,8 @@ const PageAltCoins = ({ style, onPrevPage }) => {
         timeframes={timeframes}
         onSelectTimeframe={onSelectTimeframe}
       />
-      { (exchange === 'binance' && timeframe === '1m') && <div
-         style={S.DIV_BTS}>
+      { _isLiveUpdate(exchange, timeframe) && <div
+         style={S_DIV_BTS}>
           <FlatButton
             caption={isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min'}
             onClick={isLiveUpdating ? onStopUpdate : () => onLiveUpdate(pair)}

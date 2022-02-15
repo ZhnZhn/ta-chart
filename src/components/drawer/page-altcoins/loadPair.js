@@ -1,4 +1,3 @@
-import { crPoint } from './pageFns'
 
 const loadPair = ({
   exchImpl, exchange,
@@ -10,13 +9,13 @@ const loadPair = ({
     .then(ohlcv => dataAction.loadData({
        providerTitle: exchange,
        itemTitle: pair,
-       data: ohlcv.map(crPoint),
+       data: ohlcv,
        timeframe
      }))
     .catch(err => {
       dataAction.loadFailed()
       console.log(err.message)
     })
-}
+};
 
 export default loadPair
