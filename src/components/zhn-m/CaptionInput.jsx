@@ -1,10 +1,12 @@
-const S = {
-  KEY: {
-    textDecoration: 'underline'
-  }
-};
+const S_KEY = { textDecoration: 'underline' };
 
-const CaptionInput = ({ className, rootStyle, caption='', accessKey, children }) => {
+const CaptionInput = ({
+  className,
+  rootStyle,
+  caption='',
+  accessKey,
+  children
+}) => {
   const _index = caption.toLowerCase().indexOf(accessKey);
   if (accessKey && _index !== -1) {
     const _before = caption.substring(0, _index)
@@ -13,7 +15,7 @@ const CaptionInput = ({ className, rootStyle, caption='', accessKey, children })
     return (
       <span className={className} style={rootStyle}>
          <span>{_before}</span>
-         <span style={S.KEY}>{_key}</span>
+         <span style={S_KEY}>{_key}</span>
          <span>{_after}</span>
          {children}
       </span>
