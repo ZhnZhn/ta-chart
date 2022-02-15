@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext } from '../uiApi'
 
 import AppValue from '../contexts/AppValue'
 import AppThemeId from '../contexts/AppThemeId'
