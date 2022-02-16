@@ -1,9 +1,11 @@
 
 import binance from './binance';
+import bitstamp from './bitstamp';
 
 
 const adapters = {
-  binance
+  binance,
+  bitstamp
 };
 
 export default adapters
