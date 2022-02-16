@@ -7,8 +7,7 @@ const PageMenu = ({
   style,
   onNextPage
 }) => (
-  <ul style={{...S_UL, ...style}}>
-    {/*
+  <ul style={{...S_UL, ...style}}>    
     <li>
       <FlatButton
         className={CL_LIST_BT}
@@ -16,7 +15,6 @@ const PageMenu = ({
         onClick={() => onNextPage("p1-1")}
       />
     </li>
-    */}
     <li>
       <FlatButton
         className={CL_LIST_BT}
