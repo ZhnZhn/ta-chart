@@ -1,33 +1,43 @@
 const S_KEY = { textDecoration: 'underline' };
 
+const _crAccessKeyIndex = (
+  accessKey,
+  caption
+) => accessKey
+  ? caption.toLowerCase().indexOf(accessKey)
+  : -1;
+
+const _crCaptionEl = (accessKeyIndex, caption) => {
+  const _before = caption.substring(0, accessKeyIndex)
+      , _key = caption.substring(accessKeyIndex, accessKeyIndex+1)
+      , _after = caption.substring(accessKeyIndex+1);
+  return (
+    <>
+      <span>{_before}</span>
+      <span style={S_KEY}>{_key}</span>
+      <span>{_after}</span>
+    </>
+  )
+};
+
 const CaptionInput = ({
   className,
-  rootStyle,
+  style,
   caption='',
   accessKey,
   children
 }) => {
-  const _index = caption.toLowerCase().indexOf(accessKey);
-  if (accessKey && _index !== -1) {
-    const _before = caption.substring(0, _index)
-        , _key = caption.substring(_index, _index+1)
-        , _after = caption.substring(_index+1);
+  const _accessKeyIndex = _crAccessKeyIndex(accessKey, caption)
+  , _captionEl = (_accessKeyIndex === -1)
+      ? caption
+      : _crCaptionEl(_accessKeyIndex, caption);
+            
     return (
-      <span className={className} style={rootStyle}>
-         <span>{_before}</span>
-         <span style={S_KEY}>{_key}</span>
-         <span>{_after}</span>
-         {children}
-      </span>
-    );
-  } else {
-    return (
-      <span className={className} style={rootStyle}>
-        {caption}
+      <span className={className} style={style}>
+        {_captionEl}
         {children}
       </span>
     );
-  }
 };
 
 export default CaptionInput
