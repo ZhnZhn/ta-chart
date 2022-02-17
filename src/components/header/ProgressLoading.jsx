@@ -1,40 +1,41 @@
-import { PureComponent } from 'react'
+import { memo } from '../uiApi';
 
 import FETCH from '../enumFetch';
 import ProgressLine from '../zhn/ProgressLine';
 
-const C = {
-  LOADING : '#2f7ed8',
-  FAILED : 'rgb(237, 88, 19)'
-};
+const  LOADING_COLOR = '#2f7ed8'
+, FAILED_COLOR = '#ed5813'
+, _crFetchState = (completed, color) => [
+  completed,
+  color
+];
 
 const _getFetchingState = (fetchStatus) => {
-  switch (fetchStatus) {
-  case FETCH.LOADING:
-    return { completed: 35, color: C.LOADING };
-  case FETCH.SUCCESS:
-    return { completed: 100, color: C.LOADING };
-  case FETCH.FAILED:
-    return { completed: 100, color: C.FAILED };
-  default:
-    return { completed : 0, color : C.LOADING };
+  if (fetchStatus === FETCH.LOADING) {
+    return _crFetchState(35, LOADING_COLOR);
+  } else if (fetchStatus === FETCH.SUCCESS) {
+    return _crFetchState(100, LOADING_COLOR);
+  } else if (fetchStatus === FETCH.FAILED) {
+    return _crFetchState(100, FAILED_COLOR);
+  } else {
+    return _crFetchState(0, LOADING_COLOR);
   }
 };
 
-class ProgressLoading extends PureComponent {
-  render(){
-    const { fetchStatus } = this.props
-    , {
-      completed, color
-    } = _getFetchingState(fetchStatus);
-    return (
-      <ProgressLine
-         height={3}
-         color={color}
-         completed={completed}
-      />
-    );
-  }
-}
+const ProgressLoading = ({
+  fetchStatus
+}) => {
+  const [
+    completed,
+    color
+  ] = _getFetchingState(fetchStatus);
+  return (
+    <ProgressLine
+       height={3}
+       color={color}
+       completed={completed}
+    />
+  );
+};
 
-export default ProgressLoading
+export default memo(ProgressLoading)
