@@ -1,12 +1,10 @@
-import FlatButton from '../zhn-m/FlatButton'
+import FlatButton from '../zhn-m/FlatButton';
 
-const CL = {
-  BT: 'drawer__list-bt'
-}
+const CL_DRAWER_LIST_BT = 'drawer__list-bt';
 
 const BackMenuBt = ({ onClick }) => (
   <FlatButton
-    className={CL.BT}
+    className={CL_DRAWER_LIST_BT}
     caption="< Menu"
     onClick={onClick}
   />
