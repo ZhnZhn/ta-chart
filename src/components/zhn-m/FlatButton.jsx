@@ -7,12 +7,17 @@ import {
 import useThrottleClick from '../hooks/useThrottleClick';
 
 import crCn from '../zhn-utils/crCn';
+import crStyle from '../zhn-utils/crStyle';
 import CaptionInput from './CaptionInput';
 
 const CL_BT_FLAT = 'bt-flat'
 , CL_BT_FLAT_DIV = 'bt-flat__div'
 , CL_BT_FLAT_SPAN = 'bt-flat__span'
 , S_PRIMARY = { color: '#607d8b' };
+
+const _crAccessKey = (title, accessKey) => accessKey
+  ? `${title} [${accessKey}]`
+  : title;
 
 const FlatButton = forwardRef(({
   className,
@@ -41,12 +46,8 @@ const FlatButton = forwardRef(({
 
   const _className = crCn(CL_BT_FLAT, className)
   , _clCaption = crCn(CL_BT_FLAT_SPAN, clCaption)
-  , _style = isPrimary
-       ? {...style, ...S_PRIMARY}
-       : style
-  , _title = accessKey
-       ? `${title} [${accessKey}]`
-       : title;
+  , _style = crStyle(style, [isPrimary, S_PRIMARY])
+  , _title = _crAccessKey(title, accessKey);
 
   return (
     <button
