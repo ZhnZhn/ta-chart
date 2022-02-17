@@ -1,17 +1,13 @@
 import { Component } from 'react'
 
+import crCn from '../zhn-utils/crCn';
 import CaptionInput from './CaptionInput'
 
-const CL = {
-  BT: 'bt-flat',
-  BT_DIV: 'bt-flat__div',
-  BT_SPAN: 'bt-flat__span'
-};
-const S = {
-  PRIMARY: {
-    color: '#607d8b'
-  }
-};
+const CL_BT_FLAT = 'bt-flat'
+, CL_BT_FLAT_DIV = 'bt-flat__div'
+, CL_BT_FLAT_SPAN = 'bt-flat__span'
+, S_PRIMARY = { color: '#607d8b' };
+
 const POINTER_EVENTS = 'pointer-events';
 
 class FlatButton extends Component {
@@ -39,21 +35,19 @@ class FlatButton extends Component {
     const {
            className,
            rootStyle,
-           clDiv=CL.BT_DIV,
+           clDiv=CL_BT_FLAT_DIV,
            clCaption,
            isPrimary,
-           title='', caption, accessKey,
+           title='',
+           caption,
+           accessKey,
            children
           } = this.props
         , _style = isPrimary
-             ? {...rootStyle, ...S.PRIMARY }
+             ? {...rootStyle, ...S_PRIMARY}
              : rootStyle
-        , _className = className
-             ? `${CL.BT} ${className}`
-             : CL.BT
-        , _clCaption = clCaption
-              ? `${CL.BT_SPAN} ${clCaption}`
-              : CL.BT_SPAN
+        , _className = crCn(CL_BT_FLAT, className)
+        , _clCaption = crCn(CL_BT_FLAT_SPAN, clCaption)
         , _title = accessKey
              ? `${title} [${accessKey}]`
              : title;
