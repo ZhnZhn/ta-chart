@@ -1,11 +1,13 @@
-import { Component } from 'react';
-//import PropTypes from "prop-types";
+import {
+  forwardRef,
+  useRef,
+  useState,
+  useCallback,
+  useImperativeHandle
+} from '../uiApi';
 
 const S_INPUT_TEXT = {
-  display : 'inline',
-  background: 'transparent none repeat scroll 0 0',
-  border: 'medium none',
-  outline: 'medium none',
+  display: 'inline',
   color: 'green',
   height: 26,
   width: 40,
@@ -13,121 +15,80 @@ const S_INPUT_TEXT = {
   margin: '0 5px',
   fontSize: '16px',
   fontWeight: 'bold',
-  backgroundColor : '#e1e1cb',
-};
-
-
-const C = {
-  BLANK: '',
-  TEXT: 'text',
-  //NEW_TEXT: 'new-text',
-  ON: 'on',
-  OFF: 'off'
+  border: 'medium none',
+  outline: 'medium none',
+  background: 'transparent none repeat scroll 0 0',
+  backgroundColor: '#e1e1cb',
 }
+, C_BLANK = ''
+, C_TEXT = 'text'
+, ON = 'on'
+, OFF = 'off'
+, FN_NOOP = () => {};
 
-const _isFn = fn => typeof fn === 'function';
+const InputText = forwardRef(({
+  initValue,
+  style,
+  spellCheck,
+  placeholder,
+  type=C_TEXT,
+  maxLenght=125,
+  onEnter=FN_NOOP
+}, ref) => {
+  const _refInput = useRef()
+  , [value, setValue] = useState(() => initValue != null ? initValue : C_BLANK)
+  , _hInputChange = useCallback(event => {
+      const { value } = event.target;
+      if (value.length <= maxLenght) {
+        setValue(value)
+      }
+    }, [maxLenght])
+  /*eslint-disable react-hooks/exhaustive-deps */
+  , _hKeyDown = useCallback(event => {
+     switch(event.keyCode){
+       case 27: case 46:
+          event.preventDefault()
+          setValue(C_BLANK )
+          break;
+       case 13:
+          onEnter(event.target.value)
+          break;
+       default: return;
+     }
+   }, []);
+  // onEnter
+  /*eslint-enable react-hooks/exhaustive-deps */
 
-const _getInitStateFrom = ({ initValue }) => ({
-  initValue: initValue,
-  value: initValue != null ? initValue : C.BLANK
+  useImperativeHandle(ref, () => ({
+    getValue: () => (_refInput.current || {}).value,
+    setValue: value => setValue(value)
+  }), [])
+
+  const _autoCorrect = spellCheck
+       ? ON
+       : OFF
+  , _spellCheck = spellCheck
+       ? true
+       : false;
+
+  return (
+    <input
+      ref={_refInput}
+      style={{...S_INPUT_TEXT, ...style}}
+      type={type}
+      name={C_TEXT}
+      autoCapitalize={OFF}
+      autoComplete={OFF}
+      autoCorrect={_autoCorrect}
+      spellCheck={_spellCheck}
+      translate="false"
+      value={value}
+      placeholder={placeholder}
+      maxLength={maxLenght}
+      onChange={_hInputChange}
+      onKeyDown={_hKeyDown}
+    />
+  );
 });
-
-class InputText extends Component {
-  /*
-  static propTypes = {
-    style: PropTypes.object,
-    initValue: PropTypes.string,
-    type: PropTypes.string,
-    placeholder: PropTypes.string,
-    onEnter: PropTypes.func
-  }
-  */
-  static defaultProps = {
-    maxLenght: 125
-  }
-
-  constructor(props){
-    super(props);
-
-    this.isOnEnter = _isFn(props.onEnter)
-       ? true : false
-
-    this.state = _getInitStateFrom(props)
-  }
-
-  componentDidMount(){
-    const { onReg } = this.props;
-    if ( _isFn(onReg) ){
-      onReg(this)
-    }
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    return props.initValue !== state.initValue
-      ? _getInitStateFrom(props)
-      : null;
-  }
-
-  _handleInputChange = (event) => {
-    const value = event.target.value
-    , { maxLenght } = this.props;
-    if (value.length <= maxLenght) {
-      this.setState({ value })
-    }
-  }
- _handleKeyDown = (event) => {
-    switch(event.keyCode){
-      case 27: case 46:
-         event.preventDefault()
-         this.setState({ value: C.BLANK })
-         break;
-      case 13:
-         if (this.isOnEnter) {
-           this.props.onEnter(event.target.value)
-         }
-         break;
-      default: return;
-    }
- }
-
-  render(){
-    const {
-           style, type,
-           spellCheck, placeholder,
-           maxLenght
-         } = this.props
-        , { value } = this.state
-        , _autoCorrect = spellCheck
-             ? C.ON
-             : C.OFF
-        , _spellCheck = spellCheck
-             ? true
-             : false;
-    return (
-      <input
-        style={{...S_INPUT_TEXT, ...style}}
-        type={type || C.TEXT}
-        name={C.TEXT}
-        autoCapitalize={C.OFF}
-        autoComplete={C.OFF}
-        autoCorrect={_autoCorrect}
-        spellCheck={_spellCheck}
-        translate={false}
-        value={value}
-        placeholder={placeholder}
-        maxLength={maxLenght}
-        onChange={this._handleInputChange}
-        onKeyDown={this._handleKeyDown}
-      />
-    );
-  }
-
-  getValue() {
-    return this.state.value;
-  }
-  setValue(value) {
-    this.setState({ value })
-  }
-}
 
 export default InputText
