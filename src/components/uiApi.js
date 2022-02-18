@@ -1,10 +1,12 @@
 export {
   forwardRef,
+  memo,
   useContext,
   useRef,
   useState,
   useReducer,
   useCallback,
   useEffect,
-  useImperativeHandle
+  useImperativeHandle,
+  cloneElement
 } from 'react';
