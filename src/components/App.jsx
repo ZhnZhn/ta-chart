@@ -1,8 +1,7 @@
 import {
   useState,
-  useReducer,
-  useEffect
-} from './uiApi'
+  useReducer
+} from './uiApi';
 
 import useInit from './hooks/useInit'
 
@@ -28,8 +27,7 @@ const HOLLOW_EL_ID = "chart_wrapper"
 };
 
 const App = () => {
-  const [width, setWidth] = useState(900)
-  , [themeId, setThemeId] = useState(1)
+  const [themeId, setThemeId] = useState(1)
   , [state, dispatch] = useReducer(reducer, initialState)
   , {
       providerTitle,
@@ -48,18 +46,6 @@ const App = () => {
   }));
 
 
-  const hResize = () => {
-    const _el = document.getElementById(HOLLOW_EL_ID)
-    , _style = window.getComputedStyle(_el)
-    , _w = Math.round(parseFloat(_style.width));
-    setWidth(_w)
-  };
-
-  useEffect(()=>{
-     window.addEventListener("resize", hResize);
-     return () => window.removeEventListener("resize", hResize);
-  }, [])
-
   return (
     <AppValue.Provider value={appValue}>
     <AppThemeId.Provider value={themeId}>
@@ -73,10 +59,8 @@ const App = () => {
       <main style={S_MAIN}>
         <HollowChart
           id={HOLLOW_EL_ID}
-          width={width}
           height={550}
           data={data}
-          resize={hResize}
           timeframe={timeframe}
         />
       </main>

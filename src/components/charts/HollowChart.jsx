@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 
 import Ch from './Ch'
 import chartFns from './chartFns'
@@ -12,7 +12,7 @@ const {
   sma,
   rsi,
   bollingerBand,
-  fitWidth
+  useElementWidth
 } = Ch;
 const {
   scaleTime,
@@ -41,48 +41,29 @@ const _xAccessor = d => d
   id,
   style,
   data,
-  width,
-  resize,
+  height,
   timeframe
 }) => {
-  const sma20 = sma()
-		.options({ windowSize: 20, stroke: 'green' })
-		.merge((d, c) => {d.sma20 = c;})
-		.accessor(d => d.sma20)
+  const [width] = useElementWidth({ id })
+  , sma20 = sma()
+		 .options({ windowSize: 20, stroke: 'green' })
+		 .merge((d, c) => {d.sma20 = c;})
+		 .accessor(d => d.sma20)
   , sma50 = sma()
-    .options({ windowSize: 50, stroke: 'orange' })
-    .merge((d, c) => {d.sma50 = c;})
-    .accessor(d => d.sma50)
+     .options({ windowSize: 50, stroke: 'orange' })
+     .merge((d, c) => {d.sma50 = c;})
+     .accessor(d => d.sma50)
 	, bb = bollingerBand()
-	  .merge((d, c) => {d.bb = c;})
-		.accessor(d => d.bb)
+	   .merge((d, c) => {d.bb = c;})
+		 .accessor(d => d.bb)
 	, rsi14 = rsi()
-		.options({ windowSize: 14 })
-		.merge((d, c) => {d.rsi = c;})
-		.accessor(d => d.rsi);
+		 .options({ windowSize: 14 })
+		 .merge((d, c) => {d.rsi = c;})
+		 .accessor(d => d.rsi)
 
-  const calculatedData = sma50(sma20(bb(rsi14(data))))
+  , calculatedData = sma50(sma20(bb(rsi14(data))))
 
-  /*
-  const xScaleProvider = discontinuousTimeScaleProvider
-    .inputDateAccessor(d => d.date);
-  const {
-  data: calcData,
-  xScale,
-  xAccessor,
-  displayXAccessor,
-} = xScaleProvider(calculatedData);
-*/
-
-  /*eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-		resize()
-	}, [])
-  // resize
-  /*eslint-enable react-hooks/exhaustive-deps */
-
-
-  const timeInterval = crTimeInterval(timeframe)
+  , timeInterval = crTimeInterval(timeframe)
   , timeFormat = crTimeFormat(timeframe)
   , xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
 
@@ -94,9 +75,8 @@ const _xAccessor = d => d
      <Ch.ChartCanvas
        ratio={2}
        width={width}
-       height={550}
+       height={height}
        margin={MARGIN}
-       type="hybrid"
        seriesName="Item"
        data={calculatedData}
        xAccessor={_xAccessor}
@@ -108,21 +88,24 @@ const _xAccessor = d => d
          id: 1,
          height: 100,
          width: width,
-         rsi: rsi14 })}
+         rsi: rsi14 })
+       }
 			 {CloseSeria({ id: 2, height: 100})}
 			 {CandleSeria({
          id: 3, height: 300,
          timeInterval, timeFormat,
          sma20, sma50, bb
-        })}
+        })
+       }
 			 {VolumeSeria({
          id: 4, height: 120,
          timeInterval, timeFormat
-       })}
+       })
+       }
        {<Ch.CrossHairCursor />}
 		 </Ch.ChartCanvas>
 		 </div>
   );
 };
 
-export default fitWidth(memo(HollowChart))
+export default memo(HollowChart)

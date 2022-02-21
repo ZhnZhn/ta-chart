@@ -22,7 +22,7 @@ import BollingerBandTooltip from "react-stockcharts/lib/tooltip/BollingerBandToo
 import sma from "react-stockcharts/lib/indicator/sma"
 import rsi from "react-stockcharts/lib/indicator/rsi"
 import bollingerBand from "react-stockcharts/lib/indicator/bollingerBand"
-import fitWidth from "react-stockcharts/lib/helper/fitWidth"
+import useElementWidth from '../zhn-charts/hooks/useElementWidth'
 
 const Ch = {
   ChartCanvas,
@@ -46,8 +46,10 @@ const Ch = {
   MovingAverageTooltip,
   BollingerBandTooltip,
 
-  sma, rsi, bollingerBand,
-  fitWidth
+  sma,
+  rsi,
+  bollingerBand,  
+  useElementWidth
 };
 
 export default Ch
