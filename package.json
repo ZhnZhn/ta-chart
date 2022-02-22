@@ -8,7 +8,7 @@
     "transpile": "babel ./src --out-dir ./js --source-maps --ignore test.js",
     "transpile:all": "babel ./src --out-dir ./js --source-maps",
     "lint": "eslint -c .eslintrc-build.json ./src > lint.txt",
-    "css:min": "node ut/css-min.js",                
+    "css:min": "node ut/css-min.js",
     "build:prod": "webpack --color --progress --config webpack.prod.js",
     "stats": "npm run stats:json && npm run stats:report",
     "stats:json": "webpack --profile --json --config webpack.dll-jsx.js > stats.json",
@@ -53,7 +53,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.1",
     "d3-format": "^1.4.5",
-    "d3-scale": "^3.2.3",
+    "d3-scale": "^3.3.0",
     "d3-time": "^1.1.0",
     "d3-time-format": "^2.3.0",
     "process": "^0.11.10",
