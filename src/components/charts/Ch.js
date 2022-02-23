@@ -19,9 +19,9 @@ import OHLCTooltip from "react-stockcharts/lib/tooltip/OHLCTooltip"
 import MovingAverageTooltip from "react-stockcharts/lib/tooltip/MovingAverageTooltip"
 import BollingerBandTooltip from "react-stockcharts/lib/tooltip/BollingerBandTooltip"
 
-import sma from "react-stockcharts/lib/indicator/sma"
-import rsi from "react-stockcharts/lib/indicator/rsi"
-import bollingerBand from "react-stockcharts/lib/indicator/bollingerBand"
+import sma from "../zhn-charts/indicator/sma"
+import rsi from "../zhn-charts/indicator/rsi"
+import bollingerBand from "../zhn-charts/indicator/bollingerBand"
 import useElementWidth from '../zhn-charts/hooks/useElementWidth'
 
 const Ch = {
@@ -48,7 +48,7 @@ const Ch = {
 
   sma,
   rsi,
-  bollingerBand,  
+  bollingerBand,
   useElementWidth
 };
 
