@@ -49,7 +49,7 @@ var _crData = function _crData() {
 var C = {
   INITIAL_PROVIDER_TITLE: 'Data Provider (Random)',
   INITIAL_ITEM_TITLE: 'Item',
-  PROXY: 'https://cors-anywhere.herokuapp.com/',
+  PROXY: 'http://127.0.0.1:3000/proxy',
   RATE_LIMIT: 3000,
   DF_DATA: _crData(),
   DF_TIMEFRAME: '1d'

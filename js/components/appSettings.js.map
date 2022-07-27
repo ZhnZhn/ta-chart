@@ -1,1 +1,16 @@
-{"version":3,"sources":["../../src/components/appSettings.js"],"names":["_proxy","C","PROXY","appSettings","proxy","restoreProxy"],"mappings":";;;;;;;AACA;;AAEA,IAAIA,MAAM,GAAGC,mBAAEC,KAAf;AAEA,IAAMC,WAAW,GAAG;AAClBC,EAAAA,KAAK,EAAE,eAACA,OAAD;AAAA,WAAWA,OAAK,IAClBJ,MAAM,GAAGI,OAAT,EAAgB,IADE,IAEnBJ,MAAM,IAAI,EAFP;AAAA,GADW;AAIlBK,EAAAA,YAAY,EAAE,wBAAM;AAClB,WAAQL,MAAM,GAAGC,mBAAEC,KAAnB;AACD;AANiB,CAApB;eASeC,W","sourcesContent":["\r\nimport C from './config'\r\n\r\nlet _proxy = C.PROXY;\r\n\r\nconst appSettings = {\r\n  proxy: (proxy) => proxy\r\n    ? (_proxy = proxy, true)\r\n    : _proxy || '',\r\n  restoreProxy: () => {\r\n    return (_proxy = C.PROXY);\r\n  }\r\n}\r\n\r\nexport default appSettings\r\n"],"file":"appSettings.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../src/components/appSettings.js"
+ ],
+ "file": "../../src/components/appSettings.js",
+ "names": [
+  "_proxy",
+  "C",
+  "PROXY",
+  "appSettings",
+  "proxy",
+  "clearProxy"
+ ],
+ "mappings": ";;;;;;;AACA;;AAEA,IAAIA,MAAM,GAAGC,mBAAEC,KAAf;AAEA,IAAMC,WAAW,GAAG;AAClBC,EAAAA,KAAK,EAAE,eAACA,OAAD;AAAA,WAAWA,OAAK,IAClBJ,MAAM,GAAGI,OAAT,EAAgB,IADE,IAEnBJ,MAAM,IAAI,EAFP;AAAA,GADW;AAIlBK,EAAAA,UAAU,EAAE,sBAAM;AAChBL,IAAAA,MAAM,GAAG,EAAT;AACD;AANiB,CAApB;eASeG,W"
+}

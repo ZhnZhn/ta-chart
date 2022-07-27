@@ -12,8 +12,8 @@ var appSettings = {
   proxy: function proxy(_proxy2) {
     return _proxy2 ? (_proxy = _proxy2, true) : _proxy || '';
   },
-  restoreProxy: function restoreProxy() {
-    return _proxy = _config["default"].PROXY;
+  clearProxy: function clearProxy() {
+    _proxy = '';
   }
 };
 var _default = appSettings;
