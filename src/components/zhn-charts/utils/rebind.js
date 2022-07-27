@@ -1,7 +1,10 @@
 // d3fc/packages/d3fc-rebind/src/rebind.js same as d3.rebind
 
-
-function createReboundMethod(target, source, name) {
+const _createReboundMethod = (
+	target,
+	source,
+	name
+) => {
 	const method = source[name];
 	if (typeof method !== "function") {
 		throw new Error(`Attempt to rebind ${name} which isn't a function on the source object`);
@@ -10,11 +13,15 @@ function createReboundMethod(target, source, name) {
 		const value = method.apply(source, args);
 		return value === source ? target : value;
 	};
-}
+};
 
-export default function rebind(target, source, ...names) {
+export const rebind = (
+	target,
+	source,
+	...names
+) => {
 	for (const name of names) {
-		target[name] = createReboundMethod(target, source, name);
+		target[name] = _createReboundMethod(target, source, name);
 	}
 	return target;
 }
