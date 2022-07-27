@@ -1,5 +1,11 @@
 import { scaleTime } from "d3-scale";
-import { utcMinute, utcHour, utcDay, utcWeek, utcMonth } from "d3-time";
+import {
+  utcMinute,
+  utcHour,
+  utcDay,
+  utcWeek,
+  utcMonth
+} from "d3-time";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 
@@ -35,9 +41,9 @@ let fromDate, toDate, xExtends = [];
 const crExtends = (data, timeframe, itemsNum) => {
   const _max = data.length - 1
   , _from = _max < itemsNum
-       ? data[0].date
-       : data[_max-itemsNum].date
-  , _recentDate = data.slice(-1)[0].date
+       ? (data[0] || {}).date
+       : (data[_max-itemsNum] || {}).date
+  , _recentDate = (data.slice(-1)[0] || {}).date
   , _to = timeframe === '1m'
       ? _recentDate + 60*1000*5
       : _recentDate ;

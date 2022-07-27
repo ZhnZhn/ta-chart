@@ -1,1 +1,46 @@
-{"version":3,"sources":["../../../src/components/charts/chartFns.js"],"names":["_isStr","str","_isInclude","ch","indexOf","crTimeInterval","timeframe","utcDay","_n","parseInt","utcMinute","every","utcHour","utcWeek","utcMonth","fromDate","toDate","xExtends","crExtends","data","itemsNum","_max","length","_from","date","_recentDate","slice","_to","crTimeFormat","chartFns","C","config","timeIntervalBarWidth","scaleTime","format","timeFormat"],"mappings":"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","sourcesContent":["import { scaleTime } from \"d3-scale\";\r\nimport { utcMinute, utcHour, utcDay, utcWeek, utcMonth } from \"d3-time\";\r\nimport { format } from \"d3-format\";\r\nimport { timeFormat } from \"d3-time-format\";\r\n\r\nimport timeIntervalBarWidth from './utils/timeIntervalBarWidth'\r\n\r\nimport config from './config'\r\n\r\nconst _isStr = str => typeof str === 'string';\r\n\r\nconst _isInclude = (str, ch) => str.indexOf(ch) !== -1;\r\n\r\nconst crTimeInterval = (timeframe) => {\r\n  if (!timeframe || !_isStr(timeframe)) {\r\n    return utcDay;\r\n  }\r\n  const _n = parseInt(timeframe, 10);\r\n  if (_isInclude(timeframe, 'm')) {\r\n    return utcMinute.every(_n)\r\n  } else if (_isInclude(timeframe, 'h')) {\r\n    return utcHour.every(_n);\r\n  } else if (_isInclude(timeframe, 'd')) {\r\n    return utcDay.every(_n);\r\n  } else if (_isInclude(timeframe, 'w')) {\r\n    return utcWeek.every(_n);\r\n  } else if (_isInclude(timeframe, 'M')) {\r\n    return utcMonth.every(_n);\r\n  }\r\n\r\n  return utcDay;\r\n};\r\n\r\nlet fromDate, toDate, xExtends = [];\r\nconst crExtends = (data, timeframe, itemsNum) => {\r\n  const _max = data.length - 1\r\n  , _from = _max < itemsNum\r\n       ? data[0].date\r\n       : data[_max-itemsNum].date\r\n  , _recentDate = data.slice(-1)[0].date\r\n  , _to = timeframe === '1m'\r\n      ? _recentDate + 60*1000*5\r\n      : _recentDate ;\r\n  return _from === fromDate && _to === toDate\r\n    ? xExtends\r\n    : fromDate = _from, toDate = _to, (xExtends = [_from, _to]);\r\n};\r\n\r\n\r\nconst crTimeFormat = timeframe => _isStr(timeframe)\r\n && (_isInclude(timeframe, 'm') || _isInclude(timeframe, 'h'))\r\n  ? timeFormat('%m-%d %H:%M')\r\n  : timeFormat(\"%Y-%m-%d\");\r\n\r\nconst chartFns = {\r\n  C: config,\r\n  timeIntervalBarWidth,\r\n\r\n  scaleTime,\r\n\r\n  crTimeInterval,\r\n  crTimeFormat,\r\n  utcMinute,\r\n  utcHour,\r\n  utcDay,\r\n\r\n  format,\r\n  timeFormat,\r\n\r\n  crExtends\r\n};\r\n\r\nexport default chartFns\r\n"],"file":"chartFns.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/charts/chartFns.js"
+ ],
+ "file": "../../../src/components/charts/chartFns.js",
+ "names": [
+  "_isStr",
+  "str",
+  "_isInclude",
+  "ch",
+  "indexOf",
+  "crTimeInterval",
+  "timeframe",
+  "utcDay",
+  "_n",
+  "parseInt",
+  "utcMinute",
+  "every",
+  "utcHour",
+  "utcWeek",
+  "utcMonth",
+  "fromDate",
+  "toDate",
+  "xExtends",
+  "crExtends",
+  "data",
+  "itemsNum",
+  "_max",
+  "length",
+  "_from",
+  "date",
+  "_recentDate",
+  "slice",
+  "_to",
+  "crTimeFormat",
+  "chartFns",
+  "C",
+  "config",
+  "timeIntervalBarWidth",
+  "scaleTime",
+  "format",
+  "timeFormat"
+ ],
+ "mappings": "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"
+}

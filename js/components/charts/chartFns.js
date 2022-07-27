@@ -53,8 +53,8 @@ var fromDate,
 
 var crExtends = function crExtends(data, timeframe, itemsNum) {
   var _max = data.length - 1,
-      _from = _max < itemsNum ? data[0].date : data[_max - itemsNum].date,
-      _recentDate = data.slice(-1)[0].date,
+      _from = _max < itemsNum ? (data[0] || {}).date : (data[_max - itemsNum] || {}).date,
+      _recentDate = (data.slice(-1)[0] || {}).date,
       _to = timeframe === '1m' ? _recentDate + 60 * 1000 * 5 : _recentDate;
 
   return _from === fromDate && _to === toDate ? xExtends : fromDate = _from, toDate = _to, xExtends = [_from, _to];
