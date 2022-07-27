@@ -23,7 +23,7 @@ var _BollingerSeries = _interopRequireDefault(require("react-stockcharts/lib/ser
 
 var _BarSeries = _interopRequireDefault(require("react-stockcharts/lib/series/BarSeries"));
 
-var _CrossHairCursor = _interopRequireDefault(require("react-stockcharts/lib/coordinates/CrossHairCursor"));
+var _CrossHairCursor = _interopRequireDefault(require("../zhn-charts/coordinates/CrossHairCursor"));
 
 var _MouseCoordinateX = _interopRequireDefault(require("react-stockcharts/lib/coordinates/MouseCoordinateX"));
 
@@ -37,14 +37,15 @@ var _MovingAverageTooltip = _interopRequireDefault(require("react-stockcharts/li
 
 var _BollingerBandTooltip = _interopRequireDefault(require("react-stockcharts/lib/tooltip/BollingerBandTooltip"));
 
-var _sma = _interopRequireDefault(require("react-stockcharts/lib/indicator/sma"));
+var _sma = _interopRequireDefault(require("../zhn-charts/indicator/sma"));
 
-var _rsi = _interopRequireDefault(require("react-stockcharts/lib/indicator/rsi"));
+var _rsi = _interopRequireDefault(require("../zhn-charts/indicator/rsi"));
 
-var _bollingerBand = _interopRequireDefault(require("react-stockcharts/lib/indicator/bollingerBand"));
+var _bollingerBand = _interopRequireDefault(require("../zhn-charts/indicator/bollingerBand"));
 
-var _fitWidth = _interopRequireDefault(require("react-stockcharts/lib/helper/fitWidth"));
+var _useElementWidth = _interopRequireDefault(require("../zhn-charts/hooks/useElementWidth"));
 
+//import CrossHairCursor from "react-stockcharts/lib/coordinates/CrossHairCursor";
 var Ch = {
   ChartCanvas: _ChartCanvas["default"],
   Chart: _Chart["default"],
@@ -65,7 +66,7 @@ var Ch = {
   sma: _sma["default"],
   rsi: _rsi["default"],
   bollingerBand: _bollingerBand["default"],
-  fitWidth: _fitWidth["default"]
+  useElementWidth: _useElementWidth["default"]
 };
 var _default = Ch;
 exports["default"] = _default;

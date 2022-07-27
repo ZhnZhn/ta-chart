@@ -10,7 +10,8 @@ import CandlestickSeries from "react-stockcharts/lib/series/CandlestickSeries"
 import BollingerSeries from "react-stockcharts/lib/series/BollingerSeries"
 import BarSeries from "react-stockcharts/lib/series/BarSeries"
 
-import CrossHairCursor from "react-stockcharts/lib/coordinates/CrossHairCursor";
+//import CrossHairCursor from "react-stockcharts/lib/coordinates/CrossHairCursor";
+import CrossHairCursor from "../zhn-charts/coordinates/CrossHairCursor";
 import MouseCoordinateX from "react-stockcharts/lib/coordinates/MouseCoordinateX"
 import MouseCoordinateY from "react-stockcharts/lib/coordinates/MouseCoordinateY"
 
