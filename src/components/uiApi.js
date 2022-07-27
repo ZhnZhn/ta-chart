@@ -11,3 +11,5 @@ export {
   useImperativeHandle,
   cloneElement
 } from 'react';
+
+export const getRefValue = ref => (ref || {}).current

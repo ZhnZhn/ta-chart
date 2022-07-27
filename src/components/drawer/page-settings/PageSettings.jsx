@@ -1,8 +1,9 @@
 import {
   useContext,
   useRef,
-  useState
-} from 'react';
+  useState,
+  getRefValue
+} from '../../uiApi';
 
 import AppValue from '../../contexts/AppValue';
 
@@ -21,13 +22,18 @@ const S_PAGE = { paddingLeft: 4 }
   display: 'block',
   width: '92%',
   height: 32,
-  padding: '8px 0'
+  padding: '8px 0 8px 4px'
 }
 , S_BTS = {
   float: 'right',
   padding: '6px 22px 0 0'
-};
+}
+, LOCALHOST = 'http://127.0.0.1'
+, _isStr = str => typeof str === 'string';
 
+const _isLocalProxy = str => _isStr(str)
+  ? str.indexOf(LOCALHOST) !== -1
+  : false;
 
 const PageSetting = ({
   style,
@@ -37,13 +43,23 @@ const PageSetting = ({
   , refInput = useRef()
   , [proxyKey, forceUpdate] = useState(0)
   , onEnterProxy = (str) => {
-     appSettings.proxy(str)
+     if (_isLocalProxy(str)) {
+       appSettings.proxy(str)
+     } else {
+       getRefValue(refInput).setValue('')
+     }
   }
   , onApply = () => {
-     appSettings.proxy(refInput.current.getValue())
+     const _input = getRefValue(refInput)
+     , _proxyValue = _input.getValue()
+     if (_isLocalProxy(_proxyValue)) {
+       appSettings.proxy(_proxyValue)
+     } else {
+       _input.setValue('')
+     }
   }
-  , onRestore = () => {
-     appSettings.restoreProxy()
+  , onClear = () => {
+     appSettings.clearProxy()
      forceUpdate(n => n+1)
   }
   , _proxy = appSettings.proxy();
@@ -60,12 +76,13 @@ const PageSetting = ({
           ref={refInput}
           style={S_INPUT}
           initValue={_proxy}
+          placeholder={LOCALHOST}
           onEnter={onEnterProxy}
         />
         <div style={S_BTS}>
           <FlatButton
-            caption="Restore"
-            onClick={onRestore}
+            caption="Clear"
+            onClick={onClear}
           />
           <FlatButton
             caption="Apply"
