@@ -1,0 +1,115 @@
+import { Component } from "react";
+
+const _getRatio = (canvasEl) => {
+  if (canvasEl != null) {
+    const context = canvasEl.getContext("2d")
+    , devicePixelRatio = window.devicePixelRatio || 1
+    , backingStoreRatio = context.webkitBackingStorePixelRatio ||
+        context.mozBackingStorePixelRatio ||
+        context.msBackingStorePixelRatio ||
+        context.oBackingStorePixelRatio ||
+        context.backingStorePixelRatio || 1
+    , ratio = devicePixelRatio / backingStoreRatio;
+    return ratio;
+  }
+  return 1;
+};
+
+const _getParentNode = el => {
+  const { parentNode } = el || {};
+  return parentNode || window;
+};
+
+const _calcWidth = (el, minWidth) => {
+  const {
+    width,
+    paddingLeft,
+    paddingRight
+  } = window.getComputedStyle(_getParentNode(el))
+  , w = parseFloat(width) - (parseFloat(paddingLeft) + parseFloat(paddingRight));
+
+  return Math.round(Math.max(w, minWidth));
+};
+
+
+function getDisplayName(Series) {
+	const name = Series.displayName || Series.name || "Series";
+	return name;
+}
+
+export default function fitWidth(
+  WrappedComponent,
+  withRef = true,
+  minWidth = 100
+) {
+	class ResponsiveComponent extends Component {
+    state = {}
+
+		saveNode = (node) => {
+			this.node = node;
+		}
+		setTestCanvas = (node) => {
+			this.testCanvas = node;
+		}
+
+		componentDidMount() {
+			window.addEventListener("resize", this._hWindowResize);
+			this._hWindowResize();
+			/* eslint-disable react/no-did-mount-set-state */
+			this.setState({
+        ratio: _getRatio(this.testCanvas)
+			});
+			/* eslint-enable react/no-did-mount-set-state */
+		}
+		componentWillUnmount() {
+			window.removeEventListener("resize", this._hWindowResize);
+		}
+
+		_hWindowResize = () => {
+      this.setState({
+        width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
+      });
+      /*
+			this.setState({
+				width: 0
+			}, () => {
+				this.setState({
+          width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
+				});
+			});
+      */
+		}
+
+		getWrappedInstance = () => {
+			return this.node;
+		}
+		render() {
+			const {
+        width,
+        ratio
+      } = this.state
+      , ref = withRef
+         ? { ref: this.saveNode }
+         : {};
+
+      return width
+        ? (
+            <WrappedComponent
+              width={width}
+              ratio={ratio}
+              {...this.props}
+              {...ref}
+            />
+          )
+        : (
+            <div {...ref}>
+					    <canvas ref={this.setTestCanvas}  />
+				    </div>
+          );
+		}
+	}
+
+	ResponsiveComponent.displayName = `fitWidth(${ getDisplayName(WrappedComponent) })`;
+
+	return ResponsiveComponent;
+}
