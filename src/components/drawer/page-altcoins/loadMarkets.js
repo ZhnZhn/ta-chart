@@ -7,10 +7,11 @@ import {
 const loadMarkets = ({
   dispatch,
   exchImpl,
-  exchange
+  exchange,
+  proxy
 }) => {
   dispatch({ type: MARKET_LOADING })
-  exchImpl.fetchMarkets()
+  exchImpl.fetchMarkets(proxy)
     .then(markets => {
       dispatch({
         type: MARKET_LOADED,

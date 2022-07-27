@@ -1,1 +1,26 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-altcoins/loadMarkets.js"],"names":["loadMarkets","dispatch","exchImpl","exchange","type","ALTCOIN","MARKET_LOADING","then","MARKET_LOADED","markets","symbols","map","crOptionItem","err","MARKET_LOADING_FAIL","console","log","message"],"mappings":";;;;;;;AAAA;;AACA;;AAEA,IAAMA,WAAW,GAAG,SAAdA,WAAc,OAAsC;AAAA,MAAnCC,QAAmC,QAAnCA,QAAmC;AAAA,MAAzBC,QAAyB,QAAzBA,QAAyB;AAAA,MAAfC,QAAe,QAAfA,QAAe;AACxDF,EAAAA,QAAQ,CAAC;AAAEG,IAAAA,IAAI,EAAEC,wBAAQC;AAAhB,GAAD,CAAR;AACAJ,EAAAA,QAAQ,CAACF,WAAT,GACGO,IADH,CACQ,YAAM;AACVN,IAAAA,QAAQ,CAAC;AACPG,MAAAA,IAAI,EAAEC,wBAAQG,aADP;AAEPL,MAAAA,QAAQ,EAARA,QAFO;AAGPM,MAAAA,OAAO,EAAEP,QAAQ,CAACQ,OAAT,CAAiBC,GAAjB,CAAqBC,qBAArB;AAHF,KAAD,CAAR;AAKD,GAPH,WAQS,UAAAC,GAAG,EAAI;AACZZ,IAAAA,QAAQ,CAAC;AAAEG,MAAAA,IAAI,EAAEC,wBAAQS;AAAhB,KAAD,CAAR;AACAC,IAAAA,OAAO,CAACC,GAAR,CAAYH,GAAG,CAACI,OAAhB;AACD,GAXH;AAYD,CAdD;;eAgBejB,W","sourcesContent":["import { crOptionItem } from './pageFns';\r\nimport ALTCOIN from './enumAltcoin'\r\n\r\nconst loadMarkets = ({ dispatch, exchImpl, exchange }) => {\r\n  dispatch({ type: ALTCOIN.MARKET_LOADING })\r\n  exchImpl.loadMarkets()\r\n    .then(() => {\r\n      dispatch({\r\n        type: ALTCOIN.MARKET_LOADED,\r\n        exchange,\r\n        markets: exchImpl.symbols.map(crOptionItem)\r\n      })\r\n    })\r\n    .catch(err => {\r\n      dispatch({ type: ALTCOIN.MARKET_LOADING_FAIL })\r\n      console.log(err.message)\r\n    })\r\n}\r\n\r\nexport default loadMarkets\r\n"],"file":"loadMarkets.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-altcoins/loadMarkets.js"
+ ],
+ "file": "../../../../src/components/drawer/page-altcoins/loadMarkets.js",
+ "names": [
+  "loadMarkets",
+  "dispatch",
+  "exchImpl",
+  "exchange",
+  "proxy",
+  "type",
+  "MARKET_LOADING",
+  "fetchMarkets",
+  "then",
+  "markets",
+  "MARKET_LOADED",
+  "err",
+  "MARKET_LOADING_FAIL",
+  "console",
+  "log",
+  "message"
+ ],
+ "mappings": ";;;;;AAAA;;AAMA,IAAMA,WAAW,GAAG,SAAdA,WAAc,OAKd;AAAA,MAJJC,QAII,QAJJA,QAII;AAAA,MAHJC,QAGI,QAHJA,QAGI;AAAA,MAFJC,QAEI,QAFJA,QAEI;AAAA,MADJC,KACI,QADJA,KACI;AACJH,EAAAA,QAAQ,CAAC;AAAEI,IAAAA,IAAI,EAAEC;AAAR,GAAD,CAAR;AACAJ,EAAAA,QAAQ,CAACK,YAAT,CAAsBH,KAAtB,EACGI,IADH,CACQ,UAAAC,OAAO,EAAI;AACfR,IAAAA,QAAQ,CAAC;AACPI,MAAAA,IAAI,EAAEK,0BADC;AAEPP,MAAAA,QAAQ,EAARA,QAFO;AAGPM,MAAAA,OAAO,EAAPA;AAHO,KAAD,CAAR;AAKD,GAPH,WAQS,UAAAE,GAAG,EAAI;AACZV,IAAAA,QAAQ,CAAC;AAAEI,MAAAA,IAAI,EAAEO;AAAR,KAAD,CAAR;AACAC,IAAAA,OAAO,CAACC,GAAR,CAAYH,GAAG,CAACI,OAAhB;AACD,GAXH;AAYD,CAnBD;;eAqBef,W"
+}

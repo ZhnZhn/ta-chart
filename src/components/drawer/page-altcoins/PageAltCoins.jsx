@@ -37,6 +37,9 @@ const S_ROOT = { height: 400 }
 const _isLiveUpdate = (exchange, timeframe) =>
   exchange === 'binance' && timeframe === '1m';
 
+const _isRequireProxy = (exchImpl, proxy) =>
+  exchImpl.isRequireProxy && !proxy;
+
 const PageAltCoins = ({
   style,
   onPrevPage
@@ -59,7 +62,6 @@ const PageAltCoins = ({
   , [timeframes, setTimeframes] = useState([])
   , [timeframe, setTimeframe] = useState(DF_TIMEFRAME)
   , refExchange = useRef(null)
-  , proxy = appSettings.proxy();
 
   useEffect(() => {
     dispatch({
@@ -68,32 +70,51 @@ const PageAltCoins = ({
     })
   }, [])
 
+  /*eslint-disable react-hooks/exhaustive-deps */
   useEffect(()=>{
     if (exchange) {
-      refExchange.current = crExchange(exchange, proxy)
+      refExchange.current = crExchange(exchange)
+      const _exchImpl = refExchange.current
+      , proxy = appSettings.proxy()
+
+      if (_isRequireProxy(_exchImpl, proxy)) {
+        return;
+      }
+
       setTimeframe(DF_TIMEFRAME)
-      setTimeframes(refExchange.current.getTimeframes())
+      setTimeframes(_exchImpl.getTimeframes())
       loadMarkets({
         dispatch,
         exchange,
-        exchImpl: refExchange.current
+        exchImpl: _exchImpl,
+        proxy
       })
     }
-  }, [exchange, proxy])
+  }, [exchange])
+  // appSettings
+  /*eslint-enable react-hooks/exhaustive-deps */
 
   /*eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (pair && timeframe) {
+      const _exchImpl = refExchange.current
+      , proxy = appSettings.proxy();
+
+      if (_isRequireProxy(_exchImpl, proxy)) {
+        return;
+      }
+
       loadPair({
         exchange,
         pair,
-        timeframe: timeframe,
-        exchImpl: refExchange.current,
-        dataAction
+        timeframe,
+        exchImpl: _exchImpl,
+        dataAction,
+        proxy
       })
     }
   }, [pair, timeframe])
-  // dataAction, exchange
+  // dataAction, exchange, appSettings
   /*eslint-enable react-hooks/exhaustive-deps */
 
 

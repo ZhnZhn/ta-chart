@@ -1,30 +1,27 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _pageFns = require("./pageFns");
-
-var _enumAltcoin = _interopRequireDefault(require("./enumAltcoin"));
+var _enumAltcoin = require("./enumAltcoin");
 
 var loadMarkets = function loadMarkets(_ref) {
   var dispatch = _ref.dispatch,
       exchImpl = _ref.exchImpl,
-      exchange = _ref.exchange;
+      exchange = _ref.exchange,
+      proxy = _ref.proxy;
   dispatch({
-    type: _enumAltcoin["default"].MARKET_LOADING
+    type: _enumAltcoin.MARKET_LOADING
   });
-  exchImpl.loadMarkets().then(function () {
+  exchImpl.fetchMarkets(proxy).then(function (markets) {
     dispatch({
-      type: _enumAltcoin["default"].MARKET_LOADED,
+      type: _enumAltcoin.MARKET_LOADED,
       exchange: exchange,
-      markets: exchImpl.symbols.map(_pageFns.crOptionItem)
+      markets: markets
     });
   })["catch"](function (err) {
     dispatch({
-      type: _enumAltcoin["default"].MARKET_LOADING_FAIL
+      type: _enumAltcoin.MARKET_LOADING_FAIL
     });
     console.log(err.message);
   });

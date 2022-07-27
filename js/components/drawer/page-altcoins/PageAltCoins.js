@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _react = require("react");
 
 var _AppValue = _interopRequireDefault(require("../../contexts/AppValue"));
@@ -25,29 +23,30 @@ var _reducer = _interopRequireDefault(require("./reducer"));
 
 var _initialState = _interopRequireDefault(require("./initialState"));
 
-var _enumAltcoin = _interopRequireDefault(require("./enumAltcoin"));
+var _enumAltcoin = require("./enumAltcoin");
 
 var _loadMarkets = _interopRequireDefault(require("./loadMarkets"));
 
 var _loadPair = _interopRequireDefault(require("./loadPair"));
 
-var _pageFns = _interopRequireDefault(require("./pageFns"));
+var _pageFns = require("./pageFns");
 
-var crExchange = _pageFns["default"].crExchange,
-    crExchanges = _pageFns["default"].crExchanges,
-    crTimeframes = _pageFns["default"].crTimeframes;
+var _jsxRuntime = require("react/jsx-runtime");
+
 var DF_TIMEFRAME = '1d';
-var S = {
-  ROOT: {
-    height: 400
-  },
-  DIV_BTS: {
-    paddingLeft: 8
-  },
-  BT_LIVE_UPDATE: {
-    display: 'block',
-    paddingLeft: 8
-  }
+var S_ROOT = {
+  height: 400
+},
+    S_DIV_BTS = {
+  paddingLeft: 8
+};
+
+var _isLiveUpdate = function _isLiveUpdate(exchange, timeframe) {
+  return exchange === 'binance' && timeframe === '1m';
+};
+
+var _isRequireProxy = function _isRequireProxy(exchImpl, proxy) {
+  return exchImpl.isRequireProxy && !proxy;
 };
 
 var PageAltCoins = function PageAltCoins(_ref) {
@@ -76,43 +75,67 @@ var PageAltCoins = function PageAltCoins(_ref) {
       _useState2 = (0, _react.useState)(DF_TIMEFRAME),
       timeframe = _useState2[0],
       setTimeframe = _useState2[1],
-      refExchange = (0, _react.useRef)(null),
-      proxy = appSettings.proxy();
+      refExchange = (0, _react.useRef)(null);
 
   (0, _react.useEffect)(function () {
     dispatch({
-      type: _enumAltcoin["default"].EXCHANGES_SET,
-      exchanges: crExchanges()
+      type: _enumAltcoin.EXCHANGES_SET,
+      exchanges: (0, _pageFns.crExchanges)()
     });
   }, []);
+  /*eslint-disable react-hooks/exhaustive-deps */
+
   (0, _react.useEffect)(function () {
     if (exchange) {
-      refExchange.current = crExchange(exchange, proxy);
+      refExchange.current = (0, _pageFns.crExchange)(exchange);
+      var _exchImpl = refExchange.current,
+          proxy = appSettings.proxy();
+
+      if (_isRequireProxy(_exchImpl, proxy)) {
+        return;
+      }
+
       setTimeframe(DF_TIMEFRAME);
-      setTimeframes(crTimeframes(refExchange.current.timeframes));
+      setTimeframes(_exchImpl.getTimeframes());
       (0, _loadMarkets["default"])({
         dispatch: dispatch,
         exchange: exchange,
-        exchImpl: refExchange.current
+        exchImpl: _exchImpl,
+        proxy: proxy
       });
     }
-  }, [exchange, proxy]);
+  }, [exchange]); // appSettings
+
+  /*eslint-enable react-hooks/exhaustive-deps */
+
+  /*eslint-disable react-hooks/exhaustive-deps */
+
   (0, _react.useEffect)(function () {
     if (pair && timeframe) {
+      var _exchImpl = refExchange.current,
+          proxy = appSettings.proxy();
+
+      if (_isRequireProxy(_exchImpl, proxy)) {
+        return;
+      }
+
       (0, _loadPair["default"])({
         exchange: exchange,
         pair: pair,
         timeframe: timeframe,
-        exchImpl: refExchange.current,
-        dataAction: dataAction
+        exchImpl: _exchImpl,
+        dataAction: dataAction,
+        proxy: proxy
       });
     }
-  }, [pair, timeframe]);
+  }, [pair, timeframe]); // dataAction, exchange, appSettings
+
+  /*eslint-enable react-hooks/exhaustive-deps */
 
   var onSelectExchange = function onSelectExchange(item) {
     if (item && item.value) {
       dispatch({
-        type: _enumAltcoin["default"].EXCHANGE_SET,
+        type: _enumAltcoin.EXCHANGE_SET,
         exchange: item.value
       });
     }
@@ -124,13 +147,13 @@ var PageAltCoins = function PageAltCoins(_ref) {
 
   var onSelectMarket = function onSelectMarket(item) {
     dispatch({
-      type: _enumAltcoin["default"].PAIR_SET,
-      pair: item && item.value || undefined
+      type: _enumAltcoin.PAIR_SET,
+      pair: item && item.value || void 0
     });
   };
 
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
-    style: (0, _extends2["default"])({}, S.ROOT, style),
+    style: (0, _extends2["default"])({}, S_ROOT, style),
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_BackMenuBt["default"], {
       onClick: onPrevPage
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_CoinSelect["default"], {
@@ -141,8 +164,8 @@ var PageAltCoins = function PageAltCoins(_ref) {
       onSelectMarket: onSelectMarket,
       timeframes: timeframes,
       onSelectTimeframe: onSelectTimeframe
-    }), exchange === 'binance' && timeframe === '1m' && /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-      style: S.DIV_BTS,
+    }), _isLiveUpdate(exchange, timeframe) && /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: S_DIV_BTS,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_FlatButton["default"], {
         caption: isLiveUpdating ? 'Stop Updating' : 'Live Updating 1min',
         onClick: isLiveUpdating ? onStopUpdate : function () {
