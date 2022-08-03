@@ -1,14 +1,18 @@
 import React from "react";
 
 import {
-  getAxisCanvas
-} from '../core/utils';
+  GenericChartComponent
+} from '../core/GenericChartComponent';
+import {
+  AxisZoomCapture
+} from './AxisZoomCapture';
 
 import {
-  GenericChartComponent
-} from '../core2/GenericChartComponent';
-
-import { AxisZoomCapture } from "./AxisZoomCapture";
+  getAxisCanvas
+} from '../core/contextFn';
+import {
+  crCssTranslate
+} from '../utils';
 
 import {
   tickHelper,
@@ -104,7 +108,7 @@ export class Axis extends React.Component {
         } = this.props;
 
         return (
-          <g transform={`translate(${transform[0]}, ${transform[1]})`}>
+          <g transform={crCssTranslate(transform)}>
               {zoomEnabled ? (<AxisZoomCapture
                  bg={bg}
                  getScale={getScale}

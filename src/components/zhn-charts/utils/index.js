@@ -8,6 +8,8 @@ export { default as identity } from './identity';
 export { path } from './path';
 export { functor } from './functor';
 
+export { crCssTranslate } from './crCssTranslate';
+
 const schemeCategory10 = [
   "#1f77b4",
   "#ff7f0e",
