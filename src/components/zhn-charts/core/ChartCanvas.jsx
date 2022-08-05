@@ -129,7 +129,7 @@ class ChartCanvas extends React.Component {
         zIndex: 1,
         zoomAnchor: mouseBasedZoomAnchor,
         zoomMultiplier: 1.1,
-    };
+    }
 
     static childContextTypes = {
         plotData: PropTypes.array,
@@ -171,7 +171,7 @@ class ChartCanvas extends React.Component {
         setCursorClass: PropTypes.func,
         generateSubscriptionId: PropTypes.func,
         getMutableState: PropTypes.func,
-    };
+    }
 
     canvasContainerRef = React.createRef();
     eventCaptureRef = React.createRef();
