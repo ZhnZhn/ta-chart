@@ -1,25 +1,19 @@
 import {
   range as d3Range,
   zip
-} from "d3-array";
+} from 'd3-array';
 
 import {
   forceCollide,
   forceSimulation,
   forceX
-} from "d3-force";
-
-import {
-  first
-} from "../core2/utils";
+} from 'd3-force';
 
 import {
   getStrokeDasharrayCanvas,
-} from '../core/utils'
-
-import {
+  first,
   last
-} from '../utils';
+} from '../utils'
 
 const drawEachTick = (
   ctx,

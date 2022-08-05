@@ -13,11 +13,7 @@ var _d3Array = require("d3-array");
 
 var _d3Force = require("d3-force");
 
-var _utils = require("../core2/utils");
-
-var _utils2 = require("../core/utils");
-
-var _utils3 = require("../utils");
+var _utils = require("../utils");
 
 var _excluded = ["orient", "innerTickSize", "tickFormat", "tickPadding", "tickLabelFill", "tickStrokeWidth", "tickStrokeDasharray", "fontSize", "fontFamily", "fontWeight", "showTicks", "showTickLabel", "ticks", "tickValues", "tickStrokeStyle", "tickInterval", "tickIntervalFunction"];
 
@@ -28,7 +24,7 @@ var drawEachTick = function drawEachTick(ctx, tick, result) {
   ctx.moveTo(tick.x1, tick.y1);
   ctx.lineTo(tick.x2, tick.y2);
   ctx.lineWidth = tickStrokeWidth;
-  var lineDash = (0, _utils2.getStrokeDasharrayCanvas)(tickStrokeDasharray);
+  var lineDash = (0, _utils.getStrokeDasharrayCanvas)(tickStrokeDasharray);
   ctx.setLineDash(lineDash);
   ctx.stroke();
 };
@@ -183,7 +179,7 @@ var drawAxisLine = function drawAxisLine(ctx, props, range) {
   ctx.strokeStyle = strokeStyle;
   ctx.beginPath();
   var firstPoint = (0, _utils.first)(range),
-      lastPoint = (0, _utils3.last)(range),
+      lastPoint = (0, _utils.last)(range),
       tickSize = sign * outerTickSize;
 
   if (xAxis) {
@@ -249,7 +245,7 @@ var drawGridLine = function drawGridLine(ctx, tick, result, moreProps) {
   }
 
   ctx.lineWidth = gridLinesStrokeWidth;
-  var lineDash = (0, _utils2.getStrokeDasharrayCanvas)(gridLinesStrokeDasharray);
+  var lineDash = (0, _utils.getStrokeDasharrayCanvas)(gridLinesStrokeDasharray);
   ctx.setLineDash(lineDash);
   ctx.stroke();
 };
