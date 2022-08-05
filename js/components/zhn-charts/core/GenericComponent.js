@@ -3,257 +3,518 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
-exports["default"] = void 0;
+exports.GenericComponent = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = require("react");
+var _react = _interopRequireDefault(require("react"));
 
-var _utils = require("../utils");
+var _utils = require("./utils");
 
-var _useRefInit = _interopRequireDefault(require("../hooks/useRefInit"));
+var _CL = require("../CL");
 
-var _useRefPropsContext2 = _interopRequireDefault(require("./useRefPropsContext"));
-
-var _useEvaluateType2 = _interopRequireDefault(require("./useEvaluateType"));
-
-var _useDraw2 = _interopRequireDefault(require("./useDraw"));
+var _ID = require("./ID");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-//import { ICanvasContexts } from "./CanvasContainer";
-
-/*
-interface GenericComponentProps {
-    readonly svgDraw?: (moreProps: any) => React.ReactNode;
-    readonly canvasDraw?: (ctx: CanvasRenderingContext2D, moreProps: any) => void;
-    readonly canvasToDraw?: (contexts: ICanvasContexts) => CanvasRenderingContext2D | undefined;
-    readonly clip?: boolean;
-    readonly disablePan?: boolean;
-    readonly drawOn: string[];
-    readonly edgeClip?: boolean;
-    readonly enableDragOnHover?: boolean;
-    readonly interactiveCursorClass?: string;
-    readonly isHover?: (moreProps: any, e: React.MouseEvent) => boolean;
-    readonly onClick?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onClickWhenHover?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onClickOutside?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onPan?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onPanEnd?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onDragStart?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onDrag?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onDragComplete?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onDoubleClick?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onDoubleClickWhenHover?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onContextMenu?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onContextMenuWhenHover?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onMouseMove?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onMouseDown?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onHover?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly onUnHover?: (e: React.MouseEvent, moreProps: any) => void;
-    readonly selected?: boolean;
-}
-*/
-
-/*
-interface GenericComponentState {
-    updateCount: number;
-}
-*/
-
-/*
-public static contextTypes = {
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    margin: PropTypes.object.isRequired,
-    chartId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    getCanvasContexts: PropTypes.func,
-    xScale: PropTypes.func.isRequired,
-    xAccessor: PropTypes.func.isRequired,
-    displayXAccessor: PropTypes.func.isRequired,
-    plotData: PropTypes.array.isRequired,
-    fullData: PropTypes.array.isRequired,
-    chartConfig: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-    morePropsDecorator: PropTypes.func,
-    generateSubscriptionId: PropTypes.func,
-    getMutableState: PropTypes.func.isRequired,
-    amIOnTop: PropTypes.func.isRequired,
-    subscribe: PropTypes.func.isRequired,
-    unsubscribe: PropTypes.func.isRequired,
-    setCursorClass: PropTypes.func.isRequired,
+var ALIASES = {
+  mouseleave: "mousemove",
+  panend: "pan",
+  pinchzoom: "pan",
+  mousedown: "mousemove",
+  click: "mousemove",
+  contextmenu: "mousemove",
+  dblclick: "mousemove",
+  dragstart: "drag",
+  dragend: "drag",
+  dragcancel: "drag",
+  zoom: "zoom"
 };
-*/
-var DF_SVG_DRAW = (0, _utils.functor)(null); //, DF_DRAW = []
-//, DF_CANVAS_TO_DRAW = contexts => contexts.mouseCoord
+var _getObjetcKeys = Object.keys;
 
-var _getRefValue = function _getRefValue(ref) {
-  return ref.current;
-};
+var GenericComponent = /*#__PURE__*/function (_React$Component) {
+  (0, _inheritsLoose2["default"])(GenericComponent, _React$Component);
 
-var _setRefValue = function _setRefValue(ref, value) {
-  return ref.current = value;
-};
+  function GenericComponent(props, context) {
+    var _this;
 
-var _updateMoreProps = function _updateMoreProps(ref, moreProps) {
-  var _moreProps = _getRefValue(ref); //console.log(_moreProps, moreProps)
+    _this = _React$Component.call(this, props, context) || this;
+    _this.moreProps = {};
+    _this.dragInProgress = false;
+    _this.evaluationInProgress = false;
+    _this.iSetTheCursorClass = false;
+    _this.suscriberId = void 0;
 
+    _this.listener = function (type, moreProps, state, e) {
+      if (moreProps !== undefined) {
+        _this.updateMoreProps(moreProps);
+      }
 
-  Object.keys(moreProps).forEach(function (key) {
-    _moreProps[key] = moreProps[key];
-  });
-};
+      _this.evaluationInProgress = true;
 
-var _crStyle = function _crStyle(chartId, clip) {
-  var suffix = chartId !== undefined ? "-" + chartId : "";
-  return clip ? {
-    clipPath: "url(#chart-area-clip" + suffix + ")"
-  } : void 0;
-};
+      _this.evaluateType(type, e);
 
-var GenericComponent = function GenericComponent(props, context) {
-  var _props$svgDraw = props.svgDraw,
-      svgDraw = _props$svgDraw === void 0 ? DF_SVG_DRAW : _props$svgDraw,
-      canvasDraw = props.canvasDraw,
-      _props$clip = props.clip,
-      clip = _props$clip === void 0 ? true : _props$clip,
-      _props$edgeClip = props.edgeClip,
-      edgeClip = _props$edgeClip === void 0 ? false : _props$edgeClip,
-      _props$selected = props.selected,
-      selected = _props$selected === void 0 ? false : _props$selected,
-      chartId = context.chartId,
-      generateSubscriptionId = context.generateSubscriptionId,
-      subscribe = context.subscribe,
-      _useRefPropsContext = (0, _useRefPropsContext2["default"])(props, context),
-      _refProps = _useRefPropsContext[0],
-      _refContext = _useRefPropsContext[1];
+      _this.evaluationInProgress = false;
+    };
 
-  var _refSubsriberId = (0, _useRefInit["default"])(generateSubscriptionId),
-      setUpdateCount = (0, _react.useState)(0)[1],
-      _refMoreProps = (0, _react.useRef)({}),
-      _refEvaluationInProgress = (0, _react.useRef)(false),
-      _refISetTheCursorClass = (0, _react.useRef)(false),
-      _useEvaluateType = (0, _useEvaluateType2["default"])(_refProps, _refContext, _refMoreProps, _refSubsriberId, _refISetTheCursorClass),
-      _evaluateType = _useEvaluateType[0],
-      _getMoreProps = _useEvaluateType[1],
-      _listener = (0, _react.useCallback)(function (type, moreProps, state, e) {
-    if (moreProps !== undefined) {
-      _updateMoreProps(_refMoreProps, moreProps);
+    _this.drawOnCanvas = _this.drawOnCanvas.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.getMoreProps = _this.getMoreProps.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.draw = _this.draw.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.updateMoreProps = _this.updateMoreProps.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.evaluateType = _this.evaluateType.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.isHover = _this.isHover.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.preCanvasDraw = _this.preCanvasDraw.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.postCanvasDraw = _this.postCanvasDraw.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.getPanConditions = _this.getPanConditions.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.shouldTypeProceed = _this.shouldTypeProceed.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.preEvaluate = _this.preEvaluate.bind((0, _assertThisInitialized2["default"])(_this));
+    var generateSubscriptionId = context.generateSubscriptionId;
+    _this.suscriberId = generateSubscriptionId();
+    _this.state = {
+      updateCount: 0
+    };
+    return _this;
+  }
+
+  var _proto = GenericComponent.prototype;
+
+  _proto.updateMoreProps = function updateMoreProps(moreProps) {
+    var _this2 = this;
+
+    _getObjetcKeys(moreProps).forEach(function (key) {
+      _this2.moreProps[key] = moreProps[key];
+    });
+  };
+
+  _proto.shouldTypeProceed = function shouldTypeProceed(type, moreProps) {
+    return true;
+  };
+
+  _proto.preEvaluate = function preEvaluate(type, moreProps, e) {/// empty
+  };
+
+  _proto.evaluateType = function evaluateType(type, e) {
+    var newType = ALIASES[type] || type,
+        proceed = this.props.drawOn.indexOf(newType) > -1;
+
+    if (!proceed) {
+      return;
     }
 
-    _setRefValue(_refEvaluationInProgress, true);
+    this.preEvaluate(type, this.moreProps, e);
 
-    _evaluateType(type, e);
+    if (!this.shouldTypeProceed(type, this.moreProps)) {
+      return;
+    }
 
-    _setRefValue(_refEvaluationInProgress, false);
-  }, [_evaluateType]),
-      _useDraw = (0, _useDraw2["default"])(_refProps, _refContext, _getMoreProps, setUpdateCount),
-      _draw = _useDraw[0],
-      _drawOnCanvas = _useDraw[1];
-  /*eslint-disable react-hooks/exhaustive-deps */
+    switch (type) {
+      // DO NOT DRAW FOR THESE EVENTS
+      case "zoom":
+      case "mouseenter":
+        break;
 
+      case "mouseleave":
+        {
+          this.moreProps.hovering = false;
 
-  var _getPanConditions = (0, _react.useCallback)(function () {
-    var props = _getRefValue(_refProps);
+          if (this.props.onUnHover) {
+            this.props.onUnHover(e, this.getMoreProps());
+          }
 
-    var _moreProps = _getRefValue(_refMoreProps);
+          break;
+        }
 
-    var draggable = !!(props.selected && _moreProps.hovering) || props.enableDragOnHover && _moreProps.hovering;
+      case "contextmenu":
+        {
+          if (this.props.onContextMenu) {
+            this.props.onContextMenu(e, this.getMoreProps());
+          }
+
+          if (this.moreProps.hovering && this.props.onContextMenuWhenHover) {
+            this.props.onContextMenuWhenHover(e, this.getMoreProps());
+          }
+
+          break;
+        }
+
+      case "mousedown":
+        {
+          if (this.props.onMouseDown) {
+            this.props.onMouseDown(e, this.getMoreProps());
+          }
+
+          break;
+        }
+
+      case "click":
+        {
+          var _this$props = this.props,
+              onClick = _this$props.onClick,
+              onClickOutside = _this$props.onClickOutside,
+              onClickWhenHover = _this$props.onClickWhenHover;
+          var moreProps = this.getMoreProps();
+
+          if (moreProps.hovering && onClickWhenHover !== undefined) {
+            onClickWhenHover(e, moreProps);
+          } else if (onClickOutside !== undefined) {
+            onClickOutside(e, moreProps);
+          }
+
+          if (onClick !== undefined) {
+            onClick(e, moreProps);
+          }
+
+          break;
+        }
+
+      case "mousemove":
+        {
+          var prevHover = this.moreProps.hovering;
+          this.moreProps.hovering = this.isHover(e);
+          var _this$context = this.context,
+              amIOnTop = _this$context.amIOnTop,
+              setCursorClass = _this$context.setCursorClass;
+
+          if (this.moreProps.hovering && !this.props.selected &&
+          /* && !prevHover */
+          amIOnTop(this.suscriberId) && this.props.onHover !== undefined) {
+            setCursorClass(_CL.CL_POINTER_CURSOR);
+            this.iSetTheCursorClass = true;
+          } else if (this.moreProps.hovering && this.props.selected && amIOnTop(this.suscriberId)) {
+            setCursorClass(this.props.interactiveCursorClass);
+            this.iSetTheCursorClass = true;
+          } else if (prevHover && !this.moreProps.hovering && this.iSetTheCursorClass) {
+            this.iSetTheCursorClass = false;
+            setCursorClass(null);
+          }
+
+          var _moreProps = this.getMoreProps();
+
+          if (this.moreProps.hovering && !prevHover) {
+            if (this.props.onHover) {
+              this.props.onHover(e, _moreProps);
+            }
+          }
+
+          if (prevHover && !this.moreProps.hovering) {
+            if (this.props.onUnHover) {
+              this.props.onUnHover(e, _moreProps);
+            }
+          }
+
+          if (this.props.onMouseMove) {
+            this.props.onMouseMove(e, _moreProps);
+          }
+
+          break;
+        }
+
+      case "dblclick":
+        {
+          var _moreProps2 = this.getMoreProps();
+
+          if (this.props.onDoubleClick) {
+            this.props.onDoubleClick(e, _moreProps2);
+          }
+
+          if (this.moreProps.hovering && this.props.onDoubleClickWhenHover) {
+            this.props.onDoubleClickWhenHover(e, _moreProps2);
+          }
+
+          break;
+        }
+
+      case "pan":
+        {
+          this.moreProps.hovering = false;
+
+          if (this.props.onPan) {
+            this.props.onPan(e, this.getMoreProps());
+          }
+
+          break;
+        }
+
+      case "panend":
+        {
+          if (this.props.onPanEnd) {
+            this.props.onPanEnd(e, this.getMoreProps());
+          }
+
+          break;
+        }
+
+      case "dragstart":
+        {
+          if (this.getPanConditions().draggable) {
+            var _amIOnTop = this.context.amIOnTop;
+
+            if (_amIOnTop(this.suscriberId)) {
+              this.dragInProgress = true;
+
+              if (this.props.onDragStart !== undefined) {
+                this.props.onDragStart(e, this.getMoreProps());
+              }
+            }
+          }
+
+          break;
+        }
+
+      case "drag":
+        {
+          if (this.dragInProgress && this.props.onDrag) {
+            this.props.onDrag(e, this.getMoreProps());
+          }
+
+          break;
+        }
+
+      case "dragend":
+        {
+          if (this.dragInProgress && this.props.onDragComplete) {
+            this.props.onDragComplete(e, this.getMoreProps());
+          }
+
+          this.dragInProgress = false;
+          break;
+        }
+
+      case "dragcancel":
+        {
+          if (this.dragInProgress || this.iSetTheCursorClass) {
+            var _setCursorClass = this.context.setCursorClass;
+
+            _setCursorClass(null);
+          }
+
+          break;
+        }
+
+      default:
+        return;
+    }
+  };
+
+  _proto.isHover = function isHover(e) {
+    var isHover = this.props.isHover;
+
+    if (isHover === undefined) {
+      return false;
+    }
+
+    return isHover(this.getMoreProps(), e);
+  };
+
+  _proto.getPanConditions = function getPanConditions() {
+    var _this$props2 = this.props,
+        selected = _this$props2.selected,
+        enableDragOnHover = _this$props2.enableDragOnHover,
+        disablePan = _this$props2.disablePan,
+        hovering = this.moreProps.hovering;
     return {
-      draggable: draggable,
-      panEnabled: !props.disablePan
+      draggable: !!(selected && hovering) || enableDragOnHover && hovering,
+      panEnabled: !disablePan
     };
-  }, []); // _refProps
+  };
 
-  /*eslint-enable react-hooks/exhaustive-deps */
+  _proto.draw = function draw(_temp) {
+    var _ref = _temp === void 0 ? {
+      force: false
+    } : _temp,
+        trigger = _ref.trigger,
+        force = _ref.force;
 
-  /*eslint-disable react-hooks/exhaustive-deps */
+    var type = ALIASES[trigger] || trigger;
+    var proceed = this.props.drawOn.indexOf(type) > -1;
 
+    if (proceed || this.props.selected
+    /* this is to draw as soon as you select */
+    || force) {
+      var canvasDraw = this.props.canvasDraw;
 
-  (0, _react.useLayoutEffect)(function () {
-    subscribe(_getRefValue(_refSubsriberId), {
+      if (canvasDraw === undefined) {
+        var updateCount = this.state.updateCount;
+        this.setState({
+          updateCount: updateCount + 1
+        });
+      } else {
+        this.drawOnCanvas();
+      }
+    }
+  };
+
+  _proto.UNSAFE_componentWillMount = function UNSAFE_componentWillMount() {
+    var _this$context2 = this.context,
+        subscribe = _this$context2.subscribe,
+        chartId = _this$context2.chartId;
+    var _this$props3 = this.props,
+        clip = _this$props3.clip,
+        edgeClip = _this$props3.edgeClip;
+    subscribe(this.suscriberId, {
       chartId: chartId,
       clip: clip,
       edgeClip: edgeClip,
-      listener: _listener,
-      draw: _draw,
-      getPanConditions: _getPanConditions
+      listener: this.listener,
+      draw: this.draw,
+      getPanConditions: this.getPanConditions
     });
-  }, []); // _draw,_getPanConditions, _listener
-  // _refSubsriberId, chartId, clip, edgeClip, subscribe
+    this.UNSAFE_componentWillReceiveProps(this.props, this.context);
+  };
 
-  /*eslint-enable react-hooks/exhaustive-deps */
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var unsubscribe = this.context.unsubscribe;
+    unsubscribe(this.suscriberId);
 
-  (0, _react.useEffect)(function () {
-    var nextContext = _getRefValue(_refContext),
-        xScale = nextContext.xScale,
+    if (this.iSetTheCursorClass) {
+      var setCursorClass = this.context.setCursorClass;
+      setCursorClass(null);
+    }
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.componentDidUpdate(this.props);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var _this$props4 = this.props,
+        canvasDraw = _this$props4.canvasDraw,
+        selected = _this$props4.selected,
+        interactiveCursorClass = _this$props4.interactiveCursorClass;
+
+    if (prevProps.selected !== selected) {
+      var setCursorClass = this.context.setCursorClass;
+
+      if (selected && this.moreProps.hovering) {
+        this.iSetTheCursorClass = true;
+        setCursorClass(interactiveCursorClass);
+      } else {
+        this.iSetTheCursorClass = false;
+        setCursorClass(null);
+      }
+    }
+
+    if (canvasDraw !== undefined && !this.evaluationInProgress) {
+      this.updateMoreProps(this.moreProps);
+      this.drawOnCanvas();
+    }
+  };
+
+  _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    var xScale = nextContext.xScale,
         plotData = nextContext.plotData,
         chartConfig = nextContext.chartConfig,
         getMutableState = nextContext.getMutableState;
-
-    _setRefValue(_refMoreProps, (0, _extends2["default"])({}, _getRefValue(_refMoreProps), getMutableState(), {
+    this.moreProps = (0, _extends2["default"])({}, this.moreProps, getMutableState(), {
+      /*
+      ^ this is so
+      mouseXY, currentCharts, currentItem are available to
+      newly created components like MouseHoverText which
+      is created right after a new interactive object is drawn
+      */
       xScale: xScale,
       plotData: plotData,
       chartConfig: chartConfig
-    }));
-  });
-  /*eslint-disable react-hooks/exhaustive-deps */
+    });
+  };
 
-  (0, _react.useEffect)(function () {
-    return function () {
-      var context = _getRefValue(_refContext),
-          unsubscribe = context.unsubscribe,
-          setCursorClass = context.setCursorClass;
+  _proto.getMoreProps = function getMoreProps() {
+    var _this$context3 = this.context,
+        xScale = _this$context3.xScale,
+        plotData = _this$context3.plotData,
+        chartConfig = _this$context3.chartConfig,
+        morePropsDecorator = _this$context3.morePropsDecorator,
+        xAccessor = _this$context3.xAccessor,
+        displayXAccessor = _this$context3.displayXAccessor,
+        width = _this$context3.width,
+        height = _this$context3.height;
+    var _this$context4 = this.context,
+        chartId = _this$context4.chartId,
+        fullData = _this$context4.fullData;
+    var moreProps = (0, _extends2["default"])({
+      xScale: xScale,
+      plotData: plotData,
+      chartConfig: chartConfig,
+      xAccessor: xAccessor,
+      displayXAccessor: displayXAccessor,
+      width: width,
+      height: height,
+      chartId: chartId,
+      fullData: fullData
+    }, this.moreProps);
+    return (morePropsDecorator || _utils.identity)(moreProps);
+  };
 
-      unsubscribe(_getRefValue(_refSubsriberId));
+  _proto.preCanvasDraw = function preCanvasDraw(ctx, moreProps) {// do nothing
+  };
 
-      if (_getRefValue(_refISetTheCursorClass)) {
-        setCursorClass(null);
-      }
-    };
-  }, []); //_refContext, _refProps
+  _proto.postCanvasDraw = function postCanvasDraw(ctx, moreProps) {// empty
+  };
 
-  /*eslint-enable react-hooks/exhaustive-deps */
+  _proto.drawOnCanvas = function drawOnCanvas() {
+    var _this$props5 = this.props,
+        canvasDraw = _this$props5.canvasDraw,
+        canvasToDraw = _this$props5.canvasToDraw;
 
-  /*eslint-disable react-hooks/exhaustive-deps */
-
-  (0, _react.useEffect)(function () {
-    var props = _getRefValue(_refProps),
-        interactiveCursorClass = props.interactiveCursorClass,
-        context = _getRefValue(_refContext),
-        setCursorClass = context.setCursorClass;
-
-    if (selected && _getRefValue(_refMoreProps).hovering) {
-      _setRefValue(_refISetTheCursorClass, true);
-
-      setCursorClass(interactiveCursorClass);
-    } else {
-      _setRefValue(_refISetTheCursorClass, false);
-
-      setCursorClass(null);
+    if (canvasDraw === undefined || canvasToDraw === undefined) {
+      return;
     }
-  }, [selected]); // _refContext, _refProps
 
-  /*eslint-enable react-hooks/exhaustive-deps */
+    var getCanvasContexts = this.context.getCanvasContexts;
+    var moreProps = this.getMoreProps();
+    var contexts = getCanvasContexts();
+    var ctx = canvasToDraw(contexts);
 
-  (0, _react.useEffect)(function () {
-    var canvasDraw = props.canvasDraw;
-
-    if (canvasDraw !== undefined && !_getRefValue(_refEvaluationInProgress)) {
-      //_updateMoreProps(_getRefValue(_refMoreProps));
-      _drawOnCanvas();
+    if (ctx !== undefined) {
+      this.preCanvasDraw(ctx, moreProps);
+      canvasDraw(ctx, moreProps);
+      this.postCanvasDraw(ctx, moreProps);
     }
-  });
+  };
 
-  var style = _crStyle(chartId, clip);
+  _proto.render = function render() {
+    var _this$props6 = this.props,
+        canvasDraw = _this$props6.canvasDraw,
+        clip = _this$props6.clip,
+        svgDraw = _this$props6.svgDraw;
 
-  return svgDraw === undefined || canvasDraw !== undefined ? null : /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-    style: style,
-    children: svgDraw(_getMoreProps())
-  });
+    if (canvasDraw !== undefined || svgDraw === undefined) {
+      return null;
+    }
+
+    var chartId = this.context.chartId,
+        suffix = chartId !== undefined ? '-' + chartId : '',
+        style = clip ? {
+      clipPath: "url(#" + _ID.CLIP_PATH_ID + suffix + ")"
+    } : void 0;
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
+      style: style,
+      children: svgDraw(this.getMoreProps())
+    });
+  };
+
+  return GenericComponent;
+}(_react["default"].Component);
+
+exports.GenericComponent = GenericComponent;
+GenericComponent.defaultProps = {
+  svgDraw: (0, _utils.functor)(null),
+  draw: [],
+  canvasToDraw: function canvasToDraw(contexts) {
+    return contexts.mouseCoord;
+  },
+  clip: true,
+  edgeClip: false,
+  selected: false,
+  disablePan: false,
+  enableDragOnHover: false
 };
-
 GenericComponent.contextTypes = {
   width: _propTypes["default"].number.isRequired,
   height: _propTypes["default"].number.isRequired,
@@ -274,419 +535,4 @@ GenericComponent.contextTypes = {
   unsubscribe: _propTypes["default"].func.isRequired,
   setCursorClass: _propTypes["default"].func.isRequired
 };
-var _default = GenericComponent;
-/*
-export class GenericComponent extends React.Component {
-    static defaultProps = {
-        svgDraw: functor(null),
-        draw: [],
-        canvasToDraw: (contexts) => contexts.mouseCoord,
-        clip: true,
-        edgeClip: false,
-        selected: false,
-        disablePan: false,
-        enableDragOnHover: false,
-    };
-
-
-    //public moreProps = {};
-    moreProps = {};
-
-
-    //private dragInProgress = false;
-    //private evaluationInProgress = false;
-    //private iSetTheCursorClass = false;
-    //private suscriberId: number;
-
-    dragInProgress = false;
-    evaluationInProgress = false;
-    iSetTheCursorClass = false;
-    suscriberId;
-
-    constructor(props, context) {
-        super(props, context);
-        this.drawOnCanvas = this.drawOnCanvas.bind(this);
-        this.getMoreProps = this.getMoreProps.bind(this);
-        this.draw = this.draw.bind(this);
-        this.updateMoreProps = this.updateMoreProps.bind(this);
-        this.evaluateType = this.evaluateType.bind(this);
-        this.isHover = this.isHover.bind(this);
-        this.preCanvasDraw = this.preCanvasDraw.bind(this);
-        this.postCanvasDraw = this.postCanvasDraw.bind(this);
-        this.getPanConditions = this.getPanConditions.bind(this);
-        this.shouldTypeProceed = this.shouldTypeProceed.bind(this);
-        this.preEvaluate = this.preEvaluate.bind(this);
-
-        const { generateSubscriptionId } = context;
-
-        this.suscriberId = generateSubscriptionId();
-
-        this.state = {
-            updateCount: 0,
-        };
-    }
-
-    updateMoreProps(moreProps) {
-        Object.keys(moreProps).forEach((key) => {
-            this.moreProps[key] = moreProps[key];
-        });
-    }
-
-    shouldTypeProceed(type, moreProps) {
-        return true;
-    }
-
-    preEvaluate(type, moreProps, e) {
-        /// empty
-    }
-
-    listener = (type, moreProps, state, e) => {
-        if (moreProps !== undefined) {
-            this.updateMoreProps(moreProps);
-        }
-        this.evaluationInProgress = true;
-        this.evaluateType(type, e);
-        this.evaluationInProgress = false;
-    };
-
-    evaluateType(type, e) {
-        const newType = aliases[type] || type;
-        const proceed = this.props.drawOn.indexOf(newType) > -1;
-        if (!proceed) {
-            return;
-        }
-
-        this.preEvaluate(type, this.moreProps, e);
-
-        if (!this.shouldTypeProceed(type, this.moreProps)) {
-            return;
-        }
-
-        switch (type) {
-            case "zoom":
-            case "mouseenter":
-                // DO NOT DRAW FOR THESE EVENTS
-                break;
-            case "mouseleave": {
-                this.moreProps.hovering = false;
-
-                if (this.props.onUnHover) {
-                    this.props.onUnHover(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "contextmenu": {
-                if (this.props.onContextMenu) {
-                    this.props.onContextMenu(e, this.getMoreProps());
-                }
-                if (this.moreProps.hovering && this.props.onContextMenuWhenHover) {
-                    this.props.onContextMenuWhenHover(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "mousedown": {
-                if (this.props.onMouseDown) {
-                    this.props.onMouseDown(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "click": {
-                const { onClick, onClickOutside, onClickWhenHover } = this.props;
-                const moreProps = this.getMoreProps();
-                if (moreProps.hovering && onClickWhenHover !== undefined) {
-                    onClickWhenHover(e, moreProps);
-                } else if (onClickOutside !== undefined) {
-                    onClickOutside(e, moreProps);
-                }
-
-                if (onClick !== undefined) {
-                    onClick(e, moreProps);
-                }
-                break;
-            }
-            case "mousemove": {
-                const prevHover = this.moreProps.hovering;
-                this.moreProps.hovering = this.isHover(e);
-
-                const { amIOnTop, setCursorClass } = this.context;
-
-                if (
-                    this.moreProps.hovering &&
-                    !this.props.selected &&
-                    // && !prevHover
-                    amIOnTop(this.suscriberId) &&
-                    this.props.onHover !== undefined
-                ) {
-                    setCursorClass("react-financial-charts-pointer-cursor");
-                    this.iSetTheCursorClass = true;
-                } else if (this.moreProps.hovering && this.props.selected && amIOnTop(this.suscriberId)) {
-                    setCursorClass(this.props.interactiveCursorClass);
-                    this.iSetTheCursorClass = true;
-                } else if (prevHover && !this.moreProps.hovering && this.iSetTheCursorClass) {
-                    this.iSetTheCursorClass = false;
-                    setCursorClass(null);
-                }
-                const moreProps = this.getMoreProps();
-
-                if (this.moreProps.hovering && !prevHover) {
-                    if (this.props.onHover) {
-                        this.props.onHover(e, moreProps);
-                    }
-                }
-                if (prevHover && !this.moreProps.hovering) {
-                    if (this.props.onUnHover) {
-                        this.props.onUnHover(e, moreProps);
-                    }
-                }
-
-                if (this.props.onMouseMove) {
-                    this.props.onMouseMove(e, moreProps);
-                }
-                break;
-            }
-            case "dblclick": {
-                const moreProps = this.getMoreProps();
-
-                if (this.props.onDoubleClick) {
-                    this.props.onDoubleClick(e, moreProps);
-                }
-                if (this.moreProps.hovering && this.props.onDoubleClickWhenHover) {
-                    this.props.onDoubleClickWhenHover(e, moreProps);
-                }
-                break;
-            }
-            case "pan": {
-                this.moreProps.hovering = false;
-                if (this.props.onPan) {
-                    this.props.onPan(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "panend": {
-                if (this.props.onPanEnd) {
-                    this.props.onPanEnd(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "dragstart": {
-                if (this.getPanConditions().draggable) {
-                    const { amIOnTop } = this.context;
-                    if (amIOnTop(this.suscriberId)) {
-                        this.dragInProgress = true;
-                        if (this.props.onDragStart !== undefined) {
-                            this.props.onDragStart(e, this.getMoreProps());
-                        }
-                    }
-                }
-                break;
-            }
-            case "drag": {
-                if (this.dragInProgress && this.props.onDrag) {
-                    this.props.onDrag(e, this.getMoreProps());
-                }
-                break;
-            }
-            case "dragend": {
-                if (this.dragInProgress && this.props.onDragComplete) {
-                    this.props.onDragComplete(e, this.getMoreProps());
-                }
-                this.dragInProgress = false;
-                break;
-            }
-            case "dragcancel": {
-                if (this.dragInProgress || this.iSetTheCursorClass) {
-                    const { setCursorClass } = this.context;
-                    setCursorClass(null);
-                }
-                break;
-            }
-            default: break;
-        }
-    }
-
-
-    //isHover(e: React.MouseEvent) {
-    isHover(e) {
-        const { isHover } = this.props;
-        if (isHover === undefined) {
-            return false;
-        }
-
-        return isHover(this.getMoreProps(), e);
-    }
-
-    getPanConditions() {
-        const draggable =
-            !!(this.props.selected && this.moreProps.hovering) ||
-            (this.props.enableDragOnHover && this.moreProps.hovering);
-
-        return {
-            draggable,
-            panEnabled: !this.props.disablePan,
-        };
-    }
-
-
-    draw({ trigger, force } = { force: false }) {
-
-        const type = aliases[trigger] || trigger;
-        const proceed = this.props.drawOn.indexOf(type) > -1;
-
-        // this is to draw as soon as you select
-        if (proceed || this.props.selected || force) {
-            const { canvasDraw } = this.props;
-            if (canvasDraw === undefined) {
-                const { updateCount } = this.state;
-                this.setState({
-                    updateCount: updateCount + 1,
-                });
-            } else {
-                this.drawOnCanvas();
-            }
-        }
-    }
-
-    UNSAFE_componentWillMount() {
-        const { subscribe, chartId } = this.context;
-        const { clip, edgeClip } = this.props;
-
-        subscribe(this.suscriberId, {
-            chartId,
-            clip,
-            edgeClip,
-            listener: this.listener,
-            draw: this.draw,
-            getPanConditions: this.getPanConditions,
-        });
-
-        this.UNSAFE_componentWillReceiveProps(this.props, this.context);
-    }
-
-    componentWillUnmount() {
-        const { unsubscribe } = this.context;
-        unsubscribe(this.suscriberId);
-        if (this.iSetTheCursorClass) {
-            const { setCursorClass } = this.context;
-            setCursorClass(null);
-        }
-    }
-
-    componentDidMount() {
-        this.componentDidUpdate(this.props);
-    }
-
-    componentDidUpdate(prevProps) {
-        const { canvasDraw, selected, interactiveCursorClass } = this.props;
-
-        if (prevProps.selected !== selected) {
-            const { setCursorClass } = this.context;
-            if (selected && this.moreProps.hovering) {
-                this.iSetTheCursorClass = true;
-                setCursorClass(interactiveCursorClass);
-            } else {
-                this.iSetTheCursorClass = false;
-                setCursorClass(null);
-            }
-        }
-        if (canvasDraw !== undefined && !this.evaluationInProgress) {
-            this.updateMoreProps(this.moreProps);
-            this.drawOnCanvas();
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-        const { xScale, plotData, chartConfig, getMutableState } = nextContext;
-
-        this.moreProps = {
-            ...this.moreProps,
-            ...getMutableState(),
-
-			//^ this is so
-			//mouseXY, currentCharts, currentItem are available to
-			//newly created components like MouseHoverText which
-			//is created right after a new interactive object is drawn
-
-            xScale,
-            plotData,
-            chartConfig,
-        };
-    }
-
-    getMoreProps() {
-        const {
-            xScale,
-            plotData,
-            chartConfig,
-            morePropsDecorator,
-            xAccessor,
-            displayXAccessor,
-            width,
-            height,
-        } = this.context;
-
-        const { chartId, fullData } = this.context;
-
-        const moreProps = {
-            xScale,
-            plotData,
-            chartConfig,
-            xAccessor,
-            displayXAccessor,
-            width,
-            height,
-            chartId,
-            fullData,
-            ...this.moreProps,
-        };
-
-        return (morePropsDecorator || identity)(moreProps);
-    }
-
-    //preCanvasDraw(ctx: CanvasRenderingContext2D, moreProps: any) {
-    preCanvasDraw(ctx, moreProps) {
-        // do nothing
-    }
-
-    postCanvasDraw(ctx, moreProps) {
-        // empty
-    }
-
-    drawOnCanvas() {
-        const { canvasDraw, canvasToDraw } = this.props;
-        if (canvasDraw === undefined || canvasToDraw === undefined) {
-            return;
-        }
-
-        const { getCanvasContexts } = this.context;
-
-        const moreProps = this.getMoreProps();
-
-        const contexts = getCanvasContexts();
-
-        const ctx = canvasToDraw(contexts);
-        if (ctx !== undefined) {
-            this.preCanvasDraw(ctx, moreProps);
-            canvasDraw(ctx, moreProps);
-            this.postCanvasDraw(ctx, moreProps);
-        }
-    }
-
-    render() {
-        const { canvasDraw, clip, svgDraw } = this.props;
-        if (canvasDraw !== undefined || svgDraw === undefined) {
-            return null;
-        }
-
-        const { chartId } = this.context;
-
-        const suffix = chartId !== undefined ? "-" + chartId : "";
-
-        const style = clip ? { clipPath: `url(#chart-area-clip${suffix})` } : undefined;
-
-        return <g style={style}>{svgDraw(this.getMoreProps())}</g>;
-    }
-}
-*/
-
-exports["default"] = _default;
 //# sourceMappingURL=GenericComponent.js.map
