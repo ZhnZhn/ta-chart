@@ -5,37 +5,37 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _ChartCanvas = _interopRequireDefault(require("react-stockcharts/lib/ChartCanvas"));
+var _ChartCanvas = _interopRequireDefault(require("../zhn-charts/core/ChartCanvas"));
 
-var _Chart = _interopRequireDefault(require("react-stockcharts/lib/Chart"));
+var _Chart = _interopRequireDefault(require("../zhn-charts/core/Chart"));
 
-var _XAxis = _interopRequireDefault(require("react-stockcharts/lib/axes/XAxis"));
+var _XAxis = _interopRequireDefault(require("../zhn-charts/axis/XAxis"));
 
-var _YAxis = _interopRequireDefault(require("react-stockcharts/lib/axes/YAxis"));
+var _YAxis = _interopRequireDefault(require("../zhn-charts/axis/YAxis"));
 
-var _LineSeries = _interopRequireDefault(require("react-stockcharts/lib/series/LineSeries"));
+var _LineSeries = _interopRequireDefault(require("../zhn-charts/series/LineSeries"));
 
-var _RSISeries = _interopRequireDefault(require("react-stockcharts/lib/series/RSISeries"));
+var _RSISeries = _interopRequireDefault(require("../zhn-charts/series/RSISeries"));
 
-var _CandlestickSeries = _interopRequireDefault(require("react-stockcharts/lib/series/CandlestickSeries"));
+var _CandlestickSeries = _interopRequireDefault(require("../zhn-charts/series/CandlestickSeries"));
 
-var _BollingerSeries = _interopRequireDefault(require("react-stockcharts/lib/series/BollingerSeries"));
+var _BollingerSeries = _interopRequireDefault(require("../zhn-charts/series/BollingerSeries"));
 
-var _BarSeries = _interopRequireDefault(require("react-stockcharts/lib/series/BarSeries"));
+var _BarSeries = _interopRequireDefault(require("../zhn-charts/series/BarSeries"));
 
 var _CrossHairCursor = _interopRequireDefault(require("../zhn-charts/coordinates/CrossHairCursor"));
 
-var _MouseCoordinateX = _interopRequireDefault(require("react-stockcharts/lib/coordinates/MouseCoordinateX"));
+var _MouseCoordinateX = _interopRequireDefault(require("../zhn-charts/coordinates/MouseCoordinateX"));
 
-var _MouseCoordinateY = _interopRequireDefault(require("react-stockcharts/lib/coordinates/MouseCoordinateY"));
+var _MouseCoordinateY = _interopRequireDefault(require("../zhn-charts/coordinates/MouseCoordinateY"));
 
-var _RSITooltip = _interopRequireDefault(require("react-stockcharts/lib/tooltip/RSITooltip"));
+var _BollingerBandTooltip = _interopRequireDefault(require("../zhn-charts/tooltip/BollingerBandTooltip"));
 
-var _OHLCTooltip = _interopRequireDefault(require("react-stockcharts/lib/tooltip/OHLCTooltip"));
+var _MovingAverageTooltip = _interopRequireDefault(require("../zhn-charts/tooltip/MovingAverageTooltip"));
 
-var _MovingAverageTooltip = _interopRequireDefault(require("react-stockcharts/lib/tooltip/MovingAverageTooltip"));
+var _OHLCTooltip = _interopRequireDefault(require("../zhn-charts/tooltip/OHLCTooltip"));
 
-var _BollingerBandTooltip = _interopRequireDefault(require("react-stockcharts/lib/tooltip/BollingerBandTooltip"));
+var _RSITooltip = _interopRequireDefault(require("../zhn-charts/tooltip/RSITooltip"));
 
 var _sma = _interopRequireDefault(require("../zhn-charts/indicator/sma"));
 
@@ -45,7 +45,6 @@ var _bollingerBand = _interopRequireDefault(require("../zhn-charts/indicator/bol
 
 var _useElementWidth = _interopRequireDefault(require("../zhn-charts/hooks/useElementWidth"));
 
-//import CrossHairCursor from "react-stockcharts/lib/coordinates/CrossHairCursor";
 var Ch = {
   ChartCanvas: _ChartCanvas["default"],
   Chart: _Chart["default"],
