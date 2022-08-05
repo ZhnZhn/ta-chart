@@ -11,13 +11,13 @@ var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inh
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _react = require("react");
 
 var _ArrowCell = _interopRequireDefault(require("./ArrowCell"));
 
 var _ButtonCircle = _interopRequireDefault(require("../zhn/ButtonCircle2"));
+
+var _jsxRuntime = require("react/jsx-runtime");
 
 //import PropTypes from 'prop-types'
 var MAX_WITHOUT_ANIMATION = 800;
@@ -563,7 +563,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
 
   var _proto = InputSelect.prototype;
 
-  _proto.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+  _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
       if (this.props.options !== nextProps.options) {
         //New options come from Parent - Clear domCache, Init State
