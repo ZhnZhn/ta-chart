@@ -2,7 +2,7 @@
 
 const path = require('path')
     , webpack = require('webpack')
-    , HtmlWebpackPlugin = require('html-webpack-plugin')    
+    , HtmlWebpackPlugin = require('html-webpack-plugin')
     , babelConfig = require('./babel.config')
     , TerserPlugin = require('terser-webpack-plugin');
 
@@ -15,39 +15,20 @@ module.exports = {
       dependOn: 'lib'
     },
     lib: [
-            "react", "react-dom",
+            "prop-types",
+            "react",
+            "react-dom",            
+            
+            "d3-array",
+            "d3-force",
+            "d3-format",
+            "d3-scale",
+            "d3-selection",
+            "d3-shape",  
+            "d3-time",
+            "d3-time-format",
 
-            "react-stockcharts/lib/ChartCanvas",
-            "react-stockcharts/lib/Chart",
-
-            "react-stockcharts/lib/series/CandlestickSeries",
-            "react-stockcharts/lib/series/BollingerSeries",
-            "react-stockcharts/lib/series/LineSeries",
-            "react-stockcharts/lib/series/BarSeries",
-            "react-stockcharts/lib/series/RSISeries",
-
-            "react-stockcharts/lib/axes/XAxis",
-            "react-stockcharts/lib/axes/YAxis",
-
-
-            "react-stockcharts/lib/coordinates/CrossHairCursor",
-            "react-stockcharts/lib/coordinates/EdgeIndicator",
-            "react-stockcharts/lib/coordinates/MouseCoordinateX",
-            "react-stockcharts/lib/coordinates/MouseCoordinateY",
-
-            "react-stockcharts/lib/tooltip/OHLCTooltip",
-            "react-stockcharts/lib/tooltip/MovingAverageTooltip",
-            "react-stockcharts/lib/tooltip/BollingerBandTooltip",
-            "react-stockcharts/lib/tooltip/RSITooltip",
-
-            "react-stockcharts/lib/indicator/sma",
-            "react-stockcharts/lib/indicator/rsi",
-            "react-stockcharts/lib/indicator/bollingerBand",
-            "react-stockcharts/lib/helper/fitWidth",
-
-            "d3-format", "d3-scale",
-            "d3-time", "d3-time-format"
-
+            "lodash.flattendeep"                                   
     ],
   },
   output: {
@@ -57,7 +38,7 @@ module.exports = {
       publicPath: 'app/'
   },
   module: {
-    rules: [      
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
@@ -65,7 +46,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
              cacheDirectory: true,
-             ...babelConfig  
+             ...babelConfig
           }
         },
         include: [
@@ -77,15 +58,15 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', '.jsx']    
+    extensions: ['.js', '.jsx']
   },
-  plugins : [            
+  plugins : [
     new HtmlWebpackPlugin({
-      minify: false,         
+      minify: false,
       filename: path.resolve('index.html'),
       template: path.resolve('template', 'index.ejs'),
       inject: false
-    })    
+    })
   ],
   optimization: {
     minimize: true,
