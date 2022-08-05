@@ -1,5 +1,6 @@
 export {
   forwardRef,
+  createElement,
   memo,
   useContext,
   useRef,
