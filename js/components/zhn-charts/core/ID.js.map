@@ -1,0 +1,11 @@
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/zhn-charts/core/ID.js"
+ ],
+ "file": "../../../../src/components/zhn-charts/core/ID.js",
+ "names": [
+  "CLIP_PATH_ID"
+ ],
+ "mappings": ";;;;AAAO,IAAMA,YAAY,GAAG,iBAArB"
+}

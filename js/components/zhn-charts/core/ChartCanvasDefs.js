@@ -7,16 +7,16 @@ exports["default"] = void 0;
 
 var _ClipPathRestStack = _interopRequireDefault(require("./ClipPathRestStack"));
 
-var _jsxRuntime = require("react/jsx-runtime");
+var _ID = require("./ID");
 
-var CLIP_PATH_ID = 'chart-area-clip';
+var _jsxRuntime = require("react/jsx-runtime");
 
 var ChartCanvasDefs = function ChartCanvasDefs(_ref) {
   var dimensions = _ref.dimensions,
       chartConfig = _ref.chartConfig;
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("defs", {
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("clipPath", {
-      id: CLIP_PATH_ID,
+      id: _ID.CLIP_PATH_ID,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
         x: "0",
         y: "0",

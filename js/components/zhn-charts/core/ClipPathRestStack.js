@@ -3,15 +3,15 @@
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _jsxRuntime = require("react/jsx-runtime");
+var _ID = require("./ID");
 
-var CLIP_PATH_ID_PREFIX = 'chart-area-clip';
+var _jsxRuntime = require("react/jsx-runtime");
 
 var ClipPathRestStack = function ClipPathRestStack(_ref) {
   var configs = _ref.configs;
   return configs.map(function (config, index) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("clipPath", {
-      id: CLIP_PATH_ID_PREFIX + "-" + config.id,
+      id: _ID.CLIP_PATH_ID + "-" + config.id,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
         x: "0",
         y: "0",

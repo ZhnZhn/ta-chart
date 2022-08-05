@@ -1,11 +1,13 @@
-const CLIP_PATH_ID_PREFIX = 'chart-area-clip';
+import {
+  CLIP_PATH_ID
+} from './ID';
 
 const ClipPathRestStack = ({
   configs
 }) => configs.map((config, index) => (
    <clipPath
       key={index}
-      id={`${CLIP_PATH_ID_PREFIX}-${config.id}`}
+      id={`${CLIP_PATH_ID}-${config.id}`}
    >
      <rect
        x="0" y="0"

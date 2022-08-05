@@ -1,6 +1,7 @@
 import ClipPathRestStack from './ClipPathRestStack';
-
-const CLIP_PATH_ID = 'chart-area-clip'
+import {
+  CLIP_PATH_ID
+} from './ID';
 
 const ChartCanvasDefs = ({
   dimensions,
