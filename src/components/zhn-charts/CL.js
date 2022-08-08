@@ -41,4 +41,6 @@ export const CL_CHARTS_CROSSHAIR = `${CL_CHARTS}-crosshair`
 export const CL_CHARTS_CROSS_HAIR = `${CL_CHARTS}-cross_hair`
 export const CL_CHARTS_TEXT_BACKGROUND = `${CL_CHARTS}-text-background`
 
+export const CL_LINE = `${CL_CHARTS}-line`
+
 export const FONT_FAMILY = "-apple-system, system-ui, Roboto, 'Helvetica Neue', Ubuntu, sans-serif"

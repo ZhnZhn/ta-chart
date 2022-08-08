@@ -1,61 +1,81 @@
 //import PropTypes from "prop-types";
-import { Component } from "react";
+import { Component } from 'react';
 
 import {
   hexToRGBA,
   getStrokeDasharray
-} from "../utils";
+} from '../utils';
 
 import {
   GenericChartComponent
-} from "../core/GenericChartComponent";
+} from '../core/GenericChartComponent';
 import {
   getAxisCanvas
-} from "../core/contextFn";
+} from '../core/contextFn';
+import {
+  CL_LINE
+} from '../CL'
+
+const _getLineDash = (
+  strokeDasharray
+) => getStrokeDasharray(strokeDasharray)
+  .split(",");
+
+const _getValueFromScale = (
+  scale,
+  value
+) => Math.round(scale(value));
+
+const _getLineCoordinates = (
+  type,
+  xScale,
+  yScale,
+  xValue,
+  yValue,
+  width,
+  height
+) => type === "horizontal"
+	? {
+    x1: 0,
+    y1: _getValueFromScale(yScale, yValue),
+    x2: width,
+    y2: _getValueFromScale(yScale, yValue)
+  }
+	: {
+    x1: _getValueFromScale(xScale, xValue),
+    y1: 0,
+    x2: _getValueFromScale(xScale, xValue),
+    y2: height
+  };
 
 class StraightLine extends Component {
-	constructor(props) {
-		super(props);
-		this.renderSVG = this.renderSVG.bind(this);
-		this.drawOnCanvas = this.drawOnCanvas.bind(this);
-	}
-	drawOnCanvas(ctx, moreProps) {
-		const { type, stroke, strokeWidth, opacity, strokeDasharray } = this.props;
-		const { yValue, xValue } = this.props;
-		const { xScale } = moreProps;
-		const { chartConfig: { yScale, width, height } } = moreProps;
 
-		ctx.beginPath();
-
-		ctx.strokeStyle = hexToRGBA(stroke, opacity);
-		ctx.lineWidth = strokeWidth;
-
-		const { x1, y1, x2, y2 } = getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height);
-
-		ctx.setLineDash(getStrokeDasharray(strokeDasharray).split(","));
-		ctx.moveTo(x1, y1);
-		ctx.lineTo(x2, y2);
-		ctx.stroke();
-	}
-	render() {
-		return (
-      <GenericChartComponent
-			svgDraw={this.renderSVG}
-			canvasDraw={this.drawOnCanvas}
-			canvasToDraw={getAxisCanvas}
-			drawOn={["pan"]}
-		/>
-   );
-	}
-	renderSVG(moreProps) {
-		const { width, height } = moreProps;
-		const { xScale, chartConfig: { yScale } } = moreProps;
-
-		const { className } = this.props;
-		const { type, stroke, strokeWidth, opacity, strokeDasharray } = this.props;
-		const { yValue, xValue } = this.props;
-
-		const lineCoordinates = getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height);
+  renderSVG = (moreProps) => {
+		const {
+      type,
+      className,
+      opacity,
+      stroke,
+      strokeWidth,
+      strokeDasharray,
+      yValue,
+      xValue
+    } = this.props
+    , {
+      width,
+      height,
+      xScale,
+      chartConfig: { yScale }
+    } = moreProps
+		, lineCoordinates = _getLineCoordinates(
+      type,
+      xScale,
+      yScale,
+      xValue,
+      yValue,
+      width,
+      height
+    );
 
 		return (
 			<line
@@ -68,12 +88,57 @@ class StraightLine extends Component {
 			/>
 		);
 	}
-}
 
-function getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height) {
-	return type === "horizontal"
-		? { x1: 0, y1: Math.round(yScale(yValue)), x2: width, y2: Math.round(yScale(yValue)) }
-		: { x1: Math.round(xScale(xValue)), y1: 0, x2: Math.round(xScale(xValue)), y2: height };
+	drawOnCanvas = (ctx, moreProps) => {
+		const {
+      type,
+      opacity,
+      stroke,
+      strokeWidth,
+      strokeDasharray,
+      yValue,
+      xValue
+    } = this.props
+		, {
+      xScale
+    } = moreProps
+		, {
+      chartConfig: { yScale, width, height }
+    } = moreProps
+    , {
+      x1,
+      y1,
+      x2,
+      y2
+    } = _getLineCoordinates(
+      type,
+      xScale,
+      yScale,
+      xValue,
+      yValue,
+      width,
+      height
+    );
+
+		ctx.beginPath();
+		ctx.strokeStyle = hexToRGBA(stroke, opacity);
+		ctx.lineWidth = strokeWidth;
+		ctx.setLineDash(_getLineDash(strokeDasharray));
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.stroke();
+	}
+
+	render() {
+		return (
+      <GenericChartComponent
+			  svgDraw={this.renderSVG}
+			  canvasDraw={this.drawOnCanvas}
+			  canvasToDraw={getAxisCanvas}
+			  drawOn={["pan"]}
+		/>
+   );
+  }
 }
 
 /*
@@ -98,12 +163,12 @@ StraightLine.propTypes = {
 */
 
 StraightLine.defaultProps = {
-	className: "line ",
-	type: "horizontal",
-	stroke: "#000000",
-	opacity: 0.5,
+  type: 'horizontal',
+	className: CL_LINE,
+  opacity: 0.5,
+	stroke: '#000000',
 	strokeWidth: 1,
-	strokeDasharray: "Solid",
+	strokeDasharray: 'Solid'
 };
 
 export default StraightLine
