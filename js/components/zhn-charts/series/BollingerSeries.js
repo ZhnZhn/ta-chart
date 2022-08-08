@@ -5,8 +5,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
 var _react = require("react");
@@ -19,51 +17,59 @@ var _CL = require("../CL");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-//import PropTypes from "prop-types";
+//import PropTypes from 'prop-types';
 var BollingerSeries = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(BollingerSeries, _Component);
 
-  function BollingerSeries(props) {
+  function BollingerSeries() {
     var _this;
 
-    _this = _Component.call(this, props) || this;
-    _this.yAccessorForTop = _this.yAccessorForTop.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.yAccessorForMiddle = _this.yAccessorForMiddle.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.yAccessorForBottom = _this.yAccessorForBottom.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.yAccessorForScalledBottom = _this.yAccessorForScalledBottom.bind((0, _assertThisInitialized2["default"])(_this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+
+    _this.yAccessorForTop = function (d) {
+      var yAccessor = _this.props.yAccessor,
+          _d = yAccessor(d);
+
+      return _d && _d.top;
+    };
+
+    _this.yAccessorForMiddle = function (d) {
+      var yAccessor = _this.props.yAccessor,
+          _d = yAccessor(d);
+
+      return _d && _d.middle;
+    };
+
+    _this.yAccessorForBottom = function (d) {
+      var yAccessor = _this.props.yAccessor,
+          _d = yAccessor(d);
+
+      return _d && _d.bottom;
+    };
+
+    _this.yAccessorForScalledBottom = function (scale, d) {
+      var yAccessor = _this.props.yAccessor,
+          _d = yAccessor(d);
+
+      return scale(_d && _d.bottom);
+    };
+
     return _this;
   }
 
   var _proto = BollingerSeries.prototype;
 
-  _proto.yAccessorForTop = function yAccessorForTop(d) {
-    var yAccessor = this.props.yAccessor;
-    return yAccessor(d) && yAccessor(d).top;
-  };
-
-  _proto.yAccessorForMiddle = function yAccessorForMiddle(d) {
-    var yAccessor = this.props.yAccessor;
-    return yAccessor(d) && yAccessor(d).middle;
-  };
-
-  _proto.yAccessorForBottom = function yAccessorForBottom(d) {
-    var yAccessor = this.props.yAccessor;
-    return yAccessor(d) && yAccessor(d).bottom;
-  };
-
-  _proto.yAccessorForScalledBottom = function yAccessorForScalledBottom(scale, d) {
-    var yAccessor = this.props.yAccessor;
-    return scale(yAccessor(d) && yAccessor(d).bottom);
-  };
-
   _proto.render = function render() {
     var _this$props = this.props,
-        areaClassName = _this$props.areaClassName,
         className = _this$props.className,
-        opacity = _this$props.opacity;
-    var _this$props2 = this.props,
-        stroke = _this$props2.stroke,
-        fill = _this$props2.fill;
+        areaClassName = _this$props.areaClassName,
+        opacity = _this$props.opacity,
+        stroke = _this$props.stroke,
+        fill = _this$props.fill;
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
       className: className,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries["default"], {
@@ -82,9 +88,9 @@ var BollingerSeries = /*#__PURE__*/function (_Component) {
         className: areaClassName,
         yAccessor: this.yAccessorForTop,
         base: this.yAccessorForScalledBottom,
+        opacity: opacity,
         stroke: "none",
-        fill: fill,
-        opacity: opacity
+        fill: fill
       })]
     });
   };

@@ -1,54 +1,73 @@
-import { Component } from "react";
-//import PropTypes from "prop-types";
+//import PropTypes from 'prop-types';
+import { Component } from 'react';
 
-import LineSeries from "./LineSeries";
-import AreaOnlySeries from "./AreaOnlySeries";
+import LineSeries from './LineSeries';
+import AreaOnlySeries from './AreaOnlySeries';
 import {
 	CL_BB_SERIES,
 	CL_BB_SERIES_AREA
 } from '../CL';
 
 class BollingerSeries extends Component {
-	constructor(props) {
-		super(props);
-		this.yAccessorForTop = this.yAccessorForTop.bind(this);
-		this.yAccessorForMiddle = this.yAccessorForMiddle.bind(this);
-		this.yAccessorForBottom = this.yAccessorForBottom.bind(this);
-		this.yAccessorForScalledBottom = this.yAccessorForScalledBottom.bind(this);
+
+	yAccessorForTop = (d) => {
+		const { yAccessor } = this.props
+		, _d = yAccessor(d);
+		return _d && _d.top;
 	}
-	yAccessorForTop(d) {
-		const { yAccessor } = this.props;
-		return yAccessor(d) && yAccessor(d).top;
+
+	yAccessorForMiddle = (d) => {
+		const { yAccessor } = this.props
+		, _d = yAccessor(d);
+		return _d && _d.middle;
 	}
-	yAccessorForMiddle(d) {
-		const { yAccessor } = this.props;
-		return yAccessor(d) && yAccessor(d).middle;
+
+	yAccessorForBottom = (d) => {
+		const { yAccessor } = this.props
+		, _d = yAccessor(d);
+		return _d && _d.bottom;
 	}
-	yAccessorForBottom(d) {
-		const { yAccessor } = this.props;
-		return yAccessor(d) && yAccessor(d).bottom;
+
+	yAccessorForScalledBottom = (scale, d) => {
+		const { yAccessor } = this.props
+		, _d = yAccessor(d);
+		return scale(_d && _d.bottom);
 	}
-	yAccessorForScalledBottom(scale, d) {
-		const { yAccessor } = this.props;
-		return scale(yAccessor(d) && yAccessor(d).bottom);
-	}
+
 	render() {
-		const { areaClassName, className, opacity } = this.props;
-		const { stroke, fill } = this.props;
+		const {
+			className,
+			areaClassName,
+			opacity,
+			stroke,
+			fill
+		} = this.props;
 
 		return (
 			<g className={className}>
-				<LineSeries yAccessor={this.yAccessorForTop}
-					stroke={stroke.top} fill="none" />
-				<LineSeries yAccessor={this.yAccessorForMiddle}
-					stroke={stroke.middle} fill="none" />
-				<LineSeries yAccessor={this.yAccessorForBottom}
-					stroke={stroke.bottom} fill="none" />
-				<AreaOnlySeries className={areaClassName}
-					yAccessor={this.yAccessorForTop}
-					base={this.yAccessorForScalledBottom}
-					stroke="none" fill={fill}
-					opacity={opacity} />
+				<LineSeries
+				   yAccessor={this.yAccessorForTop}
+					 stroke={stroke.top}
+					 fill="none"
+				/>
+				<LineSeries
+				   yAccessor={this.yAccessorForMiddle}
+					 stroke={stroke.middle}
+					 fill="none"
+				/>
+				<LineSeries
+				   yAccessor={this.yAccessorForBottom}
+					 stroke={stroke.bottom}
+					 fill="none"
+				/>
+				<AreaOnlySeries
+				   className={areaClassName}
+					 yAccessor={this.yAccessorForTop}
+					 base={this.yAccessorForScalledBottom}
+					 opacity={opacity}
+					 stroke="none"
+					 fill={fill}
+				/>
 			</g>
 		);
 	}
