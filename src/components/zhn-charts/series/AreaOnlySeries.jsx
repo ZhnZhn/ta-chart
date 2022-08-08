@@ -1,53 +1,85 @@
 //import PropTypes from "prop-types";
-import { Component } from "react";
-import { area as d3Area } from "d3-shape";
+import { Component } from 'react';
+import { area as d3Area } from 'd3-shape';
 
 import {
   GenericChartComponent
-} from "../core/GenericChartComponent";
+} from '../core/GenericChartComponent';
 import {
   getAxisCanvas
-} from "../core/contextFn";
+} from '../core/contextFn';
 
 import {
   hexToRGBA,
   isDefined,
   first,
   functor
-} from "../utils";
+} from '../utils';
+
+import {
+  CL_LINE,
+  CL_LINE_STROKE
+} from '../CL';
+
+const _crAreaSeries = (
+  base,
+  defined,
+  xAccessor,
+  yAccessor,
+  xScale,
+  yScale,
+  moreProps
+) => {
+  const newBase = functor(base);
+  return d3Area()
+    .defined(d => defined(yAccessor(d)))
+    .x((d) => Math.round(xScale(xAccessor(d))))
+    .y0((d) => newBase(yScale, d, moreProps))
+    .y1((d) => Math.round(yScale(yAccessor(d))));
+};
 
 class AreaOnlySeries extends Component {
-	constructor(props) {
-		super(props);
-		this.renderSVG = this.renderSVG.bind(this);
-		this.drawOnCanvas = this.drawOnCanvas.bind(this);
-	}
-	drawOnCanvas(ctx, moreProps) {
-		const { yAccessor, defined, base, canvasGradient } = this.props;
-		const { fill, stroke, opacity, interpolation, canvasClip } = this.props;
 
-		const { xScale, chartConfig: { yScale }, plotData, xAccessor } = moreProps;
+	drawOnCanvas = (ctx, moreProps) => {
+		const {
+      yAccessor,
+      defined,
+      base,
+      canvasGradient,
+
+      fill,
+      stroke,
+      opacity,
+      interpolation,
+      canvasClip
+    } = this.props
+		, {
+      xScale,
+      plotData,
+      xAccessor,
+      chartConfig: { yScale }
+    } = moreProps;
 
 		if (canvasClip) {
 			ctx.save();
 			canvasClip(ctx, moreProps);
 		}
 
-		if (canvasGradient != null) {
-			ctx.fillStyle = canvasGradient(moreProps, ctx);
-		} else {
-			ctx.fillStyle = hexToRGBA(fill, opacity);
-		}
+    ctx.fillStyle = canvasGradient != null
+      ? canvasGradient(moreProps, ctx)
+      : hexToRGBA(fill, opacity);
 		ctx.strokeStyle = stroke;
 
 		ctx.beginPath();
-		const newBase = functor(base);
-		const areaSeries = d3Area()
-			.defined(d => defined(yAccessor(d)))
-			.x((d) => Math.round(xScale(xAccessor(d))))
-			.y0((d) => newBase(yScale, d, moreProps))
-			.y1((d) => Math.round(yScale(yAccessor(d))))
-			.context(ctx);
+    const areaSeries = _crAreaSeries(
+      base,
+      defined,
+      xAccessor,
+      yAccessor,
+      xScale,
+      yScale,
+      moreProps
+    ).context(ctx);
 
 		if (isDefined(interpolation)) {
 			areaSeries.curve(interpolation);
@@ -59,43 +91,65 @@ class AreaOnlySeries extends Component {
 			ctx.restore();
 		}
 	}
-	renderSVG(moreProps) {
-		const { yAccessor, defined, base, style } = this.props;
-		const { stroke, fill, className, opacity, interpolation } = this.props;
 
-		const { xScale, chartConfig: { yScale }, plotData, xAccessor } = moreProps;
+	renderSVG = (moreProps) => {
+		const {
+      yAccessor,
+      defined,
+      base,
+      style,
 
-		const newBase = functor(base);
-		const areaSeries = d3Area()
-			.defined(d => defined(yAccessor(d)))
-			.x((d) => Math.round(xScale(xAccessor(d))))
-			.y0((d) => newBase(yScale, d, moreProps))
-			.y1((d) => Math.round(yScale(yAccessor(d))));
+      className,
+      stroke,
+      fill,
+      opacity,
+      interpolation
+    } = this.props
+		, {
+      plotData,
+      xScale,
+      xAccessor,
+      chartConfig: { yScale }
+    } = moreProps
+    , areaSeries = _crAreaSeries(
+      base,
+      defined,
+      xAccessor,
+      yAccessor,
+      xScale,
+      yScale,
+      moreProps
+    );
 
 		if (isDefined(interpolation)) {
 			areaSeries.curve(interpolation);
 		}
 
-		const d = areaSeries(plotData);
-		const newClassName = className.concat(isDefined(stroke) ? "" : " line-stroke");
+		const d = areaSeries(plotData)
+		, newClassName = className
+        .concat(isDefined(stroke)
+           ? ''
+           : ` ${CL_LINE_STROKE}`
+         );
+
 		return (
 			<path
+        className={newClassName}
 				style={style}
-				d={d}
 				stroke={stroke}
 				fill={hexToRGBA(fill, opacity)}
-				className={newClassName}
-
+        d={d}
 			/>
 		);
 	}
+
 	render() {
 		return (
 			<GenericChartComponent
 				svgDraw={this.renderSVG}
 				canvasDraw={this.drawOnCanvas}
 				canvasToDraw={getAxisCanvas}
-				drawOn={["pan"]}
+				drawOn={['pan']}
 			/>
 		);
 	}
@@ -115,13 +169,13 @@ AreaOnlySeries.propTypes = {
 	interpolation: PropTypes.func,
 	canvasClip: PropTypes.func,
 	style: PropTypes.object,
-	canvasGradient: PropTypes.func,
+	canvasGradient: PropTypes.func
 };
 */
 
 AreaOnlySeries.defaultProps = {
-	className: "line ",
-	fill: "none",
+	className: CL_LINE,
+	fill: 'none',
 	opacity: 1,
 	defined: d => !isNaN(d),
 	base: (yScale /* , d, moreProps */) => first(yScale.range()),

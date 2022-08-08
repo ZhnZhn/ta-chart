@@ -5,8 +5,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
 var _react = require("react");
@@ -19,124 +17,118 @@ var _contextFn = require("../core/contextFn");
 
 var _utils = require("../utils");
 
+var _CL = require("../CL");
+
 var _jsxRuntime = require("react/jsx-runtime");
 
 //import PropTypes from "prop-types";
+var _crAreaSeries = function _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps) {
+  var newBase = (0, _utils.functor)(base);
+  return (0, _d3Shape.area)().defined(function (d) {
+    return defined(yAccessor(d));
+  }).x(function (d) {
+    return Math.round(xScale(xAccessor(d)));
+  }).y0(function (d) {
+    return newBase(yScale, d, moreProps);
+  }).y1(function (d) {
+    return Math.round(yScale(yAccessor(d)));
+  });
+};
+
 var AreaOnlySeries = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(AreaOnlySeries, _Component);
 
-  function AreaOnlySeries(props) {
+  function AreaOnlySeries() {
     var _this;
 
-    _this = _Component.call(this, props) || this;
-    _this.renderSVG = _this.renderSVG.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.drawOnCanvas = _this.drawOnCanvas.bind((0, _assertThisInitialized2["default"])(_this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+
+    _this.drawOnCanvas = function (ctx, moreProps) {
+      var _this$props = _this.props,
+          yAccessor = _this$props.yAccessor,
+          defined = _this$props.defined,
+          base = _this$props.base,
+          canvasGradient = _this$props.canvasGradient,
+          fill = _this$props.fill,
+          stroke = _this$props.stroke,
+          opacity = _this$props.opacity,
+          interpolation = _this$props.interpolation,
+          canvasClip = _this$props.canvasClip,
+          xScale = moreProps.xScale,
+          plotData = moreProps.plotData,
+          xAccessor = moreProps.xAccessor,
+          yScale = moreProps.chartConfig.yScale;
+
+      if (canvasClip) {
+        ctx.save();
+        canvasClip(ctx, moreProps);
+      }
+
+      ctx.fillStyle = canvasGradient != null ? canvasGradient(moreProps, ctx) : (0, _utils.hexToRGBA)(fill, opacity);
+      ctx.strokeStyle = stroke;
+      ctx.beginPath();
+
+      var areaSeries = _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps).context(ctx);
+
+      if ((0, _utils.isDefined)(interpolation)) {
+        areaSeries.curve(interpolation);
+      }
+
+      areaSeries(plotData);
+      ctx.fill();
+
+      if (canvasClip) {
+        ctx.restore();
+      }
+    };
+
+    _this.renderSVG = function (moreProps) {
+      var _this$props2 = _this.props,
+          yAccessor = _this$props2.yAccessor,
+          defined = _this$props2.defined,
+          base = _this$props2.base,
+          style = _this$props2.style,
+          className = _this$props2.className,
+          stroke = _this$props2.stroke,
+          fill = _this$props2.fill,
+          opacity = _this$props2.opacity,
+          interpolation = _this$props2.interpolation,
+          plotData = moreProps.plotData,
+          xScale = moreProps.xScale,
+          xAccessor = moreProps.xAccessor,
+          yScale = moreProps.chartConfig.yScale,
+          areaSeries = _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps);
+
+      if ((0, _utils.isDefined)(interpolation)) {
+        areaSeries.curve(interpolation);
+      }
+
+      var d = areaSeries(plotData),
+          newClassName = className.concat((0, _utils.isDefined)(stroke) ? '' : " " + _CL.CL_LINE_STROKE);
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+        className: newClassName,
+        style: style,
+        stroke: stroke,
+        fill: (0, _utils.hexToRGBA)(fill, opacity),
+        d: d
+      });
+    };
+
     return _this;
   }
 
   var _proto = AreaOnlySeries.prototype;
-
-  _proto.drawOnCanvas = function drawOnCanvas(ctx, moreProps) {
-    var _this$props = this.props,
-        yAccessor = _this$props.yAccessor,
-        defined = _this$props.defined,
-        base = _this$props.base,
-        canvasGradient = _this$props.canvasGradient;
-    var _this$props2 = this.props,
-        fill = _this$props2.fill,
-        stroke = _this$props2.stroke,
-        opacity = _this$props2.opacity,
-        interpolation = _this$props2.interpolation,
-        canvasClip = _this$props2.canvasClip;
-    var xScale = moreProps.xScale,
-        yScale = moreProps.chartConfig.yScale,
-        plotData = moreProps.plotData,
-        xAccessor = moreProps.xAccessor;
-
-    if (canvasClip) {
-      ctx.save();
-      canvasClip(ctx, moreProps);
-    }
-
-    if (canvasGradient != null) {
-      ctx.fillStyle = canvasGradient(moreProps, ctx);
-    } else {
-      ctx.fillStyle = (0, _utils.hexToRGBA)(fill, opacity);
-    }
-
-    ctx.strokeStyle = stroke;
-    ctx.beginPath();
-    var newBase = (0, _utils.functor)(base);
-    var areaSeries = (0, _d3Shape.area)().defined(function (d) {
-      return defined(yAccessor(d));
-    }).x(function (d) {
-      return Math.round(xScale(xAccessor(d)));
-    }).y0(function (d) {
-      return newBase(yScale, d, moreProps);
-    }).y1(function (d) {
-      return Math.round(yScale(yAccessor(d)));
-    }).context(ctx);
-
-    if ((0, _utils.isDefined)(interpolation)) {
-      areaSeries.curve(interpolation);
-    }
-
-    areaSeries(plotData);
-    ctx.fill();
-
-    if (canvasClip) {
-      ctx.restore();
-    }
-  };
-
-  _proto.renderSVG = function renderSVG(moreProps) {
-    var _this$props3 = this.props,
-        yAccessor = _this$props3.yAccessor,
-        defined = _this$props3.defined,
-        base = _this$props3.base,
-        style = _this$props3.style;
-    var _this$props4 = this.props,
-        stroke = _this$props4.stroke,
-        fill = _this$props4.fill,
-        className = _this$props4.className,
-        opacity = _this$props4.opacity,
-        interpolation = _this$props4.interpolation;
-    var xScale = moreProps.xScale,
-        yScale = moreProps.chartConfig.yScale,
-        plotData = moreProps.plotData,
-        xAccessor = moreProps.xAccessor;
-    var newBase = (0, _utils.functor)(base);
-    var areaSeries = (0, _d3Shape.area)().defined(function (d) {
-      return defined(yAccessor(d));
-    }).x(function (d) {
-      return Math.round(xScale(xAccessor(d)));
-    }).y0(function (d) {
-      return newBase(yScale, d, moreProps);
-    }).y1(function (d) {
-      return Math.round(yScale(yAccessor(d)));
-    });
-
-    if ((0, _utils.isDefined)(interpolation)) {
-      areaSeries.curve(interpolation);
-    }
-
-    var d = areaSeries(plotData);
-    var newClassName = className.concat((0, _utils.isDefined)(stroke) ? "" : " line-stroke");
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-      style: style,
-      d: d,
-      stroke: stroke,
-      fill: (0, _utils.hexToRGBA)(fill, opacity),
-      className: newClassName
-    });
-  };
 
   _proto.render = function render() {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
       svgDraw: this.renderSVG,
       canvasDraw: this.drawOnCanvas,
       canvasToDraw: _contextFn.getAxisCanvas,
-      drawOn: ["pan"]
+      drawOn: ['pan']
     });
   };
 
@@ -156,14 +148,14 @@ AreaOnlySeries.propTypes = {
 	interpolation: PropTypes.func,
 	canvasClip: PropTypes.func,
 	style: PropTypes.object,
-	canvasGradient: PropTypes.func,
+	canvasGradient: PropTypes.func
 };
 */
 
 
 AreaOnlySeries.defaultProps = {
-  className: "line ",
-  fill: "none",
+  className: _CL.CL_LINE,
+  fill: 'none',
   opacity: 1,
   defined: function defined(d) {
     return !isNaN(d);
