@@ -5,8 +5,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
 var _react = require("react");
@@ -21,7 +19,18 @@ var _CL = require("../CL");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-//import PropTypes from "prop-types";
+var _crId = function _crId() {
+  return String(Math.round(Math.random() * 10000 * 10000));
+},
+    _crClipPathId = function _crClipPathId() {
+  return "rsi-clip-" + _crId();
+},
+    _crClipPathStyle = function _crClipPathStyle(id) {
+  return {
+    clipPath: "url(#" + id + ")"
+  };
+};
+
 var RSISeries = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(RSISeries, _Component);
 
@@ -29,118 +38,110 @@ var RSISeries = /*#__PURE__*/function (_Component) {
     var _this;
 
     _this = _Component.call(this, props) || this;
-    _this.renderClip = _this.renderClip.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.topAndBottomClip = _this.topAndBottomClip.bind((0, _assertThisInitialized2["default"])(_this));
-    _this.mainClip = _this.mainClip.bind((0, _assertThisInitialized2["default"])(_this));
-    var id1 = String(Math.round(Math.random() * 10000 * 10000));
-    _this.clipPathId1 = "rsi-clip-" + id1;
-    var id2 = String(Math.round(Math.random() * 10000 * 10000));
-    _this.clipPathId2 = "rsi-clip-" + id2;
+
+    _this.topAndBottomClip = function (ctx, moreProps) {
+      var _this$props = _this.props,
+          overSold = _this$props.overSold,
+          overBought = _this$props.overBought,
+          _moreProps$chartConfi = moreProps.chartConfig,
+          yScale = _moreProps$chartConfi.yScale,
+          width = _moreProps$chartConfi.width;
+      ctx.beginPath();
+      ctx.rect(0, yScale(overSold), width, yScale(overBought) - yScale(overSold));
+      ctx.clip();
+    };
+
+    _this.mainClip = function (ctx, moreProps) {
+      var _this$props2 = _this.props,
+          overSold = _this$props2.overSold,
+          overBought = _this$props2.overBought,
+          _moreProps$chartConfi2 = moreProps.chartConfig,
+          yScale = _moreProps$chartConfi2.yScale,
+          width = _moreProps$chartConfi2.width,
+          height = _moreProps$chartConfi2.height;
+      ctx.beginPath();
+      ctx.rect(0, 0, width, yScale(overSold));
+      ctx.rect(0, yScale(overBought), width, height - yScale(overBought));
+      ctx.clip();
+    };
+
+    _this.renderClip = function (moreProps) {
+      var _this$props3 = _this.props,
+          overSold = _this$props3.overSold,
+          overBought = _this$props3.overBought,
+          _moreProps$chartConfi3 = moreProps.chartConfig,
+          yScale = _moreProps$chartConfi3.yScale,
+          width = _moreProps$chartConfi3.width,
+          height = _moreProps$chartConfi3.height;
+      return /*#__PURE__*/(0, _jsxRuntime.jsxs)("defs", {
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("clipPath", {
+          id: _this.clipPathId1,
+          children: /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
+            x: 0,
+            y: yScale(overSold),
+            width: width,
+            height: yScale(overBought) - yScale(overSold)
+          })
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("clipPath", {
+          id: _this.clipPathId2,
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
+            x: 0,
+            y: 0,
+            width: width,
+            height: yScale(overSold)
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
+            x: 0,
+            y: yScale(overBought),
+            width: width,
+            height: height - yScale(overBought)
+          })]
+        })]
+      });
+    };
+
+    _this.clipPathId1 = _crClipPathId();
+    _this.clipPathId2 = _crClipPathId();
     return _this;
   }
 
   var _proto = RSISeries.prototype;
 
-  _proto.topAndBottomClip = function topAndBottomClip(ctx, moreProps) {
-    var chartConfig = moreProps.chartConfig;
-    var _this$props = this.props,
-        overSold = _this$props.overSold,
-        overBought = _this$props.overBought;
-    var yScale = chartConfig.yScale,
-        width = chartConfig.width;
-    ctx.beginPath();
-    ctx.rect(0, yScale(overSold), width, yScale(overBought) - yScale(overSold));
-    ctx.clip();
-  };
-
-  _proto.mainClip = function mainClip(ctx, moreProps) {
-    var chartConfig = moreProps.chartConfig;
-    var _this$props2 = this.props,
-        overSold = _this$props2.overSold,
-        overBought = _this$props2.overBought;
-    var yScale = chartConfig.yScale,
-        width = chartConfig.width,
-        height = chartConfig.height;
-    ctx.beginPath();
-    ctx.rect(0, 0, width, yScale(overSold));
-    ctx.rect(0, yScale(overBought), width, height - yScale(overBought));
-    ctx.clip();
-  };
-
-  _proto.renderClip = function renderClip(moreProps) {
-    var chartConfig = moreProps.chartConfig;
-    var _this$props3 = this.props,
-        overSold = _this$props3.overSold,
-        overBought = _this$props3.overBought;
-    var yScale = chartConfig.yScale,
-        width = chartConfig.width,
-        height = chartConfig.height;
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)("defs", {
-      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("clipPath", {
-        id: this.clipPathId1,
-        children: /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-          x: 0,
-          y: yScale(overSold),
-          width: width,
-          height: yScale(overBought) - yScale(overSold)
-        })
-      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("clipPath", {
-        id: this.clipPathId2,
-        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-          x: 0,
-          y: 0,
-          width: width,
-          height: yScale(overSold)
-        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-          x: 0,
-          y: yScale(overBought),
-          width: width,
-          height: height - yScale(overBought)
-        })]
-      })]
-    });
-  };
-
   _proto.render = function render() {
     var _this$props4 = this.props,
         className = _this$props4.className,
-        stroke = _this$props4.stroke,
         opacity = _this$props4.opacity,
+        stroke = _this$props4.stroke,
         strokeDasharray = _this$props4.strokeDasharray,
-        strokeWidth = _this$props4.strokeWidth;
-    var yAccessor = this.props.yAccessor;
-    var _this$props5 = this.props,
-        overSold = _this$props5.overSold,
-        middle = _this$props5.middle,
-        overBought = _this$props5.overBought;
-    var style1 = {
-      "clipPath": "url(#" + this.clipPathId1 + ")"
-    };
-    var style2 = {
-      "clipPath": "url(#" + this.clipPathId2 + ")"
-    };
+        strokeWidth = _this$props4.strokeWidth,
+        yAccessor = _this$props4.yAccessor,
+        overSold = _this$props4.overSold,
+        middle = _this$props4.middle,
+        overBought = _this$props4.overBought,
+        style1 = _crClipPathStyle(this.clipPathId1),
+        style2 = _crClipPathStyle(this.clipPathId2);
+
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
       className: className,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_SVGComponent["default"], {
         children: this.renderClip
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_StraightLine["default"], {
-        stroke: stroke.top,
         opacity: opacity.top,
-        yValue: overSold,
+        stroke: stroke.top,
+        strokeWidth: strokeWidth.top,
         strokeDasharray: strokeDasharray.top,
-        strokeWidth: strokeWidth.top
+        yValue: overSold
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_StraightLine["default"], {
-        stroke: stroke.middle,
         opacity: opacity.middle,
-        yValue: middle,
+        stroke: stroke.middle,
+        strokeWidth: strokeWidth.middle,
         strokeDasharray: strokeDasharray.middle,
-        strokeWidth: strokeWidth.middle
+        yValue: middle
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_StraightLine["default"], {
-        stroke: stroke.bottom,
         opacity: opacity.bottom,
-        yValue: overBought,
+        stroke: stroke.bottom,
+        strokeWidth: strokeWidth.bottom,
         strokeDasharray: strokeDasharray.bottom,
-        strokeWidth: strokeWidth.bottom
+        yValue: overBought
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries["default"], {
         style: style1,
         canvasClip: this.topAndBottomClip,
@@ -168,13 +169,14 @@ var RSISeries = /*#__PURE__*/function (_Component) {
   return RSISeries;
 }(_react.Component);
 
+var SHORT_DASH = 'ShortDash';
 RSISeries.defaultProps = {
   className: _CL.CL_RSI_SERIES,
   stroke: {
     line: "#000000",
-    top: "#B8C2CC",
-    middle: "#8795A1",
-    bottom: "#B8C2CC",
+    top: "#b8b2bb",
+    middle: "#8795a1",
+    bottom: "#b8c2cc",
     outsideThreshold: "#b300b3",
     insideThreshold: "#ffccff"
   },
@@ -184,10 +186,10 @@ RSISeries.defaultProps = {
     bottom: 1
   },
   strokeDasharray: {
-    line: "Solid",
-    top: "ShortDash",
-    middle: "ShortDash",
-    bottom: "ShortDash"
+    line: 'Solid',
+    top: SHORT_DASH,
+    middle: SHORT_DASH,
+    bottom: SHORT_DASH
   },
   strokeWidth: {
     outsideThreshold: 1,

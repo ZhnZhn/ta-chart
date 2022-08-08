@@ -1,29 +1,35 @@
-import { Component } from "react";
-//import PropTypes from "prop-types";
-import LineSeries from "./LineSeries";
-import StraightLine from "./StraightLine";
-import SVGComponent from "./SVGComponent";
+import { Component } from 'react';
+
+import LineSeries from './LineSeries';
+import StraightLine from './StraightLine';
+import SVGComponent from './SVGComponent';
 import {
 	CL_RSI_SERIES
 } from '../CL';
 
+const _crId = () => String(Math.round(Math.random() * 10000 * 10000))
+, _crClipPathId = () => `rsi-clip-${_crId()}`
+, _crClipPathStyle = (
+	id
+) => ({
+	clipPath: `url(#${id})`
+});
+
 class RSISeries extends Component {
 	constructor(props) {
 		super(props);
-		this.renderClip = this.renderClip.bind(this);
-		this.topAndBottomClip = this.topAndBottomClip.bind(this);
-		this.mainClip = this.mainClip.bind(this);
-
-		const id1 = String(Math.round(Math.random() * 10000 * 10000));
-		this.clipPathId1 = `rsi-clip-${id1}`;
-
-		const id2 = String(Math.round(Math.random() * 10000 * 10000));
-		this.clipPathId2 = `rsi-clip-${id2}`;
+		this.clipPathId1 = _crClipPathId();
+		this.clipPathId2 = _crClipPathId();
 	}
-	topAndBottomClip(ctx, moreProps) {
-		const { chartConfig } = moreProps;
-		const { overSold, overBought } = this.props;
-		const { yScale, width } = chartConfig;
+
+	topAndBottomClip = (ctx, moreProps) => {
+		const {
+			overSold,
+			overBought
+		} = this.props
+		, {
+			chartConfig : {yScale, width }
+		} = moreProps;
 
 		ctx.beginPath();
 		ctx.rect(
@@ -34,10 +40,15 @@ class RSISeries extends Component {
 		);
 		ctx.clip();
 	}
-	mainClip(ctx, moreProps) {
-		const { chartConfig } = moreProps;
-		const { overSold, overBought } = this.props;
-		const { yScale, width, height } = chartConfig;
+
+	mainClip = (ctx, moreProps) => {
+		const {
+			overSold,
+			overBought
+		} = this.props
+		, {
+			chartConfig : { yScale, width, height }
+		} = moreProps;
 
 		ctx.beginPath();
 		ctx.rect(
@@ -54,10 +65,15 @@ class RSISeries extends Component {
 		);
 		ctx.clip();
 	}
-	renderClip(moreProps) {
-		const { chartConfig } = moreProps;
-		const { overSold, overBought } = this.props;
-		const { yScale, width, height } = chartConfig;
+
+	renderClip = (moreProps) => {
+		const {
+			overSold,
+			overBought
+		} = this.props
+		, {
+			chartConfig : { yScale, width, height }
+		} = moreProps;
 
 		return (
 			<defs>
@@ -86,13 +102,21 @@ class RSISeries extends Component {
 			</defs>
 		);
 	}
-	render() {
-		const { className, stroke, opacity, strokeDasharray, strokeWidth } = this.props;
-		const { yAccessor } = this.props;
-		const { overSold, middle, overBought } = this.props;
 
-		const style1 = { "clipPath": `url(#${this.clipPathId1})` };
-		const style2 = { "clipPath": `url(#${this.clipPathId2})` };
+	render() {
+		const {
+			className,
+			opacity,
+			stroke,
+			strokeDasharray,
+			strokeWidth,
+			yAccessor,
+			overSold,
+			middle,
+			overBought
+		} = this.props
+		, style1 = _crClipPathStyle(this.clipPathId1)
+		, style2 = _crClipPathStyle(this.clipPathId2);
 
 		return (
 			<g className={className}>
@@ -100,30 +124,29 @@ class RSISeries extends Component {
 					{this.renderClip}
 				</SVGComponent>
 				<StraightLine
-					stroke={stroke.top}
 					opacity={opacity.top}
-					yValue={overSold}
-					strokeDasharray={strokeDasharray.top}
+					stroke={stroke.top}
 					strokeWidth={strokeWidth.top}
+					strokeDasharray={strokeDasharray.top}
+					yValue={overSold}
 				/>
 				<StraightLine
+				  opacity={opacity.middle}
 					stroke={stroke.middle}
-					opacity={opacity.middle}
-					yValue={middle}
-					strokeDasharray={strokeDasharray.middle}
 					strokeWidth={strokeWidth.middle}
+					strokeDasharray={strokeDasharray.middle}
+					yValue={middle}
 				/>
 				<StraightLine
-					stroke={stroke.bottom}
 					opacity={opacity.bottom}
-					yValue={overBought}
-					strokeDasharray={strokeDasharray.bottom}
+					stroke={stroke.bottom}
 					strokeWidth={strokeWidth.bottom}
+					strokeDasharray={strokeDasharray.bottom}
+					yValue={overBought}
 				/>
 				<LineSeries
 					style={style1}
 					canvasClip={this.topAndBottomClip}
-
 					className={className}
 					yAccessor={yAccessor}
 					stroke={stroke.insideThreshold || stroke.line}
@@ -146,13 +169,15 @@ class RSISeries extends Component {
 	}
 }
 
+const SHORT_DASH = 'ShortDash'
+
 RSISeries.defaultProps = {
 	className: CL_RSI_SERIES,
 	stroke: {
 		line: "#000000",
-		top: "#B8C2CC",
-		middle: "#8795A1",
-		bottom: "#B8C2CC",
+		top: "#b8b2bb",
+		middle: "#8795a1",
+		bottom: "#b8c2cc",
 		outsideThreshold: "#b300b3",
 		insideThreshold: "#ffccff",
 	},
@@ -162,21 +187,21 @@ RSISeries.defaultProps = {
 		bottom: 1
 	},
 	strokeDasharray: {
-		line: "Solid",
-		top: "ShortDash",
-		middle: "ShortDash",
-		bottom: "ShortDash",
+		line: 'Solid',
+		top: SHORT_DASH,
+		middle: SHORT_DASH,
+		bottom: SHORT_DASH
 	},
 	strokeWidth: {
 		outsideThreshold: 1,
 		insideThreshold: 1,
 		top: 1,
 		middle: 1,
-		bottom: 1,
+		bottom: 1
 	},
 	overSold: 70,
 	middle: 50,
-	overBought: 30,
+	overBought: 30
 };
 
 export default RSISeries
