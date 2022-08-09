@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.FONT_FAMILY = exports.CL_Y_AXIS = exports.CL_X_AXIS = exports.CL_TOOLTIP_LABEL = exports.CL_TOOLTIP_HOVER = exports.CL_TOOLTIP = exports.CL_RSI_SERIES = exports.CL_POINTER_CURSOR = exports.CL_OHLC_TOOLTIP = exports.CL_NS_RESIZE_CURSOR = exports.CL_MOVE_CURSOR = exports.CL_MA_TOOLTIP = exports.CL_LINE_STROKE = exports.CL_LINE = exports.CL_GRABBING_CURSOR = exports.CL_EW_RESIZE_CURSOR = exports.CL_ENABLE_INTERACTION = exports.CL_DEFAULT_CURSOR = exports.CL_CROSSHAIR_CURSOR = exports.CL_CHARTS_TEXT_BACKGROUND = exports.CL_CHARTS_CROSS_HAIR = exports.CL_CHARTS_CROSSHAIR = exports.CL_CHARTS = exports.CL_CANDLESTICK_WICK = exports.CL_CANDLESTICK_CANDLE = exports.CL_CANDLESTICK = exports.CL_BB_TOOLTIP = exports.CL_BB_SERIES_AREA = exports.CL_BB_SERIES = exports.CL_BAR = exports.CL_AXIS_DOMAIN = exports.CL_AVOID_INTERACTION = void 0;
+exports.FONT_FAMILY = exports.CL_Y_AXIS = exports.CL_X_AXIS = exports.CL_UP = exports.CL_TOOLTIP_LABEL = exports.CL_TOOLTIP_HOVER = exports.CL_TOOLTIP = exports.CL_RSI_SERIES = exports.CL_POINTER_CURSOR = exports.CL_OHLC_TOOLTIP = exports.CL_NS_RESIZE_CURSOR = exports.CL_MOVE_CURSOR = exports.CL_MA_TOOLTIP = exports.CL_LINE_STROKE = exports.CL_LINE = exports.CL_GRABBING_CURSOR = exports.CL_EW_RESIZE_CURSOR = exports.CL_ENABLE_INTERACTION = exports.CL_DOWN = exports.CL_DEFAULT_CURSOR = exports.CL_CROSSHAIR_CURSOR = exports.CL_CHARTS_TEXT_BACKGROUND = exports.CL_CHARTS_CROSS_HAIR = exports.CL_CHARTS_CROSSHAIR = exports.CL_CHARTS = exports.CL_CANDLESTICK_WICK = exports.CL_CANDLESTICK_CANDLE = exports.CL_CANDLESTICK = exports.CL_BB_TOOLTIP = exports.CL_BB_SERIES_AREA = exports.CL_BB_SERIES = exports.CL_BAR = exports.CL_AXIS_DOMAIN = exports.CL_AVOID_INTERACTION = void 0;
 var CL_CHARTS = 'zhn-charts';
 exports.CL_CHARTS = CL_CHARTS;
 var TOOLTIP = 'tooltip';
@@ -58,6 +58,10 @@ var CL_CANDLESTICK_WICK = CL_CHARTS + "-" + CANDLESTICK + "-wick";
 exports.CL_CANDLESTICK_WICK = CL_CANDLESTICK_WICK;
 var CL_CANDLESTICK_CANDLE = CL_CHARTS + "-" + CANDLESTICK + "-candle";
 exports.CL_CANDLESTICK_CANDLE = CL_CANDLESTICK_CANDLE;
+var CL_UP = CL_CHARTS + "-up";
+exports.CL_UP = CL_UP;
+var CL_DOWN = CL_CHARTS + "-down";
+exports.CL_DOWN = CL_DOWN;
 var CL_CHARTS_CROSSHAIR = CL_CHARTS + "-crosshair";
 exports.CL_CHARTS_CROSSHAIR = CL_CHARTS_CROSSHAIR;
 var CL_CHARTS_CROSS_HAIR = CL_CHARTS + "-cross_hair";

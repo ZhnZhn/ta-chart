@@ -36,6 +36,8 @@ const CANDLESTICK = 'candlestick';
 export const CL_CANDLESTICK = `${CL_CHARTS}-${CANDLESTICK}`
 export const CL_CANDLESTICK_WICK = `${CL_CHARTS}-${CANDLESTICK}-wick`
 export const CL_CANDLESTICK_CANDLE = `${CL_CHARTS}-${CANDLESTICK}-candle`
+export const CL_UP = `${CL_CHARTS}-up`
+export const CL_DOWN = `${CL_CHARTS}-down`
 
 export const CL_CHARTS_CROSSHAIR = `${CL_CHARTS}-crosshair`
 export const CL_CHARTS_CROSS_HAIR = `${CL_CHARTS}-cross_hair`
