@@ -44,5 +44,6 @@ export const CL_CHARTS_TEXT_BACKGROUND = `${CL_CHARTS}-text-background`
 const LINE = 'line'
 export const CL_LINE = `${CL_CHARTS}-${LINE}`
 export const CL_LINE_STROKE = `${CL_CHARTS}-${LINE}-stroke`
+export const CL_BAR = `${CL_CHARTS}-bar`
 
 export const FONT_FAMILY = "-apple-system, system-ui, Roboto, 'Helvetica Neue', Ubuntu, sans-serif"
