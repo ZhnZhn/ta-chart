@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Component } from '../../uiApi';
 
 import Axis from './Axis';
 import {
@@ -9,37 +9,45 @@ import {
   FONT_FAMILY
 } from '../CL';
 
-class XAxis extends React.Component {
-    static defaultProps = {
-       axisAt: "bottom",
-       className: CL_X_AXIS,
-       domainClassName: CL_AXIS_DOMAIN,
-       fontFamily: FONT_FAMILY,
-       fontSize: 12,
-       fontWeight: 400,
-       getMouseDelta: (startXY, mouseXY) => startXY[0] - mouseXY[0],
-       gridLinesStrokeStyle: "#e2e4ec",
-       gridLinesStrokeWidth: 1,
-       orient: "bottom",
-       outerTickSize: 0,
-       innerTickSize: 4,
-       showDomain: true,
-       showGridLines: false,
-       showTicks: true,
-       showTickLabel: true,
-       strokeStyle: "#000000",
-       strokeWidth: 1,
-       tickPadding: 4,
-       tickLabelFill: "#000000",
-       tickStrokeStyle: "#000000",
-       xZoomHeight: 25,
-       zoomEnabled: true,
-       zoomCursorClassName: CL_EW_RESIZE_CURSOR
-    }
+const _crAxisLocation = (
+  axisAt,
+  height
+) => axisAt === 'top'
+  ? 0
+  : axisAt === 'bottom'
+      ? height
+      : axisAt === 'middle'
+         ? height / 2
+         : axisAt;
 
+const _getXTicks = (
+  width
+) => width < 400
+  ? 2
+  : width < 500
+     ? 6
+     : 8;
+
+const _getXScale = (moreProps) => {
+  const {
+    xScale,
+    width
+  } = moreProps;
+  if (xScale.invert) {
+    const trueRange = [0, width]
+    , trueDomain = trueRange.map(xScale.invert);
+    return xScale
+      .copy()
+      .domain(trueDomain)
+      .range(trueRange);
+  }
+  return xScale;
+};
+
+class XAxis extends Component {
     static contextTypes = {
        chartConfig: PropTypes.object.isRequired,
-       xAxisZoom: PropTypes.func.isRequired,
+       xAxisZoom: PropTypes.func.isRequired
     }
 
     axisZoomCallback = (newXDomain) => {
@@ -47,7 +55,7 @@ class XAxis extends React.Component {
        xAxisZoom(newXDomain);
     }
 
-    helper = () => {
+    _crMoreProps = () => {
         const {
           axisAt,
           xZoomHeight,
@@ -55,61 +63,23 @@ class XAxis extends React.Component {
           ticks
         } = this.props
         , {
-          chartConfig: { width, height }
+          chartConfig: {width, height}
         } = this.context
         , x = 0
+        , y = orient === 'top'
+           ? -xZoomHeight
+           : 0
+        , h = xZoomHeight
         , w = width
-        , h = xZoomHeight;
-        let axisLocation;
-        switch (axisAt) {
-          case "top":
-            axisLocation = 0;
-            break;
-          case "bottom":
-            axisLocation = height;
-            break;
-          case "middle":
-            axisLocation = height / 2;
-            break;
-          default:
-            axisLocation = axisAt;
-        }
-        const y = orient === "top"
-          ? -xZoomHeight
-          : 0;
+        , axisLocation = _crAxisLocation(axisAt, height);
+
         return {
+          bg: {x, y, h, w},
           transform: [0, axisLocation],
           range: [0, width],
-          getScale: this.getXScale,
-          bg: { x, y, h, w },
-          ticks: ticks ?? this.getXTicks(width),
+          getScale: _getXScale,
+          ticks: ticks ?? _getXTicks(width)
         };
-    }
-
-    getXTicks = (width) => {
-        if (width < 400) {
-          return 2;
-        }
-        if (width < 500) {
-          return 6;
-        }
-        return 8;
-    }
-
-    getXScale = (moreProps) => {
-        const {
-          xScale: scale,
-          width
-        } = moreProps;
-        if (scale.invert) {
-           const trueRange = [0, width]
-           , trueDomain = trueRange.map(scale.invert);
-           return scale
-             .copy()
-             .domain(trueDomain)
-             .range(trueRange);
-        }
-        return scale;
     }
 
     render() {
@@ -122,14 +92,12 @@ class XAxis extends React.Component {
           zoomEnabled,
           ...restProps
         } = this.props
-        , {
-          ...moreProps
-        } = this.helper();
+        , _moreProps = this._crMoreProps();
 
         return (
           <Axis
             {...restProps}
-            {...moreProps}
+            {..._moreProps}
             getMouseDelta={getMouseDelta}
             outerTickSize={outerTickSize}
             showTicks={showTicks}
@@ -139,6 +107,36 @@ class XAxis extends React.Component {
             axisZoomCallback={this.axisZoomCallback}
         />);
     }
+}
+
+const XAXIS_COLOR = '#000000'
+, GRID_LINE_COLOR = '#e2e4ec';
+
+XAxis.defaultProps = {
+   axisAt: 'bottom',
+   className: CL_X_AXIS,
+   domainClassName: CL_AXIS_DOMAIN,
+   fontFamily: FONT_FAMILY,
+   fontSize: 12,
+   fontWeight: 400,
+   getMouseDelta: (startXY, mouseXY) => startXY[0] - mouseXY[0],
+   gridLinesStrokeStyle: GRID_LINE_COLOR,
+   gridLinesStrokeWidth: 1,
+   orient: 'bottom',
+   outerTickSize: 0,
+   innerTickSize: 4,
+   showDomain: true,
+   showGridLines: false,
+   showTicks: true,
+   showTickLabel: true,
+   strokeStyle: XAXIS_COLOR,
+   strokeWidth: 1,
+   tickPadding: 4,
+   tickLabelFill: XAXIS_COLOR,
+   tickStrokeStyle: XAXIS_COLOR,
+   xZoomHeight: 25,
+   zoomEnabled: true,
+   zoomCursorClassName: CL_EW_RESIZE_CURSOR
 }
 
 export default XAxis
