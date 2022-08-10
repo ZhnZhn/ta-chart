@@ -15,7 +15,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Axis = require("./Axis");
+var _Axis = _interopRequireDefault(require("./Axis"));
 
 var _CL = require("../CL");
 
@@ -128,7 +128,7 @@ var XAxis = /*#__PURE__*/function (_React$Component) {
         _this$helper = this.helper(),
         moreProps = (0, _extends2["default"])({}, _this$helper);
 
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_Axis.Axis, (0, _extends2["default"])({}, restProps, moreProps, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_Axis["default"], (0, _extends2["default"])({}, restProps, moreProps, {
       getMouseDelta: getMouseDelta,
       outerTickSize: outerTickSize,
       showTicks: showTicks,

@@ -3,17 +3,19 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
-exports.Axis = void 0;
+exports["default"] = void 0;
 
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireDefault(require("react"));
+var _uiApi = require("../../uiApi");
 
-var _utils = require("../core/utils");
+var _GenericChartComponent = require("../core/GenericChartComponent");
 
-var _GenericChartComponent = require("../core2/GenericChartComponent");
+var _AxisZoomCapture = _interopRequireDefault(require("./AxisZoomCapture"));
 
-var _AxisZoomCapture = require("./AxisZoomCapture");
+var _contextFn = require("../core/contextFn");
+
+var _utils = require("../utils");
 
 var _AxisFn = require("./AxisFn");
 
@@ -26,8 +28,8 @@ var _crFont = function _crFont(_ref) {
   return fontWeight + " " + fontSize + "px " + fontFamily;
 };
 
-var Axis = /*#__PURE__*/function (_React$Component) {
-  (0, _inheritsLoose2["default"])(Axis, _React$Component);
+var Axis = /*#__PURE__*/function (_Component) {
+  (0, _inheritsLoose2["default"])(Axis, _Component);
 
   function Axis() {
     var _this;
@@ -36,11 +38,12 @@ var Axis = /*#__PURE__*/function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
-    _this.chartRef = /*#__PURE__*/_react["default"].createRef();
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    _this.chartRef = (0, _uiApi.createRef)();
 
-    _this.getMoreProps = function () {
-      return _this.chartRef.current.getMoreProps();
+    _this.getAxisScale = function () {
+      var allProps = (0, _uiApi.getRefValue)(_this.chartRef).getMoreProps();
+      return _this.props.getScale(allProps);
     };
 
     _this.drawOnCanvas = function (ctx, moreProps) {
@@ -76,7 +79,7 @@ var Axis = /*#__PURE__*/function (_React$Component) {
           ctx.fillStyle = tickLabelFill;
         }
 
-        ctx.textAlign = textAnchor === "middle" ? "center" : textAnchor;
+        ctx.textAlign = textAnchor === 'middle' ? 'center' : textAnchor;
         tickProps.ticks.forEach(function (tick) {
           (0, _AxisFn.drawEachTickLabel)(ctx, tick, tickProps);
         });
@@ -97,48 +100,47 @@ var Axis = /*#__PURE__*/function (_React$Component) {
   _proto.render = function render() {
     var _this$props2 = this.props,
         bg = _this$props2.bg,
-        axisZoomCallback = _this$props2.axisZoomCallback,
         className = _this$props2.className,
         zoomCursorClassName = _this$props2.zoomCursorClassName,
         zoomEnabled = _this$props2.zoomEnabled,
-        getScale = _this$props2.getScale,
         inverted = _this$props2.inverted,
+        edgeClip = _this$props2.edgeClip,
         transform = _this$props2.transform,
         getMouseDelta = _this$props2.getMouseDelta,
-        edgeClip = _this$props2.edgeClip,
+        axisZoomCallback = _this$props2.axisZoomCallback,
         onContextMenu = _this$props2.onContextMenu,
         onDoubleClick = _this$props2.onDoubleClick;
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
-      transform: "translate(" + transform[0] + ", " + transform[1] + ")",
-      children: [zoomEnabled ? /*#__PURE__*/(0, _jsxRuntime.jsx)(_AxisZoomCapture.AxisZoomCapture, {
-        bg: bg,
-        getScale: getScale,
-        getMoreProps: this.getMoreProps,
-        getMouseDelta: getMouseDelta,
-        axisZoomCallback: axisZoomCallback,
+      transform: (0, _utils.crCssTranslate)(transform),
+      children: [zoomEnabled ? /*#__PURE__*/(0, _jsxRuntime.jsx)(_AxisZoomCapture["default"], {
         className: className,
         zoomCursorClassName: zoomCursorClassName,
         inverted: inverted,
+        bg: bg,
+        getScale: this.getAxisScale,
+        getMouseDelta: getMouseDelta,
+        axisZoomCallback: axisZoomCallback,
         onContextMenu: onContextMenu,
         onDoubleClick: onDoubleClick
       }) : null, /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
         ref: this.chartRef,
-        canvasToDraw: _utils.getAxisCanvas,
         clip: false,
         edgeClip: edgeClip,
+        canvasToDraw: _contextFn.getAxisCanvas,
         canvasDraw: this.drawOnCanvas,
-        drawOn: ["pan"]
+        drawOn: ['pan']
       })]
     });
   };
 
   return Axis;
-}(_react["default"].Component);
+}(_uiApi.Component);
 
-exports.Axis = Axis;
 Axis.defaultProps = {
   edgeClip: false,
   zoomEnabled: false,
-  zoomCursorClassName: ""
+  zoomCursorClassName: ''
 };
+var _default = Axis;
+exports["default"] = _default;
 //# sourceMappingURL=Axis.js.map

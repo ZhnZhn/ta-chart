@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Axis } from './Axis';
+import Axis from './Axis';
 import {
   CL_X_AXIS,
   CL_AXIS_DOMAIN,

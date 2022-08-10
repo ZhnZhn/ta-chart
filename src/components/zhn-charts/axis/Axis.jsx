@@ -1,11 +1,13 @@
-import React from "react";
+import {
+  Component,
+  createRef,
+  getRefValue
+} from '../../uiApi';
 
 import {
   GenericChartComponent
 } from '../core/GenericChartComponent';
-import {
-  AxisZoomCapture
-} from './AxisZoomCapture';
+import AxisZoomCapture from './AxisZoomCapture';
 
 import {
   getAxisCanvas
@@ -28,18 +30,15 @@ const _crFont = ({
   fontFamily
 }) => `${fontWeight} ${fontSize}px ${fontFamily}`;
 
-export class Axis extends React.Component {
+class Axis extends Component {
 
-    static defaultProps = {
-        edgeClip: false,
-        zoomEnabled: false,
-        zoomCursorClassName: "",
-    };
+    chartRef = createRef();
 
-    chartRef = React.createRef();
-
-    getMoreProps = () => this.chartRef
-       .current.getMoreProps();
+    getAxisScale = () => {
+      const allProps = getRefValue(this.chartRef)
+         .getMoreProps();
+      return this.props.getScale(allProps);
+    }
 
     drawOnCanvas = (ctx, moreProps) => {
         const {
@@ -73,13 +72,15 @@ export class Axis extends React.Component {
             const {
               textAnchor
             } = tickProps;
+
             ctx.font = _crFont(tickProps);
             if (tickLabelFill !== undefined) {
                ctx.fillStyle = tickLabelFill;
             }
-            ctx.textAlign = textAnchor === "middle"
-               ? "center"
+            ctx.textAlign = textAnchor === 'middle'
+               ? 'center'
                : textAnchor;
+
             tickProps.ticks.forEach(tick => {
                 drawEachTickLabel(ctx, tick, tickProps);
             });
@@ -94,15 +95,14 @@ export class Axis extends React.Component {
     render() {
         const {
           bg,
-          axisZoomCallback,
           className,
           zoomCursorClassName,
           zoomEnabled,
-          getScale,
           inverted,
+          edgeClip,
           transform,
           getMouseDelta,
-          edgeClip,
+          axisZoomCallback,
           onContextMenu,
           onDoubleClick
         } = this.props;
@@ -110,27 +110,34 @@ export class Axis extends React.Component {
         return (
           <g transform={crCssTranslate(transform)}>
               {zoomEnabled ? (<AxisZoomCapture
-                 bg={bg}
-                 getScale={getScale}
-                 getMoreProps={this.getMoreProps}
-                 getMouseDelta={getMouseDelta}
-                 axisZoomCallback={axisZoomCallback}
                  className={className}
                  zoomCursorClassName={zoomCursorClassName}
                  inverted={inverted}
+                 bg={bg}
+                 getScale={this.getAxisScale}
+                 getMouseDelta={getMouseDelta}
+                 axisZoomCallback={axisZoomCallback}
                  onContextMenu={onContextMenu}
-                 onDoubleClick={onDoubleClick}/>
-               ) : null
+                 onDoubleClick={onDoubleClick}
+               />) : null
               }
               <GenericChartComponent
                  ref={this.chartRef}
-                 canvasToDraw={getAxisCanvas}
                  clip={false}
                  edgeClip={edgeClip}
+                 canvasToDraw={getAxisCanvas}
                  canvasDraw={this.drawOnCanvas}
-                 drawOn={["pan"]}
+                 drawOn={['pan']}
               />
           </g>
         );
     }
 }
+
+Axis.defaultProps = {
+   edgeClip: false,
+   zoomEnabled: false,
+   zoomCursorClassName: ''
+}
+
+export default Axis
