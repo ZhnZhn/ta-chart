@@ -17,6 +17,8 @@ var _uiApi = require("../../uiApi");
 
 var _Axis = _interopRequireDefault(require("./Axis"));
 
+var _AxisFn = require("./AxisFn");
+
 var _CL = require("../CL");
 
 var _jsxRuntime = require("react/jsx-runtime");
@@ -31,17 +33,10 @@ var _getXTicks = function _getXTicks(width) {
   return width < 400 ? 2 : width < 500 ? 6 : 8;
 };
 
-var _getXScale = function _getXScale(moreProps) {
-  var xScale = moreProps.xScale,
-      width = moreProps.width;
-
-  if (xScale.invert) {
-    var trueRange = [0, width],
-        trueDomain = trueRange.map(xScale.invert);
-    return xScale.copy().domain(trueDomain).range(trueRange);
-  }
-
-  return xScale;
+var _getXScale = function _getXScale(_ref) {
+  var xScale = _ref.xScale,
+      width = _ref.width;
+  return xScale.invert ? (0, _AxisFn.crScale)(xScale, [0, width]) : xScale;
 };
 
 var XAxis = /*#__PURE__*/function (_Component) {

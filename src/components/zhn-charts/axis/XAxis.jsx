@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from '../../uiApi';
 
 import Axis from './Axis';
+import { crScale } from './AxisFn';
 import {
   CL_X_AXIS,
   CL_AXIS_DOMAIN,
@@ -28,21 +29,13 @@ const _getXTicks = (
      ? 6
      : 8;
 
-const _getXScale = (moreProps) => {
-  const {
-    xScale,
-    width
-  } = moreProps;
-  if (xScale.invert) {
-    const trueRange = [0, width]
-    , trueDomain = trueRange.map(xScale.invert);
-    return xScale
-      .copy()
-      .domain(trueDomain)
-      .range(trueRange);
-  }
-  return xScale;
-};
+const _getXScale = ({
+  xScale,
+  width
+}) => xScale.invert
+  ? crScale(xScale, [0, width])
+  : xScale;
+
 
 class XAxis extends Component {
     static contextTypes = {

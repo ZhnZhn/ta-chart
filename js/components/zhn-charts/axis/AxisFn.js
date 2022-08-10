@@ -3,7 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
-exports.tickHelper = exports.drawTicks = exports.drawGridLine = exports.drawEachTickLabel = exports.drawAxisLine = void 0;
+exports.tickHelper = exports.drawTicks = exports.drawGridLine = exports.drawEachTickLabel = exports.drawAxisLine = exports.crScale = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
@@ -261,4 +261,11 @@ var drawEachTickLabel = function drawEachTickLabel(ctx, tick, result) {
 };
 
 exports.drawEachTickLabel = drawEachTickLabel;
+
+var crScale = function crScale(scale, trueRange) {
+  var trueDomain = trueRange.map(scale.invert);
+  return scale.copy().domain(trueDomain).range(trueRange);
+};
+
+exports.crScale = crScale;
 //# sourceMappingURL=AxisFn.js.map

@@ -17,6 +17,8 @@ var _uiApi = require("../../uiApi");
 
 var _Axis = _interopRequireDefault(require("./Axis"));
 
+var _AxisFn = require("./AxisFn");
+
 var _CL = require("../CL");
 
 var _jsxRuntime = require("react/jsx-runtime");
@@ -32,19 +34,12 @@ var _getYTicks = function _getYTicks(height) {
   return height < 300 ? 2 : height < 500 ? 6 : 8;
 };
 
-var _getYScale = function _getYScale(moreProps) {
-  var _moreProps$chartConfi = moreProps.chartConfig,
-      yScale = _moreProps$chartConfi.yScale,
-      flipYScale = _moreProps$chartConfi.flipYScale,
-      height = _moreProps$chartConfi.height;
-
-  if (yScale.invert) {
-    var trueRange = flipYScale ? [0, height] : [height, 0],
-        trueDomain = trueRange.map(yScale.invert);
-    return yScale.copy().domain(trueDomain).range(trueRange);
-  }
-
-  return yScale;
+var _getYScale = function _getYScale(_ref) {
+  var _ref$chartConfig = _ref.chartConfig,
+      yScale = _ref$chartConfig.yScale,
+      flipYScale = _ref$chartConfig.flipYScale,
+      height = _ref$chartConfig.height;
+  return yScale.invert ? (0, _AxisFn.crScale)(yScale, flipYScale ? [0, height] : [height, 0]) : yScale;
 };
 
 var YAxis = /*#__PURE__*/function (_Component) {

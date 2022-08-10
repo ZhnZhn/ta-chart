@@ -287,3 +287,14 @@ export const drawEachTickLabel = (
     ctx.beginPath();
     ctx.fillText(text, tick.labelX, tick.labelY + canvas_dy);
 };
+
+export const crScale = (
+  scale,
+  trueRange
+) => {
+  const trueDomain = trueRange.map(scale.invert);
+  return scale
+    .copy()
+    .domain(trueDomain)
+    .range(trueRange);
+} 

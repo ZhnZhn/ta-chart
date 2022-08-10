@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from '../../uiApi';
 
 import Axis from './Axis';
+import { crScale } from './AxisFn';
 import {
   CL_Y_AXIS,
   CL_AXIS_DOMAIN,
@@ -28,31 +29,21 @@ const _getYTicks = (
      ? 6
      : 8;
 
-const _getYScale = (moreProps) => {
-  const {
-   yScale,
-   flipYScale,
-   height
-  } = moreProps.chartConfig;
-  if (yScale.invert) {
-   const trueRange = flipYScale
-     ? [0, height]
-     : [height, 0]
-   , trueDomain = trueRange.map(yScale.invert);
-   return yScale
-     .copy()
-     .domain(trueDomain)
-     .range(trueRange);
-  }
-  return yScale;
-};
+const _getYScale = ({
+  chartConfig: {yScale, flipYScale, height}
+}) => yScale.invert
+  ? crScale(
+     yScale,
+     flipYScale ? [0, height] : [height, 0]
+   )
+  : yScale;
 
 class YAxis extends Component {
 
     static contextTypes = {
-        yAxisZoom: PropTypes.func.isRequired,
-        chartId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        chartConfig: PropTypes.object.isRequired,
+       yAxisZoom: PropTypes.func.isRequired,
+       chartId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+       chartConfig: PropTypes.object.isRequired,
     }
 
     axisZoomCallback = (newYDomain) => {
