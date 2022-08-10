@@ -1,6 +1,9 @@
 export {
-  forwardRef,
+  Component,
+  createRef,
   createElement,
+  cloneElement,
+  forwardRef,
   memo,
   useContext,
   useRef,
@@ -9,8 +12,7 @@ export {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useImperativeHandle,
-  cloneElement
+  useImperativeHandle
 } from 'react';
 
 export const getRefValue = ref => (ref || {}).current

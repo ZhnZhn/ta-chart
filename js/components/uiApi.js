@@ -1,12 +1,15 @@
 "use strict";
 
 exports.__esModule = true;
-exports.useState = exports.useRef = exports.useReducer = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.memo = exports.getRefValue = exports.forwardRef = exports.createElement = exports.cloneElement = void 0;
+exports.useState = exports.useRef = exports.useReducer = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.memo = exports.getRefValue = exports.forwardRef = exports.createRef = exports.createElement = exports.cloneElement = exports.Component = void 0;
 
 var _react = require("react");
 
-exports.forwardRef = _react.forwardRef;
+exports.Component = _react.Component;
+exports.createRef = _react.createRef;
 exports.createElement = _react.createElement;
+exports.cloneElement = _react.cloneElement;
+exports.forwardRef = _react.forwardRef;
 exports.memo = _react.memo;
 exports.useContext = _react.useContext;
 exports.useRef = _react.useRef;
@@ -16,7 +19,6 @@ exports.useCallback = _react.useCallback;
 exports.useEffect = _react.useEffect;
 exports.useLayoutEffect = _react.useLayoutEffect;
 exports.useImperativeHandle = _react.useImperativeHandle;
-exports.cloneElement = _react.cloneElement;
 
 var getRefValue = function getRefValue(ref) {
   return (ref || {}).current;

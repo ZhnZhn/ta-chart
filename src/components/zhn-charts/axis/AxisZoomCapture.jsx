@@ -1,4 +1,9 @@
-import React from 'react';
+import {
+  Component,
+  createRef,
+  getRefValue
+} from '../../uiApi';
+
 import { mean } from 'd3-array';
 import {
   select,
@@ -23,21 +28,19 @@ import {
   CL_ENABLE_INTERACTION
 } from '../CL';
 
-export class AxisZoomCapture extends React.Component {
-    ref = React.createRef();
+class AxisZoomCapture extends Component {
+    ref = createRef();
+
     clicked = false;
     dragHappened = false;
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        startPosition: null,
-      };
-    }
+    state = {
+      startPosition: null
+    };
 
     handleDragEnd = (e) => {
-        const container = this.ref.current;
-        if (container === null) {
+        const container = getRefValue(this.ref);
+        if (!container) {
           return;
         }
 
@@ -62,20 +65,20 @@ export class AxisZoomCapture extends React.Component {
           .on(TOUCHMOVE, null)
           .on(TOUCHEND, null);
         this.setState({
-          startPosition: null,
+          startPosition: null
         });
     }
 
     handleDrag = (e) => {
-      const container = this.ref.current;
-      if (container === null) {
+      const container = getRefValue(this.ref);
+      if (!container) {
         return;
       }
 
       this.dragHappened = true;
       const {
         getMouseDelta,
-        inverted = true
+        inverted
       } = this.props
       , {
         startPosition
@@ -94,7 +97,10 @@ export class AxisZoomCapture extends React.Component {
 
         const tempRange = startScale
           .range()
-          .map((d) => (inverted ? d - sign(d - center) * diff : d + sign(d - center) * diff))
+          .map(d => (inverted
+             ? d - sign(d - center) * diff
+             : d + sign(d - center) * diff
+          ))
         , newDomain = tempRange.map(startScale.invert);
         if (sign(last(startScale.range()) - first(startScale.range())) === sign(last(tempRange) - first(tempRange))) {
           const { axisZoomCallback } = this.props;
@@ -106,21 +112,17 @@ export class AxisZoomCapture extends React.Component {
     }
 
     handleDragStartTouch = (event) => {
-        const container = this.ref.current;
-        if (container === null) {
-            return;
+        const container = getRefValue(this.ref);
+        if (!container) {
+           return;
         }
 
         this.dragHappened = false;
-        const {
-          getScale,
-          getMoreProps
-        } = this.props
-        , allProps = getMoreProps()
-        , startScale = getScale(allProps);
-
+        const startScale = this.props.getScale();
         if (event.touches.length === 1 && startScale.invert !== undefined) {
-          select(d3Window(container)).on(TOUCHMOVE, this.handleDrag).on(TOUCHEND, this.handleDragEnd);
+          select(d3Window(container))
+            .on(TOUCHMOVE, this.handleDrag)
+            .on(TOUCHEND, this.handleDragEnd);
           const startXY = touchPosition(getTouchProps(event.touches[0]), event);
           this.setState({
             startPosition: {
@@ -133,18 +135,14 @@ export class AxisZoomCapture extends React.Component {
 
     handleDragStartMouse = (event) => {
       event.preventDefault();
-      const container = this.ref.current;
-      if (container === null) {
+
+      const container = getRefValue(this.ref);
+      if (!container) {
         return;
       }
 
       this.dragHappened = false;
-      const {
-        getScale,
-        getMoreProps
-      } = this.props
-      , allProps = getMoreProps()
-      , startScale = getScale(allProps);
+      const startScale = this.props.getScale();
       if (startScale.invert !== undefined) {
         select(d3Window(container))
           .on(MOUSEMOVE, this.handleDrag, false)
@@ -162,13 +160,10 @@ export class AxisZoomCapture extends React.Component {
     handleRightClick = (event) => {
       event.stopPropagation();
       event.preventDefault();
-      const container = this.ref.current;
-      if (container === null) {
-        return;
-      }
 
-      const { onContextMenu } = this.props;
-      if (onContextMenu === undefined) {
+      const container = getRefValue(this.ref)
+      , { onContextMenu } = this.props;
+      if (!container || !onContextMenu) {
         return;
       }
 
@@ -178,7 +173,7 @@ export class AxisZoomCapture extends React.Component {
         .on(MOUSEMOVE, null)
         .on(MOUSEUP, null);
       this.setState({
-        startPosition: null,
+        startPosition: null
       });
       onContextMenu(event, mouseXY);
     };
@@ -189,20 +184,28 @@ export class AxisZoomCapture extends React.Component {
           className,
           zoomCursorClassName
         } = this.props
-        , cursor = this.state.startPosition !== null
-           ? zoomCursorClassName
-           : CL_DEFAULT_CURSOR;
+        , cursorCn = this.state.startPosition === null
+           ? CL_DEFAULT_CURSOR
+           : zoomCursorClassName;
+
         return (
           <rect
-            className={`${CL_ENABLE_INTERACTION} ${cursor} ${className}`}
             ref={this.ref}
+            className={`${CL_ENABLE_INTERACTION} ${cursorCn} ${className}`}
             x={bg.x} y={bg.y}
-            opacity={0}
             height={bg.h}
             width={bg.w}
+            opacity={0}
             onContextMenu={this.handleRightClick}
             onMouseDown={this.handleDragStartMouse}
             onTouchStart={this.handleDragStartTouch}
          />);
     }
 }
+
+AxisZoomCapture.defaultProps = {
+  inverted: true,
+  className: ''
+}
+
+export default AxisZoomCapture

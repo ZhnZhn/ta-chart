@@ -3,11 +3,11 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 exports.__esModule = true;
-exports.AxisZoomCapture = void 0;
+exports["default"] = void 0;
 
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 
-var _react = _interopRequireDefault(require("react"));
+var _uiApi = require("../../uiApi");
 
 var _d3Array = require("d3-array");
 
@@ -19,21 +19,28 @@ var _CL = require("../CL");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
-  (0, _inheritsLoose2["default"])(AxisZoomCapture, _React$Component);
+var AxisZoomCapture = /*#__PURE__*/function (_Component) {
+  (0, _inheritsLoose2["default"])(AxisZoomCapture, _Component);
 
-  function AxisZoomCapture(props) {
+  function AxisZoomCapture() {
     var _this;
 
-    _this = _React$Component.call(this, props) || this;
-    _this.ref = /*#__PURE__*/_react["default"].createRef();
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    _this.ref = (0, _uiApi.createRef)();
     _this.clicked = false;
     _this.dragHappened = false;
+    _this.state = {
+      startPosition: null
+    };
 
     _this.handleDragEnd = function (e) {
-      var container = _this.ref.current;
+      var container = (0, _uiApi.getRefValue)(_this.ref);
 
-      if (container === null) {
+      if (!container) {
         return;
       }
 
@@ -61,17 +68,16 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.handleDrag = function (e) {
-      var container = _this.ref.current;
+      var container = (0, _uiApi.getRefValue)(_this.ref);
 
-      if (container === null) {
+      if (!container) {
         return;
       }
 
       _this.dragHappened = true;
       var _this$props = _this.props,
           getMouseDelta = _this$props.getMouseDelta,
-          _this$props$inverted = _this$props.inverted,
-          inverted = _this$props$inverted === void 0 ? true : _this$props$inverted,
+          inverted = _this$props.inverted,
           startPosition = _this.state.startPosition;
 
       if (startPosition !== null) {
@@ -101,18 +107,15 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.handleDragStartTouch = function (event) {
-      var container = _this.ref.current;
+      var container = (0, _uiApi.getRefValue)(_this.ref);
 
-      if (container === null) {
+      if (!container) {
         return;
       }
 
       _this.dragHappened = false;
-      var _this$props2 = _this.props,
-          getScale = _this$props2.getScale,
-          getMoreProps = _this$props2.getMoreProps,
-          allProps = getMoreProps(),
-          startScale = getScale(allProps);
+
+      var startScale = _this.props.getScale();
 
       if (event.touches.length === 1 && startScale.invert !== undefined) {
         (0, _d3Selection.select)((0, _utils.d3Window)(container)).on(_utils.TOUCHMOVE, _this.handleDrag).on(_utils.TOUCHEND, _this.handleDragEnd);
@@ -129,18 +132,15 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
 
     _this.handleDragStartMouse = function (event) {
       event.preventDefault();
-      var container = _this.ref.current;
+      var container = (0, _uiApi.getRefValue)(_this.ref);
 
-      if (container === null) {
+      if (!container) {
         return;
       }
 
       _this.dragHappened = false;
-      var _this$props3 = _this.props,
-          getScale = _this$props3.getScale,
-          getMoreProps = _this$props3.getMoreProps,
-          allProps = getMoreProps(),
-          startScale = getScale(allProps);
+
+      var startScale = _this.props.getScale();
 
       if (startScale.invert !== undefined) {
         (0, _d3Selection.select)((0, _utils.d3Window)(container)).on(_utils.MOUSEMOVE, _this.handleDrag, false).on(_utils.MOUSEUP, _this.handleDragEnd, false);
@@ -158,15 +158,10 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
     _this.handleRightClick = function (event) {
       event.stopPropagation();
       event.preventDefault();
-      var container = _this.ref.current;
+      var container = (0, _uiApi.getRefValue)(_this.ref),
+          onContextMenu = _this.props.onContextMenu;
 
-      if (container === null) {
-        return;
-      }
-
-      var onContextMenu = _this.props.onContextMenu;
-
-      if (onContextMenu === undefined) {
+      if (!container || !onContextMenu) {
         return;
       }
 
@@ -181,28 +176,25 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
       onContextMenu(event, mouseXY);
     };
 
-    _this.state = {
-      startPosition: null
-    };
     return _this;
   }
 
   var _proto = AxisZoomCapture.prototype;
 
   _proto.render = function render() {
-    var _this$props4 = this.props,
-        bg = _this$props4.bg,
-        className = _this$props4.className,
-        zoomCursorClassName = _this$props4.zoomCursorClassName,
-        cursor = this.state.startPosition !== null ? zoomCursorClassName : _CL.CL_DEFAULT_CURSOR;
+    var _this$props2 = this.props,
+        bg = _this$props2.bg,
+        className = _this$props2.className,
+        zoomCursorClassName = _this$props2.zoomCursorClassName,
+        cursorCn = this.state.startPosition === null ? _CL.CL_DEFAULT_CURSOR : zoomCursorClassName;
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-      className: _CL.CL_ENABLE_INTERACTION + " " + cursor + " " + className,
       ref: this.ref,
+      className: _CL.CL_ENABLE_INTERACTION + " " + cursorCn + " " + className,
       x: bg.x,
       y: bg.y,
-      opacity: 0,
       height: bg.h,
       width: bg.w,
+      opacity: 0,
       onContextMenu: this.handleRightClick,
       onMouseDown: this.handleDragStartMouse,
       onTouchStart: this.handleDragStartTouch
@@ -210,7 +202,12 @@ var AxisZoomCapture = /*#__PURE__*/function (_React$Component) {
   };
 
   return AxisZoomCapture;
-}(_react["default"].Component);
+}(_uiApi.Component);
 
-exports.AxisZoomCapture = AxisZoomCapture;
+AxisZoomCapture.defaultProps = {
+  inverted: true,
+  className: ''
+};
+var _default = AxisZoomCapture;
+exports["default"] = _default;
 //# sourceMappingURL=AxisZoomCapture.js.map
