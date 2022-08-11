@@ -1,4 +1,4 @@
-const TITLE = "Logo of web app TA Chart v0.2.0";
+const TITLE = "Logo of web app TA Chart v0.3.0";
 
 const Logo = ({
   className,

@@ -5,7 +5,7 @@ exports["default"] = void 0;
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-var TITLE = "Logo of web app TA Chart v0.2.0";
+var TITLE = "Logo of web app TA Chart v0.3.0";
 
 var Logo = function Logo(_ref) {
   var className = _ref.className,

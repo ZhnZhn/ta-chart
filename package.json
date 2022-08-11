@@ -1,6 +1,6 @@
 {
   "name": "TA-Chart",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Web app TA Chart gives the ability to explore technical analysis charts on data from varios data providers",
   "main": "index.js",
   "scripts": {
