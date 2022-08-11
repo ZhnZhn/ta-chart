@@ -1,21 +1,30 @@
 import InputSelect from '../zhn-select/InputSelect';
-import STYLE from '../styles/DialogStyles';
+import {
+  crRowLabelStyle,
+  crCaption
+} from '../styles/DialogStyles';
 
-const WIDTH = "270";
+const WIDTH = 270;
 
 const RowInputSelect = ({
-  isShowLabels=true, caption='', captionStyle, ...rest
+  isShowLabels=true,
+  caption='',
+  captionStyle,
+  ...restProps
 }) => {
-  const _caption = caption.indexOf(':') === -1 && caption !== ''
-           ? `${caption}:`
-           : caption
-       , {
-           rowStyle, labelStyle
-         } = STYLE.crRowLabelStyle(isShowLabels)
-       , optionName = isShowLabels
-            ? ''
-            : caption.replace(':', '')
-       , _options = { width: WIDTH, ...rest, optionName};
+  const _caption = crCaption(caption)
+  , [
+      rowStyle,
+      labelStyle
+    ]  = crRowLabelStyle(isShowLabels)
+  , optionName = isShowLabels
+     ? ''
+     : caption.replace(':', '')
+  , _options = {
+      width: WIDTH,
+      ...restProps,
+      optionName
+    };
   return (
      <div style={rowStyle}>
         <span style={{...labelStyle, ...captionStyle}}>
@@ -25,6 +34,5 @@ const RowInputSelect = ({
     </div>
   );
 };
-
 
 export default RowInputSelect

@@ -1,83 +1,44 @@
 
-const S = {
-  //Dialogs, DatesFragments
-  ROW: {
-    //display: 'block',
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: '5px',
-    marginTop: '5px',
-    marginLeft: '5px',
-    marginBottom: '5px'
-  },
-  ROW_OC: {
-    lineHeight: 'unset',
-    marginRight: '5px',
-    marginTop: '5px',
-    marginLeft: '5px',
-    marginBottom: '-4px'
-  },
-  ROW_SHORT: {
-    marginLeft: '12px',
-    marginRight: '12px'
-  },
-  LABEL: {
-    color: '#1B75BB',
-    display: 'inline-block',
-    //verticalAlign: 'top',
-    textAlign: 'right',
-    width: '100px',
-    paddingRight: '5px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    userSelect: 'none'
-  },
-  NONE: {
-    display: 'none'
-  }
+const S_ROW = {
+  display: 'flex',
+  alignItems: 'center',
+  marginRight: 5,
+  marginTop: 5,
+  marginLeft: 5,
+  marginBottom: 5
 }
-
-const DialogStyles = {
-  //Dialogs, DatesFragments
-  rowDiv: { ...S.ROW },
-  labelSpan : { ...S.LABEL },
-
-  crRowLabelStyle: (isShowLabels=true) => {
-    const rowStyle = isShowLabels
-             ? { ...S.ROW }
-             : { ...S.ROW, ...S.ROW_SHORT }
-         , labelStyle = isShowLabels
-             ? { ...S.LABEL }
-             : { ...S.LABEL, ...S.NONE };
-    return { rowStyle, labelStyle };
-  },
-
-  crRowOcSelectStyle: (isShowLabels=true) => {
-    const rowStyle = isShowLabels
-             ? { ...S.ROW_OC }
-             : { ...S.ROW_OC, ...S.ROW_SHORT }
-         , labelStyle = isShowLabels
-             ? { ...S.LABEL }
-             : { ...S.LABEL, ...S.NONE };
-    return { rowStyle, labelStyle };
-  },
-
-  //ValidationMessagesFragment
-  validationContainer: {
-    paddingLeft: '10px',
-    paddingTop: '5px',
-    color: '#F44336'
-  },
-  validationMessageNumber : {
-    display: 'inline-block',
-    width: '22px',
-    height: '22px',
-    border: 'solid 2px #F44336',
-    borderRadius: '50%',
-    textAlign: 'center',
-    marginRight: '5px'
-  }
-
+, S_ROW_SHORT = {
+  marginLeft: 12,
+  marginRight: 12
 }
+, S_LABEL = {
+  color: '#1b75bb',
+  display: 'inline-block',
+  textAlign: 'right',
+  width: 100,
+  paddingRight: 5,
+  fontSize: '16px',
+  fontWeight: 'bold',
+  userSelect: 'none'
+}
+, S_NONE = {
+  display: 'none'
+};
 
-export default DialogStyles;
+export const crRowLabelStyle = (
+  isShowLabels=true
+) => isShowLabels
+  ? [
+      {...S_ROW},
+      {...S_LABEL}
+    ]
+  : [
+      {...S_ROW, ...S_ROW_SHORT},
+      {...S_LABEL, ...S_NONE}
+    ];
+
+export const crCaption = (
+  caption
+) => caption && caption.indexOf(':') === -1
+  ? `${caption}:`
+  : caption
