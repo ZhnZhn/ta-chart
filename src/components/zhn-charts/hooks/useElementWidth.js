@@ -3,23 +3,25 @@ import {
   useState,
   useCallback,
   useLayoutEffect,
-  useEffect
+  useEffect,
+  getRefValue
 } from '../../uiApi';
 
-const _getRefValue = ref => ref.current;
-
-const useElementWith = ({
+const useElementWidth = ({
   id,
   minWidth=100,
   initialWidth=1000
 } = {}) => {
   const ref = useRef()
-  , [width, setWidth] = useState(initialWidth)
+  , [
+    width,
+    setWidth
+  ] = useState(initialWidth)
   /*eslint-disable react-hooks/exhaustive-deps */
   , _calcWidth = useCallback(() => {
     const _el = id
       ? document.getElementById(id)
-      : _getRefValue(ref);
+      : getRefValue(ref);
     if (_el) {
       const {
         width,
@@ -37,8 +39,8 @@ const useElementWith = ({
   // _calcWidth
 
   useEffect(() => {
-    window.addEventListener("resize", _calcWidth)
-    return () => window.removeEventListener("resize", _calcWidth);
+    window.addEventListener('resize', _calcWidth)
+    return () => window.removeEventListener('resize', _calcWidth);
   }, [])
   // _calcWidth
   /*eslint-enable react-hooks/exhaustive-deps */
@@ -46,4 +48,4 @@ const useElementWith = ({
   return [width, ref];
 };
 
-export default useElementWith
+export default useElementWidth
