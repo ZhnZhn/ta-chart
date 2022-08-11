@@ -5,25 +5,23 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _chartFns = _interopRequireDefault(require("../chartFns"));
+var _chartFns = require("../chartFns");
 
-var format = _chartFns["default"].format;
+var _jsxRuntime = require("react/jsx-runtime");
+
 var CL_TOOLTIP = 'rs-tooltip';
 
-var _noop = function _noop() {};
+var FN_NOOP = function FN_NOOP() {};
 
 var _rsiStroke = {
-  line: "#000000",
-  top: "#b8b2bb",
-  //middle: "#8795a1",
-  middle: "transparent",
-  bottom: "#b8c2cc",
-  outsideThreshold: "#b300b3",
-  insideThreshold: "#4699cb"
+  line: '#000000',
+  top: '#b8b2bb',
+  middle: 'transparent',
+  bottom: '#b8c2cc',
+  outsideThreshold: '#b300b3',
+  insideThreshold: '#4699cb'
 };
 
 var RsiSeria = function RsiSeria(_ref) {
@@ -47,7 +45,7 @@ var RsiSeria = function RsiSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "right",
       orient: "right",
-      displayFormat: format(".2f")
+      displayFormat: (0, _chartFns.format)('.2f')
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].RSISeries, {
       yAccessor: function yAccessor(d) {
         return d.rsi;
@@ -56,13 +54,12 @@ var RsiSeria = function RsiSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].RSITooltip, {
       className: CL_TOOLTIP,
       origin: [width - 160, 10],
-      fontSize: 15 //labelFill="#1b2836"
-      ,
+      fontSize: 15,
       yAccessor: function yAccessor(d) {
         return d.rsi;
       },
       options: rsi.options(),
-      onClick: _noop
+      onClick: FN_NOOP
     })]
   });
 };

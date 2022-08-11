@@ -1,4 +1,16 @@
-import { scaleTime } from "d3-scale";
+export { scaleTime } from 'd3-scale';
+export {
+  utcMinute,
+  utcHour,
+  utcDay
+} from 'd3-time';
+export { format } from 'd3-format';
+export { timeFormat } from 'd3-time-format';
+
+export {default as timeIntervalBarWidth} from './utils/timeIntervalBarWidth';
+export {default as COLOR} from './config';
+
+import { timeFormat } from 'd3-time-format';
 import {
   utcMinute,
   utcHour,
@@ -6,18 +18,13 @@ import {
   utcWeek,
   utcMonth
 } from "d3-time";
-import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
-
-import timeIntervalBarWidth from './utils/timeIntervalBarWidth'
-
-import config from './config'
 
 const _isStr = str => typeof str === 'string';
-
 const _isInclude = (str, ch) => str.indexOf(ch) !== -1;
 
-const crTimeInterval = (timeframe) => {
+export const crTimeInterval = (
+  timeframe
+) => {
   if (!timeframe || !_isStr(timeframe)) {
     return utcDay;
   }
@@ -37,43 +44,28 @@ const crTimeInterval = (timeframe) => {
   return utcDay;
 };
 
-let fromDate, toDate, xExtends = [];
-const crExtends = (data, timeframe, itemsNum) => {
-  const _max = data.length - 1
-  , _from = _max < itemsNum
-       ? (data[0] || {}).date
-       : (data[_max-itemsNum] || {}).date
-  , _recentDate = (data.slice(-1)[0] || {}).date
-  , _to = timeframe === '1m'
-      ? _recentDate + 60*1000*5
-      : _recentDate ;
-  return _from === fromDate && _to === toDate
-    ? xExtends
-    : fromDate = _from, toDate = _to, (xExtends = [_from, _to]);
-};
-
-
-const crTimeFormat = timeframe => _isStr(timeframe)
+export const crTimeFormat = (
+  timeframe
+) => _isStr(timeframe)
  && (_isInclude(timeframe, 'm') || _isInclude(timeframe, 'h'))
   ? timeFormat('%m-%d %H:%M')
   : timeFormat("%Y-%m-%d");
 
-const chartFns = {
-  C: config,
-  timeIntervalBarWidth,
-
-  scaleTime,
-
-  crTimeInterval,
-  crTimeFormat,
-  utcMinute,
-  utcHour,
-  utcDay,
-
-  format,
-  timeFormat,
-
-  crExtends
-};
-
-export default chartFns
+  let fromDate, toDate, xExtends = [];
+  export const crExtends = (
+    data,
+    timeframe,
+    itemsNum
+  ) => {
+    const _max = data.length - 1
+    , _from = _max < itemsNum
+         ? (data[0] || {}).date
+         : (data[_max-itemsNum] || {}).date
+    , _recentDate = (data.slice(-1)[0] || {}).date
+    , _to = timeframe === '1m'
+        ? _recentDate + 60*1000*5
+        : _recentDate ;
+    return _from === fromDate && _to === toDate
+      ? xExtends
+      : fromDate = _from, toDate = _to, (xExtends = [_from, _to]);
+  };

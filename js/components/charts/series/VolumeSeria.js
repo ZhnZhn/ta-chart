@@ -5,18 +5,14 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _chartFns = _interopRequireDefault(require("../chartFns"));
+var _chartFns = require("../chartFns");
 
-var C = _chartFns["default"].C,
-    timeIntervalBarWidth = _chartFns["default"].timeIntervalBarWidth,
-    format = _chartFns["default"].format;
+var _jsxRuntime = require("react/jsx-runtime");
 
 var _fill = function _fill(d, dPrev) {
-  return d.close > dPrev.close ? C.UP : C.DOWN;
+  return (d || {}).close > (dPrev || {}).close ? _chartFns.COLOR.UP : _chartFns.COLOR.DOWN;
 };
 
 var VolumeSeria = function VolumeSeria(_ref) {
@@ -37,14 +33,14 @@ var VolumeSeria = function VolumeSeria(_ref) {
       axisAt: "left",
       orient: "left",
       ticks: 5,
-      tickFormat: format(".0s"),
+      tickFormat: (0, _chartFns.format)('.0s'),
       stroke: "black"
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "left",
       orient: "left",
-      displayFormat: format(".4s")
+      displayFormat: (0, _chartFns.format)('.4s')
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BarSeries, {
-      width: timeIntervalBarWidth(timeInterval),
+      width: (0, _chartFns.timeIntervalBarWidth)(timeInterval),
       yAccessor: function yAccessor(d) {
         return d.volume;
       },

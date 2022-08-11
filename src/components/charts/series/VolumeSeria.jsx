@@ -1,15 +1,13 @@
-import Ch from '../Ch'
-import fns from '../chartFns'
-
-const {
-  C,
+import Ch from '../Ch';
+import {
+  COLOR,
   timeIntervalBarWidth,
   format
-} = fns;
+} from '../chartFns';
 
 const _fill = (d, dPrev) => (d || {}).close > (dPrev || {}).close
- ? C.UP
- : C.DOWN;
+ ? COLOR.UP
+ : COLOR.DOWN;
 
 const VolumeSeria = ({
   id,
@@ -27,22 +25,20 @@ const VolumeSeria = ({
       axisAt="left"
       orient="left"
       ticks={5}
-      tickFormat={format(".0s")}
+      tickFormat={format('.0s')}
       stroke="black"
     />
     <Ch.MouseCoordinateY
       at="left"
       orient="left"
-      displayFormat={format(".4s")}
+      displayFormat={format('.4s')}
     />
-
     <Ch.BarSeries
        width={timeIntervalBarWidth(timeInterval)}
        yAccessor={d => d.volume}
        fill={_fill}
        stroke={_fill}
     />
-
     <Ch.XAxis
       axisAt="bottom"
       orient="bottom"

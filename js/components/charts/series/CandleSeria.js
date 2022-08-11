@@ -5,37 +5,34 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _chartFns = _interopRequireDefault(require("../chartFns"));
+var _chartFns = require("../chartFns");
 
-var C = _chartFns["default"].C,
-    timeIntervalBarWidth = _chartFns["default"].timeIntervalBarWidth,
-    format = _chartFns["default"].format;
+var _jsxRuntime = require("react/jsx-runtime");
+
 var CL_TOOLTIP = 'rs-tooltip';
 
 var _noop = function _noop() {};
 
 var _stroke = function _stroke(d, dPrev) {
-  return d.close > dPrev.close ? C.UP : C.DOWN;
+  return (d || {}).close > (dPrev || {}).close ? _chartFns.COLOR.UP : _chartFns.COLOR.DOWN;
 };
 
 var _fill = function _fill(d, dPrev) {
-  return d.close > d.open ? C.TRANSPARENT : _stroke(d, dPrev);
+  return (d || {}).close > (d || {}).open ? _chartFns.COLOR.TRANSPARENT : _stroke(d, dPrev);
 };
 
 var bbStroke = {
-  top: "#964B00",
-  middle: "#000000",
-  bottom: "#964B00"
+  top: '#964b00',
+  middle: '#000000',
+  bottom: '#964b00'
 };
-var bbFill = "#4682B4";
+var bbFill = '#4682b4';
 
 var _crMaTooltipOption = function _crMaTooltipOption(accessor, options) {
   return {
-    type: "SMA",
+    type: 'SMA',
     yAccessor: accessor,
     stroke: options.stroke,
     windowSize: options.windowSize
@@ -62,8 +59,7 @@ var CandleSeria = function CandleSeria(_ref) {
     },
     origin: function origin(w, h) {
       return [0, h - 420];
-    } //onContextMenu={_onContextMenu}
-    ,
+    },
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "right",
       orient: "right",
@@ -82,7 +78,7 @@ var CandleSeria = function CandleSeria(_ref) {
       yAccessor: accessorSma50,
       stroke: optionsSma50.stroke
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].CandlestickSeries, {
-      width: timeIntervalBarWidth(timeInterval),
+      width: (0, _chartFns.timeIntervalBarWidth)(timeInterval),
       fill: _fill,
       stroke: _stroke,
       wickStroke: _stroke,
@@ -90,13 +86,12 @@ var CandleSeria = function CandleSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "right",
       orient: "right",
-      displayFormat: format(".4f")
+      displayFormat: (0, _chartFns.format)('.4f')
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].OHLCTooltip, {
-      fontSize: 15 //labelFill="#1b2836"
-      ,
+      fontSize: 15,
       xDisplayFormat: timeFormat,
       textFill: "black",
-      ohlcFormat: format(".8f"),
+      ohlcFormat: (0, _chartFns.format)('.8f'),
       forChart: 3,
       origin: [5, -90],
       onClick: _noop

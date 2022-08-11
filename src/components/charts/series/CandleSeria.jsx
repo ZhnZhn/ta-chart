@@ -1,43 +1,48 @@
 import Ch from '../Ch'
-import fns from '../chartFns'
-
-const {
-  C,
+import {
+  COLOR,
   timeIntervalBarWidth,
   format
-} = fns;
+} from '../chartFns';
 
 const CL_TOOLTIP = 'rs-tooltip'
 
 const _noop = () => {};
 
 const _stroke = (d, dPrev) => (d || {}).close > (dPrev || {}).close
-  ? C.UP
-  : C.DOWN;
+  ? COLOR.UP
+  : COLOR.DOWN;
 
 const _fill = (d, dPrev) => (d || {}).close > (d || {}).open
-  ? C.TRANSPARENT
+  ? COLOR.TRANSPARENT
   : _stroke(d, dPrev);
 
 const bbStroke = {
-	top: "#964B00",
-	middle: "#000000",
-	bottom: "#964B00",
+	top: '#964b00',
+	middle: '#000000',
+	bottom: '#964b00'
 };
 
-const bbFill = "#4682B4";
+const bbFill = '#4682b4';
 
-const _crMaTooltipOption = (accessor, options) => ({
-  type: "SMA",
+const _crMaTooltipOption = (
+  accessor,
+  options
+) => ({
+  type: 'SMA',
   yAccessor: accessor,
   stroke: options.stroke,
   windowSize: options.windowSize
 });
 
 const CandleSeria = ({
-  id, height,
-  timeInterval, timeFormat,
-  sma20, sma50, bb
+  id,
+  height,
+  timeInterval,
+  timeFormat,
+  sma20,
+  sma50,
+  bb
 }) => {
   const accessorSma20 = sma20.accessor()
   , optionsSma20 = sma20.options()
@@ -49,11 +54,12 @@ const CandleSeria = ({
     height={height}
     yExtents={d => [d.high, d.low]}
     origin={(w, h) => [0, h - 420]}
-    //onContextMenu={_onContextMenu}
   >
     <Ch.YAxis
-      axisAt="right" orient="right"
-      ticks={5} stroke="black"
+      axisAt="right"
+      orient="right"
+      ticks={5}
+      stroke="black"
     />
     <Ch.BollingerSeries
       yAccessor={d => d.bb}
@@ -75,23 +81,16 @@ const CandleSeria = ({
        wickStroke={_stroke}
        candleStrokeWidth={0.8}
     />
-    {/*
-    <EdgeIndicator
-       itemType="last"
-       orient="right" edgeAt="right"
-       yAccessor={d => d.close} fill="blue" />
-    */}
     <Ch.MouseCoordinateY
       at="right"
       orient="right"
-      displayFormat={format(".4f")}
+      displayFormat={format('.4f')}
     />
     <Ch.OHLCTooltip
       fontSize={15}
-      //labelFill="#1b2836"
       xDisplayFormat={timeFormat}
       textFill="black"
-      ohlcFormat={format(".8f")}
+      ohlcFormat={format('.8f')}
       forChart={3}
       origin={[5, -90]}
       onClick={_noop}

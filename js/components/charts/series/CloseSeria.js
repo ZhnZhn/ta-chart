@@ -5,13 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _Ch = _interopRequireDefault(require("../Ch"));
 
-var _chartFns = _interopRequireDefault(require("../chartFns"));
+var _chartFns = require("../chartFns");
 
-var format = _chartFns["default"].format;
+var _jsxRuntime = require("react/jsx-runtime");
 
 var CloseSeria = function CloseSeria(_ref) {
   var id = _ref.id,
@@ -38,7 +36,7 @@ var CloseSeria = function CloseSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "left",
       orient: "left",
-      displayFormat: format(".2f")
+      displayFormat: (0, _chartFns.format)('.2f')
     })]
   });
 };

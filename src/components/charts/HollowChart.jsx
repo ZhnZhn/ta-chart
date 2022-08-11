@@ -1,12 +1,17 @@
-import { memo } from 'react'
+import { memo } from 'react';
 
-import Ch from './Ch'
-import chartFns from './chartFns'
+import Ch from './Ch';
+import {
+  scaleTime,
+  crTimeInterval,
+  crTimeFormat,
+  crExtends
+} from './chartFns';
 
-import CandleSeria from './series/CandleSeria'
-import VolumeSeria from './series/VolumeSeria'
-import RsiSeria from './series/RsiSeria'
-import CloseSeria from './series/CloseSeria'
+import CandleSeria from './series/CandleSeria';
+import VolumeSeria from './series/VolumeSeria';
+import RsiSeria from './series/RsiSeria';
+import CloseSeria from './series/CloseSeria';
 
 const {
   sma,
@@ -14,12 +19,6 @@ const {
   bollingerBand,
   useElementWidth
 } = Ch;
-const {
-  scaleTime,
-  crTimeInterval,
-  crTimeFormat,
-  crExtends
-} = chartFns;
 
 const ITEMS_NUM = 150;
 

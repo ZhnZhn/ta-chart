@@ -7,13 +7,11 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _jsxRuntime = require("react/jsx-runtime");
-
 var _react = require("react");
 
 var _Ch = _interopRequireDefault(require("./Ch"));
 
-var _chartFns = _interopRequireDefault(require("./chartFns"));
+var _chartFns = require("./chartFns");
 
 var _CandleSeria = _interopRequireDefault(require("./series/CandleSeria"));
 
@@ -23,14 +21,12 @@ var _RsiSeria = _interopRequireDefault(require("./series/RsiSeria"));
 
 var _CloseSeria = _interopRequireDefault(require("./series/CloseSeria"));
 
+var _jsxRuntime = require("react/jsx-runtime");
+
 var sma = _Ch["default"].sma,
     rsi = _Ch["default"].rsi,
     bollingerBand = _Ch["default"].bollingerBand,
-    fitWidth = _Ch["default"].fitWidth;
-var scaleTime = _chartFns["default"].scaleTime,
-    crTimeInterval = _chartFns["default"].crTimeInterval,
-    crTimeFormat = _chartFns["default"].crTimeFormat,
-    crExtends = _chartFns["default"].crExtends;
+    useElementWidth = _Ch["default"].useElementWidth;
 var ITEMS_NUM = 150;
 var MARGIN = {
   left: 50,
@@ -39,24 +35,26 @@ var MARGIN = {
   top: 0,
   bottom: 30
 };
-var S = {
-  EL: {
-    width: '98%'
-  }
+var S_EL = {
+  width: '98%'
 };
 
 var _xAccessor = function _xAccessor(d) {
   return d ? d.date : 0;
 };
 
-var HollowChart = function HollowChart(props) {
-  var id = props.id,
-      style = props.style,
-      data = props.data,
-      width = props.width,
-      resize = props.resize,
-      timeframe = props.timeframe;
-  var sma20 = sma().options({
+var HollowChart = function HollowChart(_ref) {
+  var id = _ref.id,
+      style = _ref.style,
+      data = _ref.data,
+      height = _ref.height,
+      timeframe = _ref.timeframe;
+
+  var _useElementWidth = useElementWidth({
+    id: id
+  }),
+      width = _useElementWidth[0],
+      sma20 = sma().options({
     windowSize: 20,
     stroke: 'green'
   }).merge(function (d, c) {
@@ -83,38 +81,25 @@ var HollowChart = function HollowChart(props) {
     d.rsi = c;
   }).accessor(function (d) {
     return d.rsi;
-  });
-  var calculatedData = sma50(sma20(bb(rsi14(data))));
-  /*
-  const xScaleProvider = discontinuousTimeScaleProvider
-    .inputDateAccessor(d => d.date);
-  const {
-  data: calcData,
-  xScale,
-  xAccessor,
-  displayXAccessor,
-  } = xScaleProvider(calculatedData);
-  */
+  }),
+      calculatedData = sma50(sma20(bb(rsi14(data)))),
+      timeInterval = (0, _chartFns.crTimeInterval)(timeframe),
+      timeFormat = (0, _chartFns.crTimeFormat)(timeframe),
+      xExtents = (0, _chartFns.crExtends)(calculatedData, timeframe, ITEMS_NUM);
 
-  (0, _react.useEffect)(function () {
-    resize();
-  }, []);
-  var timeInterval = crTimeInterval(timeframe),
-      timeFormat = crTimeFormat(timeframe),
-      xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     id: id,
-    style: (0, _extends2["default"])({}, S.EL, style),
+    style: (0, _extends2["default"])({}, S_EL, style),
     children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].ChartCanvas, {
       ratio: 2,
       width: width,
-      height: 550,
+      height: height,
       margin: MARGIN,
-      type: "hybrid",
       seriesName: "Item",
       data: calculatedData,
       xAccessor: _xAccessor,
-      xScale: scaleTime(),
+      displayXAccessor: _xAccessor,
+      xScale: (0, _chartFns.scaleTime)(),
       xExtents: xExtents,
       children: [(0, _RsiSeria["default"])({
         id: 1,
@@ -142,7 +127,7 @@ var HollowChart = function HollowChart(props) {
   });
 };
 
-var _default = fitWidth( /*#__PURE__*/(0, _react.memo)(HollowChart));
+var _default = /*#__PURE__*/(0, _react.memo)(HollowChart);
 
 exports["default"] = _default;
 //# sourceMappingURL=HollowChart.js.map

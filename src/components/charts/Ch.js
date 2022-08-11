@@ -19,10 +19,10 @@ import MovingAverageTooltip from '../zhn-charts/tooltip/MovingAverageTooltip'
 import OHLCTooltip from '../zhn-charts/tooltip/OHLCTooltip';
 import RSITooltip from '../zhn-charts/tooltip/RSITooltip';
 
-import sma from "../zhn-charts/indicator/sma"
-import rsi from "../zhn-charts/indicator/rsi"
-import bollingerBand from "../zhn-charts/indicator/bollingerBand"
-import useElementWidth from '../zhn-charts/hooks/useElementWidth'
+import sma from '../zhn-charts/indicator/sma';
+import rsi from '../zhn-charts/indicator/rsi';
+import bollingerBand from '../zhn-charts/indicator/bollingerBand';
+import useElementWidth from '../zhn-charts/hooks/useElementWidth';
 
 const Ch = {
   ChartCanvas,
