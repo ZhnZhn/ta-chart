@@ -4,9 +4,7 @@ import {
   getRefValue
 } from '../../uiApi';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import AxisZoomCapture from './AxisZoomCapture';
 
 import {
@@ -122,7 +120,7 @@ class Axis extends Component {
                />) : null
               }
               <GenericChartComponent
-                 ref={this.chartRef}
+                 refComp={this.chartRef}
                  clip={false}
                  edgeClip={edgeClip}
                  canvasToDraw={getAxisCanvas}

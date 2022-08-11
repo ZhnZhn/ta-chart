@@ -2,9 +2,7 @@
 import { Component } from 'react';
 import { area as d3Area } from 'd3-shape';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas
 } from '../core/contextFn';
@@ -37,6 +35,8 @@ const _crAreaSeries = (
     .y0((d) => newBase(yScale, d, moreProps))
     .y1((d) => Math.round(yScale(yAccessor(d))));
 };
+
+const DRAW_ON = ['pan'];
 
 class AreaOnlySeries extends Component {
 
@@ -149,7 +149,7 @@ class AreaOnlySeries extends Component {
 				svgDraw={this.renderSVG}
 				canvasDraw={this.drawOnCanvas}
 				canvasToDraw={getAxisCanvas}
-				drawOn={['pan']}
+				drawOn={DRAW_ON}
 			/>
 		);
 	}

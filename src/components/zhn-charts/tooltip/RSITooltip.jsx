@@ -2,9 +2,7 @@ import { format } from 'd3-format';
 
 import useEventCallback from '../../hooks/useEventCallback';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   functor,
   isDefined
@@ -17,10 +15,11 @@ import {
 import TooltipText from './TooltipText';
 import TooltipTSpan from './TooltipTSpan';
 
-const DF_DISPLAY_FORMAT = format(".2f")
+const DF_DISPLAY_FORMAT = format('.2f')
 , DF_DISPLAY_INIT = 'n/a'
 , DF_DISPLAY_VALUES_FOR = (_, props) => props.currentItem
-, DF_ORIGIN = [0, 0];
+, DF_ORIGIN = [0, 0]
+, DRAW_ON = ['mousemove'];
 
 const RSITooltip = (props) => {
   const {
@@ -86,7 +85,7 @@ const RSITooltip = (props) => {
     <GenericChartComponent
       clip={false}
       svgDraw={_renderSvg}
-      drawOn={['mousemove']}
+      drawOn={DRAW_ON}
     />
   );
 }

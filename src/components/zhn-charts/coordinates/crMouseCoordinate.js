@@ -1,12 +1,12 @@
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getMouseCanvas
 } from '../core/contextFn';
 
 import useRenderSvg from './useRenderSvg';
 import useDrawOnCanvas from './useDrawOnCanvas';
+
+const DRAWN_ON = ['mousemove', 'pan', 'drag'];
 
 const crMouseCoordinate = crCoordinateProps => props => {
   const _renderSVG = useRenderSvg(props, crCoordinateProps)
@@ -17,7 +17,7 @@ const crMouseCoordinate = crCoordinateProps => props => {
 			svgDraw={_renderSVG}
 			canvasDraw={_drawOnCanvas}
 			canvasToDraw={getMouseCanvas}
-			drawOn={["mousemove", "pan", "drag"]}
+			drawOn={DRAWN_ON}
 		/>
   );
 }

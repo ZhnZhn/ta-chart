@@ -8,22 +8,21 @@ import {
   crCssTranslate
 } from '../utils';
 
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
-import {
-  CL_OHLC_TOOLTIP
+  CL_OHLC_TOOLTIP,
+  FONT_FAMILY
 } from '../CL';
 
 import TooltipText from './TooltipText';
 import TooltipTSpan from './TooltipTSpan';
 
 const displayTextsDefault = {
-  o: "O: ",
-  h: " H: ",
-  l: " L: ",
-  c: " C: ",
-  na: "n/a",
+  o: 'O: ',
+  h: ' H: ',
+  l: ' L: ',
+  c: ' C: ',
+  na: 'n/a'
 };
 
 const TooltipValue = ({
@@ -45,6 +44,8 @@ const TooltipValue = ({
     </tspan>
   </>
 );
+
+const DRAW_ON = ['mousemove'];
 
 const OHLCTooltip = props => {
   const _renderSVG = useEventCallback((moreProps) => {
@@ -148,22 +149,22 @@ const OHLCTooltip = props => {
     <GenericChartComponent
       clip={false}
       svgDraw={_renderSVG}
-      drawOn={["mousemove"]}
+      drawOn={DRAW_ON}
     />
   );
 }
 
 OHLCTooltip.defaultProps = {
-    accessor: d => d,
-    changeFormat: format("+.2f"),
     className: CL_OHLC_TOOLTIP,
-    displayTexts: displayTextsDefault,
-    displayValuesFor: (_, props) => props.currentItem,
-    fontFamily: "-apple-system, system-ui, 'Helvetica Neue', Ubuntu, sans-serif",
+    fontFamily: FONT_FAMILY,
     fontWeight: 'bold',
-    ohlcFormat: format(".2f"),
+    accessor: d => d,
+    changeFormat: format('+.2f'),
+    displayTexts: displayTextsDefault,
+    displayValuesFor: (_, props) => props.currentItem,      
+    ohlcFormat: format('.2f'),
     origin: [0, 0],
-    percentFormat: format("+.2%"),
+    percentFormat: format('+.2%')
 }
 
 export default OHLCTooltip

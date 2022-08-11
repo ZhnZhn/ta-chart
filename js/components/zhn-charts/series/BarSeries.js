@@ -9,7 +9,7 @@ var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inh
 
 var _react = require("react");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _contextFn = require("../core/contextFn");
 
@@ -65,6 +65,8 @@ var _getBars = function _getBars(props, moreProps) {
   return bars;
 };
 
+var DRAW_ON = ['pan'];
+
 var BarSeries = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(BarSeries, _Component);
 
@@ -110,12 +112,12 @@ var BarSeries = /*#__PURE__*/function (_Component) {
 
   _proto.render = function render() {
     var clip = this.props.clip;
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
       clip: clip,
       svgDraw: this.renderSVG,
       canvasToDraw: _contextFn.getAxisCanvas,
       canvasDraw: this.drawOnCanvas,
-      drawOn: ['pan']
+      drawOn: DRAW_ON
     });
   };
 

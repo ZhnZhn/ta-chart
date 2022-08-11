@@ -12,21 +12,28 @@ import {
   CLIP_PATH_ID
 } from './ID';
 
+const MOUSE_MOVE = 'mousemove'
+, PAN = 'pan'
+, DRAG = 'drag'
+, ZOOM = 'zoom';
+
 const ALIASES = {
-  mouseleave: "mousemove",
-  panend: "pan",
-  pinchzoom: "pan",
-  mousedown: "mousemove",
-  click: "mousemove",
-  contextmenu: "mousemove",
-  dblclick: "mousemove",
-  dragstart: "drag",
-  dragend: "drag",
-  dragcancel: "drag",
-  zoom: "zoom",
+  mouseleave: MOUSE_MOVE,
+  panend: PAN,
+  pinchzoom: PAN,
+  mousedown: MOUSE_MOVE,
+  click: MOUSE_MOVE,
+  contextmenu: MOUSE_MOVE,
+  dblclick: MOUSE_MOVE,
+  dragstart: DRAG,
+  dragend: DRAG,
+  dragcancel: DRAG,
+  zoom: ZOOM
 };
 
-const _getObjetcKeys = Object.keys
+const _isFn = fn => typeof fn === 'function'
+, _getObjetcKeys = Object.keys
+, FN_NOOP = () => {};
 
 export class GenericComponent extends React.Component {
     static defaultProps = {
@@ -38,6 +45,11 @@ export class GenericComponent extends React.Component {
         selected: false,
         disablePan: false,
         enableDragOnHover: false,
+
+        preCanvasDraw: FN_NOOP,
+        postCanvasDraw: FN_NOOP,
+        updateMoreProps: FN_NOOP,
+        preEvaluate: FN_NOOP
     }
 
     static contextTypes = {
@@ -91,14 +103,19 @@ export class GenericComponent extends React.Component {
       _getObjetcKeys(moreProps).forEach(key => {
          this.moreProps[key] = moreProps[key];
       });
+      this.props.updateMoreProps(moreProps, this.moreProps)
     }
 
     shouldTypeProceed(type, moreProps) {
-       return true;
+       const { shouldTypeProceed } = this.props
+       return _isFn(shouldTypeProceed)
+         ? shouldTypeProceed(type, moreProps)
+         : true;
     }
 
     preEvaluate(type, moreProps, e) {
       /// empty
+      this.props.preEvaluate(type, moreProps, e)
     }
 
     listener = (type, moreProps, state, e) => {
@@ -124,16 +141,16 @@ export class GenericComponent extends React.Component {
 
         switch (type) {
             // DO NOT DRAW FOR THESE EVENTS
-            case "zoom": case "mouseenter":
+            case 'zoom': case 'mouseenter':
                 break;
-            case "mouseleave": {
+            case 'mouseleave': {
                 this.moreProps.hovering = false;
                 if (this.props.onUnHover) {
                     this.props.onUnHover(e, this.getMoreProps());
                 }
                 break;
             }
-            case "contextmenu": {
+            case 'contextmenu': {
                 if (this.props.onContextMenu) {
                     this.props.onContextMenu(e, this.getMoreProps());
                 }
@@ -142,13 +159,13 @@ export class GenericComponent extends React.Component {
                 }
                 break;
             }
-            case "mousedown": {
+            case 'mousedown': {
                 if (this.props.onMouseDown) {
                     this.props.onMouseDown(e, this.getMoreProps());
                 }
                 break;
             }
-            case "click": {
+            case 'click': {
                 const { onClick, onClickOutside, onClickWhenHover } = this.props;
                 const moreProps = this.getMoreProps();
                 if (moreProps.hovering && onClickWhenHover !== undefined) {
@@ -162,7 +179,7 @@ export class GenericComponent extends React.Component {
                 }
                 break;
             }
-            case "mousemove": {
+            case 'mousemove': {
                 const prevHover = this.moreProps.hovering;
                 this.moreProps.hovering = this.isHover(e);
                 const { amIOnTop, setCursorClass } = this.context;
@@ -198,7 +215,7 @@ export class GenericComponent extends React.Component {
                 }
                 break;
             }
-            case "dblclick": {
+            case 'dblclick': {
                 const moreProps = this.getMoreProps();
                 if (this.props.onDoubleClick) {
                     this.props.onDoubleClick(e, moreProps);
@@ -208,20 +225,20 @@ export class GenericComponent extends React.Component {
                 }
                 break;
             }
-            case "pan": {
+            case 'pan': {
                 this.moreProps.hovering = false;
                 if (this.props.onPan) {
                     this.props.onPan(e, this.getMoreProps());
                 }
                 break;
             }
-            case "panend": {
+            case 'panend': {
                 if (this.props.onPanEnd) {
                     this.props.onPanEnd(e, this.getMoreProps());
                 }
                 break;
             }
-            case "dragstart": {
+            case 'dragstart': {
                 if (this.getPanConditions().draggable) {
                     const { amIOnTop } = this.context;
                     if (amIOnTop(this.suscriberId)) {
@@ -233,20 +250,20 @@ export class GenericComponent extends React.Component {
                 }
                 break;
             }
-            case "drag": {
+            case 'drag': {
                 if (this.dragInProgress && this.props.onDrag) {
                     this.props.onDrag(e, this.getMoreProps());
                 }
                 break;
             }
-            case "dragend": {
+            case 'dragend': {
                 if (this.dragInProgress && this.props.onDragComplete) {
                     this.props.onDragComplete(e, this.getMoreProps());
                 }
                 this.dragInProgress = false;
                 break;
             }
-            case "dragcancel": {
+            case 'dragcancel': {
                 if (this.dragInProgress || this.iSetTheCursorClass) {
                     const { setCursorClass } = this.context;
                     setCursorClass(null);
@@ -377,10 +394,12 @@ export class GenericComponent extends React.Component {
 
     preCanvasDraw(ctx, moreProps) {
         // do nothing
+        this.props.preCanvasDraw(ctx, moreProps)
     }
 
     postCanvasDraw(ctx, moreProps) {
         // empty
+        this.props.postCanvasDraw(ctx, moreProps)
     }
 
     drawOnCanvas() {

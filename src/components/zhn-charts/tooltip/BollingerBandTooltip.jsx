@@ -2,9 +2,7 @@ import { format } from "d3-format";
 
 import useEventCallback from '../../hooks/useEventCallback';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   functor,
   last,
@@ -16,6 +14,8 @@ import {
 
 import TooltipText from './TooltipText';
 import TooltipTSpan from './TooltipTSpan';
+
+const DRAW_ON = ['mousemove'];
 
 const BollingerBandTooltip = (
   props
@@ -97,16 +97,16 @@ const BollingerBandTooltip = (
     <GenericChartComponent
        clip={false}
        svgDraw={_renderSVG}
-       drawOn={["mousemove"]}
+       drawOn={DRAW_ON}
     />
   );
 };
 
 BollingerBandTooltip.defaultProps = {
   className: CL_BB_TOOLTIP,
-  displayFormat: format(".2f"),
+  displayFormat: format('.2f'),
   displayValuesFor: (_, props) => props.currentItem,
-  displayInit: "n/a",
+  displayInit: 'n/a',
   origin: [8, 8],
   yAccessor: data => data.bb
 }

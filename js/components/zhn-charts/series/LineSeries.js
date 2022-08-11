@@ -13,7 +13,7 @@ var _react = require("react");
 
 var _d3Shape = require("d3-shape");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _contextFn = require("../core/contextFn");
 
@@ -209,7 +209,7 @@ var LineSeries = /*#__PURE__*/function (_Component) {
       drawOn: ['pan'],
       canvasToDraw: _contextFn.getAxisCanvas
     };
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, (0, _extends2["default"])({
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], (0, _extends2["default"])({
       svgDraw: this.renderSVG,
       canvasDraw: this.drawOnCanvas,
       onClickWhenHover: this.props.onClick,

@@ -1,12 +1,9 @@
-import {
-	GenericChartComponent
-} from "../core/GenericChartComponent";
+import GenericChartComponent from '../core/GenericChartComponent';
 
 const SVGComponent = ({
 	children
 }) => (
 	<GenericChartComponent
-		drawOn={[]}
 		svgDraw={children}
 	/>
 );

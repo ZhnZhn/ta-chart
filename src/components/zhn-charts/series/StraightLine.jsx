@@ -6,15 +6,13 @@ import {
   getStrokeDasharray
 } from '../utils';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas
 } from '../core/contextFn';
 import {
   CL_LINE
-} from '../CL'
+} from '../CL';
 
 const _getLineDash = (
   strokeDasharray
@@ -47,6 +45,8 @@ const _getLineCoordinates = (
     x2: _getValueFromScale(xScale, xValue),
     y2: height
   };
+
+const DRAW_ON = ['pan'];
 
 class StraightLine extends Component {
 
@@ -135,7 +135,7 @@ class StraightLine extends Component {
 			  svgDraw={this.renderSVG}
 			  canvasDraw={this.drawOnCanvas}
 			  canvasToDraw={getAxisCanvas}
-			  drawOn={["pan"]}
+			  drawOn={DRAW_ON}
 		/>
    );
   }

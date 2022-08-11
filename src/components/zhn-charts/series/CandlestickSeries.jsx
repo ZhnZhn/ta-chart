@@ -1,9 +1,7 @@
 //import PropTypes from "prop-types";
 import { Component } from 'react';
 
-import {
-	GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
 	getAxisCanvas
 } from '../core/contextFn';
@@ -25,6 +23,8 @@ import {
 	getCandlesSVG,
 	getWicksSVG
 } from './CandlestickSeriesFn';
+
+const DRAW_ON = ['pan'];
 
 class CandlestickSeries extends Component {
 
@@ -72,7 +72,7 @@ class CandlestickSeries extends Component {
 			  svgDraw={this.renderSVG}
 			  canvasDraw={this.drawOnCanvas}
 			  canvasToDraw={getAxisCanvas}
-			  drawOn={['pan']}
+			  drawOn={DRAW_ON}
 		  />
 		);
 	}

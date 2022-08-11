@@ -9,7 +9,7 @@ var _d3Format = require("d3-format");
 
 var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _utils = require("../utils");
 
@@ -20,6 +20,8 @@ var _TooltipText = _interopRequireDefault(require("./TooltipText"));
 var _TooltipTSpan = _interopRequireDefault(require("./TooltipTSpan"));
 
 var _jsxRuntime = require("react/jsx-runtime");
+
+var DRAW_ON = ['mousemove'];
 
 var BollingerBandTooltip = function BollingerBandTooltip(props) {
   var _renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
@@ -92,20 +94,20 @@ var BollingerBandTooltip = function BollingerBandTooltip(props) {
     });
   });
 
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: false,
     svgDraw: _renderSVG,
-    drawOn: ["mousemove"]
+    drawOn: DRAW_ON
   });
 };
 
 BollingerBandTooltip.defaultProps = {
   className: _CL.CL_BB_TOOLTIP,
-  displayFormat: (0, _d3Format.format)(".2f"),
+  displayFormat: (0, _d3Format.format)('.2f'),
   displayValuesFor: function displayValuesFor(_, props) {
     return props.currentItem;
   },
-  displayInit: "n/a",
+  displayInit: 'n/a',
   origin: [8, 8],
   yAccessor: function yAccessor(data) {
     return data.bb;

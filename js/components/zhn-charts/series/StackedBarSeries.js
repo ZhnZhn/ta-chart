@@ -11,7 +11,7 @@ var _react = require("react");
 
 var _d3Shape = require("d3-shape");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _contextFn = require("../core/contextFn");
 
@@ -24,6 +24,8 @@ var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 
 //import PropTypes from "prop-types";
+var DRAW_ON = ['pan'];
+
 var StackedBarSeries = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(StackedBarSeries, _Component);
 
@@ -55,12 +57,12 @@ var StackedBarSeries = /*#__PURE__*/function (_Component) {
 
   _proto.render = function render() {
     var clip = this.props.clip;
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
       clip: clip,
       svgDraw: this.renderSVG,
       canvasDraw: this.drawOnCanvas,
       canvasToDraw: _contextFn.getAxisCanvas,
-      drawOn: ['pan']
+      drawOn: DRAW_ON
     });
   };
 

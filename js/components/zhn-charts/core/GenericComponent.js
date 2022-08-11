@@ -23,20 +23,29 @@ var _ID = require("./ID");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
+var MOUSE_MOVE = 'mousemove',
+    PAN = 'pan',
+    DRAG = 'drag',
+    ZOOM = 'zoom';
 var ALIASES = {
-  mouseleave: "mousemove",
-  panend: "pan",
-  pinchzoom: "pan",
-  mousedown: "mousemove",
-  click: "mousemove",
-  contextmenu: "mousemove",
-  dblclick: "mousemove",
-  dragstart: "drag",
-  dragend: "drag",
-  dragcancel: "drag",
-  zoom: "zoom"
+  mouseleave: MOUSE_MOVE,
+  panend: PAN,
+  pinchzoom: PAN,
+  mousedown: MOUSE_MOVE,
+  click: MOUSE_MOVE,
+  contextmenu: MOUSE_MOVE,
+  dblclick: MOUSE_MOVE,
+  dragstart: DRAG,
+  dragend: DRAG,
+  dragcancel: DRAG,
+  zoom: ZOOM
 };
-var _getObjetcKeys = Object.keys;
+
+var _isFn = function _isFn(fn) {
+  return typeof fn === 'function';
+},
+    _getObjetcKeys = Object.keys,
+    FN_NOOP = function FN_NOOP() {};
 
 var GenericComponent = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2["default"])(GenericComponent, _React$Component);
@@ -90,13 +99,18 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
     _getObjetcKeys(moreProps).forEach(function (key) {
       _this2.moreProps[key] = moreProps[key];
     });
+
+    this.props.updateMoreProps(moreProps, this.moreProps);
   };
 
   _proto.shouldTypeProceed = function shouldTypeProceed(type, moreProps) {
-    return true;
+    var shouldTypeProceed = this.props.shouldTypeProceed;
+    return _isFn(shouldTypeProceed) ? shouldTypeProceed(type, moreProps) : true;
   };
 
-  _proto.preEvaluate = function preEvaluate(type, moreProps, e) {/// empty
+  _proto.preEvaluate = function preEvaluate(type, moreProps, e) {
+    /// empty
+    this.props.preEvaluate(type, moreProps, e);
   };
 
   _proto.evaluateType = function evaluateType(type, e) {
@@ -115,11 +129,11 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
 
     switch (type) {
       // DO NOT DRAW FOR THESE EVENTS
-      case "zoom":
-      case "mouseenter":
+      case 'zoom':
+      case 'mouseenter':
         break;
 
-      case "mouseleave":
+      case 'mouseleave':
         {
           this.moreProps.hovering = false;
 
@@ -130,7 +144,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "contextmenu":
+      case 'contextmenu':
         {
           if (this.props.onContextMenu) {
             this.props.onContextMenu(e, this.getMoreProps());
@@ -143,7 +157,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "mousedown":
+      case 'mousedown':
         {
           if (this.props.onMouseDown) {
             this.props.onMouseDown(e, this.getMoreProps());
@@ -152,7 +166,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "click":
+      case 'click':
         {
           var _this$props = this.props,
               onClick = _this$props.onClick,
@@ -173,7 +187,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "mousemove":
+      case 'mousemove':
         {
           var prevHover = this.moreProps.hovering;
           this.moreProps.hovering = this.isHover(e);
@@ -215,7 +229,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "dblclick":
+      case 'dblclick':
         {
           var _moreProps2 = this.getMoreProps();
 
@@ -230,7 +244,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "pan":
+      case 'pan':
         {
           this.moreProps.hovering = false;
 
@@ -241,7 +255,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "panend":
+      case 'panend':
         {
           if (this.props.onPanEnd) {
             this.props.onPanEnd(e, this.getMoreProps());
@@ -250,7 +264,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "dragstart":
+      case 'dragstart':
         {
           if (this.getPanConditions().draggable) {
             var _amIOnTop = this.context.amIOnTop;
@@ -267,7 +281,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "drag":
+      case 'drag':
         {
           if (this.dragInProgress && this.props.onDrag) {
             this.props.onDrag(e, this.getMoreProps());
@@ -276,7 +290,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "dragend":
+      case 'dragend':
         {
           if (this.dragInProgress && this.props.onDragComplete) {
             this.props.onDragComplete(e, this.getMoreProps());
@@ -286,7 +300,7 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
           break;
         }
 
-      case "dragcancel":
+      case 'dragcancel':
         {
           if (this.dragInProgress || this.iSetTheCursorClass) {
             var _setCursorClass = this.context.setCursorClass;
@@ -451,10 +465,14 @@ var GenericComponent = /*#__PURE__*/function (_React$Component) {
     return (morePropsDecorator || _utils.identity)(moreProps);
   };
 
-  _proto.preCanvasDraw = function preCanvasDraw(ctx, moreProps) {// do nothing
+  _proto.preCanvasDraw = function preCanvasDraw(ctx, moreProps) {
+    // do nothing
+    this.props.preCanvasDraw(ctx, moreProps);
   };
 
-  _proto.postCanvasDraw = function postCanvasDraw(ctx, moreProps) {// empty
+  _proto.postCanvasDraw = function postCanvasDraw(ctx, moreProps) {
+    // empty
+    this.props.postCanvasDraw(ctx, moreProps);
   };
 
   _proto.drawOnCanvas = function drawOnCanvas() {
@@ -513,7 +531,11 @@ GenericComponent.defaultProps = {
   edgeClip: false,
   selected: false,
   disablePan: false,
-  enableDragOnHover: false
+  enableDragOnHover: false,
+  preCanvasDraw: FN_NOOP,
+  postCanvasDraw: FN_NOOP,
+  updateMoreProps: FN_NOOP,
+  preEvaluate: FN_NOOP
 };
 GenericComponent.contextTypes = {
   width: _propTypes["default"].number.isRequired,

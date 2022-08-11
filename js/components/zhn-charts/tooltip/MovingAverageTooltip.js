@@ -9,7 +9,7 @@ var _d3Format = require("d3-format");
 
 var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _utils = require("../utils");
 
@@ -18,6 +18,8 @@ var _CL = require("../CL");
 var _MovingAverage = _interopRequireDefault(require("./MovingAverage"));
 
 var _jsxRuntime = require("react/jsx-runtime");
+
+var DRAW_ON = ['mousemove'];
 
 var MovingAverageTooltip = function MovingAverageTooltip(props) {
   var _renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
@@ -75,17 +77,17 @@ var MovingAverageTooltip = function MovingAverageTooltip(props) {
     });
   });
 
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: false,
     svgDraw: _renderSVG,
-    drawOn: ["mousemove"]
+    drawOn: DRAW_ON
   });
 };
 
 MovingAverageTooltip.defaultProps = {
   className: _CL.CL_MA_TOOLTIP,
-  displayFormat: (0, _d3Format.format)(".2f"),
-  displayInit: "n/a",
+  displayFormat: (0, _d3Format.format)('.2f'),
+  displayInit: 'n/a',
   displayValuesFor: function displayValuesFor(_, props) {
     return props.currentItem;
   },

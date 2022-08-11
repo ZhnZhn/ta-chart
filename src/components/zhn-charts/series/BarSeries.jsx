@@ -1,9 +1,7 @@
 //import PropTypes from "prop-types";
 import { Component } from 'react';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas
 } from '../core/contextFn';
@@ -78,8 +76,10 @@ const _getBars = (
 	return bars;
 }
 
+const DRAW_ON = ['pan'];
+
 class BarSeries extends Component {
-  
+
 	drawOnCanvas = (ctx, moreProps) => {
 		if (this.props.swapScales) {
 			const { xAccessor } = moreProps;
@@ -116,7 +116,7 @@ class BarSeries extends Component {
 				svgDraw={this.renderSVG}
 				canvasToDraw={getAxisCanvas}
 				canvasDraw={this.drawOnCanvas}
-				drawOn={['pan']}
+				drawOn={DRAW_ON}
 			/>
 		);
 	}

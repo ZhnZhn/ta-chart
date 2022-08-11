@@ -11,7 +11,7 @@ var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCall
 
 var _utils = require("../utils");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _CL = require("../CL");
 
@@ -22,11 +22,11 @@ var _TooltipTSpan = _interopRequireDefault(require("./TooltipTSpan"));
 var _jsxRuntime = require("react/jsx-runtime");
 
 var displayTextsDefault = {
-  o: "O: ",
-  h: " H: ",
-  l: " L: ",
-  c: " C: ",
-  na: "n/a"
+  o: 'O: ',
+  h: ' H: ',
+  l: ' L: ',
+  c: ' C: ',
+  na: 'n/a'
 };
 
 var TooltipValue = function TooltipValue(_ref) {
@@ -46,6 +46,8 @@ var TooltipValue = function TooltipValue(_ref) {
     }, "value_O")]
   });
 };
+
+var DRAW_ON = ['mousemove'];
 
 var OHLCTooltip = function OHLCTooltip(props) {
   var _renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
@@ -138,28 +140,28 @@ var OHLCTooltip = function OHLCTooltip(props) {
     });
   });
 
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: false,
     svgDraw: _renderSVG,
-    drawOn: ["mousemove"]
+    drawOn: DRAW_ON
   });
 };
 
 OHLCTooltip.defaultProps = {
+  className: _CL.CL_OHLC_TOOLTIP,
+  fontFamily: _CL.FONT_FAMILY,
+  fontWeight: 'bold',
   accessor: function accessor(d) {
     return d;
   },
-  changeFormat: (0, _d3Format.format)("+.2f"),
-  className: _CL.CL_OHLC_TOOLTIP,
+  changeFormat: (0, _d3Format.format)('+.2f'),
   displayTexts: displayTextsDefault,
   displayValuesFor: function displayValuesFor(_, props) {
     return props.currentItem;
   },
-  fontFamily: "-apple-system, system-ui, 'Helvetica Neue', Ubuntu, sans-serif",
-  fontWeight: 'bold',
-  ohlcFormat: (0, _d3Format.format)(".2f"),
+  ohlcFormat: (0, _d3Format.format)('.2f'),
   origin: [0, 0],
-  percentFormat: (0, _d3Format.format)("+.2%")
+  percentFormat: (0, _d3Format.format)('+.2%')
 };
 var _default = OHLCTooltip;
 exports["default"] = _default;

@@ -9,7 +9,7 @@ var _d3Format = require("d3-format");
 
 var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _utils = require("../utils");
 
@@ -21,12 +21,13 @@ var _TooltipTSpan = _interopRequireDefault(require("./TooltipTSpan"));
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-var DF_DISPLAY_FORMAT = (0, _d3Format.format)(".2f"),
+var DF_DISPLAY_FORMAT = (0, _d3Format.format)('.2f'),
     DF_DISPLAY_INIT = 'n/a',
     DF_DISPLAY_VALUES_FOR = function DF_DISPLAY_VALUES_FOR(_, props) {
   return props.currentItem;
 },
-    DF_ORIGIN = [0, 0];
+    DF_ORIGIN = [0, 0],
+    DRAW_ON = ['mousemove'];
 
 var RSITooltip = function RSITooltip(props) {
   var _props$className = props.className,
@@ -84,10 +85,10 @@ var RSITooltip = function RSITooltip(props) {
     });
   });
 
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: false,
     svgDraw: _renderSvg,
-    drawOn: ['mousemove']
+    drawOn: DRAW_ON
   });
 };
 

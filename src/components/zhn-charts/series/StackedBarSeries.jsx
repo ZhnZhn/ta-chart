@@ -5,9 +5,7 @@ import {
   stack as d3Stack
 } from 'd3-shape';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas
 } from '../core/contextFn';
@@ -25,6 +23,8 @@ import {
 import {
   CL_BAR
 } from '../CL';
+
+const DRAW_ON = ['pan'];
 
 class StackedBarSeries extends Component {
 
@@ -50,7 +50,7 @@ class StackedBarSeries extends Component {
 			  svgDraw={this.renderSVG}
 			  canvasDraw={this.drawOnCanvas}
 			  canvasToDraw={getAxisCanvas}
-			  drawOn={['pan']}
+			  drawOn={DRAW_ON}
 		  />
     );
 	}

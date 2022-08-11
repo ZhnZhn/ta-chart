@@ -13,7 +13,7 @@ var _react = require("react");
 
 var _utils = require("../utils");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _contextFn = require("../core/contextFn");
 
@@ -43,6 +43,8 @@ var _getLineCoordinates = function _getLineCoordinates(type, xScale, yScale, xVa
     y2: height
   };
 };
+
+var DRAW_ON = ['pan'];
 
 var StraightLine = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(StraightLine, _Component);
@@ -116,11 +118,11 @@ var StraightLine = /*#__PURE__*/function (_Component) {
   var _proto = StraightLine.prototype;
 
   _proto.render = function render() {
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
       svgDraw: this.renderSVG,
       canvasDraw: this.drawOnCanvas,
       canvasToDraw: _contextFn.getAxisCanvas,
-      drawOn: ["pan"]
+      drawOn: DRAW_ON
     });
   };
 

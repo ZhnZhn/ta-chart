@@ -9,7 +9,7 @@ var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inh
 
 var _uiApi = require("../../uiApi");
 
-var _GenericChartComponent = require("../core/GenericChartComponent");
+var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 
 var _AxisZoomCapture = _interopRequireDefault(require("./AxisZoomCapture"));
 
@@ -122,8 +122,8 @@ var Axis = /*#__PURE__*/function (_Component) {
         axisZoomCallback: axisZoomCallback,
         onContextMenu: onContextMenu,
         onDoubleClick: onDoubleClick
-      }) : null, /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.GenericChartComponent, {
-        ref: this.chartRef,
+      }) : null, /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+        refComp: this.chartRef,
         clip: false,
         edgeClip: edgeClip,
         canvasToDraw: _contextFn.getAxisCanvas,

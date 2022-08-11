@@ -4,9 +4,7 @@ import {
   line as d3Line
 } from 'd3-shape';
 
-import {
-  GenericChartComponent
-} from '../core/GenericChartComponent';
+import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas,
   getMouseCanvas
@@ -30,7 +28,7 @@ import {
 const FN_NOOP = () => {}
 
 class LineSeries extends Component {
-  
+
 	isHover = (moreProps) => {
 		const {
       yAccessor,
