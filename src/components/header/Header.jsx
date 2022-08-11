@@ -1,20 +1,29 @@
-import { useContext } from '../uiApi'
+import { useContext } from '../uiApi';
 
-import AppValue from '../contexts/AppValue'
-import AppThemeId from '../contexts/AppThemeId'
+import AppValue from '../contexts/AppValue';
+import AppThemeId from '../contexts/AppThemeId';
 
-import Logo from '../zhn/Logo'
+import Logo from '../zhn/Logo';
 
-import CL from '../styles/CL'
-import ProgressLoading from './ProgressLoading'
-import HeaderDrawer from '../drawer/HeaderDrawer'
-import LiveUpdatingBt from './LiveUpdatingBt'
+import ProgressLoading from './ProgressLoading';
+import HeaderDrawer from '../drawer/HeaderDrawer';
+import LiveUpdatingBt from './LiveUpdatingBt';
+import {
+  CL_HEADER,
+  CL_LOGO,
+  CL_TITLE_GAP,
+  CL_HEADER_TITLE,
+  CL_SPINNER
+} from './CL';
 
 const _toFirstCapital = text => text
- .charAt(0).toUpperCase() + text.substr(1);
+ .charAt(0).toUpperCase() + text.slice(1);
 
-const TitleSpan = ({ text, is }) => (
-  <span className={CL.HEADER_TITLE}>
+const TitleSpan = ({
+  text,
+  is
+}) => (
+  <span className={CL_HEADER_TITLE}>
     {_toFirstCapital(text)}
     { !is && <span>:&nbsp;</span> }
   </span>
@@ -26,27 +35,30 @@ const Header = ({
   itemTitle='',
   timeframe='',
   isLiveUpdating,
-  ...rest
+  ...restProps
 }) => {
-  const { theme, onStopUpdate } = useContext(AppValue)
+  const {
+    theme,
+    onStopUpdate
+  } = useContext(AppValue)
   , themeId = useContext(AppThemeId)
   , headerStyle = theme.getHeaderStyle(themeId);
   return (
     <header
-      className={CL.HEADER}
+      className={CL_HEADER}
       style={headerStyle}
     >
       <ProgressLoading fetchStatus={fetchStatus} />
-      <Logo />
-      <span className={CL.TITLE_GAP} />
+      <Logo className={CL_LOGO} />
+      <span className={CL_TITLE_GAP} />
       <TitleSpan text={providerTitle} />
       <TitleSpan text={itemTitle} />
       <TitleSpan text={timeframe} is={true} />
       <LiveUpdatingBt
-        spinnerCn={CL.SPINNER}
+        spinnerCn={CL_SPINNER}
         onStopUpdate={onStopUpdate}
       />
-      <HeaderDrawer {...rest} />
+      <HeaderDrawer {...restProps} />
     </header>
   );
 }

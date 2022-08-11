@@ -1,9 +1,7 @@
-import CL from '../styles/CL'
-
 const TITLE = "Logo of web app TA Chart v0.2.0";
 
-const IconLogoErc = ({
-  className=CL.LOGO,
+const Logo = ({
+  className,
   style,
   title=TITLE
 }) => (
@@ -53,5 +51,4 @@ const IconLogoErc = ({
   </span>
 );
 
-
-export default IconLogoErc
+export default Logo

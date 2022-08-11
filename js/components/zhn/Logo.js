@@ -1,19 +1,14 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
 exports["default"] = void 0;
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-var _CL = _interopRequireDefault(require("../styles/CL"));
-
 var TITLE = "Logo of web app TA Chart v0.2.0";
 
-var IconLogoErc = function IconLogoErc(_ref) {
-  var _ref$className = _ref.className,
-      className = _ref$className === void 0 ? _CL["default"].LOGO : _ref$className,
+var Logo = function Logo(_ref) {
+  var className = _ref.className,
       style = _ref.style,
       _ref$title = _ref.title,
       title = _ref$title === void 0 ? TITLE : _ref$title;
@@ -61,6 +56,6 @@ var IconLogoErc = function IconLogoErc(_ref) {
   });
 };
 
-var _default = IconLogoErc;
+var _default = Logo;
 exports["default"] = _default;
 //# sourceMappingURL=Logo.js.map
