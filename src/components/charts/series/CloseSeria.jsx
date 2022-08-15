@@ -1,6 +1,10 @@
 import Ch from '../Ch';
 import { numberFormat2F } from '../chartFns';
 
+const CHART_Y_EXTENDS = d => [d.high, d.low]
+, CHART_ORIGIN = (w, h) => [0, h - 510]
+, LS_Y_ACCESSOR = d => d.close;
+
 const CloseSeria = ({
   id,
   height
@@ -8,8 +12,8 @@ const CloseSeria = ({
   <Ch.Chart
     id={id}
     height={height}
-    yExtents={d => [d.high, d.low]}
-    origin={(w, h) => [0, h - 510]}
+    yExtents={CHART_Y_EXTENDS}
+    origin={CHART_ORIGIN}
   >
     <Ch.YAxis
       axisAt="left"
@@ -18,7 +22,7 @@ const CloseSeria = ({
       ticks={5}
     />
     <Ch.LineSeries
-      yAccessor={d => d.close}
+      yAccessor={LS_Y_ACCESSOR}
       stroke="black"
     />
     <Ch.MouseCoordinateY
