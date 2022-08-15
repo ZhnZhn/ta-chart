@@ -42,25 +42,21 @@ const _crMaTooltipOption = (
   windowSize: options.windowSize
 });
 
-const CHART_Y_EXTENDS = d => [d.high, d.low]
-, CHART_ORIGIN = (w, h) => [0, h - 420]
-
-, OHCL_TOOLTIP_ORIGIN = [5, -90]
-
+const OHLC_TOOLTIP_ORIGIN = [5, -90]
 , MA_TOOLTIP_ORIGIN = [5, 320]
-
 , BB_TOOLTIP_ORIGIN = [190, 440]
 , BB_Y_ACCESSOR = d => d.bb;
 
-
-const CandleSeria = ({
+const CandlestickChart = ({
   id,
   height,
   timeInterval,
   timeFormat,
   sma20,
   sma50,
-  bb
+  bb,
+  yExtents,
+  origin
 }) => {
   const _csWidth = useTimeIntervalBarWidth(timeInterval)
   , [
@@ -89,8 +85,8 @@ const CandleSeria = ({
   <Ch.Chart
     id={id}
     height={height}
-    yExtents={CHART_Y_EXTENDS}
-    origin={CHART_ORIGIN}
+    yExtents={yExtents}
+    origin={origin}
   >
     <Ch.YAxis
       axisAt="right"
@@ -129,7 +125,7 @@ const CandleSeria = ({
       textFill="black"
       ohlcFormat={numberFormat8Trim}
       forChart={3}
-      origin={OHCL_TOOLTIP_ORIGIN}
+      origin={OHLC_TOOLTIP_ORIGIN}
     />
     <Ch.MovingAverageTooltip
       className={CL_TOOLTIP}
@@ -149,4 +145,4 @@ const CandleSeria = ({
   );
 }
 
-export default CandleSeria
+export default CandlestickChart

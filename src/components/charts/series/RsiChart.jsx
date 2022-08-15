@@ -14,16 +14,16 @@ const _rsiStroke = {
   insideThreshold: '#4699cb'
 };
 
-const CHART_Y_EXTENDS = [0, 100]
-, CHART_ORIGIN = (w, h) => [0, h - 510]
-, YAXIS_TICK_VALUES = [30, 50, 70]
+const YAXIS_TICK_VALUES = [30, 50, 70]
 , RSI_Y_ACCESOR = d => d.rsi;
 
-const RsiSeria = ({
+const RsiChart = ({
   id,
   height,
   width,
-  rsi
+  rsi,
+  yExtents,
+  origin
 }) => {
   const _rsiTooltipOrigin = useMemo(
     ()=>[width-160, 10],
@@ -38,8 +38,8 @@ const RsiSeria = ({
     <Ch.Chart
       id={id}
       height={height}
-      yExtents={CHART_Y_EXTENDS}
-      origin={CHART_ORIGIN}
+      yExtents={yExtents}
+      origin={origin}
     >
       <Ch.YAxis
         axisAt="right"
@@ -68,4 +68,4 @@ const RsiSeria = ({
   );
 }
 
-export default RsiSeria
+export default RsiChart

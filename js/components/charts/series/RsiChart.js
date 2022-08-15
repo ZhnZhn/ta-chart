@@ -23,20 +23,18 @@ var _rsiStroke = {
   insideThreshold: '#4699cb'
 };
 
-var CHART_Y_EXTENDS = [0, 100],
-    CHART_ORIGIN = function CHART_ORIGIN(w, h) {
-  return [0, h - 510];
-},
-    YAXIS_TICK_VALUES = [30, 50, 70],
+var YAXIS_TICK_VALUES = [30, 50, 70],
     RSI_Y_ACCESOR = function RSI_Y_ACCESOR(d) {
   return d.rsi;
 };
 
-var RsiSeria = function RsiSeria(_ref) {
+var RsiChart = function RsiChart(_ref) {
   var id = _ref.id,
       height = _ref.height,
       width = _ref.width,
-      rsi = _ref.rsi;
+      rsi = _ref.rsi,
+      yExtents = _ref.yExtents,
+      origin = _ref.origin;
 
   var _rsiTooltipOrigin = (0, _uiApi.useMemo)(function () {
     return [width - 160, 10];
@@ -48,8 +46,8 @@ var RsiSeria = function RsiSeria(_ref) {
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
-    yExtents: CHART_Y_EXTENDS,
-    origin: CHART_ORIGIN,
+    yExtents: yExtents,
+    origin: origin,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "right",
       orient: "right",
@@ -73,6 +71,6 @@ var RsiSeria = function RsiSeria(_ref) {
   });
 };
 
-var _default = RsiSeria;
+var _default = RsiChart;
 exports["default"] = _default;
-//# sourceMappingURL=RsiSeria.js.map
+//# sourceMappingURL=RsiChart.js.map

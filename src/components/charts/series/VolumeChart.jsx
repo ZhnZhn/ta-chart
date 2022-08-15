@@ -10,23 +10,23 @@ const _fill = (d, dPrev) => (d || {}).close > (dPrev || {}).close
  ? COLOR.UP
  : COLOR.DOWN;
 
-const CHART_Y_EXTENDS = d => d.volume
-, CHART_ORIGIN = (w, h) => [0, h - 140]
-, BS_Y_ACCESOR = d => d.volume;
+const BS_Y_ACCESOR = d => d.volume;
 
-const VolumeSeria = ({
+const VolumeChart = ({
   id,
   height,
   timeInterval,
-  timeFormat
+  timeFormat,
+  yExtents,
+  origin
 }) => {
   const _bsWidth = useTimeIntervalBarWidth(timeInterval);
   return (
      <Ch.Chart
        id={id}
        height={height}
-       yExtents={CHART_Y_EXTENDS}
-       origin={CHART_ORIGIN}
+       yExtents={yExtents}
+       origin={origin}
      >
        <Ch.YAxis
          axisAt="left"
@@ -60,4 +60,4 @@ const VolumeSeria = ({
   );
 }
 
-export default VolumeSeria
+export default VolumeChart

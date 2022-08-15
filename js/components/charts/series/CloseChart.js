@@ -11,24 +11,20 @@ var _chartFns = require("../chartFns");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-var CHART_Y_EXTENDS = function CHART_Y_EXTENDS(d) {
-  return [d.high, d.low];
-},
-    CHART_ORIGIN = function CHART_ORIGIN(w, h) {
-  return [0, h - 510];
-},
-    LS_Y_ACCESSOR = function LS_Y_ACCESSOR(d) {
+var LS_Y_ACCESSOR = function LS_Y_ACCESSOR(d) {
   return d.close;
 };
 
-var CloseSeria = function CloseSeria(_ref) {
+var CloseChart = function CloseChart(_ref) {
   var id = _ref.id,
-      height = _ref.height;
+      height = _ref.height,
+      yExtents = _ref.yExtents,
+      origin = _ref.origin;
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
-    yExtents: CHART_Y_EXTENDS,
-    origin: CHART_ORIGIN,
+    yExtents: yExtents,
+    origin: origin,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "left",
       orient: "left",
@@ -45,6 +41,6 @@ var CloseSeria = function CloseSeria(_ref) {
   });
 };
 
-var _default = CloseSeria;
+var _default = CloseChart;
 exports["default"] = _default;
-//# sourceMappingURL=CloseSeria.js.map
+//# sourceMappingURL=CloseChart.js.map

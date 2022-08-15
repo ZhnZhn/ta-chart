@@ -17,29 +17,25 @@ var _fill = function _fill(d, dPrev) {
   return (d || {}).close > (dPrev || {}).close ? _chartFns.COLOR.UP : _chartFns.COLOR.DOWN;
 };
 
-var CHART_Y_EXTENDS = function CHART_Y_EXTENDS(d) {
-  return d.volume;
-},
-    CHART_ORIGIN = function CHART_ORIGIN(w, h) {
-  return [0, h - 140];
-},
-    BS_Y_ACCESOR = function BS_Y_ACCESOR(d) {
+var BS_Y_ACCESOR = function BS_Y_ACCESOR(d) {
   return d.volume;
 };
 
-var VolumeSeria = function VolumeSeria(_ref) {
+var VolumeChart = function VolumeChart(_ref) {
   var id = _ref.id,
       height = _ref.height,
       timeInterval = _ref.timeInterval,
-      timeFormat = _ref.timeFormat;
+      timeFormat = _ref.timeFormat,
+      yExtents = _ref.yExtents,
+      origin = _ref.origin;
 
   var _bsWidth = (0, _useTimeIntervalBarWidth["default"])(timeInterval);
 
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
-    yExtents: CHART_Y_EXTENDS,
-    origin: CHART_ORIGIN,
+    yExtents: yExtents,
+    origin: origin,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "left",
       orient: "left",
@@ -67,6 +63,6 @@ var VolumeSeria = function VolumeSeria(_ref) {
   });
 };
 
-var _default = VolumeSeria;
+var _default = VolumeChart;
 exports["default"] = _default;
-//# sourceMappingURL=VolumeSeria.js.map
+//# sourceMappingURL=VolumeChart.js.map

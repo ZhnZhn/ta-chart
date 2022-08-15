@@ -1,4 +1,7 @@
-import { memo } from 'react';
+import {
+  memo,
+  useMemo
+} from 'react';
 
 import Ch from './Ch';
 import {
@@ -8,10 +11,10 @@ import {
   crExtends
 } from './chartFns';
 
-import CandleSeria from './series/CandleSeria';
-import VolumeSeria from './series/VolumeSeria';
-import RsiSeria from './series/RsiSeria';
-import CloseSeria from './series/CloseSeria';
+import CandlestickChart from './series/CandlestickChart';
+import VolumeChart from './series/VolumeChart';
+import RsiChart from './series/RsiChart';
+import CloseChart from './series/CloseChart';
 
 const {
   sma,
@@ -20,12 +23,11 @@ const {
   useElementWidth
 } = Ch;
 
-const ITEMS_NUM = 150;
+const ITEMS_NUMBER = 150;
 
 const MARGIN = {
 	left: 50,
 	right: 80,
-	//top: 10,
 	top: 0,
 	bottom: 30
 };
@@ -36,6 +38,34 @@ const _xAccessor = d => d
  ? d.date
  : 0;
 
+const CHART_CANVAS_X_SCALE = scaleTime()
+
+const CS_ORIGIN = (w, h) => [0, h - 510]
+
+const RSI_Y_EXTENDS = [0, 100]
+
+const OHLC_Y_EXTENDS = d => [d.high, d.low]
+, OHLC_ORIGIN = (w, h) => [0, h - 420]
+
+const VOLUME_Y_EXTENDS = d => d.volume
+, VOLUME_ORIGIN = (w, h) => [0, h - 140];
+
+const sma20 = sma()
+   .options({ windowSize: 20, stroke: 'green' })
+   .merge((d, c) => {d.sma20 = c;})
+   .accessor(d => d.sma20)
+, sma50 = sma()
+   .options({ windowSize: 50, stroke: 'orange' })
+   .merge((d, c) => {d.sma50 = c;})
+   .accessor(d => d.sma50)
+, bb = bollingerBand()
+   .merge((d, c) => {d.bb = c;})
+   .accessor(d => d.bb)
+, rsi14 = rsi()
+   .options({ windowSize: 14 })
+   .merge((d, c) => {d.rsi = c;})
+   .accessor(d => d.rsi)
+
  const HollowChart = ({
   id,
   style,
@@ -44,66 +74,74 @@ const _xAccessor = d => d
   timeframe
 }) => {
   const [width] = useElementWidth({ id })
-  , sma20 = sma()
-		 .options({ windowSize: 20, stroke: 'green' })
-		 .merge((d, c) => {d.sma20 = c;})
-		 .accessor(d => d.sma20)
-  , sma50 = sma()
-     .options({ windowSize: 50, stroke: 'orange' })
-     .merge((d, c) => {d.sma50 = c;})
-     .accessor(d => d.sma50)
-	, bb = bollingerBand()
-	   .merge((d, c) => {d.bb = c;})
-		 .accessor(d => d.bb)
-	, rsi14 = rsi()
-		 .options({ windowSize: 14 })
-		 .merge((d, c) => {d.rsi = c;})
-		 .accessor(d => d.rsi)
-
-  , calculatedData = sma50(sma20(bb(rsi14(data))))
-
-  , timeInterval = crTimeInterval(timeframe)
-  , timeFormat = crTimeFormat(timeframe)
-  , xExtents = crExtends(calculatedData, timeframe, ITEMS_NUM);
+  , calculatedData = useMemo(
+     () => sma50(sma20(bb(rsi14(data)))),
+     [data]
+   )
+  , [
+    timeInterval,
+    timeFormat
+  ] = useMemo(() => [
+    crTimeInterval(timeframe),
+    crTimeFormat(timeframe)
+  ], [timeframe])
+  , xExtents = useMemo(
+     () => crExtends(calculatedData, timeframe, ITEMS_NUMBER),
+     [calculatedData, timeframe]
+  );
 
   return (
-		<div
-			id={id}
-			style={{...S_EL, ...style}}
-		>
+	 <div
+		 id={id}
+		 style={{...S_EL, ...style}}
+	 >
      <Ch.ChartCanvas
        ratio={2}
        width={width}
        height={height}
        margin={MARGIN}
-       seriesName="Item"
        data={calculatedData}
        xAccessor={_xAccessor}
        displayXAccessor={_xAccessor}
-       xScale={scaleTime()}
+       xScale={CHART_CANVAS_X_SCALE}
        xExtents={xExtents}
      >
-			 {RsiSeria({
-         id: 1,
-         height: 100,
-         width: width,
-         rsi: rsi14 })
-       }
-			 {CloseSeria({ id: 2, height: 100})}
-			 {CandleSeria({
-         id: 3, height: 300,
-         timeInterval, timeFormat,
-         sma20, sma50, bb
-        })
-       }
-			 {VolumeSeria({
-         id: 4, height: 120,
-         timeInterval, timeFormat
-       })
-       }
-       {<Ch.CrossHairCursor />}
+       <RsiChart
+         id={1}
+         height={100}
+         width={width}
+         rsi={rsi14}
+         yExtents={RSI_Y_EXTENDS}
+         origin={CS_ORIGIN}
+       />
+       <CloseChart
+         id={2}
+         height={100}
+         yExtents={OHLC_Y_EXTENDS}
+         origin={CS_ORIGIN}
+       />
+       <CandlestickChart
+         id={3}
+         height={300}
+         timeInterval={timeInterval}
+         timeFormat={timeFormat}
+         sma20={sma20}
+         sma50={sma50}
+         bb={bb}
+         yExtents={OHLC_Y_EXTENDS}
+         origin={OHLC_ORIGIN}
+       />
+       <VolumeChart
+         id={4}
+         height={120}
+         timeInterval={timeInterval}
+         timeFormat={timeFormat}
+         yExtents={VOLUME_Y_EXTENDS}
+         origin={VOLUME_ORIGIN}
+       />
+       <Ch.CrossHairCursor />
 		 </Ch.ChartCanvas>
-		 </div>
+	 </div>
   );
 };
 

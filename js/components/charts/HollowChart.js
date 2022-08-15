@@ -13,13 +13,13 @@ var _Ch = _interopRequireDefault(require("./Ch"));
 
 var _chartFns = require("./chartFns");
 
-var _CandleSeria = _interopRequireDefault(require("./series/CandleSeria"));
+var _CandlestickChart = _interopRequireDefault(require("./series/CandlestickChart"));
 
-var _VolumeSeria = _interopRequireDefault(require("./series/VolumeSeria"));
+var _VolumeChart = _interopRequireDefault(require("./series/VolumeChart"));
 
-var _RsiSeria = _interopRequireDefault(require("./series/RsiSeria"));
+var _RsiChart = _interopRequireDefault(require("./series/RsiChart"));
 
-var _CloseSeria = _interopRequireDefault(require("./series/CloseSeria"));
+var _CloseChart = _interopRequireDefault(require("./series/CloseChart"));
 
 var _jsxRuntime = require("react/jsx-runtime");
 
@@ -27,11 +27,10 @@ var sma = _Ch["default"].sma,
     rsi = _Ch["default"].rsi,
     bollingerBand = _Ch["default"].bollingerBand,
     useElementWidth = _Ch["default"].useElementWidth;
-var ITEMS_NUM = 150;
+var ITEMS_NUMBER = 150;
 var MARGIN = {
   left: 50,
   right: 80,
-  //top: 10,
   top: 0,
   bottom: 30
 };
@@ -42,6 +41,57 @@ var S_EL = {
 var _xAccessor = function _xAccessor(d) {
   return d ? d.date : 0;
 };
+
+var CHART_CANVAS_X_SCALE = (0, _chartFns.scaleTime)();
+
+var CS_ORIGIN = function CS_ORIGIN(w, h) {
+  return [0, h - 510];
+};
+
+var RSI_Y_EXTENDS = [0, 100];
+
+var OHLC_Y_EXTENDS = function OHLC_Y_EXTENDS(d) {
+  return [d.high, d.low];
+},
+    OHLC_ORIGIN = function OHLC_ORIGIN(w, h) {
+  return [0, h - 420];
+};
+
+var VOLUME_Y_EXTENDS = function VOLUME_Y_EXTENDS(d) {
+  return d.volume;
+},
+    VOLUME_ORIGIN = function VOLUME_ORIGIN(w, h) {
+  return [0, h - 140];
+};
+
+var sma20 = sma().options({
+  windowSize: 20,
+  stroke: 'green'
+}).merge(function (d, c) {
+  d.sma20 = c;
+}).accessor(function (d) {
+  return d.sma20;
+}),
+    sma50 = sma().options({
+  windowSize: 50,
+  stroke: 'orange'
+}).merge(function (d, c) {
+  d.sma50 = c;
+}).accessor(function (d) {
+  return d.sma50;
+}),
+    bb = bollingerBand().merge(function (d, c) {
+  d.bb = c;
+}).accessor(function (d) {
+  return d.bb;
+}),
+    rsi14 = rsi().options({
+  windowSize: 14
+}).merge(function (d, c) {
+  d.rsi = c;
+}).accessor(function (d) {
+  return d.rsi;
+});
 
 var HollowChart = function HollowChart(_ref) {
   var id = _ref.id,
@@ -54,38 +104,17 @@ var HollowChart = function HollowChart(_ref) {
     id: id
   }),
       width = _useElementWidth[0],
-      sma20 = sma().options({
-    windowSize: 20,
-    stroke: 'green'
-  }).merge(function (d, c) {
-    d.sma20 = c;
-  }).accessor(function (d) {
-    return d.sma20;
-  }),
-      sma50 = sma().options({
-    windowSize: 50,
-    stroke: 'orange'
-  }).merge(function (d, c) {
-    d.sma50 = c;
-  }).accessor(function (d) {
-    return d.sma50;
-  }),
-      bb = bollingerBand().merge(function (d, c) {
-    d.bb = c;
-  }).accessor(function (d) {
-    return d.bb;
-  }),
-      rsi14 = rsi().options({
-    windowSize: 14
-  }).merge(function (d, c) {
-    d.rsi = c;
-  }).accessor(function (d) {
-    return d.rsi;
-  }),
-      calculatedData = sma50(sma20(bb(rsi14(data)))),
-      timeInterval = (0, _chartFns.crTimeInterval)(timeframe),
-      timeFormat = (0, _chartFns.crTimeFormat)(timeframe),
-      xExtents = (0, _chartFns.crExtends)(calculatedData, timeframe, ITEMS_NUM);
+      calculatedData = (0, _react.useMemo)(function () {
+    return sma50(sma20(bb(rsi14(data))));
+  }, [data]),
+      _useMemo = (0, _react.useMemo)(function () {
+    return [(0, _chartFns.crTimeInterval)(timeframe), (0, _chartFns.crTimeFormat)(timeframe)];
+  }, [timeframe]),
+      timeInterval = _useMemo[0],
+      timeFormat = _useMemo[1],
+      xExtents = (0, _react.useMemo)(function () {
+    return (0, _chartFns.crExtends)(calculatedData, timeframe, ITEMS_NUMBER);
+  }, [calculatedData, timeframe]);
 
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     id: id,
@@ -95,33 +124,40 @@ var HollowChart = function HollowChart(_ref) {
       width: width,
       height: height,
       margin: MARGIN,
-      seriesName: "Item",
       data: calculatedData,
       xAccessor: _xAccessor,
       displayXAccessor: _xAccessor,
-      xScale: (0, _chartFns.scaleTime)(),
+      xScale: CHART_CANVAS_X_SCALE,
       xExtents: xExtents,
-      children: [(0, _RsiSeria["default"])({
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_RsiChart["default"], {
         id: 1,
         height: 100,
         width: width,
-        rsi: rsi14
-      }), (0, _CloseSeria["default"])({
+        rsi: rsi14,
+        yExtents: RSI_Y_EXTENDS,
+        origin: CS_ORIGIN
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_CloseChart["default"], {
         id: 2,
-        height: 100
-      }), (0, _CandleSeria["default"])({
+        height: 100,
+        yExtents: OHLC_Y_EXTENDS,
+        origin: CS_ORIGIN
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_CandlestickChart["default"], {
         id: 3,
         height: 300,
         timeInterval: timeInterval,
         timeFormat: timeFormat,
         sma20: sma20,
         sma50: sma50,
-        bb: bb
-      }), (0, _VolumeSeria["default"])({
+        bb: bb,
+        yExtents: OHLC_Y_EXTENDS,
+        origin: OHLC_ORIGIN
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_VolumeChart["default"], {
         id: 4,
         height: 120,
         timeInterval: timeInterval,
-        timeFormat: timeFormat
+        timeFormat: timeFormat,
+        yExtents: VOLUME_Y_EXTENDS,
+        origin: VOLUME_ORIGIN
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].CrossHairCursor, {})]
     })
   });

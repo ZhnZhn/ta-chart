@@ -1,19 +1,19 @@
 import Ch from '../Ch';
 import { numberFormat2F } from '../chartFns';
 
-const CHART_Y_EXTENDS = d => [d.high, d.low]
-, CHART_ORIGIN = (w, h) => [0, h - 510]
-, LS_Y_ACCESSOR = d => d.close;
+const LS_Y_ACCESSOR = d => d.close;
 
-const CloseSeria = ({
+const CloseChart = ({
   id,
-  height
+  height,
+  yExtents,
+  origin
 }) => (
   <Ch.Chart
     id={id}
     height={height}
-    yExtents={CHART_Y_EXTENDS}
-    origin={CHART_ORIGIN}
+    yExtents={yExtents}
+    origin={origin}
   >
     <Ch.YAxis
       axisAt="left"
@@ -33,4 +33,4 @@ const CloseSeria = ({
   </Ch.Chart>
 );
 
-export default CloseSeria
+export default CloseChart

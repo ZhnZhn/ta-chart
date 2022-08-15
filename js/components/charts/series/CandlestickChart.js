@@ -41,27 +41,23 @@ var _crMaTooltipOption = function _crMaTooltipOption(accessor, options) {
   };
 };
 
-var CHART_Y_EXTENDS = function CHART_Y_EXTENDS(d) {
-  return [d.high, d.low];
-},
-    CHART_ORIGIN = function CHART_ORIGIN(w, h) {
-  return [0, h - 420];
-},
-    OHCL_TOOLTIP_ORIGIN = [5, -90],
+var OHLC_TOOLTIP_ORIGIN = [5, -90],
     MA_TOOLTIP_ORIGIN = [5, 320],
     BB_TOOLTIP_ORIGIN = [190, 440],
     BB_Y_ACCESSOR = function BB_Y_ACCESSOR(d) {
   return d.bb;
 };
 
-var CandleSeria = function CandleSeria(_ref) {
+var CandlestickChart = function CandlestickChart(_ref) {
   var id = _ref.id,
       height = _ref.height,
       timeInterval = _ref.timeInterval,
       timeFormat = _ref.timeFormat,
       sma20 = _ref.sma20,
       sma50 = _ref.sma50,
-      bb = _ref.bb;
+      bb = _ref.bb,
+      yExtents = _ref.yExtents,
+      origin = _ref.origin;
 
   var _csWidth = (0, _useTimeIntervalBarWidth["default"])(timeInterval),
       _useMemo = (0, _uiApi.useMemo)(function () {
@@ -84,8 +80,8 @@ var CandleSeria = function CandleSeria(_ref) {
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
-    yExtents: CHART_Y_EXTENDS,
-    origin: CHART_ORIGIN,
+    yExtents: yExtents,
+    origin: origin,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "right",
       orient: "right",
@@ -117,7 +113,7 @@ var CandleSeria = function CandleSeria(_ref) {
       textFill: "black",
       ohlcFormat: _chartFns.numberFormat8Trim,
       forChart: 3,
-      origin: OHCL_TOOLTIP_ORIGIN
+      origin: OHLC_TOOLTIP_ORIGIN
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MovingAverageTooltip, {
       className: CL_TOOLTIP,
       width: 100,
@@ -134,6 +130,6 @@ var CandleSeria = function CandleSeria(_ref) {
   });
 };
 
-var _default = CandleSeria;
+var _default = CandlestickChart;
 exports["default"] = _default;
-//# sourceMappingURL=CandleSeria.js.map
+//# sourceMappingURL=CandlestickChart.js.map
