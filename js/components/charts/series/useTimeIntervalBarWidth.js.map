@@ -1,0 +1,12 @@
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/charts/series/useTimeIntervalBarWidth.js"
+ ],
+ "file": "../../../../src/components/charts/series/useTimeIntervalBarWidth.js",
+ "names": [
+  "useTimeIntervalBarWidth",
+  "timeInterval"
+ ],
+ "mappings": ";;;;;AAAA;;AAEA;;AAIA,IAAMA,uBAAuB,GAAG,SAA1BA,uBAA0B,CAC9BC,YAD8B;AAAA,SAE3B,oBACH;AAAA,WAAM,oCAAqBA,YAArB,CAAN;AAAA,GADG,EAEH,CAACA,YAAD,CAFG,CAF2B;AAAA,CAAhC;;eAOeD,uB"
+}

@@ -9,10 +9,22 @@ var _Ch = _interopRequireDefault(require("../Ch"));
 
 var _chartFns = require("../chartFns");
 
+var _useTimeIntervalBarWidth = _interopRequireDefault(require("./useTimeIntervalBarWidth"));
+
 var _jsxRuntime = require("react/jsx-runtime");
 
 var _fill = function _fill(d, dPrev) {
   return (d || {}).close > (dPrev || {}).close ? _chartFns.COLOR.UP : _chartFns.COLOR.DOWN;
+};
+
+var CHART_Y_EXTENDS = function CHART_Y_EXTENDS(d) {
+  return d.volume;
+},
+    CHART_ORIGIN = function CHART_ORIGIN(w, h) {
+  return [0, h - 140];
+},
+    BS_Y_ACCESOR = function BS_Y_ACCESOR(d) {
+  return d.volume;
 };
 
 var VolumeSeria = function VolumeSeria(_ref) {
@@ -20,15 +32,14 @@ var VolumeSeria = function VolumeSeria(_ref) {
       height = _ref.height,
       timeInterval = _ref.timeInterval,
       timeFormat = _ref.timeFormat;
+
+  var _bsWidth = (0, _useTimeIntervalBarWidth["default"])(timeInterval);
+
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch["default"].Chart, {
     id: id,
     height: height,
-    yExtents: function yExtents(d) {
-      return d.volume;
-    },
-    origin: function origin(w, h) {
-      return [0, h - 140];
-    },
+    yExtents: CHART_Y_EXTENDS,
+    origin: CHART_ORIGIN,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "left",
       orient: "left",
@@ -40,10 +51,8 @@ var VolumeSeria = function VolumeSeria(_ref) {
       orient: "left",
       displayFormat: _chartFns.numberFormat4S
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BarSeries, {
-      width: (0, _chartFns.timeIntervalBarWidth)(timeInterval),
-      yAccessor: function yAccessor(d) {
-        return d.volume;
-      },
+      width: _bsWidth,
+      yAccessor: BS_Y_ACCESOR,
       fill: _fill,
       stroke: _fill
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].XAxis, {

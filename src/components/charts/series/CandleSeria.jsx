@@ -3,10 +3,10 @@ import { useMemo } from '../../uiApi';
 import Ch from '../Ch';
 import {
   COLOR,
-  timeIntervalBarWidth,
   numberFormat4F,
   numberFormat8Trim
 } from '../chartFns';
+import useTimeIntervalBarWidth from './useTimeIntervalBarWidth';
 
 const CL_TOOLTIP = 'rs-tooltip';
 
@@ -62,10 +62,7 @@ const CandleSeria = ({
   sma50,
   bb
 }) => {
-  const _csWidth = useMemo(
-      () => timeIntervalBarWidth(timeInterval),
-    [timeInterval]
-  )
+  const _csWidth = useTimeIntervalBarWidth(timeInterval)
   , [
     accessorSma20,
     optionsSma20

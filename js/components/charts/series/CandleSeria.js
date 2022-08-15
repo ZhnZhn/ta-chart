@@ -11,6 +11,8 @@ var _Ch = _interopRequireDefault(require("../Ch"));
 
 var _chartFns = require("../chartFns");
 
+var _useTimeIntervalBarWidth = _interopRequireDefault(require("./useTimeIntervalBarWidth"));
+
 var _jsxRuntime = require("react/jsx-runtime");
 
 var CL_TOOLTIP = 'rs-tooltip';
@@ -61,9 +63,7 @@ var CandleSeria = function CandleSeria(_ref) {
       sma50 = _ref.sma50,
       bb = _ref.bb;
 
-  var _csWidth = (0, _uiApi.useMemo)(function () {
-    return (0, _chartFns.timeIntervalBarWidth)(timeInterval);
-  }, [timeInterval]),
+  var _csWidth = (0, _useTimeIntervalBarWidth["default"])(timeInterval),
       _useMemo = (0, _uiApi.useMemo)(function () {
     return [sma20.accessor(), sma20.options()];
   }, [sma20]),
