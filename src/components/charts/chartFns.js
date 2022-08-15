@@ -4,12 +4,12 @@ export {
   utcHour,
   utcDay
 } from 'd3-time';
-export { format } from 'd3-format';
 export { timeFormat } from 'd3-time-format';
 
 export {default as timeIntervalBarWidth} from './utils/timeIntervalBarWidth';
 export {default as COLOR} from './config';
 
+import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import {
   utcMinute,
@@ -17,10 +17,16 @@ import {
   utcDay,
   utcWeek,
   utcMonth
-} from "d3-time";
+} from 'd3-time';
 
 const _isStr = str => typeof str === 'string';
 const _isInclude = (str, ch) => str.indexOf(ch) !== -1;
+
+export const numberFormat8Trim = format('.8~')
+export const numberFormat4F = format('.4f')
+export const numberFormat2F = format('.2f')
+export const numberFormat4S = format('.4s')
+export const numberFormat0S = format('.0s')
 
 export const crTimeInterval = (
   timeframe

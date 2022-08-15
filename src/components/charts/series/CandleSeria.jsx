@@ -2,12 +2,11 @@ import Ch from '../Ch'
 import {
   COLOR,
   timeIntervalBarWidth,
-  format
+  numberFormat4F,
+  numberFormat8Trim
 } from '../chartFns';
 
-const CL_TOOLTIP = 'rs-tooltip'
-
-const _noop = () => {};
+const CL_TOOLTIP = 'rs-tooltip';
 
 const _stroke = (d, dPrev) => (d || {}).close > (dPrev || {}).close
   ? COLOR.UP
@@ -84,16 +83,15 @@ const CandleSeria = ({
     <Ch.MouseCoordinateY
       at="right"
       orient="right"
-      displayFormat={format('.4f')}
+      displayFormat={numberFormat4F}
     />
     <Ch.OHLCTooltip
       fontSize={15}
       xDisplayFormat={timeFormat}
       textFill="black"
-      ohlcFormat={format('.8f')}
+      ohlcFormat={numberFormat8Trim}
       forChart={3}
       origin={[5, -90]}
-      onClick={_noop}
     />
     <Ch.MovingAverageTooltip
       className={CL_TOOLTIP}
@@ -104,7 +102,6 @@ const CandleSeria = ({
         _crMaTooltipOption(accessorSma20, optionsSma20),
         _crMaTooltipOption(accessorSma50, optionsSma50)
       ]}
-      onClick={_noop}
     />
     <Ch.BollingerBandTooltip
       className={CL_TOOLTIP}
@@ -112,7 +109,6 @@ const CandleSeria = ({
       origin={[190, 440]}
       yAccessor={d => d.bb}
       options={bb.options()}
-      onClick={_noop}
     />
   </Ch.Chart>
   );

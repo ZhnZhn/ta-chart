@@ -45,7 +45,7 @@ var RsiSeria = function RsiSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "right",
       orient: "right",
-      displayFormat: (0, _chartFns.format)('.2f')
+      displayFormat: _chartFns.numberFormat2F
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].RSISeries, {
       yAccessor: function yAccessor(d) {
         return d.rsi;

@@ -1,5 +1,5 @@
 import Ch from '../Ch';
-import { format } from '../chartFns';
+import { numberFormat2F } from '../chartFns';
 
 const CloseSeria = ({
   id,
@@ -24,7 +24,7 @@ const CloseSeria = ({
     <Ch.MouseCoordinateY
       at="left"
       orient="left"
-      displayFormat={format('.2f')}
+      displayFormat={numberFormat2F}
     />
   </Ch.Chart>
 );

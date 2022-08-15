@@ -13,8 +13,6 @@ var _jsxRuntime = require("react/jsx-runtime");
 
 var CL_TOOLTIP = 'rs-tooltip';
 
-var _noop = function _noop() {};
-
 var _stroke = function _stroke(d, dPrev) {
   return (d || {}).close > (dPrev || {}).close ? _chartFns.COLOR.UP : _chartFns.COLOR.DOWN;
 };
@@ -86,22 +84,20 @@ var CandleSeria = function CandleSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "right",
       orient: "right",
-      displayFormat: (0, _chartFns.format)('.4f')
+      displayFormat: _chartFns.numberFormat4F
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].OHLCTooltip, {
       fontSize: 15,
       xDisplayFormat: timeFormat,
       textFill: "black",
-      ohlcFormat: (0, _chartFns.format)('.8f'),
+      ohlcFormat: _chartFns.numberFormat8Trim,
       forChart: 3,
-      origin: [5, -90],
-      onClick: _noop
+      origin: [5, -90]
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MovingAverageTooltip, {
       className: CL_TOOLTIP,
       width: 100,
       fontSize: 15,
       origin: [5, 320],
-      options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)],
-      onClick: _noop
+      options: [_crMaTooltipOption(accessorSma20, optionsSma20), _crMaTooltipOption(accessorSma50, optionsSma50)]
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BollingerBandTooltip, {
       className: CL_TOOLTIP,
       fontSize: 15,
@@ -109,8 +105,7 @@ var CandleSeria = function CandleSeria(_ref) {
       yAccessor: function yAccessor(d) {
         return d.bb;
       },
-      options: bb.options(),
-      onClick: _noop
+      options: bb.options()
     })]
   });
 };

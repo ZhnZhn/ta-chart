@@ -1,5 +1,5 @@
 import Ch from '../Ch';
-import { format } from '../chartFns';
+import { numberFormat2F } from '../chartFns';
 
 const CL_TOOLTIP = 'rs-tooltip';
 
@@ -36,7 +36,7 @@ const RsiSeria = ({
     <Ch.MouseCoordinateY
       at="right"
       orient="right"
-      displayFormat={format('.2f')}
+      displayFormat={numberFormat2F}
     />
     <Ch.RSISeries
       yAccessor={d => d.rsi}

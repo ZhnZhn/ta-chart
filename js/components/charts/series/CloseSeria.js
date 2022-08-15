@@ -36,7 +36,7 @@ var CloseSeria = function CloseSeria(_ref) {
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "left",
       orient: "left",
-      displayFormat: (0, _chartFns.format)('.2f')
+      displayFormat: _chartFns.numberFormat2F
     })]
   });
 };

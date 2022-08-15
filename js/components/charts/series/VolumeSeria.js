@@ -33,12 +33,12 @@ var VolumeSeria = function VolumeSeria(_ref) {
       axisAt: "left",
       orient: "left",
       ticks: 5,
-      tickFormat: (0, _chartFns.format)('.0s'),
+      tickFormat: _chartFns.numberFormat0S,
       stroke: "black"
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {
       at: "left",
       orient: "left",
-      displayFormat: (0, _chartFns.format)('.4s')
+      displayFormat: _chartFns.numberFormat4S
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].BarSeries, {
       width: (0, _chartFns.timeIntervalBarWidth)(timeInterval),
       yAccessor: function yAccessor(d) {

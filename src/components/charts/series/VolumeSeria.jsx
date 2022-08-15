@@ -2,7 +2,8 @@ import Ch from '../Ch';
 import {
   COLOR,
   timeIntervalBarWidth,
-  format
+  numberFormat4S,
+  numberFormat0S
 } from '../chartFns';
 
 const _fill = (d, dPrev) => (d || {}).close > (dPrev || {}).close
@@ -25,13 +26,13 @@ const VolumeSeria = ({
       axisAt="left"
       orient="left"
       ticks={5}
-      tickFormat={format('.0s')}
+      tickFormat={numberFormat0S}
       stroke="black"
     />
     <Ch.MouseCoordinateY
       at="left"
       orient="left"
-      displayFormat={format('.4s')}
+      displayFormat={numberFormat4S}
     />
     <Ch.BarSeries
        width={timeIntervalBarWidth(timeInterval)}
