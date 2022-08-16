@@ -39,7 +39,7 @@ var VolumeChart = function VolumeChart(_ref) {
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].YAxis, {
       axisAt: "left",
       orient: "left",
-      ticks: 5,
+      ticks: 3,
       tickFormat: _chartFns.numberFormat0S,
       stroke: "black"
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].MouseCoordinateY, {

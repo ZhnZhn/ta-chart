@@ -31,7 +31,7 @@ const VolumeChart = ({
        <Ch.YAxis
          axisAt="left"
          orient="left"
-         ticks={5}
+         ticks={3}
          tickFormat={numberFormat0S}
          stroke="black"
        />
