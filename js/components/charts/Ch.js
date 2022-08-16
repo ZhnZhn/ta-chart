@@ -45,6 +45,8 @@ var _bollingerBand = _interopRequireDefault(require("../zhn-charts/indicator/bol
 
 var _useElementWidth = _interopRequireDefault(require("../zhn-charts/hooks/useElementWidth"));
 
+var _ZoomButtons = _interopRequireDefault(require("../zhn-charts/interactive/ZoomButtons"));
+
 var Ch = {
   ChartCanvas: _ChartCanvas["default"],
   Chart: _Chart["default"],
@@ -65,7 +67,8 @@ var Ch = {
   sma: _sma["default"],
   rsi: _rsi["default"],
   bollingerBand: _bollingerBand["default"],
-  useElementWidth: _useElementWidth["default"]
+  useElementWidth: _useElementWidth["default"],
+  ZoomButtons: _ZoomButtons["default"]
 };
 var _default = Ch;
 exports["default"] = _default;

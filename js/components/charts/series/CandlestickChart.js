@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _uiApi = require("../../uiApi");
 
+var _has = require("../../has");
+
 var _Ch = _interopRequireDefault(require("../Ch"));
 
 var _chartFns = require("../chartFns");
@@ -43,7 +45,8 @@ var _crMaTooltipOption = function _crMaTooltipOption(accessor, options) {
 
 var OHLC_TOOLTIP_ORIGIN = [5, -90],
     MA_TOOLTIP_ORIGIN = [5, 320],
-    BB_TOOLTIP_ORIGIN = [190, 440],
+    BB_TOOLTIP_ORIGIN = [190, 432] //440
+,
     BB_Y_ACCESSOR = function BB_Y_ACCESSOR(d) {
   return d.bb;
 };
@@ -126,7 +129,7 @@ var CandlestickChart = function CandlestickChart(_ref) {
       origin: BB_TOOLTIP_ORIGIN,
       yAccessor: BB_Y_ACCESSOR,
       options: _bbTooltipOptions
-    })]
+    }), _has.HAS_TOUCH && /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch["default"].ZoomButtons, {})]
   });
 };
 

@@ -1,5 +1,6 @@
 import { useMemo } from '../../uiApi';
 
+import { HAS_TOUCH } from '../../has';
 import Ch from '../Ch';
 import {
   COLOR,
@@ -44,7 +45,7 @@ const _crMaTooltipOption = (
 
 const OHLC_TOOLTIP_ORIGIN = [5, -90]
 , MA_TOOLTIP_ORIGIN = [5, 320]
-, BB_TOOLTIP_ORIGIN = [190, 440]
+, BB_TOOLTIP_ORIGIN = [190, 432] //440
 , BB_Y_ACCESSOR = d => d.bb;
 
 const CandlestickChart = ({
@@ -141,6 +142,7 @@ const CandlestickChart = ({
       yAccessor={BB_Y_ACCESSOR}
       options={_bbTooltipOptions}
     />
+    {HAS_TOUCH && <Ch.ZoomButtons />}
   </Ch.Chart>
   );
 }

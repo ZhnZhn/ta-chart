@@ -24,6 +24,8 @@ import rsi from '../zhn-charts/indicator/rsi';
 import bollingerBand from '../zhn-charts/indicator/bollingerBand';
 import useElementWidth from '../zhn-charts/hooks/useElementWidth';
 
+import ZoomButtons from '../zhn-charts/interactive/ZoomButtons';
+
 const Ch = {
   ChartCanvas,
   Chart,
@@ -49,7 +51,10 @@ const Ch = {
   sma,
   rsi,
   bollingerBand,
-  useElementWidth
+  useElementWidth,
+
+  ZoomButtons
+
 };
 
 export default Ch
