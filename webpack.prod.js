@@ -22,6 +22,7 @@ module.exports = {
             "d3-array",
             "d3-force",
             "d3-format",
+            "d3-interpolate",
             "d3-scale",
             "d3-selection",
             "d3-shape",  
