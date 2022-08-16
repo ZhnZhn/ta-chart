@@ -90,6 +90,8 @@ var _crPinchZoomNewDomain = function _crPinchZoomNewDomain(initialPinch, finalPi
   return [x, y].map(initialPinchXScale.invert);
 };
 
+var FN_NOOP = function FN_NOOP() {};
+
 var ChartCanvas = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2["default"])(ChartCanvas, _React$Component);
 
@@ -304,6 +306,26 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
       }
     };
 
+    _this._zoomXImpl = function (plotData, chartConfig, xScale) {
+      var xAccessor = _this.state.xAccessor,
+          _this$props2 = _this.props,
+          onZoom = _this$props2.onZoom,
+          onLoadAfter = _this$props2.onLoadAfter,
+          onLoadBefore = _this$props2.onLoadBefore;
+
+      _this.clearThreeCanvas();
+
+      onZoom((plotData || []).length);
+
+      _this.setState({
+        xScale: xScale,
+        plotData: plotData,
+        chartConfig: chartConfig
+      }, function () {
+        return _callOnLoadHandlers(_this.fullData, xScale, xAccessor, onLoadAfter, onLoadBefore);
+      });
+    };
+
     _this.handleZoom = function (zoomDirection, mouseXY, e) {
       if (_this.panInProgress) {
         return;
@@ -313,9 +335,9 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
           xAccessor = _this$state4.xAccessor,
           initialXScale = _this$state4.xScale,
           initialPlotData = _this$state4.plotData,
-          _this$props2 = _this.props,
-          zoomMultiplier = _this$props2.zoomMultiplier,
-          zoomAnchor = _this$props2.zoomAnchor,
+          _this$props3 = _this.props,
+          zoomMultiplier = _this$props3.zoomMultiplier,
+          zoomAnchor = _this$props3.zoomAnchor,
           item = zoomAnchor({
         xScale: initialXScale,
         xAccessor: xAccessor,
@@ -329,12 +351,7 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
           plotData = _this$calculateStateF.plotData,
           chartConfig = _this$calculateStateF.chartConfig,
           currentItem = (0, _ChartDataUtil.getCurrentItem)(xScale, xAccessor, mouseXY, plotData),
-          currentCharts = (0, _ChartDataUtil.getCurrentCharts)(chartConfig, mouseXY),
-          _this$props3 = _this.props,
-          onLoadAfter = _this$props3.onLoadAfter,
-          onLoadBefore = _this$props3.onLoadBefore;
-
-      _this.clearThreeCanvas();
+          currentCharts = (0, _ChartDataUtil.getCurrentCharts)(chartConfig, mouseXY);
 
       _this.mutableState = {
         mouseXY: mouseXY,
@@ -352,34 +369,16 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
         show: true
       }, e);
 
-      _this.setState({
-        xScale: xScale,
-        plotData: plotData,
-        chartConfig: chartConfig
-      }, function () {
-        return _callOnLoadHandlers(_this.fullData, xScale, xAccessor, onLoadAfter, onLoadBefore);
-      });
+      _this._zoomXImpl(plotData, chartConfig, xScale);
     };
 
     _this.xAxisZoom = function (newDomain) {
       var _this$calculateStateF2 = _this.calculateStateForDomain(newDomain),
           xScale = _this$calculateStateF2.xScale,
           plotData = _this$calculateStateF2.plotData,
-          chartConfig = _this$calculateStateF2.chartConfig,
-          xAccessor = _this.state.xAccessor,
-          _this$props4 = _this.props,
-          onLoadAfter = _this$props4.onLoadAfter,
-          onLoadBefore = _this$props4.onLoadBefore;
+          chartConfig = _this$calculateStateF2.chartConfig;
 
-      _this.clearThreeCanvas();
-
-      _this.setState({
-        xScale: xScale,
-        plotData: plotData,
-        chartConfig: chartConfig
-      }, function () {
-        return _callOnLoadHandlers(_this.fullData, xScale, xAccessor, onLoadAfter, onLoadBefore);
-      });
+      _this._zoomXImpl(plotData, chartConfig, xScale);
     };
 
     _this.yAxisZoom = function (chartId, newDomain) {
@@ -511,9 +510,9 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
 
       requestAnimationFrame(function () {
         var xAccessor = _this.state.xAccessor,
-            _this$props5 = _this.props,
-            onLoadAfter = _this$props5.onLoadAfter,
-            onLoadBefore = _this$props5.onLoadBefore;
+            _this$props4 = _this.props,
+            onLoadAfter = _this$props4.onLoadAfter,
+            onLoadBefore = _this$props4.onLoadBefore;
 
         _this.clearThreeCanvas();
 
@@ -744,9 +743,9 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
   };
 
   _proto.getChildContext = function getChildContext() {
-    var _this$props6 = this.props,
-        margin = _this$props6.margin,
-        ratio = _this$props6.ratio,
+    var _this$props5 = this.props,
+        margin = _this$props5.margin,
+        ratio = _this$props5.ratio,
         _this$state8 = this.state,
         plotData = _this$state8.plotData,
         chartConfig = _this$state8.chartConfig,
@@ -827,22 +826,22 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
   };
 
   _proto.render = function render() {
-    var _this$props7 = this.props,
-        disableInteraction = _this$props7.disableInteraction,
-        disablePan = _this$props7.disablePan,
-        disableZoom = _this$props7.disableZoom,
-        useCrossHairStyleCursor = _this$props7.useCrossHairStyleCursor,
-        height = _this$props7.height,
-        width = _this$props7.width,
-        margin = _this$props7.margin,
-        className = _this$props7.className,
-        zIndex = _this$props7.zIndex,
-        defaultFocus = _this$props7.defaultFocus,
-        ratio = _this$props7.ratio,
-        mouseMoveEvent = _this$props7.mouseMoveEvent,
-        onClick = _this$props7.onClick,
-        onDoubleClick = _this$props7.onDoubleClick,
-        children = _this$props7.children,
+    var _this$props6 = this.props,
+        disableInteraction = _this$props6.disableInteraction,
+        disablePan = _this$props6.disablePan,
+        disableZoom = _this$props6.disableZoom,
+        useCrossHairStyleCursor = _this$props6.useCrossHairStyleCursor,
+        height = _this$props6.height,
+        width = _this$props6.width,
+        margin = _this$props6.margin,
+        className = _this$props6.className,
+        zIndex = _this$props6.zIndex,
+        defaultFocus = _this$props6.defaultFocus,
+        ratio = _this$props6.ratio,
+        mouseMoveEvent = _this$props6.mouseMoveEvent,
+        onClick = _this$props6.onClick,
+        onDoubleClick = _this$props6.onDoubleClick,
+        children = _this$props6.children,
         _this$state10 = this.state,
         plotData = _this$state10.plotData,
         xScale = _this$state10.xScale,
@@ -956,7 +955,8 @@ ChartCanvas.defaultProps = {
   xExtents: [_d3Array.min, _d3Array.max],
   zIndex: 1,
   zoomAnchor: _zoomBehavior.mouseBasedZoomAnchor,
-  zoomMultiplier: 1.1
+  zoomMultiplier: 1.1,
+  onZoom: FN_NOOP
 };
 ChartCanvas.childContextTypes = {
   plotData: _propTypes["default"].array,

@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
-var _react = require("react");
+var _uiApi = require("../uiApi");
 
 var _Ch = _interopRequireDefault(require("./Ch"));
 
@@ -27,7 +27,7 @@ var sma = _Ch["default"].sma,
     rsi = _Ch["default"].rsi,
     bollingerBand = _Ch["default"].bollingerBand,
     useElementWidth = _Ch["default"].useElementWidth;
-var ITEMS_NUMBER = 150;
+var INITIAL_ITEMS_NUMBER = 150;
 var MARGIN = {
   left: 50,
   right: 80,
@@ -61,7 +61,7 @@ var VOLUME_Y_EXTENDS = function VOLUME_Y_EXTENDS(d) {
   return d.volume;
 },
     VOLUME_ORIGIN = function VOLUME_ORIGIN(w, h) {
-  return [0, h - 140];
+  return [0, h - 120];
 };
 
 var sma20 = sma().options({
@@ -91,7 +91,7 @@ var sma20 = sma().options({
   d.rsi = c;
 }).accessor(function (d) {
   return d.rsi;
-});
+}); //Math.round(width/12.5)
 
 var HollowChart = function HollowChart(_ref) {
   var id = _ref.id,
@@ -104,17 +104,23 @@ var HollowChart = function HollowChart(_ref) {
     id: id
   }),
       width = _useElementWidth[0],
-      calculatedData = (0, _react.useMemo)(function () {
+      _refItemsMumber = (0, _uiApi.useRef)(INITIAL_ITEMS_NUMBER),
+      calculatedData = (0, _uiApi.useMemo)(function () {
     return sma50(sma20(bb(rsi14(data))));
   }, [data]),
-      _useMemo = (0, _react.useMemo)(function () {
+      _useMemo = (0, _uiApi.useMemo)(function () {
     return [(0, _chartFns.crTimeInterval)(timeframe), (0, _chartFns.crTimeFormat)(timeframe)];
   }, [timeframe]),
       timeInterval = _useMemo[0],
       timeFormat = _useMemo[1],
-      xExtents = (0, _react.useMemo)(function () {
-    return (0, _chartFns.crExtends)(calculatedData, timeframe, ITEMS_NUMBER);
-  }, [calculatedData, timeframe]);
+      xExtents = (0, _uiApi.useMemo)(function () {
+    return (0, _chartFns.crExtends)(calculatedData, timeframe, (0, _uiApi.getRefValue)(_refItemsMumber));
+  }, [calculatedData, timeframe]),
+      onZoom = (0, _uiApi.useMemo)(function () {
+    return function (itemsNumber) {
+      _refItemsMumber.current = itemsNumber;
+    };
+  }, []);
 
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     id: id,
@@ -129,6 +135,7 @@ var HollowChart = function HollowChart(_ref) {
       displayXAccessor: _xAccessor,
       xScale: CHART_CANVAS_X_SCALE,
       xExtents: xExtents,
+      onZoom: onZoom,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_RsiChart["default"], {
         id: 1,
         height: 100,
@@ -153,7 +160,7 @@ var HollowChart = function HollowChart(_ref) {
         origin: OHLC_ORIGIN
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_VolumeChart["default"], {
         id: 4,
-        height: 120,
+        height: 100,
         timeInterval: timeInterval,
         timeFormat: timeFormat,
         yExtents: VOLUME_Y_EXTENDS,
@@ -163,7 +170,7 @@ var HollowChart = function HollowChart(_ref) {
   });
 };
 
-var _default = /*#__PURE__*/(0, _react.memo)(HollowChart);
+var _default = (0, _uiApi.memo)(HollowChart);
 
 exports["default"] = _default;
 //# sourceMappingURL=HollowChart.js.map

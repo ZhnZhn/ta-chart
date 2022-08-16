@@ -1,7 +1,9 @@
 import {
   memo,
-  useMemo
-} from 'react';
+  useRef,
+  useMemo,
+  getRefValue
+} from '../uiApi';
 
 import Ch from './Ch';
 import {
@@ -23,7 +25,7 @@ const {
   useElementWidth
 } = Ch;
 
-const ITEMS_NUMBER = 150;
+const INITIAL_ITEMS_NUMBER = 150
 
 const MARGIN = {
 	left: 50,
@@ -48,7 +50,7 @@ const OHLC_Y_EXTENDS = d => [d.high, d.low]
 , OHLC_ORIGIN = (w, h) => [0, h - 420]
 
 const VOLUME_Y_EXTENDS = d => d.volume
-, VOLUME_ORIGIN = (w, h) => [0, h - 140];
+, VOLUME_ORIGIN = (w, h) => [0, h - 120];
 
 const sma20 = sma()
    .options({ windowSize: 20, stroke: 'green' })
@@ -66,6 +68,8 @@ const sma20 = sma()
    .merge((d, c) => {d.rsi = c;})
    .accessor(d => d.rsi)
 
+//Math.round(width/12.5)
+
  const HollowChart = ({
   id,
   style,
@@ -74,6 +78,7 @@ const sma20 = sma()
   timeframe
 }) => {
   const [width] = useElementWidth({ id })
+  , _refItemsMumber = useRef(INITIAL_ITEMS_NUMBER)
   , calculatedData = useMemo(
      () => sma50(sma20(bb(rsi14(data)))),
      [data]
@@ -86,9 +91,12 @@ const sma20 = sma()
     crTimeFormat(timeframe)
   ], [timeframe])
   , xExtents = useMemo(
-     () => crExtends(calculatedData, timeframe, ITEMS_NUMBER),
+     () => crExtends(calculatedData, timeframe, getRefValue(_refItemsMumber)),
      [calculatedData, timeframe]
-  );
+  )
+  , onZoom = useMemo(() => (itemsNumber) => {
+    _refItemsMumber.current = itemsNumber
+  }, []);
 
   return (
 	 <div
@@ -105,6 +113,7 @@ const sma20 = sma()
        displayXAccessor={_xAccessor}
        xScale={CHART_CANVAS_X_SCALE}
        xExtents={xExtents}
+       onZoom={onZoom}
      >
        <RsiChart
          id={1}
@@ -133,7 +142,7 @@ const sma20 = sma()
        />
        <VolumeChart
          id={4}
-         height={120}
+         height={100}
          timeInterval={timeInterval}
          timeFormat={timeFormat}
          yExtents={VOLUME_Y_EXTENDS}

@@ -106,6 +106,8 @@ const _crPinchZoomNewDomain = (
    return [x, y].map(initialPinchXScale.invert);
 }
 
+const FN_NOOP = () => {}
+
 
 class ChartCanvas extends React.Component {
     static defaultProps = {
@@ -129,6 +131,8 @@ class ChartCanvas extends React.Component {
         zIndex: 1,
         zoomAnchor: mouseBasedZoomAnchor,
         zoomMultiplier: 1.1,
+        
+        onZoom: FN_NOOP
     }
 
     static childContextTypes = {
@@ -442,6 +446,30 @@ class ChartCanvas extends React.Component {
         }
     }
 
+    _zoomXImpl = (plotData, chartConfig, xScale) => {
+      const {
+        xAccessor
+      } = this.state
+      , {
+        onZoom,
+        onLoadAfter,
+        onLoadBefore
+      } = this.props;
+      this.clearThreeCanvas();
+      onZoom((plotData || []).length)
+      this.setState({
+        xScale,
+        plotData,
+        chartConfig,
+      }, () => _callOnLoadHandlers(
+        this.fullData,
+        xScale,
+        xAccessor,
+        onLoadAfter,
+        onLoadBefore
+      ))
+    }
+
     handleZoom = (zoomDirection, mouseXY, e) => {
         if (this.panInProgress) {
             return;
@@ -471,12 +499,8 @@ class ChartCanvas extends React.Component {
         } = this.calculateStateForDomain(newDomain)
         , currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData)
         , currentCharts = getCurrentCharts(chartConfig, mouseXY)
-        , {
-          onLoadAfter,
-          onLoadBefore
-        } = this.props;
 
-        this.clearThreeCanvas();
+
         this.mutableState = {
           mouseXY,
           currentItem,
@@ -492,17 +516,7 @@ class ChartCanvas extends React.Component {
           show: true,
         }, e);
 
-        this.setState({
-          xScale,
-          plotData,
-          chartConfig,
-        }, () => _callOnLoadHandlers(
-          this.fullData,
-          xScale,
-          xAccessor,
-          onLoadAfter,
-          onLoadBefore
-        ))
+        this._zoomXImpl(plotData, chartConfig, xScale)
     }
 
     xAxisZoom = (newDomain) => {
@@ -510,27 +524,9 @@ class ChartCanvas extends React.Component {
           xScale,
           plotData,
           chartConfig
-        } = this.calculateStateForDomain(newDomain)
-        , {
-          xAccessor
-        } = this.state
-        , {
-          onLoadAfter,
-          onLoadBefore
-        } = this.props;
+        } = this.calculateStateForDomain(newDomain);
 
-        this.clearThreeCanvas();
-        this.setState({
-          xScale,
-          plotData,
-          chartConfig,
-        }, () => _callOnLoadHandlers(
-          this.fullData,
-          xScale,
-          xAccessor,
-          onLoadAfter,
-          onLoadBefore
-        ));
+        this._zoomXImpl(plotData, chartConfig, xScale)
     }
 
     yAxisZoom = (chartId, newDomain) => {
