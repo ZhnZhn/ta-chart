@@ -65,7 +65,7 @@ const BollingerBandTooltip = (
         multiplier,
         movingAverageType
       } = options
-      , tooltipLabel = `BB(${sourcePath}, ${windowSize}, ${multiplier}, ${movingAverageType}): `
+      , tooltipLabel = `BB(${sourcePath}, ${windowSize}, ${multiplier}, ${movingAverageType})`
       , tooltipValue = `${top}, ${middle}, ${bottom}`
       , _transform = crCssTranslate([x, y]);
 
@@ -87,7 +87,13 @@ const BollingerBandTooltip = (
                   >
                       {tooltipLabel}
                   </TooltipTSpan>
-                  <tspan fill={textFill}>{tooltipValue}</tspan>
+                  <tspan
+                    x={0}
+                    dy={15}
+                    fill={textFill}
+                  >
+                    {tooltipValue}
+                  </tspan>
               </TooltipText>
           </g>
       );

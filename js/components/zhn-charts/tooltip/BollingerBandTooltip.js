@@ -68,7 +68,7 @@ var BollingerBandTooltip = function BollingerBandTooltip(props) {
         windowSize = options.windowSize,
         multiplier = options.multiplier,
         movingAverageType = options.movingAverageType,
-        tooltipLabel = "BB(" + sourcePath + ", " + windowSize + ", " + multiplier + ", " + movingAverageType + "): ",
+        tooltipLabel = "BB(" + sourcePath + ", " + windowSize + ", " + multiplier + ", " + movingAverageType + ")",
         tooltipValue = top + ", " + middle + ", " + bottom,
         _transform = (0, _utils.crCssTranslate)([x, y]);
 
@@ -87,6 +87,8 @@ var BollingerBandTooltip = function BollingerBandTooltip(props) {
           fontWeight: labelFontWeight,
           children: tooltipLabel
         }), /*#__PURE__*/(0, _jsxRuntime.jsx)("tspan", {
+          x: 0,
+          dy: 15,
           fill: textFill,
           children: tooltipValue
         })]
