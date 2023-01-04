@@ -1,1 +1,35 @@
-{"version":3,"sources":["../../../../src/components/drawer/page-stocks/loadIex.js"],"names":["C","BASE_URL","DF_PERIOD","_crUri","symbol","Error","loadIex","dataAction","loading","fetch","then","res","status","json","Array","isArray","loadData","providerTitle","itemTitle","data","err","loadFailed","console","log","trailing"],"mappings":";;;;;;;AACA;;AACA;;AAEA,IAAMA,CAAC,GAAG;AACRC,EAAAA,QAAQ,EAAE,sCADF;AAERC,EAAAA,SAAS,EAAE;AAFH,CAAV;;AAKA,IAAMC,MAAM,GAAG,SAATA,MAAS,CAAAC,MAAM,EAAI;AACvB,MAAI,CAACA,MAAL,EAAa;AACX,UAAM,IAAIC,KAAJ,CAAU,iBAAV,CAAN;AACD;;AACD,SAAUL,CAAC,CAACC,QAAZ,SAAwBG,MAAxB,eAAwCJ,CAAC,CAACE,SAA1C;AACD,CALD;;AAOA,IAAMI,OAAO,GAAG,SAAVA,OAAU,OAA4B;AAAA,MAAzBF,MAAyB,QAAzBA,MAAyB;AAAA,MAAjBG,UAAiB,QAAjBA,UAAiB;AAC1CA,EAAAA,UAAU,CAACC,OAAX;AACAC,EAAAA,KAAK,CAACN,MAAM,CAACC,MAAD,CAAP,CAAL,CACEM,IADF,CACO,UAAAC,GAAG,EAAI;AAAA,QACJC,MADI,GACOD,GADP,CACJC,MADI;;AAEZ,QAAIA,MAAM,IAAE,GAAR,IAAeA,MAAM,GAAC,GAA1B,EAA8B;AAC3B,aAAOD,GAAG,CAACE,IAAJ,EAAP;AACF,KAFD,MAEO;AACJ,YAAM,IAAIR,KAAJ,qBAA4BO,MAA5B,CAAN;AACF;AACF,GARD,EASCF,IATD,CASM,UAAAG,IAAI,EAAI;AACZ,QAAKC,KAAK,CAACC,OAAN,CAAcF,IAAd,CAAL,EAA2B;AACzBN,MAAAA,UAAU,CAACS,QAAX,CAAoB;AAClBC,QAAAA,aAAa,EAAE,cADG;AAElBC,QAAAA,SAAS,EAAEd,MAFO;AAGlBe,QAAAA,IAAI,EAAE,wBAAON,IAAP;AAHY,OAApB;AAKD,KAND,MAMO;AACL,YAAM,IAAIR,KAAJ,CAAU,wBAAV,CAAN;AACD;AACF,GAnBD,WAoBO,UAAAe,GAAG,EAAI;AACZb,IAAAA,UAAU,CAACc,UAAX;AACAC,IAAAA,OAAO,CAACC,GAAR,CAAYH,GAAZ;AACD,GAvBD;AAwBD,CA1BD;;eA4Be,0BAASd,OAAT,EAAkB,IAAlB,EAAwB;AAAEkB,EAAAA,QAAQ,EAAE;AAAZ,CAAxB,C","sourcesContent":["\r\nimport throttle from '../../../utils/throttle'\r\nimport toData from './toData'\r\n\r\nconst C = {\r\n  BASE_URL: 'https://api.iextrading.com/1.0/stock',\r\n  DF_PERIOD: '1y'\r\n};\r\n\r\nconst _crUri = symbol => {\r\n  if (!symbol) {\r\n    throw new Error(\"Symbol is empty\");\r\n  }\r\n  return `${C.BASE_URL}/${symbol}/chart/${C.DF_PERIOD}`;\r\n};\r\n\r\nconst loadIex = ({ symbol, dataAction }) => {\r\n  dataAction.loading()\r\n  fetch(_crUri(symbol))\r\n   .then(res => {\r\n    const { status } = res;\r\n    if (status>=200 && status<400){\r\n       return res.json();\r\n    } else {\r\n       throw new Error(`Loading Error: ${status}`);\r\n    }\r\n  })\r\n  .then(json => {\r\n    if ( Array.isArray(json) ) {\r\n      dataAction.loadData({\r\n        providerTitle: 'IEX Platform',\r\n        itemTitle: symbol,\r\n        data: toData(json)\r\n      })\r\n    } else {\r\n      throw new Error(\"Json response is empty\");\r\n    }\r\n  })\r\n  .catch(err => {\r\n    dataAction.loadFailed()\r\n    console.log(err)\r\n  });\r\n}\r\n\r\nexport default throttle(loadIex, 3000, { trailing: false })\r\n"],"file":"loadIex.js"}
+{
+ "version": 3,
+ "sources": [
+  "../../../../src/components/drawer/page-stocks/loadIex.js"
+ ],
+ "file": "../../../../src/components/drawer/page-stocks/loadIex.js",
+ "names": [
+  "API_URL",
+  "DF_PERIOD",
+  "_crUri",
+  "symbol",
+  "Error",
+  "loadIex",
+  "dataAction",
+  "loading",
+  "fetch",
+  "then",
+  "res",
+  "status",
+  "json",
+  "Array",
+  "isArray",
+  "loadData",
+  "providerTitle",
+  "itemTitle",
+  "data",
+  "toData",
+  "err",
+  "loadFailed",
+  "console",
+  "log",
+  "throttleFn"
+ ],
+ "mappings": ";;;;;AACA;AACA;AAEA,IAAMA,OAAO,GAAG,sCAAsC;EACpDC,SAAS,GAAG,IAAI;AAElB,IAAMC,MAAM,GAAG,SAATA,MAAM,CAAGC,MAAM,EAAI;EACvB,IAAI,CAACA,MAAM,EAAE;IACX,MAAM,IAAIC,KAAK,CAAC,iBAAiB,CAAC;EACpC;EACA,OAAUJ,OAAO,SAAIG,MAAM,eAAUF,SAAS;AAChD,CAAC;AAED,IAAMI,OAAO,GAAG,SAAVA,OAAO,OAGP;EAAA,IAFJF,MAAM,QAANA,MAAM;IACNG,UAAU,QAAVA,UAAU;EAEVA,UAAU,CAACC,OAAO,EAAE;EACpBC,KAAK,CAACN,MAAM,CAACC,MAAM,CAAC,CAAC,CACnBM,IAAI,CAAC,UAAAC,GAAG,EAAI;IACZ,IAAQC,MAAM,GAAKD,GAAG,CAAdC,MAAM;IACd,IAAIA,MAAM,IAAE,GAAG,IAAIA,MAAM,GAAC,GAAG,EAAC;MAC3B,OAAOD,GAAG,CAACE,IAAI,EAAE;IACpB,CAAC,MAAM;MACJ,MAAM,IAAIR,KAAK,qBAAmBO,MAAM,CAAG;IAC9C;EACF,CAAC,CAAC,CACDF,IAAI,CAAC,UAAAG,IAAI,EAAI;IACZ,IAAKC,KAAK,CAACC,OAAO,CAACF,IAAI,CAAC,EAAG;MACzBN,UAAU,CAACS,QAAQ,CAAC;QAClBC,aAAa,EAAE,cAAc;QAC7BC,SAAS,EAAEd,MAAM;QACjBe,IAAI,EAAE,IAAAC,kBAAM,EAACP,IAAI;MACnB,CAAC,CAAC;IACJ,CAAC,MAAM;MACL,MAAM,IAAIR,KAAK,CAAC,wBAAwB,CAAC;IAC3C;EACF,CAAC,CAAC,SACI,CAAC,UAAAgB,GAAG,EAAI;IACZd,UAAU,CAACe,UAAU,EAAE;IACvBC,OAAO,CAACC,GAAG,CAACH,GAAG,CAAC;EAClB,CAAC,CAAC;AACJ,CAAC;AAAA,eAEc,IAAAI,oBAAU,EAACnB,OAAO,EAAE,IAAI,CAAC;AAAA"
+}

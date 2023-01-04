@@ -3,9 +3,9 @@ import {
   createRef,
   createElement,
   cloneElement
-} from 'react'
+} from '../uiApi';
 
-import throttleOnce from '../../utils/throttleOnce'
+import throttleFn from '../../utils/throttleFn';
 
 const PERIOD_MS = 750;
 
@@ -66,10 +66,10 @@ class ModalSlider extends Component {
 
     this._refPages = createRef()
 
-    this.hNextPage = throttleOnce(
+    this.hNextPage = throttleFn(
       this.hNextPage.bind(this)
     )
-    this.hPrevPage = throttleOnce(
+    this.hPrevPage = throttleFn(
       this.hPrevPage.bind(this)
     )
 

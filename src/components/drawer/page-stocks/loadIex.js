@@ -1,20 +1,21 @@
 
-import throttle from '../../../utils/throttle'
-import toData from './toData'
+import throttleFn from '../../../utils/throttle';
+import toData from './toData';
 
-const C = {
-  BASE_URL: 'https://api.iextrading.com/1.0/stock',
-  DF_PERIOD: '1y'
-};
+const API_URL = 'https://api.iextrading.com/1.0/stock'
+, DF_PERIOD = '1y';
 
 const _crUri = symbol => {
   if (!symbol) {
     throw new Error("Symbol is empty");
   }
-  return `${C.BASE_URL}/${symbol}/chart/${C.DF_PERIOD}`;
+  return `${API_URL}/${symbol}/chart/${DF_PERIOD}`;
 };
 
-const loadIex = ({ symbol, dataAction }) => {
+const loadIex = ({
+  symbol,
+  dataAction
+}) => {
   dataAction.loading()
   fetch(_crUri(symbol))
    .then(res => {
@@ -42,4 +43,4 @@ const loadIex = ({ symbol, dataAction }) => {
   });
 }
 
-export default throttle(loadIex, 3000, { trailing: false })
+export default throttleFn(loadIex, 3000)
