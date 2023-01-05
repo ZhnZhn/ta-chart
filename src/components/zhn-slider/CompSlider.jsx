@@ -1,11 +1,12 @@
 import {
   Component,
   createRef,
-  createElement,
-  cloneElement
+  createElement
 } from '../uiApi';
 
 import throttleFn from '../../utils/throttleFn';
+
+import PageStack from './PageStack';
 
 const PERIOD_MS = 750;
 
@@ -136,16 +137,12 @@ class ModalSlider extends Component {
     };
   }
 
-  _renderPages = () => {
-    const { pages, pageCurrent } = this.state;
-    return pages.map((Page, index) => cloneElement(Page, {
-      pageCurrent,
-      pageNumber: index + 1,
-    }))
-  }
-
   render(){
-    const { _pagesStyle } = this
+    const {
+      pages,
+      pageCurrent
+    } = this.state
+    , { _pagesStyle } = this
     , _transform = this._crTransform()
     , _divStyle = {
         ...S_PAGES,
@@ -158,7 +155,10 @@ class ModalSlider extends Component {
           ref={this._refPages}
           style={_divStyle}
         >
-          {this._renderPages()}
+          <PageStack
+            pages={pages}
+            pageCurrent={pageCurrent}
+          />
         </div>
       </div>
     );

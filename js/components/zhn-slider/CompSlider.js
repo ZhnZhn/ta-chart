@@ -8,6 +8,7 @@ var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/hel
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 var _uiApi = require("../uiApi");
 var _throttleFn = _interopRequireDefault(require("../../utils/throttleFn"));
+var _PageStack = _interopRequireDefault(require("./PageStack"));
 var _jsxRuntime = require("react/jsx-runtime");
 var PERIOD_MS = 750;
 var S_SHOW_HIDE = {
@@ -93,17 +94,6 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
         transform: "translateX(" + dX + "px)"
       };
     };
-    _this._renderPages = function () {
-      var _this$state = _this.state,
-        pages = _this$state.pages,
-        pageCurrent = _this$state.pageCurrent;
-      return pages.map(function (Page, index) {
-        return (0, _uiApi.cloneElement)(Page, {
-          pageCurrent: pageCurrent,
-          pageNumber: index + 1
-        });
-      });
-    };
     var pageWidth = props.pageWidth,
       maxPages = props.maxPages,
       initialPageId = props.initialPageId;
@@ -126,7 +116,10 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
   }
   var _proto = ModalSlider.prototype;
   _proto.render = function render() {
-    var _pagesStyle = this._pagesStyle,
+    var _this$state = this.state,
+      pages = _this$state.pages,
+      pageCurrent = _this$state.pageCurrent,
+      _pagesStyle = this._pagesStyle,
       _transform = this._crTransform(),
       _divStyle = (0, _extends2["default"])({}, S_PAGES, _pagesStyle, _transform);
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
@@ -134,7 +127,10 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
         ref: this._refPages,
         style: _divStyle,
-        children: this._renderPages()
+        children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_PageStack["default"], {
+          pages: pages,
+          pageCurrent: pageCurrent
+        })
       })
     });
   };
