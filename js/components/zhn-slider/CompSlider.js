@@ -4,10 +4,8 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 var _uiApi = require("../uiApi");
-var _throttleFn = _interopRequireDefault(require("../../utils/throttleFn"));
+var _useThrottleCallback = _interopRequireDefault(require("../hooks/useThrottleCallback"));
 var _PageStack = _interopRequireDefault(require("./PageStack"));
 var _jsxRuntime = require("react/jsx-runtime");
 var PERIOD_MS = 750;
@@ -51,95 +49,69 @@ var _crTransform = function _crTransform(pageWidth, _refPages, _refDirection) {
     transform: "translateX(" + dX + "px)"
   };
 };
-var ModalSlider = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(ModalSlider, _Component);
-  /*
-  static propTypes = {
-    rootStyle: PropTypes.object,
-    className: PropTypes.string,
-    style: PropTypes.object,
-      pageWidth: PropTypes.number,
-    maxPages: PropTypes.number,
-      onClose: PropTypes.func
-  }
-  */
-
-  function ModalSlider(props) {
-    var _this;
-    _this = _Component.call(this, props) || this;
-    _this._crPageElement = function (id) {
-      return (0, _uiApi.createElement)(_this.props.pageRouter[id], {
-        key: id,
-        style: _this._pageStyle,
-        onPrevPage: _this.hPrevPage,
-        onNextPage: _this.hNextPage
-      });
-    };
-    _this.hPrevPage = function () {
-      _this.setState(function (prevState) {
+var CompSlider = function CompSlider(_ref) {
+  var _ref$pageWidth = _ref.pageWidth,
+    pageWidth = _ref$pageWidth === void 0 ? 330 : _ref$pageWidth,
+    _ref$maxPages = _ref.maxPages,
+    maxPages = _ref$maxPages === void 0 ? 3 : _ref$maxPages,
+    initialPageId = _ref.initialPageId,
+    pageRouter = _ref.pageRouter;
+  var _refPages = (0, _uiApi.useRef)(),
+    _refDirection = (0, _uiApi.useRef)(0),
+    _refPagesStyle = (0, _uiApi.useRef)({
+      width: maxPages * pageWidth + "px"
+    }),
+    _refPageStyle = (0, _uiApi.useRef)({
+      width: pageWidth + "px"
+    }),
+    _useState = (0, _uiApi.useState)({
+      pageCurrent: 1,
+      pages: [(0, _uiApi.createElement)(pageRouter[initialPageId], {
+        key: initialPageId
+      })]
+    }),
+    state = _useState[0],
+    setState = _useState[1],
+    pageCurrent = state.pageCurrent,
+    pages = state.pages,
+    hPrevPage = (0, _useThrottleCallback["default"])(function () {
+      setState(function (prevState) {
         if (prevState.pageCurrent > 1) {
           prevState.pageCurrent -= 1;
-          (0, _uiApi.setRefValue)(_this._refDirection, -1);
+          (0, _uiApi.setRefValue)(_refDirection, -1);
         }
-        return prevState;
+        return (0, _extends2["default"])({}, prevState);
       });
-    };
-    _this.hNextPage = function (id) {
-      _this.setState(function (prevState) {
+    }),
+    hNextPage = (0, _useThrottleCallback["default"])(function (id) {
+      setState(function (prevState) {
         var pages = prevState.pages;
         var _pageIndex = _findIndexById(pages, id);
-        prevState.pages = _pageIndex !== -1 ? _replaceElTo2(pages, _pageIndex) : _addElTo2(pages, _this._crPageElement(id));
+        prevState.pages = _pageIndex !== -1 ? _replaceElTo2(pages, _pageIndex) : _addElTo2(pages, (0, _uiApi.createElement)(pageRouter[id], {
+          key: id
+        }));
         prevState.pageCurrent += 1;
-        (0, _uiApi.setRefValue)(_this._refDirection, 1);
-        return prevState;
+        (0, _uiApi.setRefValue)(_refDirection, 1);
+        return (0, _extends2["default"])({}, prevState);
       });
-    };
-    var pageWidth = props.pageWidth,
-      maxPages = props.maxPages,
-      initialPageId = props.initialPageId;
-    _this._refPages = (0, _uiApi.createRef)();
-    _this._refDirection = (0, _uiApi.createRef)();
-    (0, _uiApi.setRefValue)(_this._refDirection, 0);
-    _this.hNextPage = (0, _throttleFn["default"])(_this.hNextPage.bind((0, _assertThisInitialized2["default"])(_this)));
-    _this.hPrevPage = (0, _throttleFn["default"])(_this.hPrevPage.bind((0, _assertThisInitialized2["default"])(_this)));
-    _this._pagesStyle = {
-      width: maxPages * pageWidth + "px"
-    };
-    _this._pageStyle = {
-      width: pageWidth + "px"
-    };
-    _this.state = {
-      pageCurrent: 1,
-      pages: [_this._crPageElement(initialPageId)]
-    };
-    return _this;
-  }
-  var _proto = ModalSlider.prototype;
-  _proto.render = function render() {
-    var _this$state = this.state,
-      pages = _this$state.pages,
-      pageCurrent = _this$state.pageCurrent,
-      _pagesStyle = this._pagesStyle,
-      _transform = _crTransform(this.props.pageWidth, this._refPages, this._refDirection),
-      _divStyle = (0, _extends2["default"])({}, S_PAGES, _pagesStyle, _transform);
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-      style: S_SHOW_HIDE,
-      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-        ref: this._refPages,
-        style: _divStyle,
-        children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_PageStack["default"], {
-          pages: pages,
-          pageCurrent: pageCurrent
-        })
+    }),
+    _transform = _crTransform(pageWidth, _refPages, _refDirection),
+    _divStyle = (0, _extends2["default"])({}, (0, _uiApi.getRefValue)(_refPagesStyle), S_PAGES, _transform);
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+    style: S_SHOW_HIDE,
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      ref: _refPages,
+      style: _divStyle,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_PageStack["default"], {
+        style: (0, _uiApi.getRefValue)(_refPageStyle),
+        pages: pages,
+        pageCurrent: pageCurrent,
+        onPrevPage: hPrevPage,
+        onNextPage: hNextPage
       })
-    });
-  };
-  return ModalSlider;
-}(_uiApi.Component);
-ModalSlider.defaultProps = {
-  pageWidth: 330,
-  maxPages: 3
+    })
+  });
 };
-var _default = ModalSlider;
+var _default = CompSlider;
 exports["default"] = _default;
 //# sourceMappingURL=CompSlider.js.map

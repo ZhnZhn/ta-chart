@@ -1,12 +1,12 @@
 import {
-  Component,
-  createRef,
+  useRef,
+  useState,
   createElement,
   getRefValue,
   setRefValue
 } from '../uiApi';
 
-import throttleFn from '../../utils/throttleFn';
+import useThrottleCallback from '../hooks/useThrottleCallback';
 
 import PageStack from './PageStack';
 
@@ -67,117 +67,83 @@ const _crTransform = (
   };
 }
 
-class ModalSlider extends Component {
-  /*
-  static propTypes = {
-    rootStyle: PropTypes.object,
-    className: PropTypes.string,
-    style: PropTypes.object,
-
-    pageWidth: PropTypes.number,
-    maxPages: PropTypes.number,
-
-    onClose: PropTypes.func
-  }
-  */
-
-  static defaultProps = {
-    pageWidth: 330,
-    maxPages: 3
-  }
-
-  constructor(props){
-    super(props)
-    const {
-      pageWidth,
-      maxPages,
-      initialPageId
-    } = props;
-
-    this._refPages = createRef()
-    this._refDirection = createRef()
-    setRefValue(this._refDirection, 0)
-
-    this.hNextPage = throttleFn(
-      this.hNextPage.bind(this)
-    )
-    this.hPrevPage = throttleFn(
-      this.hPrevPage.bind(this)
-    )
-
-    this._pagesStyle = {
-      width: `${maxPages*pageWidth}px`
-    }
-    this._pageStyle = {
-      width: `${pageWidth}px`,
-    }
-
-    this.state = {
-      pageCurrent: 1,
-      pages: [ this._crPageElement(initialPageId) ]
-    }
-  }
-
-  _crPageElement = id => createElement(this.props.pageRouter[id], {
-     key: id,
-     style: this._pageStyle,
-     onPrevPage: this.hPrevPage,
-     onNextPage: this.hNextPage
+const CompSlider = ({
+  pageWidth=330,
+  maxPages=3,
+  initialPageId,
+  pageRouter
+}) => {
+  const _refPages = useRef()
+  , _refDirection = useRef(0)
+  , _refPagesStyle = useRef({
+    width: `${maxPages*pageWidth}px`
   })
+  , _refPageStyle = useRef({
+    width: `${pageWidth}px`
+  })
+  , [
+    state,
+    setState
+  ] = useState({
+    pageCurrent: 1,
+    pages: [
+      createElement(pageRouter[initialPageId], {
+        key: initialPageId
+      })
+    ]
+  })
+  , {
+    pageCurrent,
+    pages
+  } = state
+  , hPrevPage = useThrottleCallback(() => {
+     setState(prevState => {
+       if (prevState.pageCurrent > 1) {
+         prevState.pageCurrent -= 1
+         setRefValue(_refDirection, -1)
+       }
+       return {...prevState};
+     })
+  })
+  , hNextPage = useThrottleCallback((id) => {
+     setState(prevState => {
+       const { pages } = prevState;
+       const _pageIndex = _findIndexById(pages, id);
+       prevState.pages = _pageIndex !== -1
+          ? _replaceElTo2(pages, _pageIndex)
+          : _addElTo2(pages, createElement(pageRouter[id], {key: id}))
+       prevState.pageCurrent += 1
+       setRefValue(_refDirection, 1)
+       return {...prevState};
+     })
+  })
+  , _transform = _crTransform(
+      pageWidth,
+      _refPages,
+      _refDirection
+  )
+  , _divStyle = {
+      ...getRefValue(_refPagesStyle),
+      ...S_PAGES,
+      ..._transform
+  };
 
-  hPrevPage = () => {
-    this.setState(prevState => {
-      if (prevState.pageCurrent > 1) {
-        prevState.pageCurrent -= 1
-        setRefValue(this._refDirection, -1)
-      }
-      return prevState;
-    })
-  }
-
-  hNextPage = (id) => {
-    this.setState(prevState => {
-      const { pages } = prevState;
-      const _pageIndex = _findIndexById(pages, id);
-      prevState.pages = _pageIndex !== -1
-         ? _replaceElTo2(pages, _pageIndex)
-         : _addElTo2(pages, this._crPageElement(id))
-      prevState.pageCurrent += 1
-      setRefValue(this._refDirection, 1)
-      return prevState;
-    })
-  }
-
-  render(){
-    const {
-      pages,
-      pageCurrent
-    } = this.state
-    , { _pagesStyle } = this
-    , _transform = _crTransform(
-        this.props.pageWidth,
-        this._refPages,
-        this._refDirection
-    )
-    , _divStyle = {
-        ...S_PAGES,
-        ..._pagesStyle,
-        ..._transform
-      };
-    return (
-      <div style={S_SHOW_HIDE}>
-        <div
-          ref={this._refPages}
-          style={_divStyle}
-        >
-          <PageStack
-            pages={pages}
-            pageCurrent={pageCurrent}
-          />
-        </div>
+  return (
+    <div style={S_SHOW_HIDE}>
+      <div
+        ref={_refPages}
+        style={_divStyle}
+      >
+        <PageStack
+          style={getRefValue(_refPageStyle)}
+          pages={pages}
+          pageCurrent={pageCurrent}
+          onPrevPage={hPrevPage}
+          onNextPage={hNextPage}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default ModalSlider
+export default CompSlider
