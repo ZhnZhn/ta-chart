@@ -35,11 +35,37 @@ const _getTranslateX = node => parseInt(node
 const _findIndexById = (arr, id) => arr
   .findIndex(el => el.key === id);
 const _replaceElTo2 = (arr, index) => [
-  arr[0], arr.splice(index, 1)[0], ...arr.slice(1)
+  arr[0],
+  arr.splice(index, 1)[0],
+  ...arr.slice(1)
 ];
 const _addElTo2 = (arr, el) => [
-  arr[0], el, ...arr.slice(1)
+  arr[0],
+  el,
+  ...arr.slice(1)
 ];
+
+const _crTransform = (
+  pageWidth,
+  _refPages,
+  _refDirection
+) => {
+  const pagesEl = getRefValue(_refPages)
+  , _direction = getRefValue(_refDirection);
+  let dX = 0;
+  if (_direction !== 0 && pagesEl) {
+    const prevInt = _getTranslateX(pagesEl);
+    dX = _direction === 1
+       ? prevInt - pageWidth
+       : prevInt + pageWidth
+    setRefValue(_refDirection, 0)
+  } else if (_direction === 0 && pagesEl) {
+    dX = _getTranslateX(pagesEl)
+  }
+  return {
+    transform: `translateX(${dX}px)`
+  };
+}
 
 class ModalSlider extends Component {
   /*
@@ -79,7 +105,6 @@ class ModalSlider extends Component {
       this.hPrevPage.bind(this)
     )
 
-    this._PAGE_WIDTH = pageWidth
     this._pagesStyle = {
       width: `${maxPages*pageWidth}px`
     }
@@ -123,32 +148,17 @@ class ModalSlider extends Component {
     })
   }
 
-  _crTransform = () => {
-    const WIDTH = this._PAGE_WIDTH
-    , pagesEl = getRefValue(this._refPages)
-    , _direction = getRefValue(this._refDirection);
-    let dX = 0;
-    if (_direction !== 0 && pagesEl) {
-      const prevInt = _getTranslateX(pagesEl);
-      dX = _direction === 1
-         ? prevInt - WIDTH
-         : prevInt + WIDTH
-      setRefValue(this._refDirection, 0)
-    } else if (_direction === 0 && pagesEl) {
-      dX = _getTranslateX(pagesEl)
-    }
-    return {
-      transform: `translateX(${dX}px)`
-    };
-  }
-
   render(){
     const {
       pages,
       pageCurrent
     } = this.state
     , { _pagesStyle } = this
-    , _transform = this._crTransform()
+    , _transform = _crTransform(
+        this.props.pageWidth,
+        this._refPages,
+        this._refDirection
+    )
     , _divStyle = {
         ...S_PAGES,
         ..._pagesStyle,

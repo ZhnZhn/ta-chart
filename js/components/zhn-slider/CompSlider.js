@@ -36,6 +36,21 @@ var _replaceElTo2 = function _replaceElTo2(arr, index) {
 var _addElTo2 = function _addElTo2(arr, el) {
   return [arr[0], el].concat(arr.slice(1));
 };
+var _crTransform = function _crTransform(pageWidth, _refPages, _refDirection) {
+  var pagesEl = (0, _uiApi.getRefValue)(_refPages),
+    _direction = (0, _uiApi.getRefValue)(_refDirection);
+  var dX = 0;
+  if (_direction !== 0 && pagesEl) {
+    var prevInt = _getTranslateX(pagesEl);
+    dX = _direction === 1 ? prevInt - pageWidth : prevInt + pageWidth;
+    (0, _uiApi.setRefValue)(_refDirection, 0);
+  } else if (_direction === 0 && pagesEl) {
+    dX = _getTranslateX(pagesEl);
+  }
+  return {
+    transform: "translateX(" + dX + "px)"
+  };
+};
 var ModalSlider = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(ModalSlider, _Component);
   /*
@@ -79,22 +94,6 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
         return prevState;
       });
     };
-    _this._crTransform = function () {
-      var WIDTH = _this._PAGE_WIDTH,
-        pagesEl = (0, _uiApi.getRefValue)(_this._refPages),
-        _direction = (0, _uiApi.getRefValue)(_this._refDirection);
-      var dX = 0;
-      if (_direction !== 0 && pagesEl) {
-        var prevInt = _getTranslateX(pagesEl);
-        dX = _direction === 1 ? prevInt - WIDTH : prevInt + WIDTH;
-        (0, _uiApi.setRefValue)(_this._refDirection, 0);
-      } else if (_direction === 0 && pagesEl) {
-        dX = _getTranslateX(pagesEl);
-      }
-      return {
-        transform: "translateX(" + dX + "px)"
-      };
-    };
     var pageWidth = props.pageWidth,
       maxPages = props.maxPages,
       initialPageId = props.initialPageId;
@@ -103,7 +102,6 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
     (0, _uiApi.setRefValue)(_this._refDirection, 0);
     _this.hNextPage = (0, _throttleFn["default"])(_this.hNextPage.bind((0, _assertThisInitialized2["default"])(_this)));
     _this.hPrevPage = (0, _throttleFn["default"])(_this.hPrevPage.bind((0, _assertThisInitialized2["default"])(_this)));
-    _this._PAGE_WIDTH = pageWidth;
     _this._pagesStyle = {
       width: maxPages * pageWidth + "px"
     };
@@ -122,7 +120,7 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
       pages = _this$state.pages,
       pageCurrent = _this$state.pageCurrent,
       _pagesStyle = this._pagesStyle,
-      _transform = this._crTransform(),
+      _transform = _crTransform(this.props.pageWidth, this._refPages, this._refDirection),
       _divStyle = (0, _extends2["default"])({}, S_PAGES, _pagesStyle, _transform);
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: S_SHOW_HIDE,
