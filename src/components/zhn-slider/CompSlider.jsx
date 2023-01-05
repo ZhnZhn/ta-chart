@@ -1,7 +1,9 @@
 import {
   Component,
   createRef,
-  createElement
+  createElement,
+  getRefValue,
+  setRefValue
 } from '../uiApi';
 
 import throttleFn from '../../utils/throttleFn';
@@ -61,11 +63,14 @@ class ModalSlider extends Component {
   constructor(props){
     super(props)
     const {
-      pageWidth, maxPages,
+      pageWidth,
+      maxPages,
       initialPageId
     } = props;
 
     this._refPages = createRef()
+    this._refDirection = createRef()
+    setRefValue(this._refDirection, 0)
 
     this.hNextPage = throttleFn(
       this.hNextPage.bind(this)
@@ -81,7 +86,6 @@ class ModalSlider extends Component {
     this._pageStyle = {
       width: `${pageWidth}px`,
     }
-    this._direction = 0
 
     this.state = {
       pageCurrent: 1,
@@ -100,7 +104,7 @@ class ModalSlider extends Component {
     this.setState(prevState => {
       if (prevState.pageCurrent > 1) {
         prevState.pageCurrent -= 1
-        this._direction = -1
+        setRefValue(this._refDirection, -1)
       }
       return prevState;
     })
@@ -114,22 +118,23 @@ class ModalSlider extends Component {
          ? _replaceElTo2(pages, _pageIndex)
          : _addElTo2(pages, this._crPageElement(id))
       prevState.pageCurrent += 1
-      this._direction = 1
+      setRefValue(this._refDirection, 1)
       return prevState;
     })
   }
 
   _crTransform = () => {
-    const pagesEl = this._refPages.current;
-    const WIDTH = this._PAGE_WIDTH;
+    const WIDTH = this._PAGE_WIDTH
+    , pagesEl = getRefValue(this._refPages)
+    , _direction = getRefValue(this._refDirection);
     let dX = 0;
-    if (this._direction !== 0 && pagesEl) {
+    if (_direction !== 0 && pagesEl) {
       const prevInt = _getTranslateX(pagesEl);
-      dX = this._direction === 1
+      dX = _direction === 1
          ? prevInt - WIDTH
          : prevInt + WIDTH
-      this._direction = 0
-    } else if ( this._direction === 0 && pagesEl) {
+      setRefValue(this._refDirection, 0)
+    } else if (_direction === 0 && pagesEl) {
       dX = _getTranslateX(pagesEl)
     }
     return {

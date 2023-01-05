@@ -64,7 +64,7 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
       _this.setState(function (prevState) {
         if (prevState.pageCurrent > 1) {
           prevState.pageCurrent -= 1;
-          _this._direction = -1;
+          (0, _uiApi.setRefValue)(_this._refDirection, -1);
         }
         return prevState;
       });
@@ -75,19 +75,20 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
         var _pageIndex = _findIndexById(pages, id);
         prevState.pages = _pageIndex !== -1 ? _replaceElTo2(pages, _pageIndex) : _addElTo2(pages, _this._crPageElement(id));
         prevState.pageCurrent += 1;
-        _this._direction = 1;
+        (0, _uiApi.setRefValue)(_this._refDirection, 1);
         return prevState;
       });
     };
     _this._crTransform = function () {
-      var pagesEl = _this._refPages.current;
-      var WIDTH = _this._PAGE_WIDTH;
+      var WIDTH = _this._PAGE_WIDTH,
+        pagesEl = (0, _uiApi.getRefValue)(_this._refPages),
+        _direction = (0, _uiApi.getRefValue)(_this._refDirection);
       var dX = 0;
-      if (_this._direction !== 0 && pagesEl) {
+      if (_direction !== 0 && pagesEl) {
         var prevInt = _getTranslateX(pagesEl);
-        dX = _this._direction === 1 ? prevInt - WIDTH : prevInt + WIDTH;
-        _this._direction = 0;
-      } else if (_this._direction === 0 && pagesEl) {
+        dX = _direction === 1 ? prevInt - WIDTH : prevInt + WIDTH;
+        (0, _uiApi.setRefValue)(_this._refDirection, 0);
+      } else if (_direction === 0 && pagesEl) {
         dX = _getTranslateX(pagesEl);
       }
       return {
@@ -98,6 +99,8 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
       maxPages = props.maxPages,
       initialPageId = props.initialPageId;
     _this._refPages = (0, _uiApi.createRef)();
+    _this._refDirection = (0, _uiApi.createRef)();
+    (0, _uiApi.setRefValue)(_this._refDirection, 0);
     _this.hNextPage = (0, _throttleFn["default"])(_this.hNextPage.bind((0, _assertThisInitialized2["default"])(_this)));
     _this.hPrevPage = (0, _throttleFn["default"])(_this.hPrevPage.bind((0, _assertThisInitialized2["default"])(_this)));
     _this._PAGE_WIDTH = pageWidth;
@@ -107,7 +110,6 @@ var ModalSlider = /*#__PURE__*/function (_Component) {
     _this._pageStyle = {
       width: pageWidth + "px"
     };
-    _this._direction = 0;
     _this.state = {
       pageCurrent: 1,
       pages: [_this._crPageElement(initialPageId)]
