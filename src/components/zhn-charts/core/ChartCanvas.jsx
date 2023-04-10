@@ -811,29 +811,64 @@ class ChartCanvas extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        const reset = shouldResetChart(this.props, nextProps);
-        const { chartConfig: initialChartConfig, plotData, xAccessor, xScale } = this.state;
-        const interaction = isInteractionEnabled(xScale, xAccessor, plotData);
+
+    static getDerivedStateFromProps(nextProps, currentState) {
+        const {
+          recentProps={},
+          chartConfig: initialChartConfig,
+          plotData,
+          xAccessor,
+          xScale
+        } = currentState
+        , reset = shouldResetChart(
+            recentProps,
+            nextProps
+          )
+        , interaction = isInteractionEnabled(
+             xScale,
+             xAccessor,
+              plotData
+          );
         let newState;
-        if (!interaction || reset || !shallowEqual(this.props.xExtents, nextProps.xExtents)) {
+        if (!interaction || reset || !shallowEqual(recentProps.xExtents, nextProps.xExtents)) {
             // do reset
             newState = resetChart(nextProps);
-            this.mutableState = {};
         }
         else {
             const [start, end] = xScale.domain();
-            const prevLastItem = last(this.state.fullData);
+            const prevLastItem = last(currentState.fullData);
             const calculatedState = calculateFullData(nextProps);
             const { xAccessor } = calculatedState;
             const previousX = xAccessor(prevLastItem);
             const lastItemWasVisible = previousX <= end && previousX >= start;
             newState = updateChart(calculatedState, xScale, nextProps, lastItemWasVisible, initialChartConfig);
         }
-        if (!this.panInProgress) {
-            this.clearThreeCanvas();
-            this.setState(newState);
+        return {
+          ...newState,
+          recentProps: nextProps,
+          propIteration: (currentState.propIteration || 0) + 1
+        };
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        // clearThreeCanvas on props update,
+        // propIteration is incremented when the props change
+        // to differentiate between state updates and prop updates
+        if (prevState.propIteration !== this.state.propIteration
+            && !this.panInProgress) {
+          this.clearThreeCanvas();
         }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+       if (prevProps.data !== this.props.data) {
+          this.triggerEvent("dataupdated", {
+             chartConfigs: this.state.chartConfigs,
+             xScale: this.state.xScale,
+             plotData: this.state.plotData,
+          });
+       }
     }
 
     resetYDomain = (chartId) => {

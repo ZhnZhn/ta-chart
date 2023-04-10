@@ -639,33 +639,51 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
       setCursorClass: this.setCursorClass
     };
   };
-  _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps) {
-    var reset = (0, _ChartCanvasFn.shouldResetChart)(this.props, nextProps);
-    var _this$state12 = this.state,
-      initialChartConfig = _this$state12.chartConfig,
-      plotData = _this$state12.plotData,
-      xAccessor = _this$state12.xAccessor,
-      xScale = _this$state12.xScale;
-    var interaction = (0, _ChartCanvasFn.isInteractionEnabled)(xScale, xAccessor, plotData);
+  ChartCanvas.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, currentState) {
+    var _currentState$recentP = currentState.recentProps,
+      recentProps = _currentState$recentP === void 0 ? {} : _currentState$recentP,
+      initialChartConfig = currentState.chartConfig,
+      plotData = currentState.plotData,
+      xAccessor = currentState.xAccessor,
+      xScale = currentState.xScale,
+      reset = (0, _ChartCanvasFn.shouldResetChart)(recentProps, nextProps),
+      interaction = (0, _ChartCanvasFn.isInteractionEnabled)(xScale, xAccessor, plotData);
     var newState;
-    if (!interaction || reset || !(0, _utils.shallowEqual)(this.props.xExtents, nextProps.xExtents)) {
+    if (!interaction || reset || !(0, _utils.shallowEqual)(recentProps.xExtents, nextProps.xExtents)) {
       // do reset
       newState = (0, _ChartCanvasFn.resetChart)(nextProps);
-      this.mutableState = {};
     } else {
       var _xScale$domain = xScale.domain(),
         start = _xScale$domain[0],
         end = _xScale$domain[1];
-      var prevLastItem = (0, _utils.last)(this.state.fullData);
+      var prevLastItem = (0, _utils.last)(currentState.fullData);
       var calculatedState = (0, _ChartCanvasFn.calculateFullData)(nextProps);
       var _xAccessor = calculatedState.xAccessor;
       var previousX = _xAccessor(prevLastItem);
       var lastItemWasVisible = previousX <= end && previousX >= start;
       newState = (0, _ChartCanvasFn.updateChart)(calculatedState, xScale, nextProps, lastItemWasVisible, initialChartConfig);
     }
-    if (!this.panInProgress) {
+    return (0, _extends2["default"])({}, newState, {
+      recentProps: nextProps,
+      propIteration: (currentState.propIteration || 0) + 1
+    });
+  };
+  _proto.getSnapshotBeforeUpdate = function getSnapshotBeforeUpdate(prevProps, prevState) {
+    // clearThreeCanvas on props update,
+    // propIteration is incremented when the props change
+    // to differentiate between state updates and prop updates
+    if (prevState.propIteration !== this.state.propIteration && !this.panInProgress) {
       this.clearThreeCanvas();
-      this.setState(newState);
+    }
+    return null;
+  };
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.triggerEvent("dataupdated", {
+        chartConfigs: this.state.chartConfigs,
+        xScale: this.state.xScale,
+        plotData: this.state.plotData
+      });
     }
   };
   _proto.shouldComponentUpdate = function shouldComponentUpdate() {
@@ -688,11 +706,11 @@ var ChartCanvas = /*#__PURE__*/function (_React$Component) {
       onClick = _this$props6.onClick,
       onDoubleClick = _this$props6.onDoubleClick,
       children = _this$props6.children,
-      _this$state13 = this.state,
-      plotData = _this$state13.plotData,
-      xScale = _this$state13.xScale,
-      xAccessor = _this$state13.xAccessor,
-      chartConfig = _this$state13.chartConfig,
+      _this$state12 = this.state,
+      plotData = _this$state12.plotData,
+      xScale = _this$state12.xScale,
+      xAccessor = _this$state12.xAccessor,
+      chartConfig = _this$state12.chartConfig,
       dimensions = (0, _ChartCanvasFn.getDimensions)(this.props),
       interaction = (0, _ChartCanvasFn.isInteractionEnabled)(xScale, xAccessor, plotData),
       cursorStyle = useCrossHairStyleCursor && interaction;
