@@ -131,7 +131,7 @@ class ChartCanvas extends React.Component {
         zIndex: 1,
         zoomAnchor: mouseBasedZoomAnchor,
         zoomMultiplier: 1.1,
-        
+
         onZoom: FN_NOOP
     }
 
@@ -181,7 +181,6 @@ class ChartCanvas extends React.Component {
     eventCaptureRef = React.createRef();
 
     finalPinch;
-    fullData;
     lastSubscriptionId = 0;
     mutableState = {};
     panInProgress = false;
@@ -195,21 +194,20 @@ class ChartCanvas extends React.Component {
 
     constructor(props) {
       super(props);
-      const { fullData, ...state } = resetChart(props);
-      this.state = state;
-      this.fullData = fullData;
+      this.state = resetChart(props);
     }
 
     getMutableState = () => {
       return this.mutableState;
     }
 
+    /*
     getDataInfo = () => {
       return {
         ...this.state,
-        fullData: this.fullData,
       };
     }
+    */
 
     getCanvasContexts = () => {
       return this.canvasContainerRef.current?.getCanvasContexts();
@@ -303,6 +301,7 @@ class ChartCanvas extends React.Component {
 
     calculateStateForDomain = (newDomain) => {
         const {
+          fullData,
           xAccessor,
           displayXAccessor,
           xScale: initialXScale,
@@ -313,9 +312,6 @@ class ChartCanvas extends React.Component {
         , {
           postCalculator
         } = this.props
-        , {
-          fullData
-        } = this
         , {
           plotData: beforePlotData,
           domain
@@ -345,6 +341,7 @@ class ChartCanvas extends React.Component {
           xScale: initialPinchXScale
         } = initialPinch
         , {
+          fullData,
           xScale: initialXScale,
           chartConfig: initialChartConfig,
           plotData: initialPlotData,
@@ -355,9 +352,6 @@ class ChartCanvas extends React.Component {
         , {
           postCalculator
         } = this.props
-        , {
-          fullData
-        } = this
         , newDomain = _crPinchZoomNewDomain(
            initialPinch,
            finalPinch,
@@ -420,6 +414,7 @@ class ChartCanvas extends React.Component {
 
     handlePinchZoomEnd = (initialPinch, e) => {
         const {
+          fullData,
           xAccessor = ChartCanvas.defaultProps.xAccessor
         } = this.state;
         if (this.finalPinch) {
@@ -437,7 +432,7 @@ class ChartCanvas extends React.Component {
             this.clearThreeCanvas();
 
             this.setState(state, () => _callOnLoadHandlers(
-              this.fullData,
+              fullData,
               xScale,
               xAccessor,
               onLoadAfter,
@@ -448,6 +443,7 @@ class ChartCanvas extends React.Component {
 
     _zoomXImpl = (plotData, chartConfig, xScale) => {
       const {
+        fullData,
         xAccessor
       } = this.state
       , {
@@ -462,7 +458,7 @@ class ChartCanvas extends React.Component {
         plotData,
         chartConfig,
       }, () => _callOnLoadHandlers(
-        this.fullData,
+        fullData,
         xScale,
         xAccessor,
         onLoadAfter,
@@ -555,7 +551,6 @@ class ChartCanvas extends React.Component {
       this.subscriptions.forEach(subscriber => {
         const state = {
             ...this.state,
-            fullData: this.fullData,
             subscriptions: this.subscriptions,
         };
         subscriber.listener(type, props, state, e);
@@ -577,6 +572,7 @@ class ChartCanvas extends React.Component {
 
     panHelper = (mouseXY, initialXScale, { dx, dy }, chartsToPan) => {
         const {
+          fullData,
           xAccessor,
           displayXAccessor,
           chartConfig: initialChartConfig,
@@ -585,9 +581,6 @@ class ChartCanvas extends React.Component {
         , {
           postCalculator
         } = this.props
-        , {
-          fullData
-        } = this
         , newDomain = initialXScale
             .range()
             .map((x) => x - dx)
@@ -667,6 +660,7 @@ class ChartCanvas extends React.Component {
         this.triggerEvent("panend", state, e);
         requestAnimationFrame(() => {
           const {
+            fullData,
             xAccessor
           } = this.state
           , {
@@ -680,7 +674,7 @@ class ChartCanvas extends React.Component {
             plotData,
             chartConfig,
           }, () => _callOnLoadHandlers(
-            this.fullData,
+            fullData,
             xScale,
             xAccessor,
             onLoadAfter,
@@ -778,6 +772,7 @@ class ChartCanvas extends React.Component {
           ratio
         } = this.props
         , {
+          fullData,
           plotData,
           chartConfig,
           xScale,
@@ -802,7 +797,7 @@ class ChartCanvas extends React.Component {
             width,
             height,
 
-            fullData: this.fullData,
+            fullData: fullData || [],
             xAxisZoom: this.xAxisZoom,
             yAxisZoom: this.yAxisZoom,
             getCanvasContexts: this.getCanvasContexts,
@@ -828,20 +823,19 @@ class ChartCanvas extends React.Component {
         }
         else {
             const [start, end] = xScale.domain();
-            const prevLastItem = last(this.fullData);
+            const prevLastItem = last(this.state.fullData);
             const calculatedState = calculateFullData(nextProps);
             const { xAccessor } = calculatedState;
             const previousX = xAccessor(prevLastItem);
             const lastItemWasVisible = previousX <= end && previousX >= start;
             newState = updateChart(calculatedState, xScale, nextProps, lastItemWasVisible, initialChartConfig);
         }
-        const { fullData, ...state } = newState;
         if (!this.panInProgress) {
             this.clearThreeCanvas();
-            this.setState(state);
+            this.setState(newState);
         }
-        this.fullData = fullData;
     }
+
     resetYDomain = (chartId) => {
         const { chartConfig } = this.state;
         let changed = false;
