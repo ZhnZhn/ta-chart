@@ -1,7 +1,7 @@
 import { extent } from 'd3-array';
 import flattenDeep from 'lodash.flattendeep';
 import React from 'react';
-import Chart  from '../Chart';
+import { ChartDefaultConfig }  from '../Chart';
 
 import {
   functor,
@@ -57,8 +57,8 @@ export const getNewChartConfig = (
   existingChartConfig = []
 ) => React.Children.map(children, each => {
     if (each != null && isChartProps(each.props)) {
-        const chartProps = {
-          ...Chart.defaultProps,
+        const chartProps = {      
+          ...ChartDefaultConfig,
           ...each.props
         }
         , {
@@ -66,7 +66,7 @@ export const getNewChartConfig = (
           origin,
           padding,
           yExtents: yExtentsProp,
-          yScale: yScaleProp,
+          yScale: yScaleProp = ChartDefaultConfig.yScale,
           flipYScale,
           yExtentsCalculator
         } = chartProps

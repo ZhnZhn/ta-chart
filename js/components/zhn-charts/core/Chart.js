@@ -1,148 +1,95 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
-exports["default"] = void 0;
-
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
+exports.ChartDefaultConfig = exports.ChartContext = exports.Chart = void 0;
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+var _uiApi = require("../../uiApi");
 var _d3Scale = require("d3-scale");
-
-var _utils = require("./utils");
-
-var _utils2 = require("../utils");
-
+var _utils = require("../utils");
+var _ChartCanvas = require("./ChartCanvas");
+var _ChartFn = require("./ChartFn");
 var _jsxRuntime = require("react/jsx-runtime");
-
-var _crSubscribeId = function _crSubscribeId(id) {
-  return "chart_" + id;
-},
-    _findChartConfig = function _findChartConfig(context, chartId) {
-  return context.chartConfig.find(function (_ref) {
-    var id = _ref.id;
-    return id === chartId;
-  });
-};
-
-var Chart = /*#__PURE__*/function (_PureComponent) {
-  (0, _inheritsLoose2["default"])(Chart, _PureComponent);
-
-  function Chart() {
-    var _this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _PureComponent.call.apply(_PureComponent, [this].concat(args)) || this;
-
-    _this.listener = function (type, moreProps, _, e) {
-      var _this$props = _this.props,
-          id = _this$props.id,
-          onContextMenu = _this$props.onContextMenu,
-          onDoubleClick = _this$props.onDoubleClick;
-
+var ChartContext = (0, _uiApi.createContext)((0, _extends2["default"])({}, _ChartCanvas.dfChartCanvasContextValue, {
+  chartConfig: {},
+  chartId: 0
+}));
+exports.ChartContext = ChartContext;
+var Chart = (0, _uiApi.memo)(function (_ref) {
+  var _ref$id = _ref.id,
+    id = _ref$id === void 0 ? 0 : _ref$id,
+    onContextMenu = _ref.onContextMenu,
+    onDoubleClick = _ref.onDoubleClick,
+    children = _ref.children;
+  var chartCanvasContextValue = (0, _uiApi.useContext)(_ChartCanvas.ChartCanvasContext),
+    subscribe = chartCanvasContextValue.subscribe,
+    unsubscribe = chartCanvasContextValue.unsubscribe,
+    chartConfigs = chartCanvasContextValue.chartConfigs,
+    listener = (0, _uiApi.useCallback)(function (type, moreProps, _, e) {
       switch (type) {
         case "contextmenu":
           {
             if (onContextMenu === undefined) {
               return;
             }
-
             var currentCharts = moreProps.currentCharts;
-
             if (currentCharts.indexOf(id) > -1) {
               onContextMenu(e, moreProps);
             }
-
             break;
           }
-
         case "dblclick":
           {
             if (onDoubleClick === undefined) {
               return;
             }
-
             var _currentCharts = moreProps.currentCharts;
-
             if (_currentCharts.indexOf(id) > -1) {
               onDoubleClick(e, moreProps);
             }
-
             break;
           }
-
         default:
           return;
       }
-    };
+    }, [onContextMenu, onDoubleClick, id]),
+    chartConfig = (0, _ChartFn.findChartConfig)(chartConfigs, id),
+    chartContextValue = (0, _uiApi.useMemo)(function () {
+      return (0, _extends2["default"])({}, chartCanvasContextValue, {
+        chartId: id,
+        chartConfig: chartConfig
+      });
+    }, [chartCanvasContextValue, id, chartConfig]),
+    _transform = (0, _utils.crCssTranslate)(chartConfig.origin);
 
-    return _this;
-  }
-
-  var _proto = Chart.prototype;
-
-  _proto.componentDidMount = function componentDidMount() {
-    var id = this.props.id,
-        subscribe = this.context.subscribe;
-    subscribe(_crSubscribeId(id), {
-      listener: this.listener
+  /*eslint-disable react-hooks/exhaustive-deps */
+  (0, _uiApi.useEffect)(function () {
+    subscribe((0, _ChartFn.crSubscribeId)(id), {
+      listener: listener
     });
-  };
-
-  _proto.componentWillUnmount = function componentWillUnmount() {
-    var id = this.props.id,
-        unsubscribe = this.context.unsubscribe;
-    unsubscribe(_crSubscribeId(id));
-  };
-
-  _proto.getChildContext = function getChildContext() {
-    var id = this.props.id;
-    return {
-      chartId: id,
-      chartConfig: _findChartConfig(this.context, id)
+    return function () {
+      unsubscribe((0, _ChartFn.crSubscribeId)(id));
     };
-  };
+  }, []);
+  /*eslint-enable react-hooks/exhaustive-deps */
 
-  _proto.render = function render() {
-    var _this$props2 = this.props,
-        id = _this$props2.id,
-        children = _this$props2.children,
-        _findChartConfig2 = _findChartConfig(this.context, id),
-        origin = _findChartConfig2.origin,
-        _transform = (0, _utils2.crCssTranslate)(origin);
-
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(ChartContext.Provider, {
+    value: chartContextValue,
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
       transform: _transform,
       children: children
-    });
-  };
-
-  return Chart;
-}(_utils.PureComponent);
-
-Chart.defaultProps = {
-  flipYScale: false,
+    })
+  });
+});
+exports.Chart = Chart;
+var ChartDefaultConfig = {
   id: 0,
+  flipYScale: false,
   origin: [0, 0],
   padding: 0,
   yPan: true,
   yPanEnabled: false,
   yScale: (0, _d3Scale.scaleLinear)()
 };
-Chart.contextTypes = {
-  chartConfig: _propTypes["default"].array,
-  subscribe: _propTypes["default"].func.isRequired,
-  unsubscribe: _propTypes["default"].func.isRequired
-};
-Chart.childContextTypes = {
-  chartConfig: _propTypes["default"].object.isRequired,
-  chartId: _propTypes["default"].oneOfType([_propTypes["default"].number, _propTypes["default"].string]).isRequired
-};
-var _default = Chart;
-exports["default"] = _default;
+exports.ChartDefaultConfig = ChartDefaultConfig;
 //# sourceMappingURL=Chart.js.map

@@ -1,5 +1,5 @@
-import ChartCanvas from '../zhn-charts/core/ChartCanvas';
-import Chart from '../zhn-charts/core/Chart';
+import { ChartCanvas } from '../zhn-charts/core/ChartCanvas';
+import { Chart } from '../zhn-charts/core/Chart';
 
 import XAxis from '../zhn-charts/axis/XAxis';
 import YAxis from '../zhn-charts/axis/YAxis';
