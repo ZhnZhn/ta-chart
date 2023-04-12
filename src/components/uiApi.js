@@ -2,6 +2,7 @@ export {
   Component,
   createRef,
   createElement,
+  createContext,
   cloneElement,
   forwardRef,
   memo,

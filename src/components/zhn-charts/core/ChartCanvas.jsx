@@ -1,6 +1,14 @@
-import PropTypes from 'prop-types';
-import { max, min } from 'd3-array';
-import React from 'react';
+//import PropTypes from 'prop-types';
+import {
+  createContext,
+  Component,
+  createRef
+} from '../../uiApi';
+
+import {
+  max, 
+  min
+} from 'd3-array';
 
 import {
   clearCanvas,
@@ -11,17 +19,17 @@ import {
   isNotDefined,
   last,
   shallowEqual
-} from "./utils";
+} from './utils';
 import {
   mouseBasedZoomAnchor
-} from "./zoom/zoomBehavior";
+} from './zoom/zoomBehavior';
 import {
   getChartConfigWithUpdatedYScales,
   getCurrentCharts,
   getCurrentItem
-} from "./utils/ChartDataUtil";
-import { EventCapture } from "./EventCapture";
-import { CanvasContainer } from "./CanvasContainer";
+} from './utils/ChartDataUtil';
+import { EventCapture } from './EventCapture';
+import { CanvasContainer } from './CanvasContainer';
 import ChartCanvasDefs from './ChartCanvasDefs';
 
 import {
@@ -106,10 +114,28 @@ const _crPinchZoomNewDomain = (
    return [x, y].map(initialPinchXScale.invert);
 }
 
-const FN_NOOP = () => {}
+const FN_NOOP = () => {};
+export const dfChartCanvasContextValue = {
+  amIOnTop: () => false,
+  chartConfigs: [],
+  chartId: 0,
+  displayXAccessor: () => 0,
+  fullData: [],
+  getMutableState: () => ({}),
+  height: 0,
+  margin: {},
+  plotData: [],
+  setCursorClass: FN_NOOP,
+  subscribe: FN_NOOP,
+  unsubscribe: FN_NOOP,
+  width: 0,
+  xAccessor: () => 0,
+  xScale: FN_NOOP
+};
 
+export const ChartCanvasContext = createContext(dfChartCanvasContextValue)
 
-class ChartCanvas extends React.Component {
+export class ChartCanvas extends Component {
     static defaultProps = {
         clamp: false,
         className: CL_CHARTS,
@@ -119,7 +145,12 @@ class ChartCanvas extends React.Component {
         disableZoom: false,
         flipXScale: false,
         maintainPointsPerPixelOnResize: true,
-        margin: { top: 0, right: 40, bottom: 40, left: 0 },
+        margin: {
+          top: 0,
+          right: 40,
+          bottom: 40,
+          left: 0
+        },
         minPointsPerPxThreshold: 1 / 100,
         mouseMoveEvent: true,
         postCalculator: identity,
@@ -131,60 +162,21 @@ class ChartCanvas extends React.Component {
         zIndex: 1,
         zoomAnchor: mouseBasedZoomAnchor,
         zoomMultiplier: 1.1,
-
         onZoom: FN_NOOP
     }
 
-    static childContextTypes = {
-        plotData: PropTypes.array,
-        fullData: PropTypes.array,
-        chartConfig: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-            origin: PropTypes.arrayOf(PropTypes.number).isRequired,
-            padding: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.shape({
-                    top: PropTypes.number,
-                    bottom: PropTypes.number,
-                }),
-            ]),
-            yExtents: PropTypes.arrayOf(PropTypes.func),
-            yExtentsProvider: PropTypes.func,
-            yScale: PropTypes.func.isRequired,
-            mouseCoordinates: PropTypes.shape({
-                at: PropTypes.string,
-                format: PropTypes.func,
-            }),
-            width: PropTypes.number.isRequired,
-            height: PropTypes.number.isRequired,
-        })).isRequired,
-        xScale: PropTypes.func.isRequired,
-        xAccessor: PropTypes.func.isRequired,
-        displayXAccessor: PropTypes.func.isRequired,
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        margin: PropTypes.object.isRequired,
-        ratio: PropTypes.number.isRequired,
-        getCanvasContexts: PropTypes.func,
-        xAxisZoom: PropTypes.func,
-        yAxisZoom: PropTypes.func,
-        amIOnTop: PropTypes.func,
-        redraw: PropTypes.func,
-        subscribe: PropTypes.func,
-        unsubscribe: PropTypes.func,
-        setCursorClass: PropTypes.func,
-        generateSubscriptionId: PropTypes.func,
-        getMutableState: PropTypes.func,
-    }
-
-    canvasContainerRef = React.createRef();
-    eventCaptureRef = React.createRef();
+    canvasContainerRef = createRef();
+    eventCaptureRef = createRef();
 
     finalPinch;
     lastSubscriptionId = 0;
     mutableState = {};
     panInProgress = false;
     prevMouseXY;
+
+    _isDidUpdateRedraw = false;
+    _asyncRedrawId;
+
     subscriptions = [];
     waitingForPinchZoomAnimationFrame;
     waitingForPanAnimationFrame;
@@ -200,14 +192,6 @@ class ChartCanvas extends React.Component {
     getMutableState = () => {
       return this.mutableState;
     }
-
-    /*
-    getDataInfo = () => {
-      return {
-        ...this.state,
-      };
-    }
-    */
 
     getCanvasContexts = () => {
       return this.canvasContainerRef.current?.getCanvasContexts();
@@ -285,11 +269,11 @@ class ChartCanvas extends React.Component {
     handleContextMenu = (mouseXY, e) => {
         const {
           xAccessor,
-          chartConfig,
+          chartConfigs,
           plotData,
           xScale
         } = this.state
-        , currentCharts = getCurrentCharts(chartConfig, mouseXY)
+        , currentCharts = getCurrentCharts(chartConfigs, mouseXY)
         , currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData);
 
         this.triggerEvent("contextmenu", {
@@ -305,7 +289,7 @@ class ChartCanvas extends React.Component {
           xAccessor,
           displayXAccessor,
           xScale: initialXScale,
-          chartConfig: initialChartConfig,
+          chartConfigs: initialChartConfig,
           plotData: initialPlotData,
           filterData
         } = this.state
@@ -327,12 +311,12 @@ class ChartCanvas extends React.Component {
         , updatedScale = initialXScale
             .copy()
             .domain(domain)
-        , chartConfig = getChartConfigWithUpdatedYScales(initialChartConfig, { plotData, xAccessor, displayXAccessor, fullData }, updatedScale.domain());
+        , chartConfigs = getChartConfigWithUpdatedYScales(initialChartConfig, { plotData, xAccessor, displayXAccessor, fullData }, updatedScale.domain());
 
         return {
           xScale: updatedScale,
           plotData,
-          chartConfig
+          chartConfigs
         };
     }
 
@@ -343,7 +327,7 @@ class ChartCanvas extends React.Component {
         , {
           fullData,
           xScale: initialXScale,
-          chartConfig: initialChartConfig,
+          chartConfigs: initialChartConfig,
           plotData: initialPlotData,
           xAccessor,
           displayXAccessor,
@@ -373,7 +357,7 @@ class ChartCanvas extends React.Component {
            .copy()
            .domain(domain)
         , mouseXY = finalPinch.touch1Pos
-        , chartConfig = getChartConfigWithUpdatedYScales(
+        , chartConfigs = getChartConfigWithUpdatedYScales(
             initialChartConfig, {
               plotData,
               xAccessor,
@@ -385,7 +369,7 @@ class ChartCanvas extends React.Component {
         , currentItem = getCurrentItem(updatedScale, xAccessor, mouseXY, plotData);
 
         return {
-          chartConfig,
+          chartConfigs,
           xScale: updatedScale,
           plotData,
           mouseXY,
@@ -451,8 +435,10 @@ class ChartCanvas extends React.Component {
         onLoadAfter,
         onLoadBefore
       } = this.props;
-      this.clearThreeCanvas();
+      //this.clearThreeCanvas();
+
       onZoom((plotData || []).length)
+      this._isDidUpdateRedraw = true
       this.setState({
         xScale,
         plotData,
@@ -491,10 +477,10 @@ class ChartCanvas extends React.Component {
         , {
           xScale,
           plotData,
-          chartConfig
+          chartConfigs
         } = this.calculateStateForDomain(newDomain)
         , currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData)
-        , currentCharts = getCurrentCharts(chartConfig, mouseXY)
+        , currentCharts = getCurrentCharts(chartConfigs, mouseXY)
 
 
         this.mutableState = {
@@ -505,32 +491,32 @@ class ChartCanvas extends React.Component {
         this.triggerEvent("zoom", {
           xScale,
           plotData,
-          chartConfig,
+          chartConfigs,
           mouseXY,
           currentCharts,
           currentItem,
           show: true,
         }, e);
 
-        this._zoomXImpl(plotData, chartConfig, xScale)
+        this._zoomXImpl(plotData, chartConfigs, xScale)
     }
 
     xAxisZoom = (newDomain) => {
         const {
           xScale,
           plotData,
-          chartConfig
+          chartConfigs
         } = this.calculateStateForDomain(newDomain);
 
-        this._zoomXImpl(plotData, chartConfig, xScale)
+        this._zoomXImpl(plotData, chartConfigs, xScale)
     }
 
     yAxisZoom = (chartId, newDomain) => {
         this.clearThreeCanvas();
         const {
-          chartConfig: initialChartConfig
+          chartConfigs: initialChartConfig
         } = this.state
-        , chartConfig = initialChartConfig.map((each) => {
+        , chartConfigs = initialChartConfig.map((each) => {
             if (each.id === chartId) {
               const { yScale } = each;
               return {
@@ -543,7 +529,7 @@ class ChartCanvas extends React.Component {
             }
         });
         this.setState({
-          chartConfig
+          chartConfigs
         });
     };
 
@@ -575,7 +561,7 @@ class ChartCanvas extends React.Component {
           fullData,
           xAccessor,
           displayXAccessor,
-          chartConfig: initialChartConfig,
+          chartConfigs: initialChartConfig,
           filterData
         } = this.state
         , {
@@ -602,13 +588,13 @@ class ChartCanvas extends React.Component {
             .domain(domain)
         , plotData = postCalculator(beforePlotData)
         , currentItem = getCurrentItem(updatedScale, xAccessor, mouseXY, plotData)
-        , chartConfig = getChartConfigWithUpdatedYScales(initialChartConfig, { plotData, xAccessor, displayXAccessor, fullData }, updatedScale.domain(), dy, chartsToPan)
-        , currentCharts = getCurrentCharts(chartConfig, mouseXY);
+        , chartConfigs = getChartConfigWithUpdatedYScales(initialChartConfig, { plotData, xAccessor, displayXAccessor, fullData }, updatedScale.domain(), dy, chartsToPan)
+        , currentCharts = getCurrentCharts(chartConfigs, mouseXY);
 
         return {
            xScale: updatedScale,
            plotData,
-           chartConfig,
+           chartConfigs,
            mouseXY,
            currentCharts,
            currentItem
@@ -650,7 +636,7 @@ class ChartCanvas extends React.Component {
         , {
           xScale,
           plotData,
-          chartConfig
+          chartConfigs
         } = state;
 
         this.hackyWayToStopPanBeyondBounds__plotData = null;
@@ -668,11 +654,12 @@ class ChartCanvas extends React.Component {
             onLoadBefore
           } = this.props;
 
-          this.clearThreeCanvas();
+          //this.clearThreeCanvas();
+          this._isDidUpdateRedraw = true
           this.setState({
             xScale,
             plotData,
-            chartConfig,
+            chartConfigs,
           }, () => _callOnLoadHandlers(
             fullData,
             xScale,
@@ -696,8 +683,13 @@ class ChartCanvas extends React.Component {
     handleMouseMove = (mouseXY, _, e) => {
         if (!this.waitingForMouseMoveAnimationFrame) {
             this.waitingForMouseMoveAnimationFrame = true;
-            const { chartConfig, plotData, xScale, xAccessor } = this.state;
-            const currentCharts = getCurrentCharts(chartConfig, mouseXY);
+            const {
+              chartConfigs,
+              plotData,
+              xScale,
+              xAccessor
+            } = this.state;
+            const currentCharts = getCurrentCharts(chartConfigs, mouseXY);
             const currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData);
             this.triggerEvent("mousemove", {
                 show: true,
@@ -729,8 +721,13 @@ class ChartCanvas extends React.Component {
         this.triggerEvent("dragstart", { startPos }, e);
     };
     handleDrag = ({ startPos, mouseXY }, e) => {
-        const { chartConfig, plotData, xScale, xAccessor } = this.state;
-        const currentCharts = getCurrentCharts(chartConfig, mouseXY);
+        const {
+          chartConfigs,
+          plotData,
+          xScale,
+          xAccessor
+        } = this.state;
+        const currentCharts = getCurrentCharts(chartConfigs, mouseXY);
         const currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData);
         this.triggerEvent("drag", {
             startPos,
@@ -766,56 +763,57 @@ class ChartCanvas extends React.Component {
         this.triggerEvent("dblclick", {}, e);
     };
 
-    getChildContext() {
-        const {
+    getContextValues() {
+      const {
+        margin,
+        ratio
+      } = this.props
+      , {
+        fullData,
+        plotData,
+        chartConfigs,
+        xScale,
+        xAccessor,
+        displayXAccessor
+      } = this.state
+      , {
+        width,
+        height
+      } = getDimensions(this.props);
+
+      return {
+          chartId: -1,
+
           margin,
-          ratio
-        } = this.props
-        , {
-          fullData,
+          ratio,
+
           plotData,
-          chartConfig,
+          chartConfigs,
           xScale,
           xAccessor,
-          displayXAccessor
-        } = this.state
-        , {
+          displayXAccessor,
+
           width,
-          height
-        } = getDimensions(this.props);
+          height,
 
-        return {
-            margin,
-            ratio,
-
-            plotData,
-            chartConfig,
-            xScale,
-            xAccessor,
-            displayXAccessor,
-
-            width,
-            height,
-
-            fullData: fullData || [],
-            xAxisZoom: this.xAxisZoom,
-            yAxisZoom: this.yAxisZoom,
-            getCanvasContexts: this.getCanvasContexts,
-            redraw: this.redraw,
-            subscribe: this.subscribe,
-            unsubscribe: this.unsubscribe,
-            generateSubscriptionId: this.generateSubscriptionId,
-            getMutableState: this.getMutableState,
-            amIOnTop: this.amIOnTop,
-            setCursorClass: this.setCursorClass,
-        };
+          fullData: fullData || [],
+          xAxisZoom: this.xAxisZoom,
+          yAxisZoom: this.yAxisZoom,
+          getCanvasContexts: this.getCanvasContexts,
+          redraw: this.redraw,
+          subscribe: this.subscribe,
+          unsubscribe: this.unsubscribe,
+          generateSubscriptionId: this.generateSubscriptionId,
+          getMutableState: this.getMutableState,
+          amIOnTop: this.amIOnTop,
+          setCursorClass: this.setCursorClass,
+      };
     }
-
 
     static getDerivedStateFromProps(nextProps, currentState) {
         const {
           recentProps={},
-          chartConfig: initialChartConfig,
+          chartConfigs: initialChartConfig,
           plotData,
           xAccessor,
           xScale
@@ -825,43 +823,48 @@ class ChartCanvas extends React.Component {
             nextProps
           )
         , interaction = isInteractionEnabled(
-             xScale,
-             xAccessor,
-              plotData
+            xScale,
+            xAccessor,
+            plotData
           );
         let newState;
         if (!interaction || reset || !shallowEqual(recentProps.xExtents, nextProps.xExtents)) {
             // do reset
             newState = resetChart(nextProps);
-        }
-        else {
-            const [start, end] = xScale.domain();
-            const prevLastItem = last(currentState.fullData);
-            const calculatedState = calculateFullData(nextProps);
-            const { xAccessor } = calculatedState;
-            const previousX = xAccessor(prevLastItem);
-            const lastItemWasVisible = previousX <= end && previousX >= start;
-            newState = updateChart(calculatedState, xScale, nextProps, lastItemWasVisible, initialChartConfig);
+        } else {
+            const [
+              start,
+              end
+            ] = xScale.domain()
+            , prevLastItem = last(currentState.fullData)
+            , calculatedState = calculateFullData(nextProps)
+            , { xAccessor } = calculatedState
+            , previousX = xAccessor(prevLastItem)
+            , lastItemWasVisible = previousX <= end && previousX >= start;
+            newState = updateChart(
+              calculatedState,
+              xScale,
+              nextProps,
+              lastItemWasVisible,
+              initialChartConfig
+            );
         }
         return {
           ...newState,
-          recentProps: nextProps,
-          propIteration: (currentState.propIteration || 0) + 1
+          recentProps: nextProps
         };
     }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        // clearThreeCanvas on props update,
-        // propIteration is incremented when the props change
-        // to differentiate between state updates and prop updates
-        if (prevState.propIteration !== this.state.propIteration
-            && !this.panInProgress) {
-          this.clearThreeCanvas();
-        }
-        return null;
-    }
-
     componentDidUpdate(prevProps) {
+       if (this._isDidUpdateRedraw) {
+         this._isDidUpdateRedraw = false
+         this.redraw()
+       } else if (prevProps !== this.props && !this.panInProgress) {
+         clearTimeout(this._asyncRedrawId)
+         this._asyncRedrawId = setTimeout(() => {
+           this.redraw()
+         }, 0)
+       }
        if (prevProps.data !== this.props.data) {
           this.triggerEvent("dataupdated", {
              chartConfigs: this.state.chartConfigs,
@@ -872,9 +875,9 @@ class ChartCanvas extends React.Component {
     }
 
     resetYDomain = (chartId) => {
-        const { chartConfig } = this.state;
+        const { chartConfigs } = this.state;
         let changed = false;
-        const newChartConfig = chartConfig.map((each) => {
+        const newChartConfig = chartConfigs.map((each) => {
             if ((isNotDefined(chartId) || each.id === chartId) &&
                 !shallowEqual(each.yScale.domain(), each.realYDomain)) {
                 changed = true;
@@ -889,7 +892,7 @@ class ChartCanvas extends React.Component {
         if (changed) {
             this.clearThreeCanvas();
             this.setState({
-                chartConfig: newChartConfig,
+                chartConfigs: newChartConfig,
             });
         }
     };
@@ -920,7 +923,7 @@ class ChartCanvas extends React.Component {
           plotData,
           xScale,
           xAccessor,
-          chartConfig
+          chartConfigs
         } = this.state
         , dimensions = getDimensions(this.props)
         , interaction = isInteractionEnabled(xScale, xAccessor, plotData)
@@ -929,71 +932,71 @@ class ChartCanvas extends React.Component {
         /*eslint-disable jsx-a11y/click-events-have-key-events*/
         /*eslint-disable jsx-a11y/no-static-element-interactions*/
         return (
-          <div
-             className={className}
-             style={{position: "relative", width, height}}
-             onClick={onClick}
-             onDoubleClick={onDoubleClick}
-          >
-              <CanvasContainer
-                 ref={this.canvasContainerRef}
-                 ratio={ratio}
-                 width={width}
-                 height={height}
-                 style={{ height, zIndex, width }}
-              />
-              <svg
-                 className={className}
-                 width={width}
-                 height={height}
-                 style={{position: "absolute", zIndex: zIndex + 5}}
-              >
-                  {getCursorStyle()}
-                  <ChartCanvasDefs
-                    dimensions={dimensions}
-                    chartConfig={chartConfig}
-                  />
-                  <g transform={`translate(${margin.left + 0.5}, ${margin.top + 0.5})`}>
-                      <EventCapture
-                         ref={this.eventCaptureRef}
-                         useCrossHairStyleCursor={cursorStyle}
-                         mouseMove={mouseMoveEvent && interaction}
-                         zoom={!disableZoom && interaction}
-                         pan={!disablePan && interaction}
-                         width={dimensions.width}
-                         height={dimensions.height}
-                         chartConfig={chartConfig}
-                         xScale={xScale}
-                         xAccessor={xAccessor}
-                         focus={defaultFocus}
-                         disableInteraction={disableInteraction}
-                         getAllPanConditions={this.getAllPanConditions}
-                         onContextMenu={this.handleContextMenu}
-                         onClick={this.handleClick}
-                         onDoubleClick={this.handleDoubleClick}
-                         onMouseDown={this.handleMouseDown}
-                         onMouseMove={this.handleMouseMove}
-                         onMouseEnter={this.handleMouseEnter}
-                         onMouseLeave={this.handleMouseLeave}
-                         onDragStart={this.handleDragStart}
-                         onDrag={this.handleDrag}
-                         onDragComplete={this.handleDragEnd}
-                         onZoom={this.handleZoom}
-                         onPinchZoom={this.handlePinchZoom}
-                         onPinchZoomEnd={this.handlePinchZoomEnd}
-                         onPan={this.handlePan}
-                         onPanEnd={this.handlePanEnd}
-                      />
-                      <g className={CL_AVOID_INTERACTION}>
-                         {children}
-                      </g>
-                  </g>
-              </svg>
-          </div>
-        );
-        /*eslint-enable jsx-a11y/no-static-element-interactions*/
-        /*eslint-enable jsx-a11y/click-events-have-key-events */
+         <ChartCanvasContext.Provider value={this.getContextValues()}>
+            <div
+               className={className}
+               style={{position: "relative", width, height}}
+               onClick={onClick}
+               onDoubleClick={onDoubleClick}
+            >
+                <CanvasContainer
+                   ref={this.canvasContainerRef}
+                   ratio={ratio}
+                   width={width}
+                   height={height}
+                   style={{ height, zIndex, width }}
+                />
+                <svg
+                   className={className}
+                   width={width}
+                   height={height}
+                   style={{position: "absolute", zIndex: zIndex + 5}}
+                >
+                    {getCursorStyle()}
+                    <ChartCanvasDefs
+                      dimensions={dimensions}
+                      chartConfig={chartConfigs}
+                    />
+                    <g transform={`translate(${margin.left + 0.5}, ${margin.top + 0.5})`}>
+                        <EventCapture
+                           ref={this.eventCaptureRef}
+                           useCrossHairStyleCursor={cursorStyle}
+                           mouseMove={mouseMoveEvent && interaction}
+                           zoom={!disableZoom && interaction}
+                           pan={!disablePan && interaction}
+                           width={dimensions.width}
+                           height={dimensions.height}
+                           chartConfig={chartConfigs}
+                           xScale={xScale}
+                           xAccessor={xAccessor}
+                           focus={defaultFocus}
+                           disableInteraction={disableInteraction}
+                           getAllPanConditions={this.getAllPanConditions}
+                           onContextMenu={this.handleContextMenu}
+                           onClick={this.handleClick}
+                           onDoubleClick={this.handleDoubleClick}
+                           onMouseDown={this.handleMouseDown}
+                           onMouseMove={this.handleMouseMove}
+                           onMouseEnter={this.handleMouseEnter}
+                           onMouseLeave={this.handleMouseLeave}
+                           onDragStart={this.handleDragStart}
+                           onDrag={this.handleDrag}
+                           onDragComplete={this.handleDragEnd}
+                           onZoom={this.handleZoom}
+                           onPinchZoom={this.handlePinchZoom}
+                           onPinchZoomEnd={this.handlePinchZoomEnd}
+                           onPan={this.handlePan}
+                           onPanEnd={this.handlePanEnd}
+                        />
+                        <g className={CL_AVOID_INTERACTION}>
+                           {children}
+                        </g>
+                    </g>
+                </svg>
+            </div>
+         </ChartCanvasContext.Provider>
+      );
+      /*eslint-enable jsx-a11y/no-static-element-interactions*/
+      /*eslint-enable jsx-a11y/click-events-have-key-events */
     }
 }
-
-export default ChartCanvas

@@ -226,7 +226,7 @@ export const resetChart = (
       ? postCalculator(initialPlotData)
       : initialPlotData
   , dimensions = getDimensions(props)
-  , chartConfig = getChartConfigWithUpdatedYScales(
+  , chartConfigs = getChartConfigWithUpdatedYScales(
       getNewChartConfig(dimensions, children), {
         plotData,
         xAccessor,
@@ -238,7 +238,7 @@ export const resetChart = (
      ...state,
      xScale,
      plotData,
-     chartConfig,
+     chartConfigs,
   };
 };
 
@@ -333,7 +333,7 @@ export const updateChart = (
       children,
       initialChartConfig
    )
-  , chartConfig = getChartConfigWithUpdatedYScales(
+  , chartConfigs = getChartConfigWithUpdatedYScales(
       _newChartConfig, {
         plotData,
         xAccessor,
@@ -345,7 +345,7 @@ export const updateChart = (
   return {
       xScale: updatedXScale,
       xAccessor,
-      chartConfig,
+      chartConfigs,
       plotData,
       fullData,
       filterData,
