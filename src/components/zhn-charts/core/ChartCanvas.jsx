@@ -6,7 +6,7 @@ import {
 } from '../../uiApi';
 
 import {
-  max, 
+  max,
   min
 } from 'd3-array';
 
@@ -312,7 +312,6 @@ export class ChartCanvas extends Component {
             .copy()
             .domain(domain)
         , chartConfigs = getChartConfigWithUpdatedYScales(initialChartConfig, { plotData, xAccessor, displayXAccessor, fullData }, updatedScale.domain());
-
         return {
           xScale: updatedScale,
           plotData,
@@ -425,7 +424,15 @@ export class ChartCanvas extends Component {
         }
     }
 
-    _zoomXImpl = (plotData, chartConfig, xScale) => {
+    _zoomXImpl = (plotData, chartConfigs, xScale, evtTriggerOptions, evt) => {
+      this.triggerEvent("zoom", {
+        xScale,
+        plotData,
+        chartConfigs,
+        ...evtTriggerOptions,
+        show: true
+      }, evt);
+
       const {
         fullData,
         xAccessor
@@ -438,11 +445,12 @@ export class ChartCanvas extends Component {
       //this.clearThreeCanvas();
 
       onZoom((plotData || []).length)
+
       this._isDidUpdateRedraw = true
       this.setState({
         xScale,
         plotData,
-        chartConfig,
+        chartConfigs,
       }, () => _callOnLoadHandlers(
         fullData,
         xScale,
@@ -452,9 +460,9 @@ export class ChartCanvas extends Component {
       ))
     }
 
-    handleZoom = (zoomDirection, mouseXY, e) => {
+    handleZoom = (zoomDirection, mouseXY, evt) => {
         if (this.panInProgress) {
-            return;
+           return;
         }
 
         const {
@@ -470,7 +478,7 @@ export class ChartCanvas extends Component {
            xScale: initialXScale,
            xAccessor: xAccessor,
            mouseXY,
-           plotData: initialPlotData,
+           plotData: initialPlotData
         })
         , c = _crZoomDirection(zoomDirection, zoomMultiplier)
         , newDomain = _crNewDomain(initialXScale, item, c)
@@ -478,27 +486,29 @@ export class ChartCanvas extends Component {
           xScale,
           plotData,
           chartConfigs
-        } = this.calculateStateForDomain(newDomain)
-        , currentItem = getCurrentItem(xScale, xAccessor, mouseXY, plotData)
-        , currentCharts = getCurrentCharts(chartConfigs, mouseXY)
-
+        } = this.calculateStateForDomain(newDomain);
 
         this.mutableState = {
           mouseXY,
-          currentItem,
-          currentCharts,
-        };
-        this.triggerEvent("zoom", {
-          xScale,
+          currentItem: getCurrentItem(
+            xScale,
+            xAccessor,
+            mouseXY,
+            plotData
+          ),
+          currentCharts: getCurrentCharts(
+            chartConfigs,
+            mouseXY
+          )
+        }
+
+        this._zoomXImpl(
           plotData,
           chartConfigs,
-          mouseXY,
-          currentCharts,
-          currentItem,
-          show: true,
-        }, e);
-
-        this._zoomXImpl(plotData, chartConfigs, xScale)
+          xScale,
+          this.mutableState,
+          evt
+        );
     }
 
     xAxisZoom = (newDomain) => {
@@ -508,7 +518,11 @@ export class ChartCanvas extends Component {
           chartConfigs
         } = this.calculateStateForDomain(newDomain);
 
-        this._zoomXImpl(plotData, chartConfigs, xScale)
+        this._zoomXImpl(
+          plotData,
+          chartConfigs,
+          xScale
+        );
     }
 
     yAxisZoom = (chartId, newDomain) => {

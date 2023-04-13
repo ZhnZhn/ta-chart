@@ -267,7 +267,14 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
         });
       }
     };
-    _this._zoomXImpl = function (plotData, chartConfig, xScale) {
+    _this._zoomXImpl = function (plotData, chartConfigs, xScale, evtTriggerOptions, evt) {
+      _this.triggerEvent("zoom", (0, _extends2["default"])({
+        xScale: xScale,
+        plotData: plotData,
+        chartConfigs: chartConfigs
+      }, evtTriggerOptions, {
+        show: true
+      }), evt);
       var _this$state5 = _this.state,
         fullData = _this$state5.fullData,
         xAccessor = _this$state5.xAccessor,
@@ -282,12 +289,12 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
       _this.setState({
         xScale: xScale,
         plotData: plotData,
-        chartConfig: chartConfig
+        chartConfigs: chartConfigs
       }, function () {
         return _callOnLoadHandlers(fullData, xScale, xAccessor, onLoadAfter, onLoadBefore);
       });
     };
-    _this.handleZoom = function (zoomDirection, mouseXY, e) {
+    _this.handleZoom = function (zoomDirection, mouseXY, evt) {
       if (_this.panInProgress) {
         return;
       }
@@ -309,24 +316,13 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
         _this$calculateStateF = _this.calculateStateForDomain(newDomain),
         xScale = _this$calculateStateF.xScale,
         plotData = _this$calculateStateF.plotData,
-        chartConfigs = _this$calculateStateF.chartConfigs,
-        currentItem = (0, _ChartDataUtil.getCurrentItem)(xScale, xAccessor, mouseXY, plotData),
-        currentCharts = (0, _ChartDataUtil.getCurrentCharts)(chartConfigs, mouseXY);
+        chartConfigs = _this$calculateStateF.chartConfigs;
       _this.mutableState = {
         mouseXY: mouseXY,
-        currentItem: currentItem,
-        currentCharts: currentCharts
+        currentItem: (0, _ChartDataUtil.getCurrentItem)(xScale, xAccessor, mouseXY, plotData),
+        currentCharts: (0, _ChartDataUtil.getCurrentCharts)(chartConfigs, mouseXY)
       };
-      _this.triggerEvent("zoom", {
-        xScale: xScale,
-        plotData: plotData,
-        chartConfigs: chartConfigs,
-        mouseXY: mouseXY,
-        currentCharts: currentCharts,
-        currentItem: currentItem,
-        show: true
-      }, e);
-      _this._zoomXImpl(plotData, chartConfigs, xScale);
+      _this._zoomXImpl(plotData, chartConfigs, xScale, _this.mutableState, evt);
     };
     _this.xAxisZoom = function (newDomain) {
       var _this$calculateStateF2 = _this.calculateStateForDomain(newDomain),
