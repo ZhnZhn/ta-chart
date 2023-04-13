@@ -5,8 +5,16 @@
  ],
  "file": "../src/index.js",
  "names": [
+  "_client",
+  "require",
+  "_App",
+  "_interopRequireDefault",
+  "_jsxRuntime",
+  "createRoot",
   "document",
-  "getElementById"
+  "getElementById",
+  "render",
+  "jsx"
  ],
- "mappings": ";;;;;;AAAA;;AAEA;;AAIA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AAEA,oCACE,qBAAC,eAAD,KADF,EAEEA,QAAQ,CAACC,cAAT,CAAwB,KAAxB,CAFF"
+ "mappings": ";;;AAAA,IAAAA,OAAA,GAAAC,OAAA;AACA,IAAAC,IAAA,GAAAC,sBAAA,CAAAF,OAAA;AAAmC,IAAAG,WAAA,GAAAH,OAAA;AAEnC,IAAAI,kBAAU,EAACC,QAAQ,CAACC,cAAc,CAAC,KAAK,CAAC,CAAC,CACvCC,MAAM,eAAC,IAAAJ,WAAA,CAAAK,GAAA,EAACP,IAAA,WAAG,KAAG,CAAC"
 }
