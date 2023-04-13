@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import { Component } from '../../uiApi';
+import { useContext } from '../../uiApi';
 
+import { ChartContext } from '../core/Chart';
 import Axis from './Axis';
 import { crScale } from './AxisFn';
+
 import {
   CL_X_AXIS,
   CL_AXIS_DOMAIN,
@@ -36,70 +37,62 @@ const _getXScale = ({
   ? crScale(xScale, [0, width])
   : xScale;
 
+const _crMoreProps = (
+  props,
+  width,
+  height
+) => {
+   const {
+     axisAt,
+     xZoomHeight,
+     orient,
+     ticks
+   } = props
+   , x = 0
+   , y = orient === 'top'
+      ? -xZoomHeight
+      : 0
+   , h = xZoomHeight
+   , w = width
+   , axisLocation = _crAxisLocation(axisAt, height);
+  return {
+    bg: {x, y, h, w},
+    transform: [0, axisLocation],
+    range: [0, width],
+    getScale: _getXScale,
+    ticks: ticks ?? _getXTicks(width)
+  };
+};
 
-class XAxis extends Component {
-    static contextTypes = {
-       chartConfig: PropTypes.object.isRequired,
-       xAxisZoom: PropTypes.func.isRequired
-    }
+const XAxis = (props) => {
+  const {
+    xAxisZoom,
+    chartConfig: { width, height }
+  } = useContext(ChartContext)
+  , {
+    getMouseDelta,
+    outerTickSize,
+    showTicks,
+    strokeStyle,
+    strokeWidth,
+    zoomEnabled,
+    ...restProps
+  } = props
+  , _moreProps = _crMoreProps(props, width, height);
 
-    axisZoomCallback = (newXDomain) => {
-       const { xAxisZoom } = this.context;
-       xAxisZoom(newXDomain);
-    }
-
-    _crMoreProps = () => {
-        const {
-          axisAt,
-          xZoomHeight,
-          orient,
-          ticks
-        } = this.props
-        , {
-          chartConfig: {width, height}
-        } = this.context
-        , x = 0
-        , y = orient === 'top'
-           ? -xZoomHeight
-           : 0
-        , h = xZoomHeight
-        , w = width
-        , axisLocation = _crAxisLocation(axisAt, height);
-
-        return {
-          bg: {x, y, h, w},
-          transform: [0, axisLocation],
-          range: [0, width],
-          getScale: _getXScale,
-          ticks: ticks ?? _getXTicks(width)
-        };
-    }
-
-    render() {
-        const {
-          getMouseDelta,
-          outerTickSize,
-          showTicks,
-          strokeStyle,
-          strokeWidth,
-          zoomEnabled,
-          ...restProps
-        } = this.props
-        , _moreProps = this._crMoreProps();
-
-        return (
-          <Axis
-            {...restProps}
-            {..._moreProps}
-            getMouseDelta={getMouseDelta}
-            outerTickSize={outerTickSize}
-            showTicks={showTicks}
-            strokeStyle={strokeStyle}
-            strokeWidth={strokeWidth}
-            zoomEnabled={zoomEnabled && showTicks}
-            axisZoomCallback={this.axisZoomCallback}
-        />);
-    }
+  return (
+    <Axis
+      {...restProps}
+      {..._moreProps}
+      getMouseDelta={getMouseDelta}
+      outerTickSize={outerTickSize}
+      showTicks={showTicks}
+      strokeStyle={strokeStyle}
+      strokeWidth={strokeWidth}
+      zoomEnabled={zoomEnabled && showTicks}
+      axisZoomCallback={xAxisZoom}
+   />
+  );
 }
 
 const XAXIS_COLOR = '#000000'
