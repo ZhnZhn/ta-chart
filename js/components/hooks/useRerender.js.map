@@ -1,0 +1,17 @@
+{
+ "version": 3,
+ "sources": [
+  "../../../src/components/hooks/useRerender.js"
+ ],
+ "file": "../../../src/components/hooks/useRerender.js",
+ "names": [
+  "_uiApi",
+  "require",
+  "_reducer",
+  "useRerender",
+  "useReducer",
+  "_default",
+  "exports"
+ ],
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AAEA,IAAMC,QAAQ,GAAG,SAAXA,QAAQA,CAAA;EAAA,OAAU,CAAC,CAAC;AAAA,CAAC;AAC3B,IAAMC,WAAW,GAAG,SAAdA,WAAWA,CAAA;EAAA,OAAS,IAAAC,iBAAU,EAACF,QAAQ,CAAC,CAAC,CAAC,CAAC;AAAA;AAAC,IAAAG,QAAA,GAEnCF,WAAW;AAAAG,OAAA,cAAAD,QAAA"
+}
