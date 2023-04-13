@@ -135,6 +135,23 @@ export const dfChartCanvasContextValue = {
 
 export const ChartCanvasContext = createContext(dfChartCanvasContextValue)
 
+const _crYAxisZoomChartConfigs = (
+  chartConfigs,
+  chartId,
+  newDomain
+) => chartConfigs.map(
+  (each) => each.id === chartId
+    ? {
+        ...each,
+        yScale: each.yScale
+          .copy()
+          .domain(newDomain),
+        yPanEnabled: true
+      }
+    : each
+);
+
+
 export class ChartCanvas extends Component {
     static defaultProps = {
         clamp: false,
@@ -526,24 +543,14 @@ export class ChartCanvas extends Component {
     }
 
     yAxisZoom = (chartId, newDomain) => {
-        this.clearThreeCanvas();
-        const {
-          chartConfigs: initialChartConfig
-        } = this.state
-        , chartConfigs = initialChartConfig.map((each) => {
-            if (each.id === chartId) {
-              const { yScale } = each;
-              return {
-                ...each,
-                yScale: yScale.copy().domain(newDomain),
-                yPanEnabled: true,
-              };
-            } else {
-              return each;
-            }
-        });
+        //this.clearThreeCanvas();
+        this._isDidUpdateRedraw = true
         this.setState({
-          chartConfigs
+          chartConfigs: _crYAxisZoomChartConfigs(
+            this.state.chartConfigs,
+            chartId,
+            newDomain
+          )
         });
     };
 

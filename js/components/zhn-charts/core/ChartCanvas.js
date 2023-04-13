@@ -3,8 +3,8 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.dfChartCanvasContextValue = exports.ChartCanvasContext = exports.ChartCanvas = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _uiApi = require("../../uiApi");
 var _d3Array = require("d3-array");
 var _utils = require("./utils");
@@ -90,6 +90,14 @@ var dfChartCanvasContextValue = {
 exports.dfChartCanvasContextValue = dfChartCanvasContextValue;
 var ChartCanvasContext = (0, _uiApi.createContext)(dfChartCanvasContextValue);
 exports.ChartCanvasContext = ChartCanvasContext;
+var _crYAxisZoomChartConfigs = function _crYAxisZoomChartConfigs(chartConfigs, chartId, newDomain) {
+  return chartConfigs.map(function (each) {
+    return each.id === chartId ? (0, _extends2["default"])({}, each, {
+      yScale: each.yScale.copy().domain(newDomain),
+      yPanEnabled: true
+    }) : each;
+  });
+};
 var ChartCanvas = /*#__PURE__*/function (_Component) {
   (0, _inheritsLoose2["default"])(ChartCanvas, _Component);
   function ChartCanvas(_props) {
@@ -332,21 +340,10 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
       _this._zoomXImpl(plotData, chartConfigs, xScale);
     };
     _this.yAxisZoom = function (chartId, newDomain) {
-      _this.clearThreeCanvas();
-      var initialChartConfig = _this.state.chartConfigs,
-        chartConfigs = initialChartConfig.map(function (each) {
-          if (each.id === chartId) {
-            var yScale = each.yScale;
-            return (0, _extends2["default"])({}, each, {
-              yScale: yScale.copy().domain(newDomain),
-              yPanEnabled: true
-            });
-          } else {
-            return each;
-          }
-        });
+      //this.clearThreeCanvas();
+      _this._isDidUpdateRedraw = true;
       _this.setState({
-        chartConfigs: chartConfigs
+        chartConfigs: _crYAxisZoomChartConfigs(_this.state.chartConfigs, chartId, newDomain)
       });
     };
     _this.draw = function (props) {
