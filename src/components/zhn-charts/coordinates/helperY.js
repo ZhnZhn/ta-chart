@@ -29,7 +29,9 @@ export const getYCoordinate = (
   } = props;
 
 	return {
-    coordinate: displayValue,
+    coordinate: displayValue === 'NaNundefined'
+       ? 'no data'
+       : displayValue,
 		show: true,
     type: "horizontal",
     hideLine: true,
@@ -54,33 +56,41 @@ export const getYCoordinate = (
 		x1: 0,
 		x2: width,
 		y1: y,
-		y2: y,
+		y2: y
   };
-}
+};
 
 export const crCoordinateProps = (
   props,
   moreProps
 ) => {
 	const {
-    chartId,
+    displayFormat,
+    yAccessor
+  } = props
+  , {
+    chartConfig,
     currentCharts,
+    currentItem,
     mouseXY,
     show
-  } = moreProps;
-
-	if (isNotDefined(mouseXY)) return null;
-	if (currentCharts.indexOf(chartId) < 0) return null;
-	if (!show) return null;
-
-	const y = mouseXY[1]
-	, {
-    chartConfig: { yScale }
   } = moreProps
-	, {
-    displayFormat
-  } = props
+  , {
+    id,
+    yScale
+  } = chartConfig || {};
+
+  if (isNotDefined(mouseXY)
+      || currentCharts.indexOf(id) < 0
+      || !show
+      || yAccessor && !currentItem) {
+    return null;
+  }
+
+  const y = yAccessor
+    ? yScale(yAccessor(currentItem))
+    : mouseXY[1] - chartConfig.origin[1]
 	, coordinate = displayFormat(yScale.invert(y));
 
-	return getYCoordinate(y, coordinate, props, moreProps);
+  return getYCoordinate(y, coordinate, props, moreProps);
 }

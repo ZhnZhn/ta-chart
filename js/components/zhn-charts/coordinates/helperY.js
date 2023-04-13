@@ -2,27 +2,25 @@
 
 exports.__esModule = true;
 exports.getYCoordinate = exports.crCoordinateProps = void 0;
-
 var _utils = require("../utils");
-
 var getYCoordinate = function getYCoordinate(y, displayValue, props, moreProps) {
   var width = moreProps.width,
-      orient = props.orient,
-      at = props.at,
-      rectWidth = props.rectWidth,
-      rectHeight = props.rectHeight,
-      dx = props.dx,
-      fill = props.fill,
-      opacity = props.opacity,
-      fontFamily = props.fontFamily,
-      fontSize = props.fontSize,
-      textFill = props.textFill,
-      arrowWidth = props.arrowWidth,
-      stroke = props.stroke,
-      strokeOpacity = props.strokeOpacity,
-      strokeWidth = props.strokeWidth;
+    orient = props.orient,
+    at = props.at,
+    rectWidth = props.rectWidth,
+    rectHeight = props.rectHeight,
+    dx = props.dx,
+    fill = props.fill,
+    opacity = props.opacity,
+    fontFamily = props.fontFamily,
+    fontSize = props.fontSize,
+    textFill = props.textFill,
+    arrowWidth = props.arrowWidth,
+    stroke = props.stroke,
+    strokeOpacity = props.strokeOpacity,
+    strokeWidth = props.strokeWidth;
   return {
-    coordinate: displayValue,
+    coordinate: displayValue === 'NaNundefined' ? 'no data' : displayValue,
     show: true,
     type: "horizontal",
     hideLine: true,
@@ -46,23 +44,24 @@ var getYCoordinate = function getYCoordinate(y, displayValue, props, moreProps) 
     y2: y
   };
 };
-
 exports.getYCoordinate = getYCoordinate;
-
 var crCoordinateProps = function crCoordinateProps(props, moreProps) {
-  var chartId = moreProps.chartId,
-      currentCharts = moreProps.currentCharts,
-      mouseXY = moreProps.mouseXY,
-      show = moreProps.show;
-  if ((0, _utils.isNotDefined)(mouseXY)) return null;
-  if (currentCharts.indexOf(chartId) < 0) return null;
-  if (!show) return null;
-  var y = mouseXY[1],
-      yScale = moreProps.chartConfig.yScale,
-      displayFormat = props.displayFormat,
-      coordinate = displayFormat(yScale.invert(y));
+  var displayFormat = props.displayFormat,
+    yAccessor = props.yAccessor,
+    chartConfig = moreProps.chartConfig,
+    currentCharts = moreProps.currentCharts,
+    currentItem = moreProps.currentItem,
+    mouseXY = moreProps.mouseXY,
+    show = moreProps.show,
+    _ref = chartConfig || {},
+    id = _ref.id,
+    yScale = _ref.yScale;
+  if ((0, _utils.isNotDefined)(mouseXY) || currentCharts.indexOf(id) < 0 || !show || yAccessor && !currentItem) {
+    return null;
+  }
+  var y = yAccessor ? yScale(yAccessor(currentItem)) : mouseXY[1] - chartConfig.origin[1],
+    coordinate = displayFormat(yScale.invert(y));
   return getYCoordinate(y, coordinate, props, moreProps);
 };
-
 exports.crCoordinateProps = crCoordinateProps;
 //# sourceMappingURL=helperY.js.map

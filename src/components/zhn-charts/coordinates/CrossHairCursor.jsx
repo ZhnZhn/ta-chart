@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useContext } from '../../uiApi';
 
-import {
-  GenericComponent
-} from '../core/GenericComponent';
-import {
-  getMouseCanvas
-} from '../core/contextFn';
+import useEventCallback from '../../hooks/useEventCallback';
+
+import { ChartCanvasContext } from '../core/ChartCanvas'
+import { GenericComponent } from '../core/GenericComponent';
+import { getMouseCanvas } from '../core/contextFn';
+
+import { CL_CHARTS_CROSSHAIR } from '../CL';
 
 import {
   hexToRGBA,
@@ -14,11 +14,8 @@ import {
   isNotDefined,
   getStrokeDasharray
 } from '../utils';
-import {
-  CL_CHARTS_CROSSHAIR
-} from '../CL'
 
-function customX(props, moreProps) {
+const _customX = (props, moreProps) => {
 	const {
     xScale,
     xAccessor,
@@ -31,7 +28,7 @@ function customX(props, moreProps) {
 		: mouseXY[0];
 }
 
-function helper(props, moreProps) {
+const _crLines = (props, moreProps) => {
 	const {
 		mouseXY,
     currentItem,
@@ -73,29 +70,21 @@ function helper(props, moreProps) {
 	return [line1, line2];
 }
 
-class CrossHairCursor extends Component {
-
-	constructor(props) {
-		super(props);
-		this.renderSVG = this.renderSVG.bind(this);
-		this.drawOnCanvas = this.drawOnCanvas.bind(this);
-	}
-
-	drawOnCanvas(ctx, moreProps) {
-		const lines = helper(this.props, moreProps);
-
+const CrossHairCursor = (props) => {
+  const context = useContext(ChartCanvasContext)
+  , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
+		const lines = _crLines(props, moreProps);
 		if (isDefined(lines)) {
 			const {
         margin,
         ratio
-      } = this.context
+      } = context
 			, originX = 0.5 * ratio + margin.left
 			, originY = 0.5 * ratio + margin.top;
 
 			ctx.save();
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.scale(ratio, ratio);
-
 			ctx.translate(originX, originY);
 
 			lines.forEach(line => {
@@ -111,57 +100,39 @@ class CrossHairCursor extends Component {
 
 			ctx.restore();
 		}
-	}
-
-	renderSVG(moreProps) {
-		const { className } = this.props
-		, lines = helper(this.props, moreProps);
-
+  })
+  , _renderSvg = useEventCallback(moreProps => {
+		const { className } = props
+		, lines = _crLines(props, moreProps);
 		return isNotDefined(lines) ? null : (
 			<g className={`${CL_CHARTS_CROSSHAIR} ${className}`}>
-				{lines.map(({ strokeDasharray, ...rest }, index) =>
+				{lines.map(({ strokeDasharray, ...restProps }, index) =>
 					(<line
-						key={index}
-						strokeDasharray={getStrokeDasharray(strokeDasharray)}
-						{...rest} />
+						 key={index}
+						 strokeDasharray={getStrokeDasharray(strokeDasharray)}
+						 {...restProps} />
           ))}
 			</g>
 		);
-	}
+	});
 
-	render() {
-		return (
-      <GenericComponent
-			  svgDraw={this.renderSVG}
-			  clip={false}
-			  canvasDraw={this.drawOnCanvas}
-			  canvasToDraw={getMouseCanvas}
-			  drawOn={["mousemove", "pan", "drag"]}
-		 />
-    );
-	}
-}
-
-/*
-CrossHairCursor.propTypes = {
-	className: PropTypes.string,
-	strokeDasharray: PropTypes.oneOf(strokeDashTypes),
-};
-*/
-
-CrossHairCursor.contextTypes = {
-	margin: PropTypes.object.isRequired,
-	ratio: PropTypes.number.isRequired,
-	// xScale for getting update event upon pan end, this is needed to get past the PureComponent shouldComponentUpdate
-	// xScale: PropTypes.func.isRequired,
+  return (
+    <GenericComponent
+      clip={false}
+      canvasDraw={_drawOnCanvas}
+      canvasToDraw={getMouseCanvas}
+      drawOn={["mousemove", "pan", "drag"]}
+      svgDraw={_renderSvg}
+   />
+  );
 };
 
 CrossHairCursor.defaultProps = {
+  customX: _customX,
+  opacity: 0.3,
+  snapX: true,
 	stroke: "#000000",
-	opacity: 0.3,
-	strokeDasharray: "ShortDash",
-	snapX: true,
-	customX,
+	strokeDasharray: "ShortDash"
 };
 
 export default CrossHairCursor;
