@@ -76,6 +76,21 @@ const ItemOptionDf = ({ item, propCaption }) => (
   </span>
 );
 
+const _crInitialStateFromProps = ({
+  optionName,
+  optionNames,
+  options
+}) => ({
+   value: '',
+   isShowOption: false,
+   initialOptions: options,
+   options: options,
+   optionNames: optionNames || optionName || '',
+   isValidDomOptionsCache: false,
+   isLocalMode: false
+});
+
+
 class InputSelect extends Component {
   /*
   static propTypes = {
@@ -122,37 +137,26 @@ class InputSelect extends Component {
     this.indexActiveOption = 0
     this.propCaption = props.propCaption
 
-    const { optionName, optionNames, options } = props;
-    this.state = {
-      value: '',
-      isShowOption: false,
-      options: options,
-      optionNames: optionNames || optionName || '',
-      isValidDomOptionsCache: false,
-      isLocalMode: false
-    }
+    this.state = _crInitialStateFromProps(props)
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps){
-    if (this.props !== nextProps){
-      if (this.props.options !== nextProps.options){
-        //New options come from Parent - Clear domCache, Init State
-        this._setStateToInit(nextProps.options);
-      }
-    }
+  static getDerivedStateFromProps(props, state){
+     //Init state for new options from props
+     if (props.options !== state.initialOptions) {
+       return _crInitialStateFromProps(props);
+     }
+     return null;
   }
 
   shouldComponentUpdate(nextProps, nextState){
-    if (this.props !== nextProps) {
-      nextState.isLocalMode = false;
-    } else {
-      nextState.isLocalMode = true;
+    nextState.isLocalMode = (nextProps === this.props);  
+    if (nextState.initialOptions !== this.state.initialOptions) {
+      this.indexActiveOption = 0;
     }
-
     return true;
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps, prevState){
      //Decorate Active Option
      if (this.state.isShowOption){
        const comp = this._getActiveItemComp();
@@ -532,13 +536,23 @@ class InputSelect extends Component {
   _refDomInputText = c => this.domInputText = c
 
   render(){
-    const { rootStyle, width } = this.props
-        , { value, isLocalMode, isShowOption } = this.state
-        , _rootWidthStyle = _crWidth(width, rootStyle)
-        , { afterInputEl, placeholder } = this._crAfterInputEl()
-        , _domOptions = (isLocalMode || isShowOption)
-              ? this.renderOptions()
-              : null;
+    const {
+      rootStyle,
+      width
+    } = this.props
+    , {
+      value,
+      isLocalMode,
+      isShowOption
+    } = this.state
+    , _rootWidthStyle = _crWidth(width, rootStyle)
+    , {
+      afterInputEl,
+      placeholder
+    } = this._crAfterInputEl()
+    , _domOptions = (isLocalMode || isShowOption)
+          ? this.renderOptions()
+          : null;
     return (
       <div
         className={CL.ROOT}
