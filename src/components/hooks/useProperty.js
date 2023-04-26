@@ -13,7 +13,9 @@ const useProperty = (
     //setValue
     v => { ref.current = v },
     //getValue
-    () => ref.current || dfValue
+    () => ref.current === void 0
+       ? dfValue
+       : ref.current
   ], []);
   // dfValue
   /*eslint-enable react-hooks/exhaustive-deps */

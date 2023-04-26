@@ -14,7 +14,7 @@ var useProperty = function useProperty(initialValue, dfValue) {
     },
     //getValue
     function () {
-      return ref.current || dfValue;
+      return ref.current === void 0 ? dfValue : ref.current;
     }];
   }, []);
   // dfValue
