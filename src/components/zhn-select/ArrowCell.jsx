@@ -1,7 +1,8 @@
 import {
   forwardRef,
   useRef,
-  useImperativeHandle
+  useImperativeHandle,
+  getRefElementStyle
 } from '../uiApi';
 
 const S_ARROW_CELL = {
@@ -15,18 +16,17 @@ const S_ARROW_CELL = {
   cursor: 'pointer'
 }
 , S_ARROW = {
-  display: 'inline-block',
   position: 'relative',
   top: 2,
-  width: 0,
+  display: 'inline-block',
   height: 0,
+  width: 0,
   borderColor: '#999 transparent transparent',
   borderStyle: 'solid',
-  borderWidth: '10px 8px 4px',
+  borderWidth: '10px 8px 4px'
 }
 , ANIMATION_CIRCLE = "circle infinite 1.25s linear"
-, BORDER_COLOR = "#1b75bb transparent transparent"
-, _getRefValue = ref => ref.current;
+, BORDER_COLOR = "#1b75bb transparent transparent";
 
 const ArrowCell = forwardRef(({
   arrowStyle,
@@ -37,23 +37,17 @@ const ArrowCell = forwardRef(({
 
   useImperativeHandle(ref, () => ({
     startAnimation: () => {
-      const _arrowCell = _getRefValue(_refArrowCell)
-      , _arrow = _getRefValue(_refArrow);
-      if (_arrowCell && _arrow) {
-        _arrowCell.style.animation = ANIMATION_CIRCLE;
-        _arrow.style.borderColor = BORDER_COLOR;
-      }
+      getRefElementStyle(_refArrowCell).animation = ANIMATION_CIRCLE;
+      getRefElementStyle(_refArrow).borderColor = BORDER_COLOR;
     },
     stopAnimation: () => {
-      const _arrowCell = _getRefValue(_refArrowCell);
-      if (_arrowCell) {
-         _arrowCell.style.animation = "";
-      }
+      getRefElementStyle(_refArrowCell).animation = "";
     }
-  }), [])
+  }))
 
   return (
     <button
+       type="button"
        ref={_refArrowCell}
        style={S_ARROW_CELL}
        tabIndex="-1"
@@ -64,6 +58,6 @@ const ArrowCell = forwardRef(({
       />
     </button>
   );
-});
+})
 
 export default ArrowCell

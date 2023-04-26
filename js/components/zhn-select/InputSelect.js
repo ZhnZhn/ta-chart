@@ -3,268 +3,125 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _react = require("react");
-var _ArrowCell = _interopRequireDefault(require("./ArrowCell"));
-var _ButtonCircle = _interopRequireDefault(require("../zhn/ButtonCircle2"));
+var _uiApi = require("../uiApi");
+var _useProperty2 = _interopRequireDefault(require("../hooks/useProperty"));
+var _useToggle2 = _interopRequireDefault(require("../hooks/useToggle"));
+var _ItemOptionDf = _interopRequireDefault(require("./ItemOptionDf"));
+var _DivOptions = _interopRequireDefault(require("./DivOptions"));
+var _OptionStack = _interopRequireDefault(require("./OptionStack"));
+var _CL = require("./CL");
+var _crStyleWidth = _interopRequireDefault(require("./crStyleWidth"));
+var _crAfterInputEl2 = _interopRequireDefault(require("./crAfterInputEl"));
+var _crFilteredOptions = _interopRequireDefault(require("./crFilteredOptions"));
+var _useOptionDecorator2 = _interopRequireDefault(require("./useOptionDecorator"));
+var _useStepHandlers2 = _interopRequireDefault(require("./useStepHandlers"));
+var _helperFns = require("./helperFns");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from 'prop-types'
 
-var MAX_WITHOUT_ANIMATION = 800;
-var CL_ROOT = 'zhn-select';
-var CL = {
-  ROOT: CL_ROOT,
-  INPUT: CL_ROOT + "__input",
-  SPINNER: CL_ROOT + "__spinner",
-  SPINNER_FAILED: CL_ROOT + "__spinner--failed",
-  INPUT_HR: CL_ROOT + "__input__hr",
-  OPTIONS: CL_ROOT + "__options",
-  OPTIONS_DIV: CL_ROOT + "__options__div",
-  OPTIONS_ROW: CL_ROOT + "__row",
-  OPTIONS_ROW_ACTIVE: CL_ROOT + "__row--active",
-  FOOTER: CL_ROOT + "__footer",
-  FOOTER_INDEX: CL_ROOT + "__footer__index",
-  FOOTER_BTS: CL_ROOT + "__footer__bts",
-  FOOTER_MARGIN: CL_ROOT + "__footer--margin",
-  NOT_SELECTED: 'not-selected'
-};
-var INPUT_PREFIX = 'From input:';
-var _fnNoItem = function _fnNoItem(propCaption, inputValue, isWithInput) {
-  var _ref;
-  var _inputValue = String(inputValue).replace(INPUT_PREFIX, '').trim(),
-    _caption = isWithInput ? INPUT_PREFIX + " " + _inputValue : 'No results found';
-  return _ref = {}, _ref[propCaption] = _caption, _ref.value = 'noresult', _ref.inputValue = _inputValue, _ref;
-};
-var _toItem = function _toItem(item, propCaption) {
-  var _ref2;
-  return _ref2 = {}, _ref2[propCaption] = 'From Input', _ref2.value = item.inputValue, _ref2;
-};
-var _crWidth = function _crWidth(width, style) {
-  return width ? ('' + width).indexOf('%') !== -1 ? (0, _extends2["default"])({}, style, {
-    width: width
-  }) : (0, _extends2["default"])({}, style, {
-    width: width + 'px'
-  }) : null;
-};
-var S = {
-  BLOCK: {
-    display: 'block'
-  },
-  NONE: {
-    display: 'none'
-  },
-  ARROW_SHOW: {
-    borderColor: '#1B75BB transparent transparent'
-  }
-};
-var ItemOptionDf = function ItemOptionDf(_ref3) {
-  var item = _ref3.item,
-    propCaption = _ref3.propCaption;
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
-    children: item[propCaption]
-  });
-};
-var _crInitialStateFromProps = function _crInitialStateFromProps(_ref4) {
-  var optionName = _ref4.optionName,
-    optionNames = _ref4.optionNames,
-    options = _ref4.options;
+var DF_OPTIONS = [];
+var _crInitialStateFromProps = function _crInitialStateFromProps(_ref) {
+  var optionName = _ref.optionName,
+    optionNames = _ref.optionNames,
+    _ref$options = _ref.options,
+    options = _ref$options === void 0 ? DF_OPTIONS : _ref$options;
   return {
     value: '',
-    isShowOption: false,
     initialOptions: options,
     options: options,
-    optionNames: optionNames || optionName || '',
-    isValidDomOptionsCache: false,
-    isLocalMode: false
+    optionNames: optionNames || optionName || ''
   };
 };
-var InputSelect = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(InputSelect, _Component);
-  /*
-  static propTypes = {
-     propCaption: PropTypes.string,
-     ItemOptionComp: PropTypes.element,
-     width: PropTypes.string,
-     isShowOptionAnim: PropTypes.bool,
-     options: PropTypes.arrayOf(PropTypes.shape({
-        caption: PropTypes.string,
-        value: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.number
-        ])
-     })),
-     optionName: PropTypes.string,
-     optionNames: PropTypes.string,
-     placeholder: PropTypes.string,
-     isWithInput: PropTypes.bool,
-     prefixInput: PropTypes.string
-       isLoading: PropTypes.bool,
-     isLoadingFailed: PropTypes.bool,
-       onSelect: PropTypes.func,
-     onLoadOption: PropTypes.func
-  }
-  */
-
-  function InputSelect(props) {
-    var _this;
-    _this = _Component.call(this, props) || this;
-    _this._setStateToInit = function (options) {
-      _this.indexActiveOption = 0;
-      _this.setState({
-        value: '',
-        isShowOption: false,
-        options: options,
-        isValidDomOptionsCache: false
+var FN_NOOP = function FN_NOOP() {};
+var InputSelect = function InputSelect(props) {
+  var style = props.style,
+    width = props.width,
+    optionsStyle = props.optionsStyle,
+    _props$propCaption = props.propCaption,
+    propCaption = _props$propCaption === void 0 ? 'caption' : _props$propCaption,
+    _props$ItemOptionComp = props.ItemOptionComp,
+    ItemOptionComp = _props$ItemOptionComp === void 0 ? _ItemOptionDf["default"] : _props$ItemOptionComp,
+    _props$isWithInput = props.isWithInput,
+    isWithInput = _props$isWithInput === void 0 ? false : _props$isWithInput,
+    _props$onSelect = props.onSelect,
+    onSelect = _props$onSelect === void 0 ? FN_NOOP : _props$onSelect,
+    _refArrowCell = (0, _uiApi.useRef)(),
+    _refDomInputText = (0, _uiApi.useRef)(),
+    _refOptionsElement = (0, _uiApi.useRef)(),
+    _refIndexNode = (0, _uiApi.useRef)(),
+    _useProperty = (0, _useProperty2["default"])(0),
+    setActiveIndexOption = _useProperty[0],
+    getActiveIndexOption = _useProperty[1],
+    _useState = (0, _uiApi.useState)(function () {
+      return _crInitialStateFromProps(props);
+    }),
+    state = _useState[0],
+    setState = _useState[1],
+    value = state.value,
+    options = state.options,
+    initialOptions = state.initialOptions,
+    _useToggle = (0, _useToggle2["default"])(false),
+    isShowOption = _useToggle[0],
+    toggleIsShowOption = _useToggle[1],
+    _getActiveElement = (0, _uiApi.useCallback)(function () {
+      return (((0, _uiApi.getRefValue)(_refOptionsElement) || {}).childNodes || [])[getActiveIndexOption()];
+    }, []),
+    _useOptionDecorator = (0, _useOptionDecorator2["default"])(_refIndexNode, _getActiveElement),
+    _decorateActiveElement = _useOptionDecorator[0],
+    _undecorateActiveElement = _useOptionDecorator[1],
+    _setStateToInit = (0, _uiApi.useCallback)(function () {
+      setState(function () {
+        return _crInitialStateFromProps(props);
       });
-    };
-    _this._getActiveItemComp = function () {
-      return _this["v" + _this.indexActiveOption];
-    };
-    _this._decorateActiveRowComp = function (comp) {
-      if (comp) {
-        comp.classList.add(CL.OPTIONS_ROW_ACTIVE);
-      }
-      if (_this.indexNode) {
-        _this.indexNode.textContent = _this.indexActiveOption + 1;
-      }
-    };
-    _this._undecorateActiveRowComp = function (comp) {
-      var _comp = !comp ? _this._getActiveItemComp() : comp;
-      if (_comp) {
-        _comp.classList.remove(CL.OPTIONS_ROW_ACTIVE);
-      }
-    };
-    _this._makeVisibleActiveRowComp = function (comp) {
-      if (comp) {
-        var offsetTop = comp.offsetTop;
-        var scrollTop = _this.optionsComp.scrollTop;
-        if (offsetTop - scrollTop > 70) {
-          _this.optionsComp.scrollTop += offsetTop - scrollTop - 70;
-        }
-        if (offsetTop - scrollTop < 0) {
-          _this.optionsComp.scrollTop = 0;
-        }
-      }
-    };
-    _this._filterOptions = function (options, value) {
-      var valueFor = value.toLowerCase(),
-        _caption = _this.propCaption;
-      return options.filter(function (option, i) {
-        return option[_caption].toLowerCase().indexOf(valueFor) !== -1;
-      });
-    };
-    _this._handleInputChange = function (event) {
-      var token = event.target.value,
+      toggleIsShowOption(false);
+      setActiveIndexOption(0);
+    }, [props]),
+    clearInput = (0, _uiApi.useCallback)(function () {
+      _undecorateActiveElement();
+      onSelect();
+      _setStateToInit();
+    }, [_setStateToInit]),
+    _hInputChange = function _hInputChange(evt) {
+      var token = evt.target.value,
         tokenLn = token.length,
-        value = _this.state.value,
         valueLn = value.length;
-      var arr = [];
       if (tokenLn !== valueLn) {
-        if (tokenLn > valueLn) {
-          arr = _this._filterOptions(_this.state.options, token);
-        } else if (tokenLn < valueLn) {
-          arr = _this._filterOptions(_this.props.options, token);
+        if (getActiveIndexOption() !== 0) {
+          _undecorateActiveElement();
+          setActiveIndexOption(0);
         }
-        if (arr.length === 0) {
-          arr.push(_fnNoItem(_this.propCaption, token, _this.props.isWithInput));
-        }
-        _this._undecorateActiveRowComp();
-        _this.indexActiveOption = 0;
-        _this.setState({
-          value: token,
-          isShowOption: true,
-          isValidDomOptionsCache: false,
-          options: arr
+        setState(function (prevState) {
+          return (0, _extends2["default"])({}, prevState, {
+            value: token,
+            options: (0, _crFilteredOptions["default"])(token, tokenLn > valueLn ? options : initialOptions, propCaption, isWithInput)
+          });
         });
+        toggleIsShowOption(true);
       }
-    };
-    _this._startAfterInputAnimation = function () {
-      if (_this.state.options.length > MAX_WITHOUT_ANIMATION) {
-        _this.arrowCell.startAnimation();
-      }
-    };
-    _this._stopAfterInputAnimation = function () {
-      _this.arrowCell.stopAnimation();
-    };
-    _this._setShowOptions = function () {
-      _this.setState({
-        isShowOption: true
-      }, _this._stopAfterInputAnimation);
-    };
-    _this._showOptions = function (ms) {
-      if (_this.props.isShowOptionAnim) {
-        _this._startAfterInputAnimation();
-        setTimeout(_this._setShowOptions, ms);
-      } else {
-        _this.setState({
-          isShowOption: true
-        });
-      }
-    };
-    _this._stepDownOption = function () {
-      var prevComp = _this._getActiveItemComp();
-      if (prevComp) {
-        _this._undecorateActiveRowComp(prevComp);
-        _this.indexActiveOption += 1;
-        if (_this.indexActiveOption >= _this.state.options.length) {
-          _this.indexActiveOption = 0;
-          _this.optionsComp.scrollTop = 0;
-        }
-        var nextComp = _this._getActiveItemComp();
-        _this._decorateActiveRowComp(nextComp);
-        //this.indexNode.innerHTML = this.indexActiveOption
-
-        var offsetTop = nextComp.offsetTop;
-        var scrollTop = _this.optionsComp.scrollTop;
-        if (offsetTop - scrollTop > 70) {
-          _this.optionsComp.scrollTop += offsetTop - scrollTop - 70;
-        }
-      }
-    };
-    _this._stepUpOption = function () {
-      var prevComp = _this._getActiveItemComp();
-      if (prevComp) {
-        _this._undecorateActiveRowComp(prevComp);
-        _this.indexActiveOption -= 1;
-        if (_this.indexActiveOption < 0) {
-          _this.indexActiveOption = _this.state.options.length - 1;
-          var bottomComp = _this._getActiveItemComp();
-          _this.optionsComp.scrollTop = bottomComp.offsetTop;
-        }
-        var nextComp = _this._getActiveItemComp();
-        _this._decorateActiveRowComp(nextComp);
-        //this.indexNode.innerHTML = this.indexActiveOption
-
-        var offsetTop = nextComp.offsetTop;
-        var scrollTop = _this.optionsComp.scrollTop;
-        if (offsetTop - scrollTop < 70) {
-          _this.optionsComp.scrollTop -= 70 - (offsetTop - scrollTop);
-        }
-      }
-    };
-    _this._handleInputKeyDown = function (event) {
-      switch (event.keyCode) {
+    },
+    _useStepHandlers = (0, _useStepHandlers2["default"])(_refOptionsElement, _getActiveElement, _decorateActiveElement, _undecorateActiveElement, setActiveIndexOption, getActiveIndexOption),
+    _stepDownOption = _useStepHandlers[0],
+    _stepUpOption = _useStepHandlers[1],
+    _hInputKeyDown = function _hInputKeyDown(evt) {
+      switch (evt.keyCode) {
         // enter
         case 13:
           {
-            var item = _this.state.options[_this.indexActiveOption];
-            if (item && item[_this.propCaption]) {
-              _this.setState({
-                value: item[_this.propCaption],
-                isShowOption: false,
-                isValidDomOptionsCache: true
-              });
-              if (item.value !== 'noresult') {
-                _this.props.onSelect(item);
-              } else {
-                if (!_this.props.isWithInput) {
-                  _this.props.onSelect(undefined);
-                } else {
-                  _this.props.onSelect(_toItem(item, _this.propCaption));
-                }
+            var _indexActiveOption = getActiveIndexOption();
+            if ((0, _helperFns.isNumber)(_indexActiveOption)) {
+              var item = options[_indexActiveOption];
+              if (item && item[propCaption]) {
+                onSelect((0, _helperFns.crOnEnterItem)(item, propCaption, isWithInput));
+                toggleIsShowOption(false);
+                setState(function (prevState) {
+                  return (0, _extends2["default"])({}, prevState, {
+                    value: item[propCaption]
+                  });
+                });
               }
+            } else {
+              onSelect();
             }
             break;
           }
@@ -272,278 +129,143 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         case 27:
         case 46:
           {
-            event.preventDefault();
-            if (_this.state.isShowOption) {
-              _this.setState({
-                isShowOption: false
-              });
+            evt.preventDefault();
+            if (isShowOption) {
+              toggleIsShowOption(false);
             } else {
-              _this._undecorateActiveRowComp();
-              _this._setStateToInit(_this.props.options);
-              _this.props.onSelect(undefined);
+              clearInput();
             }
             break;
           }
+        //down
         case 40:
-          //down
-          if (!_this.state.isShowOption) {
-            _this._showOptions(0);
-            //this.setState({ isShowOption : true });
-          } else {
-            event.preventDefault();
-            _this._stepDownOption();
+          {
+            if (!isShowOption) {
+              toggleIsShowOption(true);
+            } else {
+              evt.preventDefault();
+              _stepDownOption();
+            }
+            break;
           }
-          break;
+        //up
         case 38:
-          //up
-          if (_this.state.isShowOption) {
-            event.preventDefault();
-            _this._stepUpOption();
+          {
+            if (isShowOption) {
+              evt.preventDefault();
+              _stepUpOption();
+            }
+            break;
           }
-          break;
         default:
-          return undefined;
+          return;
       }
-    };
-    _this._handleToggleOptions = function () {
-      //this.setState({ isShowOption: !this.state.isShowOption });
-      if (_this.state.isShowOption) {
-        _this.setState({
-          isShowOption: false
+    },
+    _hClickItem = (0, _uiApi.useCallback)(function (item, evt) {
+      _undecorateActiveElement();
+      setActiveIndexOption((0, _helperFns.getDataIndex)(evt.currentTarget));
+      toggleIsShowOption(false);
+      setState(function (prevState) {
+        return (0, _extends2["default"])({}, prevState, {
+          value: item[propCaption]
         });
-      } else {
-        _this._showOptions(1);
-      }
-    };
-    _this._handleClickItem = function (item, index, event) {
-      _this._undecorateActiveRowComp();
-      _this.indexActiveOption = index;
-      _this.setState({
-        value: item[_this.propCaption],
-        isShowOption: false
       });
-      _this.props.onSelect(item);
-    };
-    _this._refIndexNode = function (n) {
-      return _this.indexNode = n;
-    };
-    _this._renderOptionsFooter = function (nFiltered, nAll) {
-      return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
-        className: CL.FOOTER + " " + CL.NOT_SELECTED,
-        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
-          className: CL.FOOTER_INDEX,
-          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
-            ref: _this._refIndexNode,
-            children: _this.indexActiveOption
-          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
-            children: [": ", nFiltered, ": ", nAll]
-          })]
-        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
-          className: CL.FOOTER_BTS,
-          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_ButtonCircle["default"], {
-            className: CL.FOOTER_MARGIN,
-            caption: "Dn",
-            onClick: _this._stepDownOption
-          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_ButtonCircle["default"], {
-            className: CL.FOOTER_MARGIN,
-            caption: "Up",
-            onClick: _this._stepUpOption
-          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_ButtonCircle["default"], {
-            caption: "CL",
-            onClick: _this.clearInput
-          })]
-        })]
+      onSelect(item);
+    }, []),
+    domOptions = (0, _uiApi.useMemo)(function () {
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)(_OptionStack["default"], {
+        options: options,
+        indexActiveOption: getActiveIndexOption(),
+        propCaption: propCaption,
+        ItemOptionComp: ItemOptionComp,
+        onClick: _hClickItem
       });
-    };
-    _this._refOptionsComp = function (c) {
-      return _this.optionsComp = c;
-    };
-    _this.renderOptions = function () {
-      var _this$props = _this.props,
-        rootOptionsStyle = _this$props.rootOptionsStyle,
-        ItemOptionComp = _this$props.ItemOptionComp,
-        _this$state = _this.state,
-        isShowOption = _this$state.isShowOption,
-        options = _this$state.options,
-        isValidDomOptionsCache = _this$state.isValidDomOptionsCache,
-        _propCaption = _this.propCaption;
-      var _domOptions;
-      if (options) {
-        if (!isValidDomOptionsCache) {
-          _domOptions = options.map(function (item, index) {
-            return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-              className: CL.OPTIONS_ROW,
-              ref: function ref(c) {
-                return _this["v" + index] = c;
-              },
-              onClick: _this._handleClickItem.bind((0, _assertThisInitialized2["default"])(_this), item, index),
-              children: /*#__PURE__*/(0, _jsxRuntime.jsx)(ItemOptionComp, {
-                item: item,
-                propCaption: _propCaption
-              })
-            }, index);
-          });
-          _this.domOptionsCache = _domOptions;
-        } else {
-          _domOptions = _this.domOptionsCache;
-        }
-      }
-      var width = _this.props.width,
-        _styleOptions = isShowOption ? S.BLOCK : S.NONE,
-        _rootWidthStyle = _crWidth(width, _styleOptions),
-        _nFiltered = options[0] && options[0].value !== 'noresult' ? options.length : 0,
-        _nAll = _this.props.options ? _this.props.options.length : 0;
-      return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
-        className: CL.OPTIONS,
-        style: _rootWidthStyle,
-        "data-scrollable": true,
-        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-          ref: _this._refOptionsComp,
-          className: CL.OPTIONS_DIV,
-          style: (0, _extends2["default"])({}, rootOptionsStyle, _rootWidthStyle),
-          children: _domOptions
-        }), _this._renderOptionsFooter(_nFiltered, _nAll)]
-      });
-    };
-    _this._refArrowCell = function (c) {
-      return _this.arrowCell = c;
-    };
-    _this._crAfterInputEl = function () {
-      var _this$props2 = _this.props,
-        isLoading = _this$props2.isLoading,
-        isLoadingFailed = _this$props2.isLoadingFailed,
-        placeholder = _this$props2.placeholder,
-        optionName = _this$props2.optionName,
-        onLoadOption = _this$props2.onLoadOption,
-        _this$state2 = _this.state,
-        isShowOption = _this$state2.isShowOption,
-        optionNames = _this$state2.optionNames;
-      var _placeholder, _afterInputEl;
-      if (!isLoading && !isLoadingFailed) {
-        var _arrowStyle = isShowOption ? S.ARROW_SHOW : null;
-        _placeholder = placeholder ? placeholder : "Select " + optionName + "...";
-        _afterInputEl = /*#__PURE__*/(0, _jsxRuntime.jsx)(_ArrowCell["default"], {
-          ref: _this._refArrowCell,
-          arrowStyle: _arrowStyle,
-          onClick: _this._handleToggleOptions
-        });
-      } else if (isLoading) {
-        _placeholder = "Loading " + optionNames + "...";
-        _afterInputEl = /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
-          className: CL.SPINNER,
-          "data-loader": "circle"
-        });
-      } else if (isLoadingFailed) {
-        _placeholder = "Loading " + optionNames + " Failed";
-        _afterInputEl = /*#__PURE__*/(0, _jsxRuntime.jsx)(_ButtonCircle["default"], {
-          className: CL.SPINNER_FAILED,
-          "data-loader": "circle-failed",
-          onClick: onLoadOption
-        });
-      }
-      return {
-        placeholder: _placeholder,
-        afterInputEl: _afterInputEl
-      };
-    };
-    _this._refDomInputText = function (c) {
-      return _this.domInputText = c;
-    };
-    _this.clearInput = function () {
-      var _this$props3 = _this.props,
-        options = _this$props3.options,
-        onSelect = _this$props3.onSelect;
-      _this._undecorateActiveRowComp();
-      onSelect(undefined);
-      _this._setStateToInit(options);
-      _this.setState({
-        isShowOption: false
-      });
-    };
-    _this.domOptionsCache = null;
-    _this.indexActiveOption = 0;
-    _this.propCaption = props.propCaption;
-    _this.state = _crInitialStateFromProps(props);
-    return _this;
+    }, [options]);
+  // getActiveIndexOption, _hClickItem
+  // propCaption, ItemOptionComp
+  /*eslint-enable react-hooks/exhaustive-deps */
+
+  /*eslint-disable react-hooks/exhaustive-deps */
+  (0, _uiApi.useEffect)(function () {
+    if (isShowOption) {
+      var comp = _getActiveElement();
+      _decorateActiveElement(comp);
+      (0, _helperFns.makeVisibleActiveRowComp)(comp);
+    }
+  }, [isShowOption]);
+  // _decorateActiveElement, _getActiveElement
+  /*eslint-enable react-hooks/exhaustive-deps */
+
+  if (props.options !== initialOptions) {
+    _setStateToInit(props);
   }
-  InputSelect.getDerivedStateFromProps = function getDerivedStateFromProps(props, state) {
-    //Init state for new options from props
-    if (props.options !== state.initialOptions) {
-      return _crInitialStateFromProps(props);
-    }
-    return null;
-  };
-  var _proto = InputSelect.prototype;
-  _proto.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    nextState.isLocalMode = nextProps === this.props;
-    if (nextState.initialOptions !== this.state.initialOptions) {
-      this.indexActiveOption = 0;
-    }
-    return true;
-  };
-  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-    //Decorate Active Option
-    if (this.state.isShowOption) {
-      var comp = this._getActiveItemComp();
-      this._decorateActiveRowComp(comp);
-      this._makeVisibleActiveRowComp(comp);
-    }
-  };
-  _proto.render = function render() {
-    var _this$props4 = this.props,
-      rootStyle = _this$props4.rootStyle,
-      width = _this$props4.width,
-      _this$state3 = this.state,
-      value = _this$state3.value,
-      isLocalMode = _this$state3.isLocalMode,
-      isShowOption = _this$state3.isShowOption,
-      _rootWidthStyle = _crWidth(width, rootStyle),
-      _this$_crAfterInputEl = this._crAfterInputEl(),
-      afterInputEl = _this$_crAfterInputEl.afterInputEl,
-      placeholder = _this$_crAfterInputEl.placeholder,
-      _domOptions = isLocalMode || isShowOption ? this.renderOptions() : null;
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
-      className: CL.ROOT,
-      style: _rootWidthStyle,
-      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
-        ref: this._refDomInputText,
-        type: "text",
-        name: "select"
-        //autoComplete="new-select"
-        ,
-        autoComplete: "off",
-        autoCorrect: "off",
-        autoCapitalize: "off",
-        spellCheck: false,
-        value: value,
-        className: CL.INPUT,
-        placeholder: placeholder,
-        onChange: this._handleInputChange,
-        onKeyDown: this._handleInputKeyDown
-      }), afterInputEl, /*#__PURE__*/(0, _jsxRuntime.jsx)("hr", {
-        className: CL.INPUT_HR
-      }), _domOptions]
-    });
-  };
-  _proto.focusInput = function focusInput() {
-    this.domInputText.focus();
-  };
-  _proto.focusNotValidInput = function focusNotValidInput() {
-    this.domInputText.focus();
-  };
-  return InputSelect;
-}(_react.Component);
-InputSelect.defaultProps = {
-  propCaption: 'caption',
-  ItemOptionComp: ItemOptionDf,
-  options: [],
-  optionName: '',
-  optionNames: '',
-  isWithInput: false,
-  //prefixInput: 'From Input:',
-  onSelect: function onSelect() {},
-  onLoadOption: function onLoadOption() {}
+  var indexActiveOption = getActiveIndexOption(),
+    _style = (0, _crStyleWidth["default"])(width, style),
+    _crAfterInputEl = (0, _crAfterInputEl2["default"])(props, state, _refArrowCell, toggleIsShowOption),
+    placeholder = _crAfterInputEl[0],
+    afterInputEl = _crAfterInputEl[1],
+    _crFooterIndex = (0, _helperFns.crFooterIndex)(options, initialOptions),
+    nFiltered = _crFooterIndex[0],
+    nAll = _crFooterIndex[1];
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    className: _CL.CL_ROOT,
+    style: _style,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+      ref: _refDomInputText,
+      className: _CL.CL_INPUT,
+      type: "text",
+      name: "select"
+      //autoComplete="off"
+      ,
+      autoCorrect: "off",
+      autoCapitalize: "off",
+      spellCheck: false,
+      value: value,
+      placeholder: placeholder,
+      onChange: _hInputChange,
+      onKeyDown: _hInputKeyDown
+    }), afterInputEl, /*#__PURE__*/(0, _jsxRuntime.jsx)("hr", {
+      className: _CL.CL_INPUT_HR
+    }), isShowOption && /*#__PURE__*/(0, _jsxRuntime.jsx)(_DivOptions["default"], {
+      refOptionsComp: _refOptionsElement,
+      refIndexNode: _refIndexNode,
+      optionsStyle: optionsStyle,
+      width: width,
+      isShowOption: isShowOption,
+      domOptions: domOptions,
+      indexActiveOption: indexActiveOption,
+      nFiltered: nFiltered,
+      nAll: nAll,
+      onStepUp: _stepUpOption,
+      onStepDown: _stepDownOption,
+      onClear: clearInput
+    })]
+  });
 };
+
+/*
+InputSelect.propTypes = {
+   style: PropTypes.object,
+   optionsStyle: PropTypes.object,
+   propCaption: PropTypes.string,
+   ItemOptionComp: PropTypes.element,
+   width: PropTypes.string,
+   options: PropTypes.arrayOf(PropTypes.shape({
+      caption: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ])
+   })),
+   optionName: PropTypes.string,
+   optionNames: PropTypes.string,
+   placeholder: PropTypes.string,
+   isWithInput: PropTypes.bool,
+   prefixInput: PropTypes.string
+
+   onSelect: PropTypes.func,
+}
+*/
 var _default = InputSelect;
 exports["default"] = _default;
 //# sourceMappingURL=InputSelect.js.map
