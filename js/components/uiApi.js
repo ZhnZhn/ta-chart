@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.forwardRef = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.Component = void 0;
+exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.getRefElementStyle = exports.forwardRef = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.Component = void 0;
 var _react = require("react");
 exports.Component = _react.Component;
 exports.createRef = _react.createRef;
@@ -29,4 +29,9 @@ var setRefValue = function setRefValue(ref, value) {
   }
 };
 exports.setRefValue = setRefValue;
+var getRefElementStyle = function getRefElementStyle(ref) {
+  var _element = getRefValue(ref);
+  return _element && _element.style || {};
+};
+exports.getRefElementStyle = getRefElementStyle;
 //# sourceMappingURL=uiApi.js.map

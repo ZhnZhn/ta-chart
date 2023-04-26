@@ -27,3 +27,8 @@ export const setRefValue = (
     ref.current = value
   }
 }
+
+export const getRefElementStyle = ref => {
+  const _element = getRefValue(ref);
+  return (_element && _element.style) || {};
+};
