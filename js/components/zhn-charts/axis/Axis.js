@@ -12,6 +12,10 @@ var _utils = require("../utils");
 var _AxisFn = require("./AxisFn");
 var _jsxRuntime = require("react/jsx-runtime");
 var DRAW_ON = ['pan'];
+var _saveAndTranslateCtx = function _saveAndTranslateCtx(ctx, transform) {
+  ctx.save();
+  ctx.translate(transform[0], transform[1]);
+};
 var Axis = function Axis(props) {
   var getScale = props.getScale,
     edgeClip = props.edgeClip,
@@ -30,9 +34,7 @@ var Axis = function Axis(props) {
       return getScale((0, _uiApi.getRefValue)(_refChart).getMoreProps());
     }, [getScale]),
     _drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
-      var transform = props.transform;
-      ctx.save();
-      ctx.translate(transform[0], transform[1]);
+      _saveAndTranslateCtx(ctx, transform);
       var tickProps = (0, _AxisFn.tickHelper)(props, getScale(moreProps));
       if (props.showTicks) {
         (0, _AxisFn.drawTicks)(ctx, tickProps);

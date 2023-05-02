@@ -24,7 +24,15 @@ import {
   drawAxisLine
 } from './AxisFn';
 
-const DRAW_ON = ['pan']
+const DRAW_ON = ['pan'];
+
+const _saveAndTranslateCtx = (
+  ctx,
+  transform
+) => {
+  ctx.save();
+  ctx.translate(transform[0], transform[1]);
+};
 
 const Axis = (props) => {
   const {
@@ -48,10 +56,7 @@ const Axis = (props) => {
       () => getScale(getRefValue(_refChart).getMoreProps())
   , [getScale])
   , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
-      const { transform } = props;
-
-      ctx.save();
-      ctx.translate(transform[0], transform[1]);
+      _saveAndTranslateCtx(ctx, transform);
 
       const tickProps = tickHelper(
         props,
