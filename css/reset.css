@@ -29,10 +29,12 @@ button {
   font-size: inherit;
   -webkit-appearance: none;
   -moz-appearance: none;
+  user-select: none;
+  cursor: pointer;
 }
 button:hover,
 button:focus {
-    outline: 0;
+  outline: 0;
 }
 
 button::-moz-focus-inner {
