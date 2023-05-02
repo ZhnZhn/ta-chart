@@ -147,11 +147,12 @@ var tickHelper = function tickHelper(props, scale) {
   }, rest);
 };
 exports.tickHelper = tickHelper;
-var drawAxisLine = function drawAxisLine(ctx, props, range) {
+var drawAxisLine = function drawAxisLine(ctx, props) {
   var orient = props.orient,
     outerTickSize = props.outerTickSize,
     strokeStyle = props.strokeStyle,
     strokeWidth = props.strokeWidth,
+    range = props.range,
     sign = orient === "top" || orient === "left" ? -1 : 1,
     xAxis = orient === "bottom" || orient === "top";
   ctx.lineWidth = strokeWidth;

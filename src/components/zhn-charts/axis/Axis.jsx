@@ -48,32 +48,27 @@ const Axis = (props) => {
       () => getScale(getRefValue(_refChart).getMoreProps())
   , [getScale])
   , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
-      const {
-        showDomain,
-        showGridLines,
-        showTickLabel,
-        showTicks,
-        transform,
-        range
-      } = props;
+      const { transform } = props;
 
       ctx.save();
       ctx.translate(transform[0], transform[1]);
 
-      const scale = getScale(moreProps)
-      , tickProps = tickHelper(props, scale);
+      const tickProps = tickHelper(
+        props,
+        getScale(moreProps)
+      );
 
-      if (showTicks) {
+      if (props.showTicks) {
         drawTicks(ctx, tickProps);
       }
-      if (showGridLines) {
+      if (props.showGridLines) {
         drawGridLines(ctx, tickProps, moreProps);
       }
-      if (showTickLabel) {
+      if (props.showTickLabel) {
         drawTickLabels(ctx, tickProps);
       }
-      if (showDomain) {
-        drawAxisLine(ctx, props, range);
+      if (props.showDomain) {
+        drawAxisLine(ctx, props);
       }
 
       ctx.restore();

@@ -30,27 +30,21 @@ var Axis = function Axis(props) {
       return getScale((0, _uiApi.getRefValue)(_refChart).getMoreProps());
     }, [getScale]),
     _drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
-      var showDomain = props.showDomain,
-        showGridLines = props.showGridLines,
-        showTickLabel = props.showTickLabel,
-        showTicks = props.showTicks,
-        transform = props.transform,
-        range = props.range;
+      var transform = props.transform;
       ctx.save();
       ctx.translate(transform[0], transform[1]);
-      var scale = getScale(moreProps),
-        tickProps = (0, _AxisFn.tickHelper)(props, scale);
-      if (showTicks) {
+      var tickProps = (0, _AxisFn.tickHelper)(props, getScale(moreProps));
+      if (props.showTicks) {
         (0, _AxisFn.drawTicks)(ctx, tickProps);
       }
-      if (showGridLines) {
+      if (props.showGridLines) {
         (0, _AxisFn.drawGridLines)(ctx, tickProps, moreProps);
       }
-      if (showTickLabel) {
+      if (props.showTickLabel) {
         (0, _AxisFn.drawTickLabels)(ctx, tickProps);
       }
-      if (showDomain) {
-        (0, _AxisFn.drawAxisLine)(ctx, props, range);
+      if (props.showDomain) {
+        (0, _AxisFn.drawAxisLine)(ctx, props);
       }
       ctx.restore();
     });

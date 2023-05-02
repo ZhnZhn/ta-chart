@@ -177,14 +177,14 @@ export const tickHelper = (
 
 export const drawAxisLine = (
   ctx,
-  props,
-  range
+  props
 ) => {
     const {
       orient,
       outerTickSize,
       strokeStyle,
-      strokeWidth
+      strokeWidth,
+      range
     } = props
     , sign = orient === "top" || orient === "left"
        ? -1
