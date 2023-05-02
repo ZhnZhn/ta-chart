@@ -19,13 +19,10 @@ import {
 import {
   tickHelper,
   drawTicks,
-  drawGridLine,
-  //drawEachTickLabel,
+  drawGridLines,
   drawTickLabels,
   drawAxisLine
 } from './AxisFn';
-
-
 
 const DRAW_ON = ['pan']
 
@@ -69,20 +66,16 @@ const Axis = (props) => {
       if (showTicks) {
         drawTicks(ctx, tickProps);
       }
-
       if (showGridLines) {
-        tickProps.ticks.forEach((tick) => {
-          drawGridLine(ctx, tick, tickProps, moreProps);
-        });
+        drawGridLines(ctx, tickProps, moreProps);
       }
-
       if (showTickLabel) {
-        drawTickLabels(ctx, tickProps)
+        drawTickLabels(ctx, tickProps);
       }
-
       if (showDomain) {
         drawAxisLine(ctx, props, range);
       }
+
       ctx.restore();
   });
 

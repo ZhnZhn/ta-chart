@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.tickHelper = exports.drawTicks = exports.drawTickLabels = exports.drawGridLine = exports.drawAxisLine = exports.crScale = void 0;
+exports.tickHelper = exports.drawTicks = exports.drawTickLabels = exports.drawGridLines = exports.drawAxisLine = exports.crScale = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 var _d3Array = require("d3-array");
@@ -186,7 +186,7 @@ var drawTicks = function drawTicks(ctx, result) {
   });
 };
 exports.drawTicks = drawTicks;
-var drawGridLine = function drawGridLine(ctx, tick, result, moreProps) {
+var _drawGridLine = function _drawGridLine(ctx, tick, result, moreProps) {
   var orient = result.orient,
     gridLinesStrokeWidth = result.gridLinesStrokeWidth,
     gridLinesStrokeStyle = result.gridLinesStrokeStyle,
@@ -215,7 +215,12 @@ var drawGridLine = function drawGridLine(ctx, tick, result, moreProps) {
   ctx.setLineDash(lineDash);
   ctx.stroke();
 };
-exports.drawGridLine = drawGridLine;
+var drawGridLines = function drawGridLines(ctx, tickProps, moreProps) {
+  tickProps.ticks.forEach(function (tick) {
+    _drawGridLine(ctx, tick, tickProps, moreProps);
+  });
+};
+exports.drawGridLines = drawGridLines;
 var _drawEachTickLabel = function _drawEachTickLabel(ctx, tick, result) {
   var canvas_dy = result.canvas_dy,
     format = result.format,

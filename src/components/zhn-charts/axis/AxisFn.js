@@ -229,7 +229,7 @@ export const drawTicks = (
     });
 };
 
-export const drawGridLine = (
+const _drawGridLine = (
   ctx,
   tick,
   result,
@@ -272,6 +272,16 @@ export const drawGridLine = (
     ctx.setLineDash(lineDash);
     ctx.stroke();
 };
+
+export const drawGridLines = (
+  ctx,
+  tickProps,
+  moreProps
+) => {
+  tickProps.ticks.forEach(tick => {
+    _drawGridLine(ctx, tick, tickProps, moreProps);
+  });
+}
 
 const _drawEachTickLabel = (
   ctx,

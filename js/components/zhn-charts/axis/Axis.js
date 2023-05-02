@@ -44,9 +44,7 @@ var Axis = function Axis(props) {
         (0, _AxisFn.drawTicks)(ctx, tickProps);
       }
       if (showGridLines) {
-        tickProps.ticks.forEach(function (tick) {
-          (0, _AxisFn.drawGridLine)(ctx, tick, tickProps, moreProps);
-        });
+        (0, _AxisFn.drawGridLines)(ctx, tickProps, moreProps);
       }
       if (showTickLabel) {
         (0, _AxisFn.drawTickLabels)(ctx, tickProps);
