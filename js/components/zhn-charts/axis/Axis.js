@@ -11,12 +11,6 @@ var _contextFn = require("../core/contextFn");
 var _utils = require("../utils");
 var _AxisFn = require("./AxisFn");
 var _jsxRuntime = require("react/jsx-runtime");
-var _crFont = function _crFont(_ref) {
-  var fontWeight = _ref.fontWeight,
-    fontSize = _ref.fontSize,
-    fontFamily = _ref.fontFamily;
-  return fontWeight + " " + fontSize + "px " + fontFamily;
-};
 var DRAW_ON = ['pan'];
 var Axis = function Axis(props) {
   var getScale = props.getScale,
@@ -41,8 +35,7 @@ var Axis = function Axis(props) {
         showTickLabel = props.showTickLabel,
         showTicks = props.showTicks,
         transform = props.transform,
-        range = props.range,
-        tickLabelFill = props.tickLabelFill;
+        range = props.range;
       ctx.save();
       ctx.translate(transform[0], transform[1]);
       var scale = getScale(moreProps),
@@ -56,15 +49,7 @@ var Axis = function Axis(props) {
         });
       }
       if (showTickLabel) {
-        var textAnchor = tickProps.textAnchor;
-        ctx.font = _crFont(tickProps);
-        if (tickLabelFill !== undefined) {
-          ctx.fillStyle = tickLabelFill;
-        }
-        ctx.textAlign = textAnchor === 'middle' ? 'center' : textAnchor;
-        tickProps.ticks.forEach(function (tick) {
-          (0, _AxisFn.drawEachTickLabel)(ctx, tick, tickProps);
-        });
+        (0, _AxisFn.drawTickLabels)(ctx, tickProps);
       }
       if (showDomain) {
         (0, _AxisFn.drawAxisLine)(ctx, props, range);

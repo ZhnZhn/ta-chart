@@ -273,7 +273,7 @@ export const drawGridLine = (
     ctx.stroke();
 };
 
-export const drawEachTickLabel = (
+const _drawEachTickLabel = (
   ctx,
   tick,
   result
@@ -288,6 +288,33 @@ export const drawEachTickLabel = (
     ctx.fillText(text, tick.labelX, tick.labelY + canvas_dy);
 };
 
+const _crFont = ({
+  fontWeight,
+  fontSize,
+  fontFamily
+}) => `${fontWeight} ${fontSize}px ${fontFamily}`;
+
+export const drawTickLabels = (
+  ctx, tickProps
+) => {
+  const {
+    textAnchor,
+    tickLabelFill
+  } = tickProps;
+
+  ctx.font = _crFont(tickProps);
+  if (tickLabelFill !== undefined) {
+    ctx.fillStyle = tickLabelFill;
+  }
+  ctx.textAlign = textAnchor === 'middle'
+    ? 'center'
+    : textAnchor;
+
+  tickProps.ticks.forEach(tick => {
+    _drawEachTickLabel(ctx, tick, tickProps);
+  });
+}
+
 export const crScale = (
   scale,
   trueRange
@@ -297,4 +324,4 @@ export const crScale = (
     .copy()
     .domain(trueDomain)
     .range(trueRange);
-} 
+}

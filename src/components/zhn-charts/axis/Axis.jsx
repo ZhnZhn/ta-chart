@@ -20,15 +20,12 @@ import {
   tickHelper,
   drawTicks,
   drawGridLine,
-  drawEachTickLabel,
+  //drawEachTickLabel,
+  drawTickLabels,
   drawAxisLine
 } from './AxisFn';
 
-const _crFont = ({
-  fontWeight,
-  fontSize,
-  fontFamily
-}) => `${fontWeight} ${fontSize}px ${fontFamily}`;
+
 
 const DRAW_ON = ['pan']
 
@@ -60,8 +57,7 @@ const Axis = (props) => {
         showTickLabel,
         showTicks,
         transform,
-        range,
-        tickLabelFill
+        range
       } = props;
 
       ctx.save();
@@ -81,21 +77,7 @@ const Axis = (props) => {
       }
 
       if (showTickLabel) {
-        const {
-         textAnchor
-        } = tickProps;
-
-        ctx.font = _crFont(tickProps);
-        if (tickLabelFill !== undefined) {
-         ctx.fillStyle = tickLabelFill;
-        }
-        ctx.textAlign = textAnchor === 'middle'
-         ? 'center'
-         : textAnchor;
-
-        tickProps.ticks.forEach(tick => {
-         drawEachTickLabel(ctx, tick, tickProps);
-        });
+        drawTickLabels(ctx, tickProps)
       }
 
       if (showDomain) {
