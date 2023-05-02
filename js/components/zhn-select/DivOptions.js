@@ -15,31 +15,30 @@ var S_BLOCK = {
     display: 'none'
   };
 var DivOptions = function DivOptions(_ref) {
-  var refOptionsComp = _ref.refOptionsComp,
-    refIndexNode = _ref.refIndexNode,
+  var refOptionsElement = _ref.refOptionsElement,
+    refIndexElement = _ref.refIndexElement,
     optionsStyle = _ref.optionsStyle,
     width = _ref.width,
     isShowOption = _ref.isShowOption,
-    domOptions = _ref.domOptions,
     indexActiveOption = _ref.indexActiveOption,
     nFiltered = _ref.nFiltered,
     nAll = _ref.nAll,
     onStepUp = _ref.onStepUp,
     onStepDown = _ref.onStepDown,
-    onClear = _ref.onClear;
-  var _styleOptions = isShowOption ? S_BLOCK : S_NONE,
-    _widthStyle = (0, _crStyleWidth["default"])(width, _styleOptions);
+    onClear = _ref.onClear,
+    children = _ref.children;
+  var _widthStyle = (0, _crStyleWidth["default"])(width, isShowOption ? S_BLOCK : S_NONE);
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     className: _CL.CL_OPTIONS,
     style: _widthStyle,
     "data-scrollable": true,
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
-      ref: refOptionsComp,
+      ref: refOptionsElement,
       className: _CL.CL_OPTIONS_DIV,
       style: (0, _extends2["default"])({}, optionsStyle, _widthStyle),
-      children: domOptions
+      children: children
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_OptionsFooter["default"], {
-      ref: refIndexNode,
+      ref: refIndexElement,
       indexActiveOption: indexActiveOption,
       nAll: nAll,
       nFiltered: nFiltered,

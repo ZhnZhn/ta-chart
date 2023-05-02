@@ -5,7 +5,6 @@ exports.__esModule = true;
 exports["default"] = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _uiApi = require("../uiApi");
-var _useProperty2 = _interopRequireDefault(require("../hooks/useProperty"));
 var _useToggle2 = _interopRequireDefault(require("../hooks/useToggle"));
 var _ItemOptionDf = _interopRequireDefault(require("./ItemOptionDf"));
 var _DivOptions = _interopRequireDefault(require("./DivOptions"));
@@ -14,7 +13,6 @@ var _CL = require("./CL");
 var _crStyleWidth = _interopRequireDefault(require("./crStyleWidth"));
 var _crAfterInputEl2 = _interopRequireDefault(require("./crAfterInputEl"));
 var _crFilteredOptions = _interopRequireDefault(require("./crFilteredOptions"));
-var _useOptionDecorator2 = _interopRequireDefault(require("./useOptionDecorator"));
 var _useStepHandlers2 = _interopRequireDefault(require("./useStepHandlers"));
 var _helperFns = require("./helperFns");
 var _jsxRuntime = require("react/jsx-runtime");
@@ -48,11 +46,6 @@ var InputSelect = function InputSelect(props) {
     onSelect = _props$onSelect === void 0 ? FN_NOOP : _props$onSelect,
     _refArrowCell = (0, _uiApi.useRef)(),
     _refDomInputText = (0, _uiApi.useRef)(),
-    _refOptionsElement = (0, _uiApi.useRef)(),
-    _refIndexNode = (0, _uiApi.useRef)(),
-    _useProperty = (0, _useProperty2["default"])(0),
-    setActiveIndexOption = _useProperty[0],
-    getActiveIndexOption = _useProperty[1],
     _useState = (0, _uiApi.useState)(function () {
       return _crInitialStateFromProps(props);
     }),
@@ -64,24 +57,25 @@ var InputSelect = function InputSelect(props) {
     _useToggle = (0, _useToggle2["default"])(false),
     isShowOption = _useToggle[0],
     toggleIsShowOption = _useToggle[1],
-    _getActiveElement = (0, _uiApi.useCallback)(function () {
-      return (((0, _uiApi.getRefValue)(_refOptionsElement) || {}).childNodes || [])[getActiveIndexOption()];
-    }, []),
-    _useOptionDecorator = (0, _useOptionDecorator2["default"])(_refIndexNode, _getActiveElement),
-    _decorateActiveElement = _useOptionDecorator[0],
-    _undecorateActiveElement = _useOptionDecorator[1],
-    _setStateToInit = (0, _uiApi.useCallback)(function () {
+    _useStepHandlers = (0, _useStepHandlers2["default"])(_decorateActiveElement, _undecorateActiveElement),
+    _refOptionsElement = _useStepHandlers[0],
+    _refIndexElement = _useStepHandlers[1],
+    setActiveIndexOption = _useStepHandlers[2],
+    getActiveIndexOption = _useStepHandlers[3],
+    _getActiveElement = _useStepHandlers[4],
+    _decorateActiveElement = _useStepHandlers[5],
+    _undecorateActiveElement = _useStepHandlers[6],
+    _stepDownOption = _useStepHandlers[7],
+    _stepUpOption = _useStepHandlers[8],
+    _initStateFromProps = (0, _uiApi.useCallback)(function () {
+      _undecorateActiveElement();
       setState(function () {
         return _crInitialStateFromProps(props);
       });
       toggleIsShowOption(false);
       setActiveIndexOption(0);
-    }, [props]),
-    clearInput = (0, _uiApi.useCallback)(function () {
-      _undecorateActiveElement();
       onSelect();
-      _setStateToInit();
-    }, [_setStateToInit]),
+    }, [props.options, onSelect]),
     _hInputChange = function _hInputChange(evt) {
       var token = evt.target.value,
         tokenLn = token.length,
@@ -100,9 +94,6 @@ var InputSelect = function InputSelect(props) {
         toggleIsShowOption(true);
       }
     },
-    _useStepHandlers = (0, _useStepHandlers2["default"])(_refOptionsElement, _getActiveElement, _decorateActiveElement, _undecorateActiveElement, setActiveIndexOption, getActiveIndexOption),
-    _stepDownOption = _useStepHandlers[0],
-    _stepUpOption = _useStepHandlers[1],
     _hInputKeyDown = function _hInputKeyDown(evt) {
       switch (evt.keyCode) {
         // enter
@@ -133,7 +124,7 @@ var InputSelect = function InputSelect(props) {
             if (isShowOption) {
               toggleIsShowOption(false);
             } else {
-              clearInput();
+              _initStateFromProps();
             }
             break;
           }
@@ -197,7 +188,7 @@ var InputSelect = function InputSelect(props) {
   /*eslint-enable react-hooks/exhaustive-deps */
 
   if (props.options !== initialOptions) {
-    _setStateToInit(props);
+    _initStateFromProps();
   }
   var indexActiveOption = getActiveIndexOption(),
     _style = (0, _crStyleWidth["default"])(width, style),
@@ -226,19 +217,19 @@ var InputSelect = function InputSelect(props) {
       onKeyDown: _hInputKeyDown
     }), afterInputEl, /*#__PURE__*/(0, _jsxRuntime.jsx)("hr", {
       className: _CL.CL_INPUT_HR
-    }), isShowOption && /*#__PURE__*/(0, _jsxRuntime.jsx)(_DivOptions["default"], {
-      refOptionsComp: _refOptionsElement,
-      refIndexNode: _refIndexNode,
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_DivOptions["default"], {
+      refOptionsElement: _refOptionsElement,
+      refIndexElement: _refIndexElement,
       optionsStyle: optionsStyle,
       width: width,
       isShowOption: isShowOption,
-      domOptions: domOptions,
       indexActiveOption: indexActiveOption,
       nFiltered: nFiltered,
       nAll: nAll,
       onStepUp: _stepUpOption,
       onStepDown: _stepDownOption,
-      onClear: clearInput
+      onClear: _initStateFromProps,
+      children: domOptions
     })]
   });
 };

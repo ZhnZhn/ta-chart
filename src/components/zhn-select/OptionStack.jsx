@@ -12,7 +12,7 @@ const OptionStack = ({
       key={index}
       role="option"
       aria-selected={indexActiveOption === index}
-      tabIndex="0"
+      tabIndex="-1"
       className={CL_OPTIONS_ROW}
       data-index={index}
       onClick={evt => onClick(item, evt)}

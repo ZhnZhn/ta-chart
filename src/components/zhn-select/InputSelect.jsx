@@ -4,11 +4,9 @@ import {
   useState,
   useCallback,
   useMemo,
-  useEffect,
-  getRefValue
+  useEffect
 } from '../uiApi';
 
-import useProperty from '../hooks/useProperty';
 import useToggle from '../hooks/useToggle';
 
 import ItemOptionDf from './ItemOptionDf'
@@ -17,14 +15,13 @@ import OptionStack from './OptionStack';
 import {
   CL_ROOT,
   CL_INPUT,
-  CL_INPUT_HR,
+  CL_INPUT_HR
 } from './CL';
 
 import crStyleWidth from './crStyleWidth';
 import crAfterInputEl from './crAfterInputEl';
 import crFilteredOptions from './crFilteredOptions';
 
-import useOptionDecorator from './useOptionDecorator';
 import useStepHandlers from './useStepHandlers';
 
 import {
@@ -34,7 +31,6 @@ import {
   crFooterIndex,
   makeVisibleActiveRowComp
 } from './helperFns';
-
 
 const DF_OPTIONS = [];
 const _crInitialStateFromProps = ({
@@ -66,12 +62,6 @@ const InputSelect = (
   } = props
   , _refArrowCell = useRef()
   , _refDomInputText = useRef()
-  , _refOptionsElement = useRef()
-  , _refIndexNode = useRef()
-  , [
-    setActiveIndexOption,
-    getActiveIndexOption
-  ] = useProperty(0)
   , [
     state,
     setState
@@ -85,39 +75,31 @@ const InputSelect = (
     isShowOption,
     toggleIsShowOption
   ] = useToggle(false)
-
-
-  /*eslint-disable react-hooks/exhaustive-deps */
-  , _getActiveElement = useCallback(() => {
-    return ((getRefValue(_refOptionsElement) || {}).childNodes || [])[getActiveIndexOption()];
-  }, [])
-  // getActiveIndexOption
-  /*eslint-enable react-hooks/exhaustive-deps */
-
   , [
+    _refOptionsElement,
+    _refIndexElement,
+    setActiveIndexOption,
+    getActiveIndexOption,
+    _getActiveElement,
     _decorateActiveElement,
-    _undecorateActiveElement
-  ] = useOptionDecorator(
-      _refIndexNode,
-      _getActiveElement
-    )
+    _undecorateActiveElement,
+    _stepDownOption,
+    _stepUpOption
+  ] = useStepHandlers(
+    _decorateActiveElement,
+    _undecorateActiveElement,
+  )
 
   /*eslint-disable react-hooks/exhaustive-deps */
-  , _setStateToInit = useCallback(() => {
-    setState(() => _crInitialStateFromProps(props))
-    toggleIsShowOption(false)
-    setActiveIndexOption(0)
-  }, [props])
-  // toggleIsShowOption, setActiveIndexOption
-  /*eslint-enable react-hooks/exhaustive-deps */
-
-  /*eslint-disable react-hooks/exhaustive-deps */
-  , clearInput = useCallback(() => {
-    _undecorateActiveElement()
-    onSelect()
-    _setStateToInit()
-  }, [_setStateToInit])
-  // _undecorateActiveElement, onSelect
+  , _initStateFromProps = useCallback(() => {
+     _undecorateActiveElement()
+     setState(() => _crInitialStateFromProps(props))
+     toggleIsShowOption(false)
+     setActiveIndexOption(0)
+     onSelect()
+  }, [props.options, onSelect])
+  // _undecorateActiveElement
+  // setIsShowOption, setActiveIndexOption
   /*eslint-enable react-hooks/exhaustive-deps */
 
   , _hInputChange = (evt) => {
@@ -145,17 +127,6 @@ const InputSelect = (
       toggleIsShowOption(true)
     }
   }
-  , [
-    _stepDownOption,
-    _stepUpOption
-  ] = useStepHandlers(
-    _refOptionsElement,
-    _getActiveElement,
-    _decorateActiveElement,
-    _undecorateActiveElement,
-    setActiveIndexOption,
-    getActiveIndexOption
-  )
   , _hInputKeyDown = (evt) => {
     switch(evt.keyCode){
       // enter
@@ -186,7 +157,7 @@ const InputSelect = (
         if (isShowOption){
           toggleIsShowOption(false)
         } else {
-          clearInput()          
+          _initStateFromProps()
         }
         break;
       }
@@ -214,18 +185,18 @@ const InputSelect = (
 
   /*eslint-disable react-hooks/exhaustive-deps */
   , _hClickItem = useCallback((item, evt) => {
-    _undecorateActiveElement()
-    setActiveIndexOption(getDataIndex(evt.currentTarget))
+      _undecorateActiveElement()
+      setActiveIndexOption(getDataIndex(evt.currentTarget))
 
-    toggleIsShowOption(false)
-    setState(prevState => ({
-      ...prevState,
-      value: item[propCaption],
-    }))
-    onSelect(item);
+      toggleIsShowOption(false)
+      setState(prevState => ({
+        ...prevState,
+        value: item[propCaption],
+      }))
+      onSelect(item);
   }, [])
   // _undecorateActiveElement, setActiveIndexOption
-  // toggleIsShowOption
+  // setIsShowOption
   /*eslint-enable react-hooks/exhaustive-deps */
 
   /*eslint-disable react-hooks/exhaustive-deps */
@@ -253,14 +224,14 @@ const InputSelect = (
   /*eslint-enable react-hooks/exhaustive-deps */
 
   if (props.options !== initialOptions) {
-    _setStateToInit(props)
+    _initStateFromProps()
   }
 
   const indexActiveOption = getActiveIndexOption()
   , _style = crStyleWidth(width, style)
   , [
-    placeholder,
-    afterInputEl
+     placeholder,
+     afterInputEl
   ] = crAfterInputEl(
      props,
      state,
@@ -268,12 +239,12 @@ const InputSelect = (
      toggleIsShowOption
    )
   , [
-    nFiltered,
-    nAll
+     nFiltered,
+     nAll
   ] = crFooterIndex(
      options,
      initialOptions
-   );
+  );
 
   return (
     <div
@@ -296,20 +267,21 @@ const InputSelect = (
       />
       {afterInputEl}
       <hr className={CL_INPUT_HR} />
-      {isShowOption && <DivOptions
-          refOptionsComp={_refOptionsElement}
-          refIndexNode={_refIndexNode}
-          optionsStyle={optionsStyle}
-          width={width}
-          isShowOption={isShowOption}
-          domOptions={domOptions}
-          indexActiveOption={indexActiveOption}
-          nFiltered={nFiltered}
-          nAll={nAll}
-          onStepUp={_stepUpOption}
-          onStepDown={_stepDownOption}
-          onClear={clearInput}
-        />}
+      <DivOptions
+         refOptionsElement={_refOptionsElement}
+         refIndexElement={_refIndexElement}
+         optionsStyle={optionsStyle}
+         width={width}
+         isShowOption={isShowOption}
+         indexActiveOption={indexActiveOption}
+         nFiltered={nFiltered}
+         nAll={nAll}
+         onStepUp={_stepUpOption}
+         onStepDown={_stepDownOption}
+         onClear={_initStateFromProps}
+      >
+        {domOptions}
+      </DivOptions>
     </div>
   );
 }

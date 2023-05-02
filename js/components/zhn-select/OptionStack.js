@@ -14,7 +14,7 @@ var _jsxRuntime = require("react/jsx-runtime");
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       role: "option",
       "aria-selected": indexActiveOption === index,
-      tabIndex: "0",
+      tabIndex: "-1",
       className: _CL.CL_OPTIONS_ROW,
       "data-index": index,
       onClick: function onClick(evt) {

@@ -10,23 +10,23 @@ const S_BLOCK = { display: 'block' }
 , S_NONE = { display: 'none' };
 
 const DivOptions = ({
-  refOptionsComp,
-  refIndexNode,
+  refOptionsElement,
+  refIndexElement,
   optionsStyle,
   width,
   isShowOption,
-  domOptions,
   indexActiveOption,
   nFiltered,
   nAll,
   onStepUp,
   onStepDown,
-  onClear
+  onClear,
+  children
 }) => {
-  const _styleOptions = isShowOption
-    ? S_BLOCK
-    : S_NONE
-  , _widthStyle = crStyleWidth(width, _styleOptions)
+  const _widthStyle = crStyleWidth(
+    width,
+    isShowOption ? S_BLOCK : S_NONE
+  );
 
   return (
     <div
@@ -35,23 +35,23 @@ const DivOptions = ({
        data-scrollable={true}
      >
       <div
-         ref={refOptionsComp}
+         ref={refOptionsElement}
          className={CL_OPTIONS_DIV}
          style={{...optionsStyle, ..._widthStyle}}
        >
-        {domOptions}
+        {children}
       </div>
       <OptionsFooter
-        ref={refIndexNode}
-        indexActiveOption={indexActiveOption}
-        nAll={nAll}
-        nFiltered={nFiltered}
-        onStepUp={onStepUp}
-        onStepDown={onStepDown}
-        onClear={onClear}
+         ref={refIndexElement}
+         indexActiveOption={indexActiveOption}
+         nAll={nAll}
+         nFiltered={nFiltered}
+         onStepUp={onStepUp}
+         onStepDown={onStepDown}
+         onClear={onClear}
       />
     </div>
   );
-}
+};
 
 export default DivOptions
