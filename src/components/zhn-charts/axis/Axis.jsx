@@ -1,8 +1,10 @@
 import {
-  Component,
-  createRef,
+  useRef,
+  useCallback,
   getRefValue
 } from '../../uiApi';
+
+import useEventCallback from '../../hooks/useEventCallback';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import AxisZoomCapture from './AxisZoomCapture';
@@ -28,114 +30,104 @@ const _crFont = ({
   fontFamily
 }) => `${fontWeight} ${fontSize}px ${fontFamily}`;
 
-class Axis extends Component {
+const DRAW_ON = ['pan']
 
-    chartRef = createRef();
+const Axis = (props) => {
+  const {
+    getScale,
 
-    getAxisScale = () => {
-      const allProps = getRefValue(this.chartRef)
-         .getMoreProps();
-      return this.props.getScale(allProps);
-    }
+    edgeClip,
+    zoomEnabled,
+    zoomCursorClassName,
 
-    drawOnCanvas = (ctx, moreProps) => {
+    bg,
+    className,
+    inverted,
+    transform,
+    getMouseDelta,
+    axisZoomCallback,
+    onContextMenu,
+    onDoubleClick
+  } = props
+  , _refChart = useRef()
+  , _getAxisScale = useCallback(
+      () => getScale(getRefValue(_refChart).getMoreProps())
+  , [getScale])
+  , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
+      const {
+        showDomain,
+        showGridLines,
+        showTickLabel,
+        showTicks,
+        transform,
+        range,
+        tickLabelFill
+      } = props;
+
+      ctx.save();
+      ctx.translate(transform[0], transform[1]);
+
+      const scale = getScale(moreProps)
+      , tickProps = tickHelper(props, scale);
+
+      if (showTicks) {
+        drawTicks(ctx, tickProps);
+      }
+
+      if (showGridLines) {
+        tickProps.ticks.forEach((tick) => {
+          drawGridLine(ctx, tick, tickProps, moreProps);
+        });
+      }
+
+      if (showTickLabel) {
         const {
-          showDomain,
-          showGridLines,
-          showTickLabel,
-          showTicks,
-          transform,
-          range,
-          getScale,
-          tickLabelFill
-        } = this.props;
+         textAnchor
+        } = tickProps;
 
-        ctx.save();
-        ctx.translate(transform[0], transform[1]);
-
-        const scale = getScale(moreProps)
-        , tickProps = tickHelper(this.props, scale);
-
-        if (showTicks) {
-           drawTicks(ctx, tickProps);
+        ctx.font = _crFont(tickProps);
+        if (tickLabelFill !== undefined) {
+         ctx.fillStyle = tickLabelFill;
         }
+        ctx.textAlign = textAnchor === 'middle'
+         ? 'center'
+         : textAnchor;
 
-        if (showGridLines) {
-           tickProps.ticks.forEach((tick) => {
-             drawGridLine(ctx, tick, tickProps, moreProps);
-           });
+        tickProps.ticks.forEach(tick => {
+         drawEachTickLabel(ctx, tick, tickProps);
+        });
+      }
+
+      if (showDomain) {
+        drawAxisLine(ctx, props, range);
+      }
+      ctx.restore();
+  });
+
+  return (
+    <g transform={crCssTranslate(transform)}>
+        {zoomEnabled ? (<AxisZoomCapture
+           className={className}
+           zoomCursorClassName={zoomCursorClassName}
+           inverted={inverted}
+           bg={bg}
+           axisZoomCallback={axisZoomCallback}
+           getScale={_getAxisScale}
+           getMouseDelta={getMouseDelta}
+           onContextMenu={onContextMenu}
+           onDoubleClick={onDoubleClick}
+         />) : null
         }
-
-        if (showTickLabel) {
-            const {
-              textAnchor
-            } = tickProps;
-
-            ctx.font = _crFont(tickProps);
-            if (tickLabelFill !== undefined) {
-               ctx.fillStyle = tickLabelFill;
-            }
-            ctx.textAlign = textAnchor === 'middle'
-               ? 'center'
-               : textAnchor;
-
-            tickProps.ticks.forEach(tick => {
-                drawEachTickLabel(ctx, tick, tickProps);
-            });
-        }
-
-        if (showDomain) {
-           drawAxisLine(ctx, this.props, range);
-        }
-        ctx.restore();
-    }
-
-    render() {
-        const {
-          bg,
-          className,
-          zoomCursorClassName,
-          zoomEnabled,
-          inverted,
-          edgeClip,
-          transform,
-          getMouseDelta,
-          axisZoomCallback,
-          onContextMenu,
-          onDoubleClick
-        } = this.props;
-
-        return (
-          <g transform={crCssTranslate(transform)}>
-              {zoomEnabled ? (<AxisZoomCapture
-                 className={className}
-                 zoomCursorClassName={zoomCursorClassName}
-                 inverted={inverted}
-                 bg={bg}
-                 getScale={this.getAxisScale}
-                 getMouseDelta={getMouseDelta}
-                 axisZoomCallback={axisZoomCallback}
-                 onContextMenu={onContextMenu}
-                 onDoubleClick={onDoubleClick}
-               />) : null
-              }
-              <GenericChartComponent
-                 refComp={this.chartRef}
-                 clip={false}
-                 edgeClip={edgeClip}
-                 canvasToDraw={getAxisCanvas}
-                 canvasDraw={this.drawOnCanvas}
-                 drawOn={['pan']}
-              />
-          </g>
-        );
-    }
-}
-
-Axis.defaultProps = {
-   edgeClip: false,
-   zoomEnabled: false,
-   zoomCursorClassName: ''
-}
+        <GenericChartComponent
+           refComp={_refChart}
+           clip={false}
+           edgeClip={edgeClip}
+           canvasToDraw={getAxisCanvas}
+           canvasDraw={_drawOnCanvas}
+           drawOn={DRAW_ON}
+        />
+    </g>
+  );
+};
 
 export default Axis

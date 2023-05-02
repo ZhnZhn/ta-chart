@@ -186,7 +186,7 @@ class AxisZoomCapture extends Component {
         } = this.props
         , cursorCn = this.state.startPosition === null
            ? CL_DEFAULT_CURSOR
-           : zoomCursorClassName;
+           : zoomCursorClassName || '';
 
         return (
           <rect
