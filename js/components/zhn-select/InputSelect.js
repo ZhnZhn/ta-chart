@@ -187,9 +187,15 @@ var InputSelect = function InputSelect(props) {
   // _decorateActiveElement, _getActiveElement
   /*eslint-enable react-hooks/exhaustive-deps */
 
-  if (props.options !== initialOptions) {
-    _initStateFromProps();
-  }
+  /*eslint-disable react-hooks/exhaustive-deps */
+  (0, _uiApi.useEffect)(function () {
+    if (props.options !== initialOptions) {
+      _initStateFromProps();
+    }
+  }, [props.options]);
+  // initialOptions, _initStateFromProps
+  /*eslint-enable react-hooks/exhaustive-deps */
+
   var indexActiveOption = getActiveIndexOption(),
     _style = (0, _crStyleWidth["default"])(width, style),
     _crAfterInputEl = (0, _crAfterInputEl2["default"])(props, state, _refArrowCell, toggleIsShowOption),

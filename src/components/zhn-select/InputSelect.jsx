@@ -223,9 +223,14 @@ const InputSelect = (
   // _decorateActiveElement, _getActiveElement
   /*eslint-enable react-hooks/exhaustive-deps */
 
-  if (props.options !== initialOptions) {
-    _initStateFromProps()
-  }
+  /*eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (props.options !== initialOptions) {
+      _initStateFromProps()
+    }
+  }, [props.options])
+  // initialOptions, _initStateFromProps
+  /*eslint-enable react-hooks/exhaustive-deps */
 
   const indexActiveOption = getActiveIndexOption()
   , _style = crStyleWidth(width, style)
