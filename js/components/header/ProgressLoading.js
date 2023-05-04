@@ -1,78 +1,30 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
 exports["default"] = void 0;
-
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-var _react = require("react");
-
+var _uiApi = require("../uiApi");
 var _enumFetch = _interopRequireDefault(require("../enumFetch"));
-
 var _ProgressLine = _interopRequireDefault(require("../zhn/ProgressLine"));
-
-var C = {
-  LOADING: '#2f7ed8',
-  FAILED: 'rgb(237, 88, 19)'
-};
-
-var _getFetchingState = function _getFetchingState(fetchStatus) {
-  switch (fetchStatus) {
-    case _enumFetch["default"].LOADING:
-      return {
-        completed: 35,
-        color: C.LOADING
-      };
-
-    case _enumFetch["default"].SUCCESS:
-      return {
-        completed: 100,
-        color: C.LOADING
-      };
-
-    case _enumFetch["default"].FAILED:
-      return {
-        completed: 100,
-        color: C.FAILED
-      };
-
-    default:
-      return {
-        completed: 0,
-        color: C.LOADING
-      };
-  }
-};
-
-var ProgressLoading = /*#__PURE__*/function (_PureComponent) {
-  (0, _inheritsLoose2["default"])(ProgressLoading, _PureComponent);
-
-  function ProgressLoading() {
-    return _PureComponent.apply(this, arguments) || this;
-  }
-
-  var _proto = ProgressLoading.prototype;
-
-  _proto.render = function render() {
-    var fetchStatus = this.props.fetchStatus,
-        _getFetchingState2 = _getFetchingState(fetchStatus),
-        completed = _getFetchingState2.completed,
-        color = _getFetchingState2.color;
-
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_ProgressLine["default"], {
-      height: 3,
-      color: color,
-      completed: completed
-    });
+var _jsxRuntime = require("react/jsx-runtime");
+var LOADING_COLOR = '#2f7ed8',
+  FAILED_COLOR = '#ed5813',
+  _crFetchState = function _crFetchState(completed, color) {
+    return [completed, color];
   };
-
-  return ProgressLoading;
-}(_react.PureComponent);
-
-var _default = ProgressLoading;
+var _getFetchingState = function _getFetchingState(fetchStatus) {
+  return fetchStatus === _enumFetch["default"].LOADING ? _crFetchState(35, LOADING_COLOR) : fetchStatus === _enumFetch["default"].SUCCESS ? _crFetchState(100, LOADING_COLOR) : fetchStatus === _enumFetch["default"].FAILED ? _crFetchState(100, FAILED_COLOR) : _crFetchState(0, LOADING_COLOR);
+};
+var ProgressLoading = function ProgressLoading(_ref) {
+  var fetchStatus = _ref.fetchStatus;
+  var _getFetchingState2 = _getFetchingState(fetchStatus),
+    completed = _getFetchingState2[0],
+    color = _getFetchingState2[1];
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_ProgressLine["default"], {
+    color: color,
+    completed: completed
+  });
+};
+var _default = (0, _uiApi.memo)(ProgressLoading);
 exports["default"] = _default;
 //# sourceMappingURL=ProgressLoading.js.map
