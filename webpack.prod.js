@@ -14,8 +14,7 @@ module.exports = {
       import: path.resolve('src', 'index.jsx'),
       dependOn: 'lib'
     },
-    lib: [
-            "prop-types",
+    lib: [           
             "react",
             "react-dom",            
             
