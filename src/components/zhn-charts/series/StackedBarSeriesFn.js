@@ -196,12 +196,12 @@ export const drawOnCanvasHelper = (
   ctx,
   props,
   moreProps,
-  xAccessor,
   stackFn,
   defaultPostAction = identity,
   postRotateAction = _rotateXY
 ) => {
 	const {
+     xAccessor,
      plotData,
      xScale,
      chartConfig: { yScale }
@@ -223,12 +223,12 @@ export const drawOnCanvasHelper = (
 export const svgHelper = (
   props,
   moreProps,
-  xAccessor,
   stackFn,
   defaultPostAction = identity,
   postRotateAction = _rotateXY
 ) => {
 	const {
+     xAccessor,
      plotData,
      xScale,
      chartConfig: { yScale }

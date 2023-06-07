@@ -29,15 +29,13 @@ const DRAW_ON = ['pan'];
 class StackedBarSeries extends Component {
 
 	drawOnCanvas = (ctx, moreProps) => {
-		const { xAccessor } = moreProps;
-		drawOnCanvasHelper(ctx, this.props, moreProps, xAccessor, d3Stack);
+		drawOnCanvasHelper(ctx, this.props, moreProps, d3Stack);
 	}
 
 	renderSVG = (moreProps) => {
-		const { xAccessor } = moreProps;
 		return (
       <g>
-        {svgHelper(this.props, moreProps, xAccessor, d3Stack)}
+        {svgHelper(this.props, moreProps, d3Stack)}
       </g>
     );
 	}

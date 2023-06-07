@@ -81,31 +81,24 @@ const DRAW_ON = ['pan'];
 class BarSeries extends Component {
 
 	drawOnCanvas = (ctx, moreProps) => {
-		if (this.props.swapScales) {
-			const { xAccessor } = moreProps;
-			drawOnCanvasHelper(ctx, this.props, moreProps, xAccessor, identityStack);
+    const props = this.props;
+		if (props.swapScales) {
+			drawOnCanvasHelper(ctx, props, moreProps, identityStack);
 		} else {
-			const bars = _getBars(this.props, moreProps);
-			drawOnCanvas2(this.props, ctx, bars);
+			drawOnCanvas2(props, ctx, _getBars(props, moreProps));
 		}
 	}
 
 	renderSVG = (moreProps) => {
-		if (this.props.swapScales) {
-			const { xAccessor } = moreProps;
-			return (
-        <g>
-          {svgHelper(this.props, moreProps, xAccessor, identityStack)}
-        </g>
-      );
-		} else {
-			const bars = _getBars(this.props, moreProps);
-			return (
-        <g>
-          {getBarsSVG2(this.props, bars)}
-        </g>
-      );
-		}
+    const props = this.props;
+		return (
+      <g>
+        {props.swapScales
+          ? svgHelper(props, moreProps, identityStack)
+          : getBarsSVG2(props, _getBars(props, moreProps))
+        }
+      </g>
+    );
 	}
 
 	render() {
