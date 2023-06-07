@@ -1,6 +1,6 @@
 //import PropTypes from "prop-types";
 import { Component } from 'react';
-import { area as d3Area } from 'd3-shape';
+import { d3Area } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import {

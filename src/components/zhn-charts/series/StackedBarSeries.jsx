@@ -1,9 +1,7 @@
 //import PropTypes from "prop-types";
 import useEventCallback from '../../hooks/useEventCallback';
 
-import {
-  stack as d3Stack
-} from 'd3-shape';
+import { d3Stack } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import {

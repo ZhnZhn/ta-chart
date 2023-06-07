@@ -1,8 +1,6 @@
 //import PropTypes from "prop-types";
 import { Component } from 'react';
-import {
-  line as d3Line
-} from 'd3-shape';
+import { d3Line } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import {

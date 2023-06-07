@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
-var _d3Shape = require("d3-shape");
+var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
 var _utils = require("../utils");
@@ -16,11 +16,11 @@ var _jsxRuntime = require("react/jsx-runtime");
 var DRAW_ON = ['pan'];
 var StackedBarSeries = function StackedBarSeries(props) {
   var drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
-      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _d3Shape.stack);
+      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _d3Shape.d3Stack);
     }),
     renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
       return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-        children: (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _d3Shape.stack)
+        children: (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _d3Shape.d3Stack)
       });
     });
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
