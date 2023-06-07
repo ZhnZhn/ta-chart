@@ -3,8 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-var _react = require("react");
+var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 var _d3Shape = require("d3-shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -15,37 +14,54 @@ var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
 var DRAW_ON = ['pan'];
-var StackedBarSeries = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(StackedBarSeries, _Component);
-  function StackedBarSeries() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-    _this.drawOnCanvas = function (ctx, moreProps) {
-      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, _this.props, moreProps, _d3Shape.stack);
-    };
-    _this.renderSVG = function (moreProps) {
+var StackedBarSeries = function StackedBarSeries(props) {
+  var drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
+      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _d3Shape.stack);
+    }),
+    renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
       return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-        children: (0, _StackedBarSeriesFn.svgHelper)(_this.props, moreProps, _d3Shape.stack)
+        children: (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _d3Shape.stack)
       });
-    };
-    return _this;
-  }
-  var _proto = StackedBarSeries.prototype;
-  _proto.render = function render() {
-    var clip = this.props.clip;
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
-      clip: clip,
-      svgDraw: this.renderSVG,
-      canvasDraw: this.drawOnCanvas,
-      canvasToDraw: _contextFn.getAxisCanvas,
-      drawOn: DRAW_ON
     });
-  };
-  return StackedBarSeries;
-}(_react.Component);
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+    clip: props.clip,
+    svgDraw: renderSVG,
+    canvasDraw: drawOnCanvas,
+    canvasToDraw: _contextFn.getAxisCanvas,
+    drawOn: DRAW_ON
+  });
+};
+
+/*
+class StackedBarSeries extends Component {
+
+	drawOnCanvas = (ctx, moreProps) => {
+		drawOnCanvasHelper(ctx, this.props, moreProps, d3Stack);
+	}
+
+	renderSVG = (moreProps) => {
+		return (
+      <g>
+        {svgHelper(this.props, moreProps, d3Stack)}
+      </g>
+    );
+	}
+
+	render() {
+		const { clip } = this.props;
+		return (
+      <GenericChartComponent
+			  clip={clip}
+			  svgDraw={this.renderSVG}
+			  canvasDraw={this.drawOnCanvas}
+			  canvasToDraw={getAxisCanvas}
+			  drawOn={DRAW_ON}
+		  />
+    );
+	}
+}
+*/
+
 /*
 StackedBarSeries.propTypes = {
 	baseAt: PropTypes.oneOfType([
@@ -68,10 +84,12 @@ StackedBarSeries.propTypes = {
 	clip: PropTypes.bool.isRequired,
 };
 */
+
+var DF_BASE_AT = function DF_BASE_AT(xScale, yScale) {
+  return (0, _utils.head)(yScale.range());
+};
 StackedBarSeries.defaultProps = {
-  baseAt: function baseAt(xScale, yScale /* , d*/) {
-    return (0, _utils.head)(yScale.range());
-  },
+  baseAt: DF_BASE_AT,
   direction: 'up',
   className: _CL.CL_BAR,
   stroke: true,

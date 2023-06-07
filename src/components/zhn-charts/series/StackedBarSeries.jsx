@@ -1,5 +1,5 @@
 //import PropTypes from "prop-types";
-import { Component } from 'react';
+import useEventCallback from '../../hooks/useEventCallback';
 
 import {
   stack as d3Stack
@@ -26,6 +26,27 @@ import {
 
 const DRAW_ON = ['pan'];
 
+const StackedBarSeries = (props) => {
+  const drawOnCanvas = useEventCallback((ctx, moreProps) => {
+		drawOnCanvasHelper(ctx, props, moreProps, d3Stack);
+	})
+  , renderSVG = useEventCallback(moreProps => (
+     <g>
+       {svgHelper(props, moreProps, d3Stack)}
+     </g>
+  ));
+  return (
+    <GenericChartComponent
+      clip={props.clip}
+      svgDraw={renderSVG}
+      canvasDraw={drawOnCanvas}
+      canvasToDraw={getAxisCanvas}
+      drawOn={DRAW_ON}
+    />
+  );
+}
+
+/*
 class StackedBarSeries extends Component {
 
 	drawOnCanvas = (ctx, moreProps) => {
@@ -53,6 +74,7 @@ class StackedBarSeries extends Component {
     );
 	}
 }
+*/
 
 /*
 StackedBarSeries.propTypes = {
@@ -77,8 +99,13 @@ StackedBarSeries.propTypes = {
 };
 */
 
+const DF_BASE_AT = (
+  xScale,
+  yScale
+) => head(yScale.range());
+
 StackedBarSeries.defaultProps = {
-	baseAt: (xScale, yScale/* , d*/) => head(yScale.range()),
+	baseAt: DF_BASE_AT,
 	direction: 'up',
 	className: CL_BAR,
 	stroke: true,
