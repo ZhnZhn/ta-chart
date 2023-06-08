@@ -8,7 +8,8 @@ var _d3Collection = require("d3-collection");
 var _d3Array = require("d3-array");
 var _utils = require("../utils");
 var _jsxRuntime = require("react/jsx-runtime");
-var _isArr = Array.isArray;
+var _isArr = Array.isArray,
+  mathRound = Math.round;
 var identityStack = function identityStack() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
@@ -59,7 +60,7 @@ var _getBars = function _getBars(props, xAccessor, yAccessor, xScale, yScale, pl
       xAccessor: xAccessor,
       plotData: plotData
     }),
-    barWidth = Math.round(width),
+    barWidth = mathRound(width),
     eachBarWidth = (barWidth - spaceBetweenBar * (yAccessor.length - 1)) / yAccessor.length,
     offset = barWidth === 1 ? 0 : 0.5 * width;
   var ds = plotData.map(function (each) {
@@ -103,11 +104,11 @@ var _getBars = function _getBars(props, xAccessor, yAccessor, xScale, yScale, pl
       h = -h;
     }
     return (0, _extends2["default"])({}, d.data.appearance, {
-      x: Math.round(xScale(d.data.x) - width / 2),
+      x: mathRound(xScale(d.data.x) - width / 2),
       y: y,
-      groupOffset: Math.round(offset - (d.data.i > 0 ? (eachBarWidth + spaceBetweenBar) * d.data.i : 0)),
-      groupWidth: Math.round(eachBarWidth),
-      offset: Math.round(offset),
+      groupOffset: mathRound(offset - (d.data.i > 0 ? (eachBarWidth + spaceBetweenBar) * d.data.i : 0)),
+      groupWidth: mathRound(eachBarWidth),
+      offset: mathRound(offset),
       height: h,
       width: barWidth
     });
@@ -120,13 +121,12 @@ var _convertToArray = function _convertToArray(item) {
   return _isArr(item) ? item : [item];
 };
 var _doStuff = function _doStuff(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction) {
-  var yAccessor = props.yAccessor,
-    swapScales = props.swapScales,
-    modifiedYAccessor = swapScales ? _convertToArray(props.xAccessor) : _convertToArray(yAccessor),
-    modifiedXAccessor = swapScales ? yAccessor : xAccessor,
-    modifiedXScale = swapScales ? yScale : xScale,
-    modifiedYScale = swapScales ? xScale : yScale,
-    postProcessor = swapScales ? postRotateAction : defaultPostAction;
+  var _ref = props.swapScales ? [_convertToArray(props.xAccessor), props.yAccessor, yScale, xScale, postRotateAction] : [_convertToArray(props.yAccessor), xAccessor, xScale, yScale, defaultPostAction],
+    modifiedYAccessor = _ref[0],
+    modifiedXAccessor = _ref[1],
+    modifiedXScale = _ref[2],
+    modifiedYScale = _ref[3],
+    postProcessor = _ref[4];
   return _getBars(props, modifiedXAccessor, modifiedYAccessor, modifiedXScale, modifiedYScale, plotData, stackFn, postProcessor);
 };
 var _rotateXY = function _rotateXY(array) {
@@ -139,6 +139,31 @@ var _rotateXY = function _rotateXY(array) {
     });
   });
 };
+var drawOnCanvas2 = function drawOnCanvas2(ctx, props, bars) {
+  var stroke = props.stroke,
+    nest = (0, _d3Collection.nest)().key(function (d) {
+      return d.fill;
+    }).entries(bars);
+  nest.forEach(function (outer) {
+    var key = outer.key,
+      values = outer.values;
+    if ((0, _utils.head)(values).width > 1) {
+      ctx.strokeStyle = key;
+    }
+    ctx.fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, props.opacity);
+    values.forEach(function (d) {
+      if (d.width <= 1) {
+        ctx.fillRect(d.x - 0.5, d.y, 1, d.height);
+      } else {
+        ctx.fillRect(d.x, d.y, d.width, d.height);
+        if (stroke) {
+          ctx.strokeRect(d.x, d.y, d.width, d.height);
+        }
+      }
+    });
+  });
+};
+exports.drawOnCanvas2 = drawOnCanvas2;
 var drawOnCanvasHelper = function drawOnCanvasHelper(ctx, props, moreProps, stackFn, defaultPostAction, postRotateAction) {
   if (defaultPostAction === void 0) {
     defaultPostAction = _utils.identity;
@@ -151,7 +176,7 @@ var drawOnCanvasHelper = function drawOnCanvasHelper(ctx, props, moreProps, stac
     xScale = moreProps.xScale,
     yScale = moreProps.chartConfig.yScale,
     bars = _doStuff(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction);
-  drawOnCanvas2(props, ctx, bars);
+  drawOnCanvas2(ctx, props, bars);
 };
 exports.drawOnCanvasHelper = drawOnCanvasHelper;
 var svgHelper = function svgHelper(props, moreProps, stackFn, defaultPostAction, postRotateAction) {
@@ -170,8 +195,8 @@ var svgHelper = function svgHelper(props, moreProps, stackFn, defaultPostAction,
 };
 exports.svgHelper = svgHelper;
 var getBarsSVG2 = function getBarsSVG2( //props
-_ref, bars) {
-  var opacity = _ref.opacity;
+_ref2, bars) {
+  var opacity = _ref2.opacity;
   return bars.map(function (d, idx) {
     return d.width <= 1 ? /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
       className: d.className,
@@ -193,30 +218,4 @@ _ref, bars) {
   });
 };
 exports.getBarsSVG2 = getBarsSVG2;
-var drawOnCanvas2 = function drawOnCanvas2(props, ctx, bars) {
-  var stroke = props.stroke,
-    nest = (0, _d3Collection.nest)().key(function (d) {
-      return d.fill;
-    }).entries(bars);
-  nest.forEach(function (outer) {
-    var key = outer.key,
-      values = outer.values;
-    if ((0, _utils.head)(values).width > 1) {
-      ctx.strokeStyle = key;
-    }
-    var fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, props.opacity);
-    ctx.fillStyle = fillStyle;
-    values.forEach(function (d) {
-      if (d.width <= 1) {
-        ctx.fillRect(d.x - 0.5, d.y, 1, d.height);
-      } else {
-        ctx.fillRect(d.x, d.y, d.width, d.height);
-        if (stroke) {
-          ctx.strokeRect(d.x, d.y, d.width, d.height);
-        }
-      }
-    });
-  });
-};
-exports.drawOnCanvas2 = drawOnCanvas2;
 //# sourceMappingURL=StackedBarSeriesFn.js.map

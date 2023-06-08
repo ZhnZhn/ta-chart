@@ -8,7 +8,8 @@ import {
   functor
 } from '../utils';
 
-const _isArr = Array.isArray;
+const _isArr = Array.isArray
+, mathRound = Math.round;
 
 export const identityStack = (
   ...args
@@ -66,7 +67,7 @@ const _getBars = (
 		  plotData
 	})
 
-	, barWidth = Math.round(width)
+	, barWidth = mathRound(width)
 	, eachBarWidth = (barWidth - spaceBetweenBar * (yAccessor.length - 1)) / yAccessor.length
 	, offset = barWidth === 1
       ? 0
@@ -118,13 +119,13 @@ const _getBars = (
 			}
 			return {
 				...d.data.appearance,
-				x: Math.round(xScale(d.data.x) - width / 2),
+				x: mathRound(xScale(d.data.x) - width / 2),
 				y: y,
-				groupOffset: Math.round(offset - (d.data.i > 0 ? (eachBarWidth + spaceBetweenBar) * d.data.i : 0)),
-				groupWidth: Math.round(eachBarWidth),
-				offset: Math.round(offset),
+				groupOffset: mathRound(offset - (d.data.i > 0 ? (eachBarWidth + spaceBetweenBar) * d.data.i : 0)),
+				groupWidth: mathRound(eachBarWidth),
+				offset: mathRound(offset),
 				height: h,
-				width: barWidth,
+				width: barWidth
 			};
 		})
 		.filter(bar => !isNaN(bar.y));
@@ -148,28 +149,28 @@ const _doStuff = (
   postRotateAction,
   defaultPostAction
 ) => {
-	const {
-    yAccessor,
-    swapScales
-  } = props
-	, modifiedYAccessor = swapScales
-      ? _convertToArray(props.xAccessor)
-      : _convertToArray(yAccessor)
-	, modifiedXAccessor = swapScales
-      ? yAccessor
-      : xAccessor
-
-	, modifiedXScale = swapScales
-      ? yScale
-      : xScale
-	, modifiedYScale = swapScales
-      ? xScale
-      : yScale
-
-	, postProcessor =  swapScales
-      ? postRotateAction
-      : defaultPostAction
-
+	const [
+    modifiedYAccessor,
+    modifiedXAccessor,
+    modifiedXScale,
+    modifiedYScale,
+    postProcessor
+  ] = props.swapScales
+    ? [
+        _convertToArray(props.xAccessor),
+        props.yAccessor,
+        yScale,
+        xScale,
+        postRotateAction
+      ]
+    : [
+        _convertToArray(props.yAccessor),
+        xAccessor,
+        xScale,
+        yScale,
+        defaultPostAction
+      ];
+        
 	return _getBars(
     props,
     modifiedXAccessor,
@@ -191,6 +192,42 @@ const _rotateXY = (
 	height: each.width,
 	width: each.height
 }))
+
+export const drawOnCanvas2 = (
+  ctx,
+  props,
+  bars
+) => {
+	const { stroke } = props
+	, nest = d3Nest()
+		 .key(d => d.fill)
+		 .entries(bars);
+
+	nest.forEach(outer => {
+		const {
+      key,
+      values
+    } = outer;
+		if (head(values).width > 1) {
+			ctx.strokeStyle = key;
+		}
+
+		ctx.fillStyle = head(values).width <= 1
+			? key
+			: hexToRGBA(key, props.opacity);
+
+		values.forEach(d => {
+			if (d.width <= 1) {
+				ctx.fillRect(d.x - 0.5, d.y, 1, d.height);
+			} else {
+				ctx.fillRect(d.x, d.y, d.width, d.height);
+				if (stroke) {
+          ctx.strokeRect(d.x, d.y, d.width, d.height);
+        }
+			}
+		});
+	});
+}
 
 export const drawOnCanvasHelper = (
   ctx,
@@ -217,7 +254,7 @@ export const drawOnCanvasHelper = (
      defaultPostAction
   );
 
-	drawOnCanvas2(props, ctx, bars);
+	drawOnCanvas2(ctx, props, bars);
 }
 
 export const svgHelper = (
@@ -270,39 +307,3 @@ export const getBarsSVG2 = (
 	      height={d.height}
      />)
 )
-
-export const drawOnCanvas2 = (
-  props,
-  ctx,
-  bars
-) => {
-	const { stroke } = props
-	, nest = d3Nest()
-		 .key(d => d.fill)
-		 .entries(bars);
-
-	nest.forEach(outer => {
-		const {
-      key,
-      values
-    } = outer;
-		if (head(values).width > 1) {
-			ctx.strokeStyle = key;
-		}
-		const fillStyle = head(values).width <= 1
-			? key
-			: hexToRGBA(key, props.opacity);
-		ctx.fillStyle = fillStyle;
-
-		values.forEach(d => {
-			if (d.width <= 1) {
-				ctx.fillRect(d.x - 0.5, d.y, 1, d.height);
-			} else {
-				ctx.fillRect(d.x, d.y, d.width, d.height);
-				if (stroke) {
-          ctx.strokeRect(d.x, d.y, d.width, d.height);
-        }
-			}
-		});
-	});
-}
