@@ -4,8 +4,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-var _react = require("react");
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -15,20 +13,31 @@ var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
-var FN_NOOP = function FN_NOOP() {};
-var LineSeries = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(LineSeries, _Component);
-  function LineSeries() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-    _this.isHover = function (moreProps) {
-      var _this$props = _this.props,
-        yAccessor = _this$props.yAccessor,
-        hoverTolerance = _this$props.hoverTolerance,
-        highlightOnHover = _this$props.highlightOnHover;
+var FN_NOOP = function FN_NOOP() {},
+  mathRound = Math.round,
+  mathPow = Math.pow;
+var LineSeries = function LineSeries(props) {
+  var yAccessor = props.yAccessor,
+    hoverTolerance = props.hoverTolerance,
+    highlightOnHover = props.highlightOnHover,
+    stroke = props.stroke,
+    strokeOpacity = props.strokeOpacity,
+    strokeWidth = props.strokeWidth,
+    strokeDasharray = props.strokeDasharray,
+    hoverStrokeWidth = props.hoverStrokeWidth,
+    defined = props.defined,
+    connectNulls = props.connectNulls,
+    interpolation = props.interpolation,
+    style = props.style,
+    fill = props.fill,
+    className = props.className,
+    canvasClip = props.canvasClip,
+    onClick = props.onClick,
+    onDoubleClick = props.onDoubleClick,
+    onContextMenu = props.onContextMenu,
+    onHover = props.onHover,
+    onUnHover = props.onUnHover,
+    _isHover = function _isHover(moreProps) {
       if (!highlightOnHover) {
         return false;
       }
@@ -48,9 +57,8 @@ var LineSeries = /*#__PURE__*/function (_Component) {
         right = _getClosestItemIndexe.right;
       if (left === right) {
         var cy = yScale(yAccessor(currentItem)) + origin[1],
-          cx = xScale(xAccessor(currentItem)) + origin[0],
-          hovering1 = Math.pow(x - cx, 2) + Math.pow(y - cy, 2) < Math.pow(radius, 2);
-        return hovering1;
+          cx = xScale(xAccessor(currentItem)) + origin[0];
+        return mathPow(x - cx, 2) + mathPow(y - cy, 2) < mathPow(radius, 2);
       } else {
         var l = plotData[left],
           r = plotData[right],
@@ -58,29 +66,47 @@ var LineSeries = /*#__PURE__*/function (_Component) {
           y1 = yScale(yAccessor(l)) + origin[1],
           x2 = xScale(xAccessor(r)) + origin[0],
           y2 = yScale(yAccessor(r)) + origin[1]
-
           // y = m * x + b
           ,
-          m /* slope */ = (y2 - y1) / (x2 - x1),
-          b /* y intercept */ = -1 * m * x1 + y1,
-          desiredY = Math.round(m * x + b),
-          hovering2 = y >= desiredY - radius && y <= desiredY + radius;
-        return hovering2;
+          m = (y2 - y1) / (x2 - x1),
+          b = -1 * m * x1 + y1,
+          desiredY = mathRound(m * x + b);
+        return y >= desiredY - radius && y <= desiredY + radius;
       }
-    };
-    _this.drawOnCanvas = function (ctx, moreProps) {
-      var _this$props2 = _this.props,
-        yAccessor = _this$props2.yAccessor,
-        stroke = _this$props2.stroke,
-        strokeOpacity = _this$props2.strokeOpacity,
-        strokeWidth = _this$props2.strokeWidth,
-        hoverStrokeWidth = _this$props2.hoverStrokeWidth,
-        defined = _this$props2.defined,
-        strokeDasharray = _this$props2.strokeDasharray,
-        interpolation = _this$props2.interpolation,
-        canvasClip = _this$props2.canvasClip,
-        connectNulls = _this$props2.connectNulls,
+    },
+    _renderSVG = function _renderSVG(moreProps) {
+      var xAccessor = moreProps.xAccessor,
+        xScale = moreProps.xScale,
+        plotData = moreProps.plotData,
         hovering = moreProps.hovering,
+        chartConfig = moreProps.chartConfig,
+        yScale = chartConfig.yScale,
+        dataSeries = (0, _d3Shape.d3Line)().x(function (d) {
+          return mathRound(xScale(xAccessor(d)));
+        }).y(function (d) {
+          return mathRound(yScale(yAccessor(d)));
+        });
+      if ((0, _utils.isDefined)(interpolation)) {
+        dataSeries.curve(interpolation);
+      }
+      if (!connectNulls) {
+        dataSeries.defined(function (d) {
+          return defined(yAccessor(d));
+        });
+      }
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+        style: style,
+        className: className + " " + (stroke ? '' : _CL.CL_LINE_STROKE),
+        d: dataSeries(plotData),
+        stroke: stroke,
+        strokeOpacity: strokeOpacity,
+        strokeWidth: hovering ? hoverStrokeWidth : strokeWidth,
+        strokeDasharray: (0, _utils.getStrokeDasharray)(strokeDasharray),
+        fill: fill
+      });
+    },
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
+      var hovering = moreProps.hovering,
         xScale = moreProps.xScale,
         xAccessor = moreProps.xAccessor,
         plotData = moreProps.plotData,
@@ -93,9 +119,9 @@ var LineSeries = /*#__PURE__*/function (_Component) {
       ctx.strokeStyle = (0, _utils2.hexToRGBA)(stroke, strokeOpacity);
       ctx.setLineDash((0, _utils.getStrokeDasharray)(strokeDasharray).split(","));
       var dataSeries = (0, _d3Shape.d3Line)().x(function (d) {
-        return Math.round(xScale(xAccessor(d)));
+        return mathRound(xScale(xAccessor(d)));
       }).y(function (d) {
-        return Math.round(yScale(yAccessor(d)));
+        return mathRound(yScale(yAccessor(d)));
       });
       if ((0, _utils.isDefined)(interpolation)) {
         dataSeries.curve(interpolation);
@@ -111,81 +137,28 @@ var LineSeries = /*#__PURE__*/function (_Component) {
       if (canvasClip) {
         ctx.restore();
       }
+    },
+    _hoverProps = highlightOnHover || onHover || onUnHover ? {
+      isHover: _isHover,
+      drawOn: ['mousemove', 'pan'],
+      canvasToDraw: _contextFn.getMouseCanvas
+    } : {
+      drawOn: ['pan'],
+      canvasToDraw: _contextFn.getAxisCanvas
     };
-    _this.renderSVG = function (moreProps) {
-      var _this$props3 = _this.props,
-        yAccessor = _this$props3.yAccessor,
-        stroke = _this$props3.stroke,
-        strokeOpacity = _this$props3.strokeOpacity,
-        strokeWidth = _this$props3.strokeWidth,
-        strokeDasharray = _this$props3.strokeDasharray,
-        hoverStrokeWidth = _this$props3.hoverStrokeWidth,
-        defined = _this$props3.defined,
-        connectNulls = _this$props3.connectNulls,
-        interpolation = _this$props3.interpolation,
-        style = _this$props3.style,
-        xAccessor = moreProps.xAccessor,
-        xScale = moreProps.xScale,
-        plotData = moreProps.plotData,
-        hovering = moreProps.hovering,
-        chartConfig = moreProps.chartConfig,
-        yScale = chartConfig.yScale,
-        dataSeries = (0, _d3Shape.d3Line)().x(function (d) {
-          return Math.round(xScale(xAccessor(d)));
-        }).y(function (d) {
-          return Math.round(yScale(yAccessor(d)));
-        });
-      if ((0, _utils.isDefined)(interpolation)) {
-        dataSeries.curve(interpolation);
-      }
-      if (!connectNulls) {
-        dataSeries.defined(function (d) {
-          return defined(yAccessor(d));
-        });
-      }
-      var d = dataSeries(plotData),
-        _this$props4 = _this.props,
-        fill = _this$props4.fill,
-        className = _this$props4.className;
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-        style: style,
-        className: className + " " + (stroke ? '' : _CL.CL_LINE_STROKE),
-        d: d,
-        stroke: stroke,
-        strokeOpacity: strokeOpacity,
-        strokeWidth: hovering ? hoverStrokeWidth : strokeWidth,
-        strokeDasharray: (0, _utils.getStrokeDasharray)(strokeDasharray),
-        fill: fill
-      });
-    };
-    return _this;
-  }
-  var _proto = LineSeries.prototype;
-  _proto.render = function render() {
-    var _this$props5 = this.props,
-      highlightOnHover = _this$props5.highlightOnHover,
-      onHover = _this$props5.onHover,
-      onUnHover = _this$props5.onUnHover,
-      hoverProps = highlightOnHover || onHover || onUnHover ? {
-        isHover: this.isHover,
-        drawOn: ['mousemove', 'pan'],
-        canvasToDraw: _contextFn.getMouseCanvas
-      } : {
-        drawOn: ['pan'],
-        canvasToDraw: _contextFn.getAxisCanvas
-      };
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], (0, _extends2["default"])({
-      svgDraw: this.renderSVG,
-      canvasDraw: this.drawOnCanvas,
-      onClickWhenHover: this.props.onClick,
-      onDoubleClickWhenHover: this.props.onDoubleClick,
-      onContextMenuWhenHover: this.props.onContextMenu,
-      onHover: this.props.onHover,
-      onUnHover: this.props.onUnHover
-    }, hoverProps));
-  };
-  return LineSeries;
-}(_react.Component);
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], (0, _extends2["default"])({
+    svgDraw: _renderSVG,
+    canvasDraw: _drawOnCanvas,
+    onClickWhenHover: onClick,
+    onDoubleClickWhenHover: onDoubleClick,
+    onContextMenuWhenHover: onContextMenu,
+    onHover: onHover,
+    onUnHover: onUnHover
+  }, _hoverProps));
+};
+var DF_DEFINED = function DF_DEFINED(d) {
+  return !isNaN(d);
+};
 LineSeries.defaultProps = {
   className: _CL.CL_LINE,
   strokeWidth: 1,
@@ -194,9 +167,7 @@ LineSeries.defaultProps = {
   fill: 'none',
   stroke: '#4682b4',
   strokeDasharray: 'Solid',
-  defined: function defined(d) {
-    return !isNaN(d);
-  },
+  defined: DF_DEFINED,
   hoverTolerance: 6,
   highlightOnHover: false,
   connectNulls: false,
