@@ -1,14 +1,13 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
 var _uiApi = require("../../uiApi");
-var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 var _d3Interpolate = require("d3-interpolate");
 var _utils = require("../utils");
 var _Chart = require("../core/Chart");
 var _jsxRuntime = require("react/jsx-runtime");
+var mathRound = Math.round;
 var S_SVG_G = {
     pointerEvents: 'all',
     transform: 'translate(0, 50px)'
@@ -32,10 +31,7 @@ var ZoomButtons = function ZoomButtons(_ref) {
     strokeWidth = _ref.strokeWidth,
     textFill = _ref.textFill;
   var context = (0, _uiApi.useContext)(_Chart.ChartContext),
-    _context$chartConfig = context.chartConfig,
-    width = _context$chartConfig.width,
-    height = _context$chartConfig.height,
-    _zoom = (0, _useEventCallback["default"])(function (direction) {
+    _zoom = function _zoom(direction) {
       var xAxisZoom = context.xAxisZoom,
         xScale = context.xScale,
         plotData = context.plotData,
@@ -53,17 +49,17 @@ var ZoomButtons = function ZoomButtons(_ref) {
         left = (0, _d3Interpolate.interpolateNumber)(start, newStart),
         right = (0, _d3Interpolate.interpolateNumber)(end, newEnd);
       xAxisZoom([left(0.2), right(0.2)]);
-    }),
-    _useMemo = (0, _uiApi.useMemo)(function () {
-      return [function () {
-        return _zoom(-1);
-      }, function () {
-        return _zoom(1);
-      }];
-    }, [_zoom]),
-    _hZoomIn = _useMemo[0],
-    _hZoomOut = _useMemo[1];
-  var _centerX = Math.round(width / 2),
+    },
+    _hZoomIn = function _hZoomIn() {
+      return _zoom(-1);
+    },
+    _hZoomOut = function _hZoomOut() {
+      return _zoom(1);
+    },
+    _context$chartConfig = context.chartConfig,
+    width = _context$chartConfig.width,
+    height = _context$chartConfig.height,
+    _centerX = mathRound(width / 2),
     _y = height - heightFromBase,
     _zoomOutX = _centerX - 16 - r * 2,
     _zoomInX = _centerX - 8,

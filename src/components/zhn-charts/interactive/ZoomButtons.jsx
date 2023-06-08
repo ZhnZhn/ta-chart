@@ -1,14 +1,11 @@
-import {
-  useContext,
-  useMemo
-} from '../../uiApi';
-
-import useEventCallback from '../../hooks/useEventCallback';
+import { useContext } from '../../uiApi';
 
 import { interpolateNumber } from 'd3-interpolate';
 import { last } from '../utils';
 
 import { ChartContext } from '../core/Chart';
+
+const mathRound = Math.round;
 
 const S_SVG_G = {
   pointerEvents: 'all',
@@ -38,10 +35,7 @@ const ZoomButtons = ({
   textFill
 }) => {
   const context = useContext(ChartContext)
-  , {
-    chartConfig: {width, height}
-  } = context
-  , _zoom = useEventCallback((direction) => {
+  , _zoom = (direction) => {
       const {
         xAxisZoom,
         xScale,
@@ -52,7 +46,6 @@ const ZoomButtons = ({
       , c = direction > 0
          ? 1 * zoomMultiplier
          : 1 / zoomMultiplier
-
       , [
         start,
         end
@@ -61,24 +54,23 @@ const ZoomButtons = ({
         newStart,
         newEnd
       ] = xScale
-          .range()
-          .map((x) => cx + (x - cx) * c)
-          .map(xScale.invert)
+        .range()
+        .map((x) => cx + (x - cx) * c)
+        .map(xScale.invert)
 
       , left = interpolateNumber(start, newStart)
       , right = interpolateNumber(end, newEnd);
 
       xAxisZoom([left(0.2), right(0.2)]);
-  })
-  , [
-    _hZoomIn,
-    _hZoomOut
-  ] = useMemo(() => [
-    () => _zoom(-1),
-    () => _zoom(1)
-  ], [_zoom]);
+  }
+  , _hZoomIn = () => _zoom(-1)
+  , _hZoomOut = () => _zoom(1)
 
-  const _centerX = Math.round(width / 2)
+  , {
+    chartConfig: {width, height}
+  } = context
+
+  , _centerX = mathRound(width / 2)
   , _y = height - heightFromBase
   , _zoomOutX = _centerX - 16 - r * 2
   , _zoomInX = _centerX - 8
