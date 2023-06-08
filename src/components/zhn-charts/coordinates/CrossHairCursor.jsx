@@ -1,6 +1,5 @@
 import { useContext } from '../../uiApi';
-
-import useEventCallback from '../../hooks/useEventCallback';
+import crCn from '../../zhn-utils/crCn';
 
 import { ChartCanvasContext } from '../core/ChartCanvas'
 import { GenericComponent } from '../core/GenericComponent';
@@ -10,25 +9,26 @@ import { CL_CHARTS_CROSSHAIR } from '../CL';
 
 import {
   hexToRGBA,
-  isDefined,
-  isNotDefined,
   getStrokeDasharray
 } from '../utils';
 
-const _customX = (props, moreProps) => {
-	const {
+const _isArr = Array.isArray
+, mathRound = Math.round;
+
+const _customX = (
+  props, {
     xScale,
     xAccessor,
     currentItem,
     mouseXY
-  } = moreProps
-	, { snapX } = props;
-	return snapX
-		? Math.round(xScale(xAccessor(currentItem)))
-		: mouseXY[0];
-}
+}) => props.snapX
+	? mathRound(xScale(xAccessor(currentItem)))
+	: mouseXY[0];
 
-const _crLines = (props, moreProps) => {
+const _crLines = (
+  props,
+  moreProps
+) => {
 	const {
 		mouseXY,
     currentItem,
@@ -43,7 +43,7 @@ const _crLines = (props, moreProps) => {
     strokeDasharray
   } = props;
 
-	if (!show || isNotDefined(currentItem)) {
+	if (!show || currentItem == null) {
     return null;
   }
 
@@ -72,9 +72,9 @@ const _crLines = (props, moreProps) => {
 
 const CrossHairCursor = (props) => {
   const context = useContext(ChartCanvasContext)
-  , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
+  , _drawOnCanvas = (ctx, moreProps) => {
 		const lines = _crLines(props, moreProps);
-		if (isDefined(lines)) {
+		if (_isArr(lines)) {
 			const {
         margin,
         ratio
@@ -88,9 +88,14 @@ const CrossHairCursor = (props) => {
 			ctx.translate(originX, originY);
 
 			lines.forEach(line => {
-				const dashArray = getStrokeDasharray(line.strokeDasharray).split(",").map(d => +d);
+				const dashArray = getStrokeDasharray(line.strokeDasharray)
+          .split(",")
+          .map(d => +d);
 
-				ctx.strokeStyle = hexToRGBA(line.stroke, line.opacity);
+				ctx.strokeStyle = hexToRGBA(
+          line.stroke,
+          line.opacity
+        );
 				ctx.setLineDash(dashArray);
 				ctx.beginPath();
 				ctx.moveTo(line.x1, line.y1);
@@ -100,21 +105,20 @@ const CrossHairCursor = (props) => {
 
 			ctx.restore();
 		}
-  })
-  , _renderSvg = useEventCallback(moreProps => {
-		const { className } = props
-		, lines = _crLines(props, moreProps);
-		return isNotDefined(lines) ? null : (
-			<g className={`${CL_CHARTS_CROSSHAIR} ${className}`}>
-				{lines.map(({ strokeDasharray, ...restProps }, index) =>
-					(<line
-						 key={index}
-						 strokeDasharray={getStrokeDasharray(strokeDasharray)}
-						 {...restProps} />
-          ))}
-			</g>
-		);
-	});
+  }
+  , _renderSvg = (moreProps) => {
+		  const lines = _crLines(props, moreProps);
+		  return _isArr(lines) ? (
+		    <g className={crCn(CL_CHARTS_CROSSHAIR, props.className)}>
+		      {lines.map(({ strokeDasharray, ...restProps }, index) =>
+		        (<line
+		           key={index}
+		           strokeDasharray={getStrokeDasharray(strokeDasharray)}
+		           {...restProps}
+            />))}
+		    </g>
+		  ) : null;
+	};
 
   return (
     <GenericComponent

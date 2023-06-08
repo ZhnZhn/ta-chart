@@ -6,7 +6,7 @@ exports["default"] = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 var _uiApi = require("../../uiApi");
-var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
+var _crCn = _interopRequireDefault(require("../../zhn-utils/crCn"));
 var _ChartCanvas = require("../core/ChartCanvas");
 var _GenericComponent = require("../core/GenericComponent");
 var _contextFn = require("../core/contextFn");
@@ -14,13 +14,14 @@ var _CL = require("../CL");
 var _utils = require("../utils");
 var _jsxRuntime = require("react/jsx-runtime");
 var _excluded = ["strokeDasharray"];
-var _customX = function _customX(props, moreProps) {
-  var xScale = moreProps.xScale,
-    xAccessor = moreProps.xAccessor,
-    currentItem = moreProps.currentItem,
-    mouseXY = moreProps.mouseXY,
-    snapX = props.snapX;
-  return snapX ? Math.round(xScale(xAccessor(currentItem))) : mouseXY[0];
+var _isArr = Array.isArray,
+  mathRound = Math.round;
+var _customX = function _customX(props, _ref) {
+  var xScale = _ref.xScale,
+    xAccessor = _ref.xAccessor,
+    currentItem = _ref.currentItem,
+    mouseXY = _ref.mouseXY;
+  return props.snapX ? mathRound(xScale(xAccessor(currentItem))) : mouseXY[0];
 };
 var _crLines = function _crLines(props, moreProps) {
   var mouseXY = moreProps.mouseXY,
@@ -32,7 +33,7 @@ var _crLines = function _crLines(props, moreProps) {
     stroke = props.stroke,
     opacity = props.opacity,
     strokeDasharray = props.strokeDasharray;
-  if (!show || (0, _utils.isNotDefined)(currentItem)) {
+  if (!show || currentItem == null) {
     return null;
   }
   var line1 = {
@@ -58,9 +59,9 @@ var _crLines = function _crLines(props, moreProps) {
 };
 var CrossHairCursor = function CrossHairCursor(props) {
   var context = (0, _uiApi.useContext)(_ChartCanvas.ChartCanvasContext),
-    _drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
       var lines = _crLines(props, moreProps);
-      if ((0, _utils.isDefined)(lines)) {
+      if (_isArr(lines)) {
         var margin = context.margin,
           ratio = context.ratio,
           originX = 0.5 * ratio + margin.left,
@@ -82,21 +83,20 @@ var CrossHairCursor = function CrossHairCursor(props) {
         });
         ctx.restore();
       }
-    }),
-    _renderSvg = (0, _useEventCallback["default"])(function (moreProps) {
-      var className = props.className,
-        lines = _crLines(props, moreProps);
-      return (0, _utils.isNotDefined)(lines) ? null : /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-        className: _CL.CL_CHARTS_CROSSHAIR + " " + className,
-        children: lines.map(function (_ref, index) {
-          var strokeDasharray = _ref.strokeDasharray,
-            restProps = (0, _objectWithoutPropertiesLoose2["default"])(_ref, _excluded);
+    },
+    _renderSvg = function _renderSvg(moreProps) {
+      var lines = _crLines(props, moreProps);
+      return _isArr(lines) ? /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
+        className: (0, _crCn["default"])(_CL.CL_CHARTS_CROSSHAIR, props.className),
+        children: lines.map(function (_ref2, index) {
+          var strokeDasharray = _ref2.strokeDasharray,
+            restProps = (0, _objectWithoutPropertiesLoose2["default"])(_ref2, _excluded);
           return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", (0, _extends2["default"])({
             strokeDasharray: (0, _utils.getStrokeDasharray)(strokeDasharray)
           }, restProps), index);
         })
-      });
-    });
+      }) : null;
+    };
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericComponent.GenericComponent, {
     clip: false,
     canvasDraw: _drawOnCanvas,
