@@ -4,7 +4,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports["default"] = void 0;
 var _uiApi = require("../../uiApi");
-var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _AxisZoomCapture = _interopRequireDefault(require("./AxisZoomCapture"));
 var _contextFn = require("../core/contextFn");
@@ -33,7 +32,7 @@ var Axis = function Axis(props) {
     _getAxisScale = (0, _uiApi.useCallback)(function () {
       return getScale((0, _uiApi.getRefValue)(_refChart).getMoreProps());
     }, [getScale]),
-    _drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
       _saveAndTranslateCtx(ctx, transform);
       var tickProps = (0, _AxisFn.tickHelper)(props, getScale(moreProps));
       if (props.showTicks) {
@@ -49,7 +48,7 @@ var Axis = function Axis(props) {
         (0, _AxisFn.drawAxisLine)(ctx, props);
       }
       ctx.restore();
-    });
+    };
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
     transform: (0, _utils.crCssTranslate)(transform),
     children: [zoomEnabled ? /*#__PURE__*/(0, _jsxRuntime.jsx)(_AxisZoomCapture["default"], {

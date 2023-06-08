@@ -4,8 +4,6 @@ import {
   getRefValue
 } from '../../uiApi';
 
-import useEventCallback from '../../hooks/useEventCallback';
-
 import GenericChartComponent from '../core/GenericChartComponent';
 import AxisZoomCapture from './AxisZoomCapture';
 
@@ -55,7 +53,7 @@ const Axis = (props) => {
   , _getAxisScale = useCallback(
       () => getScale(getRefValue(_refChart).getMoreProps())
   , [getScale])
-  , _drawOnCanvas = useEventCallback((ctx, moreProps) => {
+  , _drawOnCanvas = (ctx, moreProps) => {
       _saveAndTranslateCtx(ctx, transform);
 
       const tickProps = tickHelper(
@@ -77,7 +75,7 @@ const Axis = (props) => {
       }
 
       ctx.restore();
-  });
+  };
 
   return (
     <g transform={crCssTranslate(transform)}>
