@@ -3,7 +3,6 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
-var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -15,52 +14,22 @@ var _jsxRuntime = require("react/jsx-runtime");
 
 var DRAW_ON = ['pan'];
 var StackedBarSeries = function StackedBarSeries(props) {
-  var drawOnCanvas = (0, _useEventCallback["default"])(function (ctx, moreProps) {
-      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _d3Shape.d3Stack);
-    }),
-    renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
+  var _renderSVG = function _renderSVG(moreProps) {
       return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
         children: (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _d3Shape.d3Stack)
       });
-    });
+    },
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
+      (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _d3Shape.d3Stack);
+    };
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: props.clip,
-    svgDraw: renderSVG,
-    canvasDraw: drawOnCanvas,
+    svgDraw: _renderSVG,
+    canvasDraw: _drawOnCanvas,
     canvasToDraw: _contextFn.getAxisCanvas,
     drawOn: DRAW_ON
   });
 };
-
-/*
-class StackedBarSeries extends Component {
-
-	drawOnCanvas = (ctx, moreProps) => {
-		drawOnCanvasHelper(ctx, this.props, moreProps, d3Stack);
-	}
-
-	renderSVG = (moreProps) => {
-		return (
-      <g>
-        {svgHelper(this.props, moreProps, d3Stack)}
-      </g>
-    );
-	}
-
-	render() {
-		const { clip } = this.props;
-		return (
-      <GenericChartComponent
-			  clip={clip}
-			  svgDraw={this.renderSVG}
-			  canvasDraw={this.drawOnCanvas}
-			  canvasToDraw={getAxisCanvas}
-			  drawOn={DRAW_ON}
-		  />
-    );
-	}
-}
-*/
 
 /*
 StackedBarSeries.propTypes = {

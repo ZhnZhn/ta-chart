@@ -1,6 +1,4 @@
 //import PropTypes from "prop-types";
-import useEventCallback from '../../hooks/useEventCallback';
-
 import { d3Stack } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
@@ -25,54 +23,25 @@ import {
 const DRAW_ON = ['pan'];
 
 const StackedBarSeries = (props) => {
-  const drawOnCanvas = useEventCallback((ctx, moreProps) => {
-		drawOnCanvasHelper(ctx, props, moreProps, d3Stack);
-	})
-  , renderSVG = useEventCallback(moreProps => (
+  const _renderSVG = (moreProps) => (
      <g>
        {svgHelper(props, moreProps, d3Stack)}
      </g>
-  ));
+  )
+  , _drawOnCanvas = (ctx, moreProps) => {
+		 drawOnCanvasHelper(ctx, props, moreProps, d3Stack);
+	};
+
   return (
     <GenericChartComponent
       clip={props.clip}
-      svgDraw={renderSVG}
-      canvasDraw={drawOnCanvas}
+      svgDraw={_renderSVG}
+      canvasDraw={_drawOnCanvas}
       canvasToDraw={getAxisCanvas}
       drawOn={DRAW_ON}
     />
   );
 }
-
-/*
-class StackedBarSeries extends Component {
-
-	drawOnCanvas = (ctx, moreProps) => {
-		drawOnCanvasHelper(ctx, this.props, moreProps, d3Stack);
-	}
-
-	renderSVG = (moreProps) => {
-		return (
-      <g>
-        {svgHelper(this.props, moreProps, d3Stack)}
-      </g>
-    );
-	}
-
-	render() {
-		const { clip } = this.props;
-		return (
-      <GenericChartComponent
-			  clip={clip}
-			  svgDraw={this.renderSVG}
-			  canvasDraw={this.drawOnCanvas}
-			  canvasToDraw={getAxisCanvas}
-			  drawOn={DRAW_ON}
-		  />
-    );
-	}
-}
-*/
 
 /*
 StackedBarSeries.propTypes = {
