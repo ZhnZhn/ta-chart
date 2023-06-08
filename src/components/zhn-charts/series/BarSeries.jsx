@@ -1,6 +1,4 @@
 //import PropTypes from "prop-types";
-import { Component } from 'react';
-
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
   getAxisCanvas
@@ -19,6 +17,9 @@ import {
   svgHelper,
   identityStack
 } from './StackedBarSeriesFn';
+
+const mathRound = Math.round
+, mathFloor = Math.floor;
 
 const _getBars = (
   props,
@@ -46,14 +47,14 @@ const _getBars = (
 		plotData
 	});
 
-	const offset = Math.floor(0.5 * width)
+	const offset = mathFloor(0.5 * width)
 
 	, bars = plotData
 		 .filter(d => isDefined(yAccessor(d)))
 		 .map((d,index,_data) => {
         const dPrev = _data[index-1] || d
 			  , yValue = yAccessor(d)
-        , x = Math.round(xScale(xAccessor(d))) - offset
+        , x = mathRound(xScale(xAccessor(d))) - offset
 
 			  let y = yScale(yValue)
 			  , h = getBase(xScale, yScale, d) - yScale(yValue);
@@ -65,8 +66,8 @@ const _getBars = (
 
 			  return {
 			    x,
-			    y: Math.round(y),
-			    height: Math.round(h),
+			    y: mathRound(y),
+			    height: mathRound(h),
 			    width: offset * 2,
           fill: fill(d, dPrev),
           stroke: stroke(d, dPrev)
@@ -78,41 +79,35 @@ const _getBars = (
 
 const DRAW_ON = ['pan'];
 
-class BarSeries extends Component {
-
-	drawOnCanvas = (ctx, moreProps) => {
-    const props = this.props;
-		if (props.swapScales) {
-			drawOnCanvasHelper(ctx, props, moreProps, identityStack);
-		} else {
-			drawOnCanvas2(props, ctx, _getBars(props, moreProps));
-		}
-	}
-
-	renderSVG = (moreProps) => {
-    const props = this.props;
-		return (
-      <g>
-        {props.swapScales
-          ? svgHelper(props, moreProps, identityStack)
-          : getBarsSVG2(props, _getBars(props, moreProps))
-        }
-      </g>
-    );
-	}
-
-	render() {
-		const { clip } = this.props;
-		return (
-			<GenericChartComponent
-				clip={clip}
-				svgDraw={this.renderSVG}
-				canvasToDraw={getAxisCanvas}
-				canvasDraw={this.drawOnCanvas}
-				drawOn={DRAW_ON}
-			/>
-		);
-	}
+const BarSeries = (props) => {
+  const {
+    swapScales,
+    clip
+  } = props
+  , _renderSVG = (moreProps) => (
+     <g>
+       {swapScales
+         ? svgHelper(props, moreProps, identityStack)
+         : getBarsSVG2(props, _getBars(props, moreProps))
+       }
+     </g>
+  )
+  , _drawOnCanvas = (ctx, moreProps) => {
+		 if (swapScales) {
+       drawOnCanvasHelper(ctx, props, moreProps, identityStack);
+		 } else {
+       drawOnCanvas2(ctx, props, _getBars(props, moreProps));
+		 }
+	};
+  return (
+    <GenericChartComponent
+      clip={clip}
+      svgDraw={_renderSVG}
+      canvasToDraw={getAxisCanvas}
+      canvasDraw={_drawOnCanvas}
+      drawOn={DRAW_ON}
+    />
+  );
 }
 
 /*

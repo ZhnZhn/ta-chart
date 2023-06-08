@@ -3,8 +3,6 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-var _react = require("react");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
 var _utils = require("../utils");
@@ -13,6 +11,8 @@ var _StackedBarSeriesFn = require("./StackedBarSeriesFn");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
+var mathRound = Math.round,
+  mathFloor = Math.floor;
 var _getBars = function _getBars(props, moreProps) {
   var baseAt = props.baseAt,
     fill = props.fill,
@@ -29,13 +29,13 @@ var _getBars = function _getBars(props, moreProps) {
       xAccessor: xAccessor,
       plotData: plotData
     });
-  var offset = Math.floor(0.5 * width),
+  var offset = mathFloor(0.5 * width),
     bars = plotData.filter(function (d) {
       return (0, _utils.isDefined)(yAccessor(d));
     }).map(function (d, index, _data) {
       var dPrev = _data[index - 1] || d,
         yValue = yAccessor(d),
-        x = Math.round(xScale(xAccessor(d))) - offset;
+        x = mathRound(xScale(xAccessor(d))) - offset;
       var y = yScale(yValue),
         h = getBase(xScale, yScale, d) - yScale(yValue);
       if (h < 0) {
@@ -44,8 +44,8 @@ var _getBars = function _getBars(props, moreProps) {
       }
       return {
         x: x,
-        y: Math.round(y),
-        height: Math.round(h),
+        y: mathRound(y),
+        height: mathRound(h),
         width: offset * 2,
         fill: fill(d, dPrev),
         stroke: stroke(d, dPrev)
@@ -54,43 +54,30 @@ var _getBars = function _getBars(props, moreProps) {
   return bars;
 };
 var DRAW_ON = ['pan'];
-var BarSeries = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(BarSeries, _Component);
-  function BarSeries() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-    _this.drawOnCanvas = function (ctx, moreProps) {
-      var props = _this.props;
-      if (props.swapScales) {
+var BarSeries = function BarSeries(props) {
+  var swapScales = props.swapScales,
+    clip = props.clip,
+    _renderSVG = function _renderSVG(moreProps) {
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
+        children: swapScales ? (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _StackedBarSeriesFn.identityStack) : (0, _StackedBarSeriesFn.getBarsSVG2)(props, _getBars(props, moreProps))
+      });
+    },
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
+      if (swapScales) {
         (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _StackedBarSeriesFn.identityStack);
       } else {
-        (0, _StackedBarSeriesFn.drawOnCanvas2)(props, ctx, _getBars(props, moreProps));
+        (0, _StackedBarSeriesFn.drawOnCanvas2)(ctx, props, _getBars(props, moreProps));
       }
     };
-    _this.renderSVG = function (moreProps) {
-      var props = _this.props;
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-        children: props.swapScales ? (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _StackedBarSeriesFn.identityStack) : (0, _StackedBarSeriesFn.getBarsSVG2)(props, _getBars(props, moreProps))
-      });
-    };
-    return _this;
-  }
-  var _proto = BarSeries.prototype;
-  _proto.render = function render() {
-    var clip = this.props.clip;
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
-      clip: clip,
-      svgDraw: this.renderSVG,
-      canvasToDraw: _contextFn.getAxisCanvas,
-      canvasDraw: this.drawOnCanvas,
-      drawOn: DRAW_ON
-    });
-  };
-  return BarSeries;
-}(_react.Component);
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+    clip: clip,
+    svgDraw: _renderSVG,
+    canvasToDraw: _contextFn.getAxisCanvas,
+    canvasDraw: _drawOnCanvas,
+    drawOn: DRAW_ON
+  });
+};
+
 /*
 BarSeries.propTypes = {
 	baseAt: PropTypes.oneOfType([
@@ -114,6 +101,7 @@ BarSeries.propTypes = {
 	swapScales: PropTypes.bool,
 };
 */
+
 BarSeries.defaultProps = _StackedBarSeries["default"].defaultProps;
 var _default = BarSeries;
 exports["default"] = _default;
