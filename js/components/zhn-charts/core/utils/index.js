@@ -8,7 +8,6 @@ var _exportNames = {
   identity: true,
   path: true,
   functor: true,
-  isNotDefined: true,
   head: true,
   first: true,
   last: true,
@@ -28,7 +27,7 @@ var _exportNames = {
   clearCanvas: true,
   mapObject: true
 };
-exports.zipper = exports.touchPosition = exports.slidingWindow = exports.sign = exports.path = exports.mousePosition = exports.mapObject = exports.last = exports.isObject = exports.isNotDefined = exports.identity = exports.head = exports.getTouchProps = exports.getClosestValue = exports.functor = exports.first = exports.d3Window = exports.clearCanvas = exports.TOUCHMOVE = exports.TOUCHEND = exports.MOUSEUP = exports.MOUSEMOVE = exports.MOUSELEAVE = exports.MOUSEENTER = void 0;
+exports.zipper = exports.touchPosition = exports.slidingWindow = exports.sign = exports.path = exports.mousePosition = exports.mapObject = exports.last = exports.isObject = exports.identity = exports.head = exports.getTouchProps = exports.getClosestValue = exports.functor = exports.first = exports.d3Window = exports.clearCanvas = exports.TOUCHMOVE = exports.TOUCHEND = exports.MOUSEUP = exports.MOUSEMOVE = exports.MOUSELEAVE = exports.MOUSEENTER = void 0;
 var _zipper = _interopRequireDefault(require("../../utils/zipper"));
 exports.zipper = _zipper["default"];
 var _slidingWindow = _interopRequireDefault(require("../../utils/slidingWindow"));
@@ -47,7 +46,6 @@ Object.keys(_strokeDasharray).forEach(function (key) {
   exports[key] = _strokeDasharray[key];
 });
 var _utils = require("../../utils");
-exports.isNotDefined = _utils.isNotDefined;
 exports.head = _utils.head;
 exports.first = _utils.first;
 exports.last = _utils.last;

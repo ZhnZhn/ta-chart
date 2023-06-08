@@ -2,7 +2,6 @@
 
 exports.__esModule = true;
 exports.getYCoordinate = exports.crCoordinateProps = void 0;
-var _utils = require("../utils");
 var getYCoordinate = function getYCoordinate(y, displayValue, props, moreProps) {
   var width = moreProps.width,
     orient = props.orient,
@@ -56,7 +55,7 @@ var crCoordinateProps = function crCoordinateProps(props, moreProps) {
     _ref = chartConfig || {},
     id = _ref.id,
     yScale = _ref.yScale;
-  if ((0, _utils.isNotDefined)(mouseXY) || currentCharts.indexOf(id) < 0 || !show || yAccessor && !currentItem) {
+  if (mouseXY == null || currentCharts.indexOf(id) < 0 || !show || yAccessor && !currentItem) {
     return null;
   }
   var y = yAccessor ? yScale(yAccessor(currentItem)) : mouseXY[1] - chartConfig.origin[1],

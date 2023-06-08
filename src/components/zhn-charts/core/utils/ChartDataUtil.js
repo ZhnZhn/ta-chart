@@ -6,7 +6,6 @@ import { ChartDefaultConfig }  from '../Chart';
 import {
   functor,
   getClosestItem,  
-  isNotDefined,
   isObject,
   mapObject,
   shallowEqual,
@@ -138,7 +137,7 @@ const setRange = (
   padding,
   flipYScale
 ) => {
-   if (scale.rangeRoundPoints || isNotDefined(scale.invert)) {
+   if (scale.rangeRoundPoints || scale.invert == null) {
      if (isNaN(padding)) {
        throw new Error("padding has to be a number for ordinal scale");
      }

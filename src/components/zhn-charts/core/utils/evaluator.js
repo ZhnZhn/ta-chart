@@ -5,8 +5,7 @@ import {
 
 import {
   getClosestItemIndexes,
-  head,  
-  isNotDefined,
+  head,
   last
 } from '../utils';
 
@@ -110,5 +109,11 @@ export default function ({
   minPointsPerPxThreshold,
   flipXScale
  }) {
-    return extentsWrapper(useWholeData || isNotDefined(xScale.invert), clamp, pointsPerPxThreshold, minPointsPerPxThreshold, flipXScale);
+    return extentsWrapper(
+      useWholeData || xScale.invert == null,
+      clamp,
+      pointsPerPxThreshold,
+      minPointsPerPxThreshold,
+      flipXScale
+    );
 }

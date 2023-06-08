@@ -1,5 +1,3 @@
-import { isNotDefined } from '../utils';
-
 export const customX = (
 	props,
 	moreProps
@@ -38,7 +36,7 @@ export const crCoordinateProps = (
     chartConfig: { height }
   } = moreProps;
 
-	if (isNotDefined(currentItem)) return null;
+	if (currentItem == null) return null;
 
 	const {
     orient,

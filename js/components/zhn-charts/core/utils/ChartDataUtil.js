@@ -110,7 +110,7 @@ var getCurrentCharts = function getCurrentCharts(chartConfig, mouseXY) {
 };
 exports.getCurrentCharts = getCurrentCharts;
 var setRange = function setRange(scale, height, padding, flipYScale) {
-  if (scale.rangeRoundPoints || (0, _index.isNotDefined)(scale.invert)) {
+  if (scale.rangeRoundPoints || scale.invert == null) {
     if (isNaN(padding)) {
       throw new Error("padding has to be a number for ordinal scale");
     }

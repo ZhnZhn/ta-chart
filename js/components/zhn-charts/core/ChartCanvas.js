@@ -565,7 +565,7 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
       var chartConfigs = _this.state.chartConfigs;
       var changed = false;
       var newChartConfig = chartConfigs.map(function (each) {
-        if (((0, _utils.isNotDefined)(chartId) || each.id === chartId) && !(0, _utils.shallowEqual)(each.yScale.domain(), each.realYDomain)) {
+        if ((chartId == null || each.id === chartId) && !(0, _utils.shallowEqual)(each.yScale.domain(), each.realYDomain)) {
           changed = true;
           return (0, _extends2["default"])({}, each, {
             yScale: each.yScale.domain(each.realYDomain),

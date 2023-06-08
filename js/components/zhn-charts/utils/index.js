@@ -12,7 +12,6 @@ var _exportNames = {
   functor: true,
   crCssTranslate: true,
   overlayColors: true,
-  isNotDefined: true,
   find: true,
   hexToRGBA: true,
   last: true,
@@ -22,7 +21,7 @@ var _exportNames = {
 };
 exports.crCssTranslate = void 0;
 exports.find = find;
-exports.zipper = exports.slidingWindow = exports.rebind = exports.plotDataLengthBarWidth = exports.path = exports.overlayColors = exports.merge = exports.last = exports.isNotDefined = exports.identity = exports.hexToRGBA = exports.head = exports.functor = exports.first = void 0;
+exports.zipper = exports.slidingWindow = exports.rebind = exports.plotDataLengthBarWidth = exports.path = exports.overlayColors = exports.merge = exports.last = exports.identity = exports.hexToRGBA = exports.head = exports.functor = exports.first = void 0;
 var _d3Scale = require("d3-scale");
 var _rebind = require("./rebind");
 exports.rebind = _rebind.rebind;
@@ -51,14 +50,12 @@ var schemeCategory10 = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "
 //const defaultColors = ["#F44336", "#2196F3", "#8BC34A", "#FF5722", "#3F51B5", "#03A9F4", "#9C27B0", "#4CAF50"];
 
 var overlayColors = (0, _d3Scale.scaleOrdinal)(schemeCategory10);
+
+/*
+const isDefined = d => d !== null
+  && typeof d != "undefined"
+*/
 exports.overlayColors = overlayColors;
-var isDefined = function isDefined(d) {
-  return d !== null && typeof d != "undefined";
-};
-var isNotDefined = function isNotDefined(d) {
-  return !isDefined(d);
-};
-exports.isNotDefined = isNotDefined;
 function find(list, predicate, context) {
   if (context === void 0) {
     context = this;
@@ -88,7 +85,7 @@ var last = function last(array, accessor) {
     var value;
     for (var i = array.length - 1; i >= 0; i--) {
       value = array[i];
-      if (isDefined(accessor(value))) {
+      if (accessor(value) != null) {
         return value;
       }
     }
@@ -105,7 +102,7 @@ var head = function head(array, accessor) {
     var value;
     for (var i = 0; i < array.length; i++) {
       value = array[i];
-      if (isDefined(accessor(value))) {
+      if (accessor(value) != null) {
         return value;
       }
     }

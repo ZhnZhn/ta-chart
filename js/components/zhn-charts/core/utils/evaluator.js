@@ -111,6 +111,6 @@ function _default(_ref2) {
     pointsPerPxThreshold = _ref2.pointsPerPxThreshold,
     minPointsPerPxThreshold = _ref2.minPointsPerPxThreshold,
     flipXScale = _ref2.flipXScale;
-  return extentsWrapper(useWholeData || (0, _utils.isNotDefined)(xScale.invert), clamp, pointsPerPxThreshold, minPointsPerPxThreshold, flipXScale);
+  return extentsWrapper(useWholeData || xScale.invert == null, clamp, pointsPerPxThreshold, minPointsPerPxThreshold, flipXScale);
 }
 //# sourceMappingURL=evaluator.js.map

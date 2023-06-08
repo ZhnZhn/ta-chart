@@ -1,5 +1,3 @@
-import { isNotDefined } from '../utils';
-
 export const getYCoordinate = (
   y,
   displayValue,
@@ -80,7 +78,7 @@ export const crCoordinateProps = (
     yScale
   } = chartConfig || {};
 
-  if (isNotDefined(mouseXY)
+  if (mouseXY == null
       || currentCharts.indexOf(id) < 0
       || !show
       || yAccessor && !currentItem) {

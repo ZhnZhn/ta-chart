@@ -15,7 +15,6 @@ import {
   functor,
   head,
   identity,
-  isNotDefined,
   last,
   shallowEqual
 } from './utils';
@@ -898,16 +897,17 @@ export class ChartCanvas extends Component {
         const { chartConfigs } = this.state;
         let changed = false;
         const newChartConfig = chartConfigs.map((each) => {
-            if ((isNotDefined(chartId) || each.id === chartId) &&
-                !shallowEqual(each.yScale.domain(), each.realYDomain)) {
-                changed = true;
-                return {
-                    ...each,
-                    yScale: each.yScale.domain(each.realYDomain),
-                    yPanEnabled: false,
-                };
-            }
-            return each;
+          if ((chartId == null || each.id === chartId)
+            && !shallowEqual(each.yScale.domain(), each.realYDomain)
+          ) {
+              changed = true;
+              return {
+                  ...each,
+                  yScale: each.yScale.domain(each.realYDomain),
+                  yPanEnabled: false,
+              };
+          }
+          return each;
         });
         if (changed) {
             this.clearThreeCanvas();

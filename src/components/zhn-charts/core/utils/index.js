@@ -5,7 +5,6 @@ export { path } from '../../utils/path';
 export { functor } from '../../utils/functor';
 export * from '../../utils/strokeDasharray';
 export {
-  isNotDefined,
   head,
   first,
   last

@@ -27,10 +27,12 @@ const schemeCategory10 = [
 
 export const overlayColors = scaleOrdinal(schemeCategory10);
 
+/*
 const isDefined = d => d !== null
   && typeof d != "undefined"
+*/
 
-export const isNotDefined = d => !isDefined(d)
+
 
 export function find(list, predicate, context = this) {
 	for (let i = 0; i < list.length; ++i) {
@@ -67,7 +69,7 @@ export const last = (
        let value;
        for (let i = array.length - 1; i >= 0; i--) {
           value = array[i];
-          if (isDefined(accessor(value))) {
+          if (accessor(value) != null) {
             return value;
           }
        }
@@ -88,13 +90,15 @@ export const head = (
 		let value;
 		for (let i = 0; i < array.length; i++) {
 			value = array[i];
-			if (isDefined(accessor(value))) {
+			if (accessor(value) != null) {
         return value;
       }
 		}
 		return;
 	}
-	return array ? array[0] : void 0;
+	return array
+    ? array[0]
+    : void 0;
 }
 
 export const first = head
