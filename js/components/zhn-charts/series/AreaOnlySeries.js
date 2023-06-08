@@ -3,8 +3,6 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports["default"] = void 0;
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-var _react = require("react");
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -13,39 +11,52 @@ var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
+var mathRound = Math.round;
 var _crAreaSeries = function _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps) {
-  var newBase = (0, _utils.functor)(base);
   return (0, _d3Shape.d3Area)().defined(function (d) {
     return defined(yAccessor(d));
   }).x(function (d) {
-    return Math.round(xScale(xAccessor(d)));
+    return mathRound(xScale(xAccessor(d)));
   }).y0(function (d) {
-    return newBase(yScale, d, moreProps);
+    return (0, _utils.functor)(base)(yScale, d, moreProps);
   }).y1(function (d) {
-    return Math.round(yScale(yAccessor(d)));
+    return mathRound(yScale(yAccessor(d)));
   });
 };
 var DRAW_ON = ['pan'];
-var AreaOnlySeries = /*#__PURE__*/function (_Component) {
-  (0, _inheritsLoose2["default"])(AreaOnlySeries, _Component);
-  function AreaOnlySeries() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-    _this.drawOnCanvas = function (ctx, moreProps) {
-      var _this$props = _this.props,
-        yAccessor = _this$props.yAccessor,
-        defined = _this$props.defined,
-        base = _this$props.base,
-        canvasGradient = _this$props.canvasGradient,
-        fill = _this$props.fill,
-        stroke = _this$props.stroke,
-        opacity = _this$props.opacity,
-        interpolation = _this$props.interpolation,
-        canvasClip = _this$props.canvasClip,
+var AreaOnlySeries = function AreaOnlySeries(props) {
+  var yAccessor = props.yAccessor,
+    defined = props.defined,
+    base = props.base,
+    style = props.style,
+    className = props.className,
+    stroke = props.stroke,
+    fill = props.fill,
+    opacity = props.opacity,
+    interpolation = props.interpolation,
+    canvasGradient = props.canvasGradient,
+    canvasClip = props.canvasClip,
+    _renderSVG = function _renderSVG(moreProps) {
+      var plotData = moreProps.plotData,
         xScale = moreProps.xScale,
+        xAccessor = moreProps.xAccessor,
+        yScale = moreProps.chartConfig.yScale,
+        areaSeries = _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps);
+      if (interpolation != null) {
+        areaSeries.curve(interpolation);
+      }
+      var d = areaSeries(plotData),
+        newClassName = className.concat(stroke != null ? '' : " " + _CL.CL_LINE_STROKE);
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+        className: newClassName,
+        style: style,
+        stroke: stroke,
+        fill: (0, _utils.hexToRGBA)(fill, opacity),
+        d: d
+      });
+    },
+    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
+      var xScale = moreProps.xScale,
         plotData = moreProps.plotData,
         xAccessor = moreProps.xAccessor,
         yScale = moreProps.chartConfig.yScale;
@@ -57,7 +68,7 @@ var AreaOnlySeries = /*#__PURE__*/function (_Component) {
       ctx.strokeStyle = stroke;
       ctx.beginPath();
       var areaSeries = _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps).context(ctx);
-      if ((0, _utils.isDefined)(interpolation)) {
+      if (interpolation != null) {
         areaSeries.curve(interpolation);
       }
       areaSeries(plotData);
@@ -66,48 +77,14 @@ var AreaOnlySeries = /*#__PURE__*/function (_Component) {
         ctx.restore();
       }
     };
-    _this.renderSVG = function (moreProps) {
-      var _this$props2 = _this.props,
-        yAccessor = _this$props2.yAccessor,
-        defined = _this$props2.defined,
-        base = _this$props2.base,
-        style = _this$props2.style,
-        className = _this$props2.className,
-        stroke = _this$props2.stroke,
-        fill = _this$props2.fill,
-        opacity = _this$props2.opacity,
-        interpolation = _this$props2.interpolation,
-        plotData = moreProps.plotData,
-        xScale = moreProps.xScale,
-        xAccessor = moreProps.xAccessor,
-        yScale = moreProps.chartConfig.yScale,
-        areaSeries = _crAreaSeries(base, defined, xAccessor, yAccessor, xScale, yScale, moreProps);
-      if ((0, _utils.isDefined)(interpolation)) {
-        areaSeries.curve(interpolation);
-      }
-      var d = areaSeries(plotData),
-        newClassName = className.concat((0, _utils.isDefined)(stroke) ? '' : " " + _CL.CL_LINE_STROKE);
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-        className: newClassName,
-        style: style,
-        stroke: stroke,
-        fill: (0, _utils.hexToRGBA)(fill, opacity),
-        d: d
-      });
-    };
-    return _this;
-  }
-  var _proto = AreaOnlySeries.prototype;
-  _proto.render = function render() {
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
-      svgDraw: this.renderSVG,
-      canvasDraw: this.drawOnCanvas,
-      canvasToDraw: _contextFn.getAxisCanvas,
-      drawOn: DRAW_ON
-    });
-  };
-  return AreaOnlySeries;
-}(_react.Component);
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+    svgDraw: _renderSVG,
+    canvasDraw: _drawOnCanvas,
+    canvasToDraw: _contextFn.getAxisCanvas,
+    drawOn: DRAW_ON
+  });
+};
+
 /*
 AreaOnlySeries.propTypes = {
 	className: PropTypes.string,
@@ -125,16 +102,19 @@ AreaOnlySeries.propTypes = {
 	canvasGradient: PropTypes.func
 };
 */
+
+var DF_DEFINED = function DF_DEFINED(d) {
+    return !isNaN(d);
+  },
+  DF_BASE = function DF_BASE(yScale) {
+    return (0, _utils.first)(yScale.range());
+  };
 AreaOnlySeries.defaultProps = {
   className: _CL.CL_LINE,
   fill: 'none',
   opacity: 1,
-  defined: function defined(d) {
-    return !isNaN(d);
-  },
-  base: function base(yScale /* , d, moreProps */) {
-    return (0, _utils.first)(yScale.range());
-  }
+  defined: DF_DEFINED,
+  base: DF_BASE
 };
 var _default = AreaOnlySeries;
 exports["default"] = _default;
