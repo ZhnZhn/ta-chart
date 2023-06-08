@@ -1,7 +1,5 @@
 import { format } from 'd3-format';
 
-import useEventCallback from '../../hooks/useEventCallback';
-
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
   functor,
@@ -38,7 +36,7 @@ const RSITooltip = (props) => {
     textFill,
     onClick
   } = props
-  const _renderSvg = useEventCallback(moreProps => {
+  const _renderSvg = (moreProps) => {
     const {
       chartConfig: { width, height }
     } = moreProps
@@ -79,7 +77,7 @@ const RSITooltip = (props) => {
         </TooltipText>
       </g>
     );
-  });
+  };
 
   return (
     <GenericChartComponent

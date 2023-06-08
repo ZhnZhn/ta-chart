@@ -1,7 +1,5 @@
 import { format } from "d3-format";
 
-import useEventCallback from '../../hooks/useEventCallback';
-
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
   functor,
@@ -20,7 +18,7 @@ const DRAW_ON = ['mousemove'];
 const BollingerBandTooltip = (
   props
 ) => {
-  const _renderSVG = useEventCallback((moreProps) => {
+  const _renderSVG = (moreProps) => {
       const {
         onClick,
         displayFormat,
@@ -97,7 +95,7 @@ const BollingerBandTooltip = (
               </TooltipText>
           </g>
       );
-  });
+  };
 
   return (
     <GenericChartComponent

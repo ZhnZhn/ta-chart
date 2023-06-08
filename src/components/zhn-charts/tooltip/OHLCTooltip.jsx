@@ -1,7 +1,5 @@
 import { format } from 'd3-format';
 
-import useEventCallback from '../../hooks/useEventCallback'
-
 import {
   functor,
   last,
@@ -48,7 +46,7 @@ const TooltipValue = ({
 const DRAW_ON = ['mousemove'];
 
 const OHLCTooltip = props => {
-  const _renderSVG = useEventCallback((moreProps) => {
+  const _renderSVG = (moreProps) => {
       const {
         accessor,
         changeFormat,
@@ -143,7 +141,7 @@ const OHLCTooltip = props => {
               </TooltipText>
           </g>
       );
-  });
+  };
 
   return (
     <GenericChartComponent
@@ -155,16 +153,16 @@ const OHLCTooltip = props => {
 }
 
 OHLCTooltip.defaultProps = {
-    className: CL_OHLC_TOOLTIP,
-    fontFamily: FONT_FAMILY,
-    fontWeight: 'bold',
-    accessor: d => d,
-    changeFormat: format('+.2f'),
-    displayTexts: displayTextsDefault,
-    displayValuesFor: (_, props) => props.currentItem,      
-    ohlcFormat: format('.2f'),
-    origin: [0, 0],
-    percentFormat: format('+.2%')
+  className: CL_OHLC_TOOLTIP,
+  fontFamily: FONT_FAMILY,
+  fontWeight: 'bold',
+  accessor: d => d,
+  changeFormat: format('+.2f'),
+  displayTexts: displayTextsDefault,
+  displayValuesFor: (_, props) => props.currentItem,
+  ohlcFormat: format('.2f'),
+  origin: [0, 0],
+  percentFormat: format('+.2%')
 }
 
 export default OHLCTooltip

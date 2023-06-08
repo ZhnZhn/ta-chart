@@ -1,7 +1,5 @@
 import { format } from 'd3-format';
 
-import useEventCallback from '../../hooks/useEventCallback';
-
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
   functor,
@@ -17,7 +15,7 @@ import MovingAverage from './MovingAverage';
 const DRAW_ON = ['mousemove'];
 
 const MovingAverageTooltip = props => {
-  const _renderSVG = useEventCallback(moreProps => {
+  const _renderSVG = (moreProps) => {
      const {
        chartId,
        chartConfig,
@@ -77,7 +75,7 @@ const MovingAverageTooltip = props => {
          })}
        </g>
      );
-  });
+  };
 
   return (
     <GenericChartComponent
@@ -89,12 +87,12 @@ const MovingAverageTooltip = props => {
 }
 
 MovingAverageTooltip.defaultProps = {
-    className: CL_MA_TOOLTIP,
-    displayFormat: format('.2f'),
-    displayInit: 'n/a',
-    displayValuesFor: (_, props) => props.currentItem,
-    origin: [0, 10],
-    width: 65,
+  className: CL_MA_TOOLTIP,
+  displayFormat: format('.2f'),
+  displayInit: 'n/a',
+  displayValuesFor: (_, props) => props.currentItem,
+  origin: [0, 10],
+  width: 65,
 };
 
 export default MovingAverageTooltip

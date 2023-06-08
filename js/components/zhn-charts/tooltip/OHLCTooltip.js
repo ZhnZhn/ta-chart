@@ -1,26 +1,15 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
 exports["default"] = void 0;
-
 var _d3Format = require("d3-format");
-
-var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
-
 var _utils = require("../utils");
-
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
-
 var _CL = require("../CL");
-
 var _TooltipText = _interopRequireDefault(require("./TooltipText"));
-
 var _TooltipTSpan = _interopRequireDefault(require("./TooltipTSpan"));
-
 var _jsxRuntime = require("react/jsx-runtime");
-
 var displayTextsDefault = {
   o: 'O: ',
   h: ' H: ',
@@ -28,13 +17,12 @@ var displayTextsDefault = {
   c: ' C: ',
   na: 'n/a'
 };
-
 var TooltipValue = function TooltipValue(_ref) {
   var labelFill = _ref.labelFill,
-      labelFontWeight = _ref.labelFontWeight,
-      text = _ref.text,
-      valueFill = _ref.valueFill,
-      value = _ref.value;
+    labelFontWeight = _ref.labelFontWeight,
+    text = _ref.text,
+    valueFill = _ref.valueFill,
+    value = _ref.value;
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
     children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_TooltipTSpan["default"], {
       fill: labelFill,
@@ -46,42 +34,37 @@ var TooltipValue = function TooltipValue(_ref) {
     }, "value_O")]
   });
 };
-
 var DRAW_ON = ['mousemove'];
-
 var OHLCTooltip = function OHLCTooltip(props) {
-  var _renderSVG = (0, _useEventCallback["default"])(function (moreProps) {
+  var _renderSVG = function _renderSVG(moreProps) {
     var _displayValuesFor;
-
     var accessor = props.accessor,
-        changeFormat = props.changeFormat,
-        className = props.className,
-        displayTexts = props.displayTexts,
-        displayValuesFor = props.displayValuesFor,
-        fontFamily = props.fontFamily,
-        fontSize = props.fontSize,
-        fontWeight = props.fontWeight,
-        labelFill = props.labelFill,
-        labelFontWeight = props.labelFontWeight,
-        ohlcFormat = props.ohlcFormat,
-        onClick = props.onClick,
-        percentFormat = props.percentFormat,
-        textFill = props.textFill,
-        _moreProps$chartConfi = moreProps.chartConfig,
-        width = _moreProps$chartConfi.width,
-        height = _moreProps$chartConfi.height,
-        fullData = moreProps.fullData,
-        currentItem = (_displayValuesFor = displayValuesFor(props, moreProps)) != null ? _displayValuesFor : (0, _utils.last)(fullData),
-        na = displayTexts.na;
+      changeFormat = props.changeFormat,
+      className = props.className,
+      displayTexts = props.displayTexts,
+      displayValuesFor = props.displayValuesFor,
+      fontFamily = props.fontFamily,
+      fontSize = props.fontSize,
+      fontWeight = props.fontWeight,
+      labelFill = props.labelFill,
+      labelFontWeight = props.labelFontWeight,
+      ohlcFormat = props.ohlcFormat,
+      onClick = props.onClick,
+      percentFormat = props.percentFormat,
+      textFill = props.textFill,
+      _moreProps$chartConfi = moreProps.chartConfig,
+      width = _moreProps$chartConfi.width,
+      height = _moreProps$chartConfi.height,
+      fullData = moreProps.fullData,
+      currentItem = (_displayValuesFor = displayValuesFor(props, moreProps)) != null ? _displayValuesFor : (0, _utils.last)(fullData),
+      na = displayTexts.na;
     var open = na,
-        high = na,
-        low = na,
-        close = na,
-        change = na;
-
+      high = na,
+      low = na,
+      close = na,
+      change = na;
     if (currentItem !== undefined && accessor !== undefined) {
       var item = accessor(currentItem);
-
       if (item !== undefined) {
         open = ohlcFormat(item.open);
         high = ohlcFormat(item.high);
@@ -90,14 +73,12 @@ var OHLCTooltip = function OHLCTooltip(props) {
         change = changeFormat(item.close - item.open) + " (" + percentFormat((item.close - item.open) / item.open) + ")";
       }
     }
-
     var originProp = props.origin,
-        _functor = (0, _utils.functor)(originProp)(width, height),
-        x = _functor[0],
-        y = _functor[1],
-        valueFill = (0, _utils.functor)(textFill)(currentItem),
-        _transform = (0, _utils.crCssTranslate)([x, y]);
-
+      _functor = (0, _utils.functor)(originProp)(width, height),
+      x = _functor[0],
+      y = _functor[1],
+      valueFill = (0, _utils.functor)(textFill)(currentItem),
+      _transform = (0, _utils.crCssTranslate)([x, y]);
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
       className: className,
       transform: _transform,
@@ -138,15 +119,13 @@ var OHLCTooltip = function OHLCTooltip(props) {
         }, "value_Change")]
       })
     });
-  });
-
+  };
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
     clip: false,
     svgDraw: _renderSVG,
     drawOn: DRAW_ON
   });
 };
-
 OHLCTooltip.defaultProps = {
   className: _CL.CL_OHLC_TOOLTIP,
   fontFamily: _CL.FONT_FAMILY,
