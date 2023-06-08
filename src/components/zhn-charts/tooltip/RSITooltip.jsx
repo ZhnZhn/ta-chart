@@ -1,14 +1,9 @@
 import { format } from 'd3-format';
 
 import GenericChartComponent from '../core/GenericChartComponent';
-import {
-  functor,
-  isDefined
-} from '../utils';
+import { functor } from '../utils';
 
-import {
-  CL_TOOLTIP
-} from '../CL';
+import { CL_TOOLTIP } from '../CL';
 
 import TooltipText from './TooltipText';
 import TooltipTSpan from './TooltipTSpan';
@@ -41,7 +36,7 @@ const RSITooltip = (props) => {
       chartConfig: { width, height }
     } = moreProps
     , currentItem = displayValuesFor(props, moreProps)
-    , rsi = isDefined(currentItem) && yAccessor(currentItem)
+    , rsi = currentItem && yAccessor(currentItem)
     , value = (rsi && displayFormat(rsi)) || displayInit
     , origin = functor(originProp)
     , [

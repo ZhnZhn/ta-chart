@@ -2,7 +2,6 @@ import { nest } from 'd3-collection';
 
 import {
 	hexToRGBA,
-  isDefined,
   functor,
   head
 } from '../utils';
@@ -185,7 +184,7 @@ export const getCandleData = (
 		const d = plotData[i]
     //for better colors
     , _prevD = i>0 ? plotData[i-1] : {};
-		if (isDefined(yAccessor(d).close)) {
+		if (yAccessor(d).close != null) {
 			const x = Math.round(xScale(xAccessor(d)))
 			, ohlc = yAccessor(d)
       , _prevOhcl = yAccessor(_prevD)

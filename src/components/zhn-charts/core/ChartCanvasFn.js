@@ -5,8 +5,7 @@ import {
 import {
   functor,
   head,
-  identity,
-  isDefined,
+  identity,  
   last,
   shallowEqual
 } from "./utils";
@@ -365,4 +364,4 @@ export const isInteractionEnabled = (
   xAccessor,
   data
 ) => !isNaN(xScale(xAccessor(head(data))))
-  && isDefined(xScale.invert);
+  && (xScale.invert != null);

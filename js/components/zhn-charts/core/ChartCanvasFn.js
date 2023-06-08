@@ -250,7 +250,7 @@ var pinchCoordinates = function pinchCoordinates(_ref3) {
 };
 exports.pinchCoordinates = pinchCoordinates;
 var isInteractionEnabled = function isInteractionEnabled(xScale, xAccessor, data) {
-  return !isNaN(xScale(xAccessor((0, _utils.head)(data)))) && (0, _utils.isDefined)(xScale.invert);
+  return !isNaN(xScale(xAccessor((0, _utils.head)(data)))) && xScale.invert != null;
 };
 exports.isInteractionEnabled = isInteractionEnabled;
 //# sourceMappingURL=ChartCanvasFn.js.map

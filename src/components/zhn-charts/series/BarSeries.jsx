@@ -1,13 +1,7 @@
 //import PropTypes from "prop-types";
 import GenericChartComponent from '../core/GenericChartComponent';
-import {
-  getAxisCanvas
-} from '../core/contextFn';
-
-import {
-  functor,
-  isDefined
-} from '../utils';
+import { getAxisCanvas } from '../core/contextFn';
+import { functor } from '../utils';
 
 import StackedBarSeries from './StackedBarSeries';
 import {
@@ -50,7 +44,7 @@ const _getBars = (
 	const offset = mathFloor(0.5 * width)
 
 	, bars = plotData
-		 .filter(d => isDefined(yAccessor(d)))
+		 .filter(d => yAccessor(d) != null)
 		 .map((d,index,_data) => {
         const dPrev = _data[index-1] || d
 			  , yValue = yAccessor(d)

@@ -6,7 +6,6 @@ exports["default"] = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
 var _uiApi = require("../../uiApi");
-var _utils = require("./utils");
 var _GenericComponent = require("./GenericComponent");
 var _Chart = require("./Chart");
 var _ChartFn = require("./ChartFn");
@@ -68,18 +67,18 @@ var GenericChartComponent = function GenericChartComponent(_ref) {
           return each.id === chartId;
         });
       }
-      if ((0, _utils.isDefined)(toMoreProps.chartConfig)) {
+      if (toMoreProps.chartConfig) {
         var _toMoreProps$chartCon = toMoreProps.chartConfig.origin,
           ox = _toMoreProps$chartCon[0],
           oy = _toMoreProps$chartCon[1],
           mouseXY = fromMoreProps.mouseXY,
           startPos = fromMoreProps.startPos;
-        if ((0, _utils.isDefined)(mouseXY)) {
+        if (mouseXY) {
           var x = mouseXY[0],
             y = mouseXY[1];
           toMoreProps.mouseXY = [x - ox, y - oy];
         }
-        if ((0, _utils.isDefined)(startPos)) {
+        if (startPos) {
           var _x = startPos[0],
             _y = startPos[1];
           toMoreProps.startPos = [_x - ox, _y - oy];
@@ -92,7 +91,7 @@ var GenericChartComponent = function GenericChartComponent(_ref) {
       }
       var _ref3 = moreProps || {},
         currentCharts = _ref3.currentCharts;
-      if ((0, _utils.isDefined)(currentCharts) && ALWAYS_TRUE_TYPES.indexOf(type) === -1) {
+      if (currentCharts && ALWAYS_TRUE_TYPES.indexOf(type) === -1) {
         return currentCharts.indexOf(chartId) > -1;
       }
       return true;

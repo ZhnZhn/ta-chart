@@ -86,7 +86,7 @@ var LineSeries = function LineSeries(props) {
         }).y(function (d) {
           return mathRound(yScale(yAccessor(d)));
         });
-      if ((0, _utils.isDefined)(interpolation)) {
+      if (interpolation) {
         dataSeries.curve(interpolation);
       }
       if (!connectNulls) {
@@ -123,7 +123,7 @@ var LineSeries = function LineSeries(props) {
       }).y(function (d) {
         return mathRound(yScale(yAccessor(d)));
       });
-      if ((0, _utils.isDefined)(interpolation)) {
+      if (interpolation) {
         dataSeries.curve(interpolation);
       }
       if (!connectNulls) {

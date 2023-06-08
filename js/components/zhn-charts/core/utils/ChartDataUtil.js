@@ -57,20 +57,20 @@ var getNewChartConfig = function getNewChartConfig(innerDimension, children, exi
         height = _getDimensions.height,
         availableHeight = _getDimensions.availableHeight,
         yPan = chartProps.yPan,
-        yExtents = (0, _index.isDefined)(yExtentsProp) ? (_isArr(yExtentsProp) ? yExtentsProp : [yExtentsProp]).map(_index.functor) : undefined,
+        yExtents = yExtentsProp ? (_isArr(yExtentsProp) ? yExtentsProp : [yExtentsProp]).map(_index.functor) : undefined,
         prevChartConfig = existingChartConfig.find(function (d) {
           return d.id === id;
         });
       var yPanEnabled = chartProps.yPanEnabled;
       if (isArraySize2AndNumber(yExtentsProp)) {
-        if ((0, _index.isDefined)(prevChartConfig) && prevChartConfig.yPan && prevChartConfig.yPanEnabled && yPan && yPanEnabled && (0, _index.shallowEqual)(prevChartConfig.originalYExtentsProp, yExtentsProp)) {
+        if (prevChartConfig && prevChartConfig.yPan && prevChartConfig.yPanEnabled && yPan && yPanEnabled && (0, _index.shallowEqual)(prevChartConfig.originalYExtentsProp, yExtentsProp)) {
           yScale.domain(prevChartConfig.yScale.domain());
         } else {
           var a = yExtentsProp[0],
             b = yExtentsProp[1];
           yScale.domain([a, b]);
         }
-      } else if ((0, _index.isDefined)(prevChartConfig) && prevChartConfig.yPanEnabled) {
+      } else if (prevChartConfig && prevChartConfig.yPanEnabled) {
         if (isArraySize2AndNumber(prevChartConfig.originalYExtentsProp)) {
           // do nothing
         } else {
@@ -148,7 +148,7 @@ var getChartConfigWithUpdatedYScales = function getChartConfigWithUpdatedYScales
     var yExtentsCalculator = _ref4.yExtentsCalculator,
       yExtents = _ref4.yExtents,
       yScale = _ref4.yScale;
-    var realYDomain = (0, _index.isDefined)(yExtentsCalculator) ? yExtentsCalculator({
+    var realYDomain = yExtentsCalculator ? yExtentsCalculator({
         plotData: plotData,
         xDomain: xDomain,
         xAccessor: xAccessor,

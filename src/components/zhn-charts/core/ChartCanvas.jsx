@@ -15,7 +15,6 @@ import {
   functor,
   head,
   identity,
-  isDefined,
   isNotDefined,
   last,
   shallowEqual
@@ -566,7 +565,7 @@ export class ChartCanvas extends Component {
 
     draw = (props) => {
       this.subscriptions.forEach(subscriber => {
-        if (isDefined(subscriber.draw)) {
+        if (subscriber.draw) {
           subscriber.draw(props);
         }
       });

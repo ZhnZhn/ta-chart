@@ -1,6 +1,5 @@
 import {
   hexToRGBA,
-  isDefined,
   getStrokeDasharray
 } from '../utils';
 import {
@@ -17,8 +16,8 @@ function helper(props) {
 		edgeAt,
 		hideLine,
 		lineStrokeDasharray
-	} = props;
-	const {
+	} = props
+	, {
 		fill,
 		opacity,
 		fontFamily,
@@ -26,19 +25,22 @@ function helper(props) {
 		textFill,
 		lineStroke,
 		lineOpacity
-	} = props;
-	const { stroke, strokeOpacity, strokeWidth } = props;
-	const { arrowWidth, rectWidth, rectHeight, rectRadius } = props;
-	const { x1, y1, x2, y2, dx } = props;
+	} = props
+	, { stroke, strokeOpacity, strokeWidth } = props
+	, { arrowWidth, rectWidth, rectHeight, rectRadius } = props
+	, { x1, y1, x2, y2, dx } = props;
 
 	if (!show) return null;
 
 	let coordinateBase, coordinate;
-	if (isDefined(displayCoordinate)) {
+	if (displayCoordinate != null) {
 		const textAnchor = "middle";
     // TODO: Below it is necessary to implement logic for the possibility of alignment from the right or from the left.
 
-		let edgeXRect, edgeYRect, edgeXText, edgeYText;
+		let edgeXRect
+    , edgeYRect
+    , edgeXText
+    , edgeYText;
 
 		if (type === "horizontal") {
 			edgeXRect =
@@ -109,9 +111,12 @@ export function renderSVG(props) {
 
 	const edge = helper(props);
 	if (edge === null) return null;
-	let line, coordinateBase, coordinateEl;
 
-	if (isDefined(edge.line)) {
+	let line
+  , coordinateBase
+  , coordinateEl;
+
+	if (edge.line) {
 		line = (
 			<line
 				className={CL_CHARTS_CROSS_HAIR}
@@ -125,19 +130,22 @@ export function renderSVG(props) {
 			/>
 		);
 	}
-	if (isDefined(edge.coordinateBase)) {
-		const { rectWidth, rectHeight, arrowWidth } = edge.coordinateBase;
+	if (edge.coordinateBase) {
+		const {
+      rectWidth,
+      rectHeight,
+      arrowWidth
+    } = edge.coordinateBase;
 
-		const path =
-			edge.orient === "left"
-				? `M0,0L0,${rectHeight}L${rectWidth},${rectHeight}L${rectWidth +
-					  arrowWidth},10L${rectWidth},0L0,0L0,0`
-				: `M0,${arrowWidth}L${arrowWidth},${rectHeight}L${rectWidth +
-					  arrowWidth},${rectHeight}L${rectWidth +
-					  arrowWidth},0L${arrowWidth},0L0,${arrowWidth}`;
+		const path = edge.orient === "left"
+			? `M0,0L0,${rectHeight}L${rectWidth},${rectHeight}L${rectWidth +
+				  arrowWidth},10L${rectWidth},0L0,0L0,0`
+			: `M0,${arrowWidth}L${arrowWidth},${rectHeight}L${rectWidth +
+				  arrowWidth},${rectHeight}L${rectWidth +
+				  arrowWidth},0L${arrowWidth},0L0,${arrowWidth}`;
 
-		coordinateBase =
-			edge.orient === "left" || edge.orient === "right" ? (
+		coordinateBase = edge.orient === "left" || edge.orient === "right"
+      ? (
 				<g
 					key={1}
 					transform={`translate(${edge.coordinateBase.edgeXRect},${
@@ -190,7 +198,7 @@ export function renderSVG(props) {
 				dy=".32em"
 				fill={textFill}
 			>
-				{isDefined(displayCoordinate)
+				{displayCoordinate != null
            ? displayCoordinate
            : ''
          }
@@ -218,7 +226,7 @@ export function drawOnCanvas(ctx, props) {
 
 	if (edge === null) return;
 
-	if (isDefined(edge.line)) {
+	if (edge.line) {
 		const dashArray = getStrokeDasharray(edge.line.strokeDasharray)
 			.split(",")
 			.map(d => +d);
@@ -232,7 +240,7 @@ export function drawOnCanvas(ctx, props) {
 	}
 
 	ctx.setLineDash([]);
-	if (isDefined(edge.coordinateBase)) {
+	if (edge.coordinateBase) {
 		const {
 			rectWidth,
 			rectHeight,
@@ -244,7 +252,7 @@ export function drawOnCanvas(ctx, props) {
 			edge.coordinateBase.fill,
 			edge.coordinateBase.opacity
 		);
-		if (isDefined(edge.coordinateBase.stroke)) {
+		if (edge.coordinateBase.stroke) {
 			ctx.strokeStyle = hexToRGBA(
 				edge.coordinateBase.stroke,
 				edge.coordinateBase.strokeOpacity
@@ -282,7 +290,7 @@ export function drawOnCanvas(ctx, props) {
 		}
 		ctx.fill();
 
-		if (isDefined(edge.coordinateBase.stroke)) {
+		if (edge.coordinateBase.stroke) {
 			ctx.stroke();
 		}
 

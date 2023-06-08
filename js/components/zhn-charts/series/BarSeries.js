@@ -31,7 +31,7 @@ var _getBars = function _getBars(props, moreProps) {
     });
   var offset = mathFloor(0.5 * width),
     bars = plotData.filter(function (d) {
-      return (0, _utils.isDefined)(yAccessor(d));
+      return yAccessor(d) != null;
     }).map(function (d, index, _data) {
       var dPrev = _data[index - 1] || d,
         yValue = yAccessor(d),

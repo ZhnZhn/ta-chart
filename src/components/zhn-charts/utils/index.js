@@ -27,7 +27,7 @@ const schemeCategory10 = [
 
 export const overlayColors = scaleOrdinal(schemeCategory10);
 
-export const isDefined = d => d !== null
+const isDefined = d => d !== null
   && typeof d != "undefined"
 
 export const isNotDefined = d => !isDefined(d)

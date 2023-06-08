@@ -8,7 +8,6 @@ import {
 } from '../core/contextFn';
 
 import {
-	isDefined,
 	getClosestItemIndexes,
 	getStrokeDasharray
 } from '../core/utils';
@@ -109,7 +108,7 @@ const LineSeries = (props) => {
 			.x(d => mathRound(xScale(xAccessor(d))))
 			.y(d => mathRound(yScale(yAccessor(d))));
 
-		if (isDefined(interpolation)) {
+		if (interpolation) {
 			dataSeries.curve(interpolation);
 		}
 		if (!connectNulls) {
@@ -153,7 +152,7 @@ const LineSeries = (props) => {
 			.x(d => mathRound(xScale(xAccessor(d))))
 			.y(d => mathRound(yScale(yAccessor(d))));
 
-		if (isDefined(interpolation)) {
+		if (interpolation) {
 			dataSeries.curve(interpolation);
 		}
 		if (!connectNulls) {

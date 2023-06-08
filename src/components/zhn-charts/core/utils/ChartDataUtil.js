@@ -5,8 +5,7 @@ import { ChartDefaultConfig }  from '../Chart';
 
 import {
   functor,
-  getClosestItem,
-  isDefined,
+  getClosestItem,  
   isNotDefined,
   isObject,
   mapObject,
@@ -57,7 +56,7 @@ export const getNewChartConfig = (
   existingChartConfig = []
 ) => React.Children.map(children, each => {
     if (each != null && isChartProps(each.props)) {
-        const chartProps = {      
+        const chartProps = {
           ...ChartDefaultConfig,
           ...each.props
         }
@@ -77,14 +76,14 @@ export const getNewChartConfig = (
           availableHeight
         } = getDimensions(innerDimension, chartProps)
         , { yPan } = chartProps
-        , yExtents = isDefined(yExtentsProp)
+        , yExtents = yExtentsProp
             ? (_isArr(yExtentsProp) ? yExtentsProp : [yExtentsProp]).map(functor)
             : undefined
         , prevChartConfig = existingChartConfig.find((d) => d.id === id);
         let { yPanEnabled } = chartProps;
 
         if (isArraySize2AndNumber(yExtentsProp)) {
-            if (isDefined(prevChartConfig)
+            if (prevChartConfig
               && prevChartConfig.yPan
               && prevChartConfig.yPanEnabled
               && yPan
@@ -95,7 +94,7 @@ export const getNewChartConfig = (
                const [a, b] = yExtentsProp;
                yScale.domain([a, b]);
             }
-        } else if (isDefined(prevChartConfig) && prevChartConfig.yPanEnabled) {
+        } else if (prevChartConfig && prevChartConfig.yPanEnabled) {
             if (isArraySize2AndNumber(prevChartConfig.originalYExtentsProp)) {
               // do nothing
             } else {
@@ -196,7 +195,7 @@ export const getChartConfigWithUpdatedYScales = (
   chartsToPan
 ) => {
     const yDomains = chartConfig.map(({ yExtentsCalculator, yExtents, yScale }) => {
-        const realYDomain = isDefined(yExtentsCalculator)
+        const realYDomain = yExtentsCalculator
           ? yExtentsCalculator({ plotData, xDomain, xAccessor, displayXAccessor, fullData })
           : yDomainFromYExtents(yExtents, yScale, plotData)
         , yDomainDY = dy !== undefined

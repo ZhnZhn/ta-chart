@@ -1,5 +1,3 @@
-import { isDefined } from '../../utils';
-
 export { default as zipper } from '../../utils/zipper';
 export { default as slidingWindow } from '../../utils/slidingWindow';
 export { default as identity } from '../../utils/identity';
@@ -7,7 +5,6 @@ export { path } from '../../utils/path';
 export { functor } from '../../utils/functor';
 export * from '../../utils/strokeDasharray';
 export {
-  isDefined,
   isNotDefined,
   head,
   first,
@@ -64,10 +61,9 @@ export const getTouchProps = (
 
 export const isObject = (
   d
-) => isDefined(d)
+) => d
   && typeof d === "object"
   && !_isArr(d);
-
 
 const _crPosition = (
   eventOrTouchProps,

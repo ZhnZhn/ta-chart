@@ -5,8 +5,7 @@ import {
 
 import {
   getClosestItemIndexes,
-  head,
-  isDefined,
+  head,  
   isNotDefined,
   last
 } from '../utils';
@@ -63,7 +62,7 @@ function extentsWrapper(useWholeData, clamp, pointsPerPxThreshold, minPointsPerP
             plotData = filteredData;
             domain = realInputDomain;
         } else {
-            if (chartWidth > showMaxThreshold(width, pointsPerPxThreshold) && isDefined(fallbackEnd)) {
+            if (chartWidth > showMaxThreshold(width, pointsPerPxThreshold) && fallbackEnd != null) {
                 plotData = filteredData;
                 const newEnd = getNewEnd(fallbackEnd, xAccessor, initialXScale, head(realInputDomain));
                 domain = [head(realInputDomain), newEnd];

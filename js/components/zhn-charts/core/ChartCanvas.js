@@ -348,7 +348,7 @@ var ChartCanvas = /*#__PURE__*/function (_Component) {
     };
     _this.draw = function (props) {
       _this.subscriptions.forEach(function (subscriber) {
-        if ((0, _utils.isDefined)(subscriber.draw)) {
+        if (subscriber.draw) {
           subscriber.draw(props);
         }
       });

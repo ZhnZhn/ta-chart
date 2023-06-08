@@ -2,22 +2,18 @@
 
 exports.__esModule = true;
 exports.getWicksSVG = exports.getCandlesSVG = exports.getCandleData = exports.drawOnCanvas = void 0;
-
 var _d3Collection = require("d3-collection");
-
 var _utils = require("../utils");
-
 var _jsxRuntime = require("react/jsx-runtime");
-
 var getWicksSVG = function getWicksSVG(candleData) {
   return candleData.map(function (each, index) {
     var d = each.wick,
-        stroke = d.stroke,
-        x = d.x,
-        y1 = d.y1,
-        y2 = d.y2,
-        y3 = d.y3,
-        y4 = d.y4;
+      stroke = d.stroke,
+      x = d.x,
+      y1 = d.y1,
+      y2 = d.y2,
+      y3 = d.y3,
+      y4 = d.y4;
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
       className: each.className,
       stroke: stroke,
@@ -25,12 +21,10 @@ var getWicksSVG = function getWicksSVG(candleData) {
     }, index);
   });
 };
-
 exports.getWicksSVG = getWicksSVG;
-
 var getCandlesSVG = function getCandlesSVG(props, candleData) {
   var opacity = props.opacity,
-      candleStrokeWidth = props.candleStrokeWidth;
+    candleStrokeWidth = props.candleStrokeWidth;
   var candles = candleData.map(function (d, index) {
     if (d.width <= 1) {
       return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
@@ -50,7 +44,6 @@ var getCandlesSVG = function getCandlesSVG(props, candleData) {
         y2: d.y + d.height
       }, index);
     }
-
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
       className: d.className,
       fillOpacity: opacity,
@@ -65,23 +58,21 @@ var getCandlesSVG = function getCandlesSVG(props, candleData) {
   });
   return candles;
 };
-
 exports.getCandlesSVG = getCandlesSVG;
-
 var drawOnCanvas = function drawOnCanvas(ctx, props, moreProps) {
   var opacity = props.opacity,
-      candleStrokeWidth = props.candleStrokeWidth,
-      xAccessor = moreProps.xAccessor,
-      xScale = moreProps.xScale,
-      plotData = moreProps.plotData,
-      yScale = moreProps.chartConfig.yScale,
-      candleData = getCandleData(props, xAccessor, xScale, yScale, plotData);
+    candleStrokeWidth = props.candleStrokeWidth,
+    xAccessor = moreProps.xAccessor,
+    xScale = moreProps.xScale,
+    plotData = moreProps.plotData,
+    yScale = moreProps.chartConfig.yScale,
+    candleData = getCandleData(props, xAccessor, xScale, yScale, plotData);
   var wickNest = (0, _d3Collection.nest)().key(function (d) {
     return d.wick.stroke;
   }).entries(candleData);
   wickNest.forEach(function (outer) {
     var key = outer.key,
-        values = outer.values;
+      values = outer.values;
     ctx.strokeStyle = key;
     ctx.fillStyle = key;
     values.forEach(function (each) {
@@ -97,16 +88,14 @@ var drawOnCanvas = function drawOnCanvas(ctx, props, moreProps) {
   }).entries(candleData);
   candleNest.forEach(function (outer) {
     var strokeKey = outer.key,
-        strokeValues = outer.values;
-
+      strokeValues = outer.values;
     if (strokeKey !== "none") {
       ctx.strokeStyle = strokeKey;
       ctx.lineWidth = candleStrokeWidth;
     }
-
     strokeValues.forEach(function (inner) {
       var key = inner.key,
-          values = inner.values;
+        values = inner.values;
       var fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, opacity);
       ctx.fillStyle = fillStyle;
       values.forEach(function (d) {
@@ -116,7 +105,6 @@ var drawOnCanvas = function drawOnCanvas(ctx, props, moreProps) {
           ctx.fillRect(d.x, d.y - 0.5, d.width, 1);
         } else {
           ctx.fillRect(d.x, d.y, d.width, d.height);
-
           if (strokeKey !== "none") {
             ctx.strokeRect(d.x, d.y, d.width, d.height);
           }
@@ -125,41 +113,37 @@ var drawOnCanvas = function drawOnCanvas(ctx, props, moreProps) {
     });
   });
 };
-
 exports.drawOnCanvas = drawOnCanvas;
-
 var getCandleData = function getCandleData(props, xAccessor, xScale, yScale, plotData) {
   var classNames = props.classNames,
-      yAccessor = props.yAccessor,
-      fillProp = props.fill,
-      strokeProp = props.stroke,
-      wickStrokeProp = props.wickStroke,
-      wickStroke = (0, _utils.functor)(wickStrokeProp),
-      className = (0, _utils.functor)(classNames),
-      fill = (0, _utils.functor)(fillProp),
-      stroke = (0, _utils.functor)(strokeProp),
-      widthFunctor = (0, _utils.functor)(props.width),
-      width = widthFunctor(props, {
-    xScale: xScale,
-    xAccessor: xAccessor,
-    plotData: plotData
-  }),
-      trueOffset = 0.5 * width,
-      offset = trueOffset > 0.7 ? Math.round(trueOffset) : Math.floor(trueOffset);
+    yAccessor = props.yAccessor,
+    fillProp = props.fill,
+    strokeProp = props.stroke,
+    wickStrokeProp = props.wickStroke,
+    wickStroke = (0, _utils.functor)(wickStrokeProp),
+    className = (0, _utils.functor)(classNames),
+    fill = (0, _utils.functor)(fillProp),
+    stroke = (0, _utils.functor)(strokeProp),
+    widthFunctor = (0, _utils.functor)(props.width),
+    width = widthFunctor(props, {
+      xScale: xScale,
+      xAccessor: xAccessor,
+      plotData: plotData
+    }),
+    trueOffset = 0.5 * width,
+    offset = trueOffset > 0.7 ? Math.round(trueOffset) : Math.floor(trueOffset);
   var candles = [];
-
   for (var i = 0; i < plotData.length; i++) {
-    var d = plotData[i] //for better colors
-    ,
-        _prevD = i > 0 ? plotData[i - 1] : {};
-
-    if ((0, _utils.isDefined)(yAccessor(d).close)) {
+    var d = plotData[i]
+      //for better colors
+      ,
+      _prevD = i > 0 ? plotData[i - 1] : {};
+    if (yAccessor(d).close != null) {
       var x = Math.round(xScale(xAccessor(d))),
-          ohlc = yAccessor(d),
-          _prevOhcl = yAccessor(_prevD),
-          y = Math.round(yScale(Math.max(ohlc.open, ohlc.close))),
-          height = Math.round(Math.abs(yScale(ohlc.open) - yScale(ohlc.close)));
-
+        ohlc = yAccessor(d),
+        _prevOhcl = yAccessor(_prevD),
+        y = Math.round(yScale(Math.max(ohlc.open, ohlc.close))),
+        height = Math.round(Math.abs(yScale(ohlc.open) - yScale(ohlc.close)));
       candles.push({
         x: x - offset,
         y: y,
@@ -180,9 +164,7 @@ var getCandleData = function getCandleData(props, xAccessor, xScale, yScale, plo
       });
     }
   }
-
   return candles;
 };
-
 exports.getCandleData = getCandleData;
 //# sourceMappingURL=CandlestickSeriesFn.js.map

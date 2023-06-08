@@ -3,7 +3,6 @@ import {
   useCallback
 } from '../../uiApi';
 
-import { isDefined } from './utils';
 import { GenericComponent } from './GenericComponent';
 import { ChartContext } from './Chart';
 import { findChartConfig } from './ChartFn';
@@ -86,7 +85,7 @@ const GenericChartComponent = ({
          toMoreProps.chartConfig = chartConfig
            .find(each => each.id === chartId);
        }
-       if (isDefined(toMoreProps.chartConfig)) {
+       if (toMoreProps.chartConfig) {
          const {
            origin: [ox, oy]
          } = toMoreProps.chartConfig
@@ -94,11 +93,11 @@ const GenericChartComponent = ({
            mouseXY,
            startPos
          } = fromMoreProps;
-         if (isDefined(mouseXY)) {
+         if (mouseXY) {
            const [x, y] = mouseXY;
            toMoreProps.mouseXY = [x - ox, y - oy];
          }
-         if (isDefined(startPos)) {
+         if (startPos) {
            const [x, y] = startPos;
            toMoreProps.startPos = [x - ox, y - oy];
          }
@@ -110,7 +109,7 @@ const GenericChartComponent = ({
        return true;
      }
      const { currentCharts } = moreProps || {};
-     if (isDefined(currentCharts)
+     if (currentCharts
         && ALWAYS_TRUE_TYPES.indexOf(type) === -1) {
        return currentCharts.indexOf(chartId) > -1;
      }
