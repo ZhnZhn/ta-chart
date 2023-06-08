@@ -1,6 +1,4 @@
 //import PropTypes from "prop-types";
-import { Component } from 'react';
-
 import {
   hexToRGBA,
   getStrokeDasharray
@@ -14,6 +12,8 @@ import {
   CL_LINE
 } from '../CL';
 
+const mathRound = Math.round;
+
 const _getLineDash = (
   strokeDasharray
 ) => getStrokeDasharray(strokeDasharray)
@@ -22,7 +22,7 @@ const _getLineDash = (
 const _getValueFromScale = (
   scale,
   value
-) => Math.round(scale(value));
+) => mathRound(scale(value));
 
 const _getLineCoordinates = (
   type,
@@ -48,97 +48,83 @@ const _getLineCoordinates = (
 
 const DRAW_ON = ['pan'];
 
-class StraightLine extends Component {
+const StraightLine = (props) => {
+  const {
+    type,
+    className,
+    opacity,
+    stroke,
+    strokeWidth,
+    strokeDasharray,
+    yValue,
+    xValue
+  } = props
+  , _renderSVG = (moreProps) => {
+		 const {
+       width,
+       height,
+       xScale,
+       chartConfig: { yScale }
+     } = moreProps
+		 , lineCoordinates = _getLineCoordinates(
+       type,
+       xScale,
+       yScale,
+       xValue,
+       yValue,
+       width,
+       height
+     );
 
-  renderSVG = (moreProps) => {
-		const {
-      type,
-      className,
-      opacity,
-      stroke,
-      strokeWidth,
-      strokeDasharray,
-      yValue,
-      xValue
-    } = this.props
-    , {
-      width,
-      height,
-      xScale,
-      chartConfig: { yScale }
-    } = moreProps
-		, lineCoordinates = _getLineCoordinates(
-      type,
-      xScale,
-      yScale,
-      xValue,
-      yValue,
-      width,
-      height
-    );
-
-		return (
-			<line
-				className={className}
-				strokeDasharray={getStrokeDasharray(strokeDasharray)}
-				stroke={stroke}
-				strokeWidth={strokeWidth}
-				strokeOpacity={opacity}
-				{...lineCoordinates}
-			/>
-		);
+		 return (
+	    <line
+		    className={className}
+		    strokeDasharray={getStrokeDasharray(strokeDasharray)}
+		    stroke={stroke}
+		    strokeWidth={strokeWidth}
+		    strokeOpacity={opacity}
+		    {...lineCoordinates}
+	    />
+		 );
 	}
+  , _drawOnCanvas = (ctx, moreProps) => {
+		 const {
+       xScale
+     } = moreProps
+		 , {
+       chartConfig: { yScale, width, height }
+     } = moreProps
+     , {
+       x1,
+       y1,
+       x2,
+       y2
+     } = _getLineCoordinates(
+       type,
+       xScale,
+       yScale,
+       xValue,
+       yValue,
+       width,
+       height
+     );
 
-	drawOnCanvas = (ctx, moreProps) => {
-		const {
-      type,
-      opacity,
-      stroke,
-      strokeWidth,
-      strokeDasharray,
-      yValue,
-      xValue
-    } = this.props
-		, {
-      xScale
-    } = moreProps
-		, {
-      chartConfig: { yScale, width, height }
-    } = moreProps
-    , {
-      x1,
-      y1,
-      x2,
-      y2
-    } = _getLineCoordinates(
-      type,
-      xScale,
-      yScale,
-      xValue,
-      yValue,
-      width,
-      height
-    );
-
-		ctx.beginPath();
-		ctx.strokeStyle = hexToRGBA(stroke, opacity);
-		ctx.lineWidth = strokeWidth;
-		ctx.setLineDash(_getLineDash(strokeDasharray));
-		ctx.moveTo(x1, y1);
-		ctx.lineTo(x2, y2);
-		ctx.stroke();
-	}
-
-	render() {
-		return (
-      <GenericChartComponent
-			  svgDraw={this.renderSVG}
-			  canvasDraw={this.drawOnCanvas}
-			  canvasToDraw={getAxisCanvas}
-			  drawOn={DRAW_ON}
-		/>
-   );
-  }
+		 ctx.beginPath();
+		 ctx.strokeStyle = hexToRGBA(stroke, opacity);
+		 ctx.lineWidth = strokeWidth;
+		 ctx.setLineDash(_getLineDash(strokeDasharray));
+		 ctx.moveTo(x1, y1);
+		 ctx.lineTo(x2, y2);
+		 ctx.stroke();
+	};
+  return (
+    <GenericChartComponent
+      svgDraw={_renderSVG}
+      canvasDraw={_drawOnCanvas}
+      canvasToDraw={getAxisCanvas}
+      drawOn={DRAW_ON}
+    />
+  );
 }
 
 /*
