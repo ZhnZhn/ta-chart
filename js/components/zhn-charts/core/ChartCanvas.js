@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.dfChartCanvasContextValue = exports.ChartCanvasContext = exports.ChartCanvas = void 0;
+exports.ChartCanvasContext = exports.ChartCanvas = void 0;
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _uiApi = require("../../uiApi");
@@ -13,6 +13,7 @@ var _ChartDataUtil = require("./utils/ChartDataUtil");
 var _EventCapture = require("./EventCapture");
 var _CanvasContainer = require("./CanvasContainer");
 var _ChartCanvasDefs = _interopRequireDefault(require("./ChartCanvasDefs"));
+var _dfChartCanvasContextValue = require("./dfChartCanvasContextValue");
 var _ChartCanvasFn = require("./ChartCanvasFn");
 var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
@@ -62,33 +63,7 @@ var _crPinchZoomNewDomain = function _crPinchZoomNewDomain(initialPinch, finalPi
   return [x, y].map(initialPinchXScale.invert);
 };
 var FN_NOOP = function FN_NOOP() {};
-var dfChartCanvasContextValue = {
-  amIOnTop: function amIOnTop() {
-    return false;
-  },
-  chartConfigs: [],
-  chartId: 0,
-  displayXAccessor: function displayXAccessor() {
-    return 0;
-  },
-  fullData: [],
-  getMutableState: function getMutableState() {
-    return {};
-  },
-  height: 0,
-  margin: {},
-  plotData: [],
-  setCursorClass: FN_NOOP,
-  subscribe: FN_NOOP,
-  unsubscribe: FN_NOOP,
-  width: 0,
-  xAccessor: function xAccessor() {
-    return 0;
-  },
-  xScale: FN_NOOP
-};
-exports.dfChartCanvasContextValue = dfChartCanvasContextValue;
-var ChartCanvasContext = (0, _uiApi.createContext)(dfChartCanvasContextValue);
+var ChartCanvasContext = (0, _uiApi.createContext)(_dfChartCanvasContextValue.dfChartCanvasContextValue);
 exports.ChartCanvasContext = ChartCanvasContext;
 var _crYAxisZoomChartConfigs = function _crYAxisZoomChartConfigs(chartConfigs, chartId, newDomain) {
   return chartConfigs.map(function (each) {

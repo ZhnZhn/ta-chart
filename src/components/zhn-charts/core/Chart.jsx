@@ -15,13 +15,15 @@ import {
 } from '../utils';
 
 import {
-  dfChartCanvasContextValue,
   ChartCanvasContext
 } from './ChartCanvas';
 import {
   crSubscribeId,
   findChartConfig
 } from './ChartFn';
+import {
+  dfChartCanvasContextValue
+} from './dfChartCanvasContextValue';
 
 export const ChartContext = createContext({
   ...dfChartCanvasContextValue,

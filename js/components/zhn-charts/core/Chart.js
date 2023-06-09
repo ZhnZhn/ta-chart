@@ -9,8 +9,9 @@ var _d3Scale = require("d3-scale");
 var _utils = require("../utils");
 var _ChartCanvas = require("./ChartCanvas");
 var _ChartFn = require("./ChartFn");
+var _dfChartCanvasContextValue = require("./dfChartCanvasContextValue");
 var _jsxRuntime = require("react/jsx-runtime");
-var ChartContext = (0, _uiApi.createContext)((0, _extends2["default"])({}, _ChartCanvas.dfChartCanvasContextValue, {
+var ChartContext = (0, _uiApi.createContext)((0, _extends2["default"])({}, _dfChartCanvasContextValue.dfChartCanvasContextValue, {
   chartConfig: {},
   chartId: 0
 }));
