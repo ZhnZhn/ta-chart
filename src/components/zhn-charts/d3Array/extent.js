@@ -2,40 +2,30 @@ export const extent = (
   values,
   valueOf
 ) => {
-  let n = values.length
-  , i = -1
-  , value
-  , min
-  , max;
-  // Find the first comparable value.
-  if (valueOf == null) {
-    while (++i < n) {
-      if ((value = values[i]) != null && value >= value) {
-        min = max = value;
-        // Compare the remaining values.
-        while (++i < n) {
-          if ((value = values[i]) != null) {
-            if (min > value) min = value;
-            if (max < value) max = value;
-          }
+  let min, max;
+  if (valueOf === undefined) {
+    for (const value of values) {
+      if (value != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
         }
       }
     }
   } else {
-    // Find the first comparable value.
-    while (++i < n) {
-      if ((value = valueOf(values[i], i, values)) != null && value >= value) {
-        min = max = value;
-        // Compare the remaining values.
-        while (++i < n) {
-          if ((value = valueOf(values[i], i, values)) != null) {
-            if (min > value) min = value;
-            if (max < value) max = value;
-          }
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueOf(value, ++index, values)) != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
         }
       }
     }
   }
-
   return [min, max];
 }

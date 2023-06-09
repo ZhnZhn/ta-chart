@@ -1,39 +1,23 @@
 export const max = (
   values,
-  valueof
+  valueOf
 ) => {
-  let n = values.length
-  , i = -1
-  , value
-  , max;
-
-  // Find the first comparable value.
-  if (valueof == null) {
-    while (++i < n) {
-      if ((value = values[i]) != null && value >= value) {
+  let max;
+  if (valueOf === undefined) {
+    for (const value of values) {
+      if (value != null
+          && (max < value || (max === undefined && value >= value))) {
         max = value;
-        // Compare the remaining values.
-        while (++i < n) {
-          if ((value = values[i]) != null && value > max) {
-            max = value;
-          }
-        }
       }
     }
   } else {
-    // Find the first comparable value.
-    while (++i < n) {
-      if ((value = valueof(values[i], i, values)) != null && value >= value) {
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueOf(value, ++index, values)) != null
+          && (max < value || (max === undefined && value >= value))) {
         max = value;
-        // Compare the remaining values.
-        while (++i < n) {
-          if ((value = valueof(values[i], i, values)) != null && value > max) {
-            max = value;
-          }
-        }
       }
     }
   }
-
   return max;
 }

@@ -20,5 +20,17 @@ var merge = function merge(arrays) {
   }
   return merged;
 };
+
+/*
+function* flatten(arrays) {
+  for (const array of arrays) {
+    yield* array;
+  }
+}
+
+export const merge = (arrays) => {
+  return Array.from(flatten(arrays));
+}
+*/
 exports.merge = merge;
 //# sourceMappingURL=merge.js.map

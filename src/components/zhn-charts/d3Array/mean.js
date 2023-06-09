@@ -1,26 +1,24 @@
-import { number } from './number';
-
 export const mean = (
   values,
   valueOf
 ) => {
-  let n = values.length
-  , m = n
-  , i = -1
-  , value
+  let count = 0
   , sum = 0;
-
-  if (valueOf == null) {
-    while (++i < n) {
-      if (!isNaN(value = number(values[i]))) sum += value;
-      else --m;
+  if (valueOf === undefined) {
+    for (let value of values) {
+      if (value != null && (value = +value) >= value) {
+        ++count;
+        sum += value;
+      }
     }
   } else {
-    while (++i < n) {
-      if (!isNaN(value = number(valueOf(values[i], i, values)))) sum += value;
-      else --m;
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueOf(value, ++index, values)) != null && (value = +value) >= value) {
+        ++count;
+        sum += value;
+      }
     }
   }
-
-  if (m) return sum / m;
+  if (count) return sum / count;
 }

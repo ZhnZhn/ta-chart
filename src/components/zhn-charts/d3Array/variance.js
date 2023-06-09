@@ -1,34 +1,28 @@
-import { number } from './number';
-
 export const variance = (
   values,
   valueOf
 ) => {
-  let n = values.length
-  , m = 0
-  , i = -1
-  , mean = 0
-  , value
+  let count = 0
   , delta
+  , mean = 0
   , sum = 0;
-
-  if (valueOf == null) {
-    while (++i < n) {
-      if (!isNaN(value = number(values[i]))) {
+  if (valueOf === undefined) {
+    for (let value of values) {
+      if (value != null && (value = +value) >= value) {
         delta = value - mean;
-        mean += delta / ++m;
+        mean += delta / ++count;
         sum += delta * (value - mean);
       }
     }
   } else {
-    while (++i < n) {
-      if (!isNaN(value = number(valueOf(values[i], i, values)))) {
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueOf(value, ++index, values)) != null && (value = +value) >= value) {
         delta = value - mean;
-        mean += delta / ++m;
+        mean += delta / ++count;
         sum += delta * (value - mean);
       }
     }
   }
-
-  if (m > 1) return sum / (m - 1);
+  if (count > 1) return sum / (count - 1);
 }
