@@ -85,11 +85,7 @@ const InputSelect = (
     _undecorateActiveElement,
     _stepDownOption,
     _stepUpOption
-  ] = useStepHandlers(
-    _decorateActiveElement,
-    _undecorateActiveElement,
-  )
-
+  ] = useStepHandlers()
   /*eslint-disable react-hooks/exhaustive-deps */
   , _initStateFromProps = useCallback(() => {
      _undecorateActiveElement()
