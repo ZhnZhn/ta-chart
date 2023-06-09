@@ -19,9 +19,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { mean } from "d3-array";
-import { path, slidingWindow } from "../utils";
-import { RSI as defaultOptions } from "./defaultOptionsForComputation";
+import { mean } from '../d3Array';
+import { path, slidingWindow } from '../utils';
+import { RSI as defaultOptions } from './defaultOptionsForComputation';
 
 /*
 export interface RSIOptions {

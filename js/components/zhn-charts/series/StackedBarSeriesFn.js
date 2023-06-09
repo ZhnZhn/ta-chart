@@ -5,7 +5,7 @@ exports.__esModule = true;
 exports.svgHelper = exports.identityStack = exports.getBarsSVG2 = exports.drawOnCanvasHelper = exports.drawOnCanvas2 = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _d3Collection = require("d3-collection");
-var _d3Array = require("d3-array");
+var _d3Array = require("../d3Array");
 var _utils = require("../utils");
 var _jsxRuntime = require("react/jsx-runtime");
 var _isArr = Array.isArray,

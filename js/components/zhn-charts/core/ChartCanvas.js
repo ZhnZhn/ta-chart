@@ -6,7 +6,7 @@ exports.dfChartCanvasContextValue = exports.ChartCanvasContext = exports.ChartCa
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _uiApi = require("../../uiApi");
-var _d3Array = require("d3-array");
+var _d3Array = require("../d3Array");
 var _utils = require("./utils");
 var _zoomBehavior = require("./zoom/zoomBehavior");
 var _ChartDataUtil = require("./utils/ChartDataUtil");

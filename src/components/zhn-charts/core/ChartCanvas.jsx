@@ -8,7 +8,7 @@ import {
 import {
   max,
   min
-} from 'd3-array';
+} from '../d3Array';
 
 import {
   clearCanvas,

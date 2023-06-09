@@ -5,7 +5,7 @@ exports.__esModule = true;
 exports.tickHelper = exports.drawTicks = exports.drawTickLabels = exports.drawGridLines = exports.drawAxisLine = exports.crScale = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
-var _d3Array = require("d3-array");
+var _d3Array = require("../d3Array");
 var _d3Force = require("d3-force");
 var _utils = require("../utils");
 var _excluded = ["orient", "innerTickSize", "tickFormat", "tickPadding", "tickLabelFill", "tickStrokeWidth", "tickStrokeDasharray", "fontSize", "fontFamily", "fontWeight", "showTicks", "showTickLabel", "ticks", "tickValues", "tickStrokeStyle", "tickInterval", "tickIntervalFunction"];

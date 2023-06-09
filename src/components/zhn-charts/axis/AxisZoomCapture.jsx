@@ -4,7 +4,7 @@ import {
   getRefValue
 } from '../../uiApi';
 
-import { mean } from 'd3-array';
+import { mean } from '../d3Array';
 import {
   select,
   pointer

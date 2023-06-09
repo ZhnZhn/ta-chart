@@ -1,7 +1,7 @@
 import {
   range as d3Range,
   zip
-} from 'd3-array';
+} from '../d3Array';
 
 import {
   forceCollide,
@@ -13,7 +13,7 @@ import {
   getStrokeDasharrayCanvas,
   first,
   last
-} from '../utils'
+} from '../utils';
 
 const drawEachTick = (
   ctx,

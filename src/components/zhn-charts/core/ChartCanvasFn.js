@@ -1,19 +1,17 @@
-import {
-  extent as d3Extent
-} from "d3-array";
+import { extent as d3Extent } from '../d3Array';
 
 import {
   functor,
   head,
-  identity,  
+  identity,
   last,
   shallowEqual
-} from "./utils";
+} from './utils';
 import {
   getChartConfigWithUpdatedYScales,
   getNewChartConfig
-} from "./utils/ChartDataUtil";
-import evaluator from "./utils/evaluator";
+} from './utils/ChartDataUtil';
+import evaluator from './utils/evaluator';
 import {
   CL_GRABBING_CURSOR,
   CL_CROSSHAIR_CURSOR,

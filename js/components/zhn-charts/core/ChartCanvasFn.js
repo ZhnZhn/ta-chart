@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports.updateChart = exports.shouldResetChart = exports.resetChart = exports.pinchCoordinates = exports.isInteractionEnabled = exports.getDimensions = exports.getCursorStyle = exports.calculateFullData = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _d3Array = require("d3-array");
+var _d3Array = require("../d3Array");
 var _utils = require("./utils");
 var _ChartDataUtil = require("./utils/ChartDataUtil");
 var _evaluator2 = _interopRequireDefault(require("./utils/evaluator"));

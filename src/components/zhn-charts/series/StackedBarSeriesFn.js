@@ -1,5 +1,5 @@
 import { nest as d3Nest } from 'd3-collection';
-import { merge } from 'd3-array';
+import { merge } from '../d3Array';
 
 import {
   identity,
@@ -170,7 +170,7 @@ const _doStuff = (
         yScale,
         defaultPostAction
       ];
-        
+
 	return _getBars(
     props,
     modifiedXAccessor,

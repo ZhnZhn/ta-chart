@@ -1,8 +1,6 @@
 /* an extension to d3.zip so we call a function instead of an array */
-
-import { min } from "d3-array";
-
-import identity from "./identity";
+import { min } from '../d3Array';
+import identity from './identity';
 
 /*
 interface Zip {

@@ -1,18 +1,20 @@
-import { extent } from 'd3-array';
-import flattenDeep from 'lodash.flattendeep';
 import React from 'react';
+import flattenDeep from 'lodash.flattendeep';
+
+import { extent } from '../../d3Array';
 import { ChartDefaultConfig }  from '../Chart';
 
 import {
   functor,
-  getClosestItem,  
+  getClosestItem,
   isObject,
   mapObject,
   shallowEqual,
   zipper
 } from "./index";
 
-const _isArr = Array.isArray;
+const _isArr = Array.isArray
+, mathAbs = Math.abs;
 
 const getDimensions = ({
     width,
@@ -259,7 +261,7 @@ export const getCurrentItem = (
    } else {
      const dr = xScale
        .range()
-       .map((d, idx) => ({ x: Math.abs(d - mouseXY[0]), idx }))
+       .map((d, idx) => ({ x: mathAbs(d - mouseXY[0]), idx }))
        .reduce((a, b) => (a.x < b.x ? a : b));
      item = dr !== undefined
        ? plotData[dr.idx]

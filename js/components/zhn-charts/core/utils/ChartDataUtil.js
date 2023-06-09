@@ -4,12 +4,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports.getNewChartConfig = exports.getCurrentItem = exports.getCurrentCharts = exports.getChartConfigWithUpdatedYScales = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _d3Array = require("d3-array");
-var _lodash = _interopRequireDefault(require("lodash.flattendeep"));
 var _react = _interopRequireDefault(require("react"));
+var _lodash = _interopRequireDefault(require("lodash.flattendeep"));
+var _d3Array = require("../../d3Array");
 var _Chart = require("../Chart");
 var _index = require("./index");
-var _isArr = Array.isArray;
+var _isArr = Array.isArray,
+  mathAbs = Math.abs;
 var getDimensions = function getDimensions(_ref, chartProps) {
   var width = _ref.width,
     height = _ref.height;
@@ -196,7 +197,7 @@ var getCurrentItem = function getCurrentItem(xScale, xAccessor, mouseXY, plotDat
   } else {
     var dr = xScale.range().map(function (d, idx) {
       return {
-        x: Math.abs(d - mouseXY[0]),
+        x: mathAbs(d - mouseXY[0]),
         idx: idx
       };
     }).reduce(function (a, b) {

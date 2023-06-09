@@ -1,7 +1,7 @@
-import { mean } from "d3-array";
+import { mean } from '../d3Array';
 
-import { slidingWindow } from "../utils";
-import { SMA as defaultOptions } from "./defaultOptionsForComputation";
+import { slidingWindow } from '../utils';
+import { SMA as defaultOptions } from './defaultOptionsForComputation';
 
 export default function() {
 

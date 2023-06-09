@@ -19,10 +19,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { deviation, mean } from "d3-array";
-import { path, slidingWindow, zipper } from "../utils";
-import ema from "./ema";
-import { BOLLINGER_BAND as defaultOptions } from "./defaultOptionsForComputation";
+import { deviation, mean } from '../d3Array';
+import { path, slidingWindow, zipper } from '../utils';
+import ema from './ema';
+import { BOLLINGER_BAND as defaultOptions } from './defaultOptionsForComputation';
 
 /*
 export interface BollingerBandOptions {

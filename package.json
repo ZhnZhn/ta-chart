@@ -56,7 +56,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.22.3",
-    "d3-array": "^1.2.4",
     "d3-force": "^1.2.1",
     "d3-format": "^2.0.0",
     "d3-interpolate": "^3.0.1",
@@ -70,9 +69,11 @@
   },
   "jest": {
     "roots": [
+      "<rootDir>/js/components/zhn-charts/d3Array",
       "<rootDir>/js/components/zhn-charts/d3Shape"
     ],
     "transformIgnorePatterns": [
+      "<rootDir>/js/components/zhn-charts/d3Array",
       "<rootDir>/js/components/zhn-charts/d3Shape"
     ]
   }

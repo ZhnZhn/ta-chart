@@ -17,8 +17,7 @@ module.exports = {
     lib: [           
             "react",
             "react-dom",            
-            
-            "d3-array",
+                       
             "d3-force",
             "d3-format",
             "d3-interpolate",
