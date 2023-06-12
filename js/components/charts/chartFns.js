@@ -5,6 +5,7 @@ exports.__esModule = true;
 exports.timeIntervalBarWidth = exports.scaleTime = exports.numberFormat8Trim = exports.numberFormat4S = exports.numberFormat4F = exports.numberFormat2F = exports.numberFormat0S = exports.crTimeInterval = exports.crTimeFormat = exports.crExtends = exports.COLOR = void 0;
 var _d3Scale = require("../zhn-charts/d3Scale");
 exports.scaleTime = _d3Scale.scaleTime;
+var _d3Format = require("../zhn-charts/d3Format");
 var _d3Time = require("d3-time");
 exports.utcMinute = _d3Time.utcMinute;
 exports.utcHour = _d3Time.utcHour;
@@ -15,7 +16,6 @@ var _timeIntervalBarWidth = _interopRequireDefault(require("./utils/timeInterval
 exports.timeIntervalBarWidth = _timeIntervalBarWidth.default;
 var _config = _interopRequireDefault(require("./config"));
 exports.COLOR = _config.default;
-var _d3Format = require("d3-format");
 const _isStr = str => typeof str === 'string';
 const _isInclude = (str, ch) => str.indexOf(ch) !== -1;
 const numberFormat8Trim = (0, _d3Format.format)('.8~');

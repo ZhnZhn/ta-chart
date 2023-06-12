@@ -1,4 +1,6 @@
 export { scaleTime } from '../zhn-charts/d3Scale';
+import { format } from '../zhn-charts/d3Format';
+
 export {
   utcMinute,
   utcHour,
@@ -9,7 +11,6 @@ export { timeFormat } from 'd3-time-format';
 export {default as timeIntervalBarWidth} from './utils/timeIntervalBarWidth';
 export {default as COLOR} from './config';
 
-import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import {
   utcMinute,

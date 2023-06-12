@@ -2,64 +2,60 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _d3Format = require("d3-format");
+exports.default = void 0;
+var _d3Format = require("../d3Format");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _utils = require("../utils");
 var _CL = require("../CL");
 var _TooltipText = _interopRequireDefault(require("./TooltipText"));
 var _TooltipTSpan = _interopRequireDefault(require("./TooltipTSpan"));
 var _jsxRuntime = require("react/jsx-runtime");
-var DF_DISPLAY_FORMAT = (0, _d3Format.format)('.2f'),
+const DF_DISPLAY_FORMAT = (0, _d3Format.format)('.2f'),
   DF_DISPLAY_INIT = 'n/a',
-  DF_DISPLAY_VALUES_FOR = function DF_DISPLAY_VALUES_FOR(_, props) {
-    return props.currentItem;
-  },
+  DF_DISPLAY_VALUES_FOR = (_, props) => props.currentItem,
   DF_ORIGIN = [0, 0],
   DRAW_ON = ['mousemove'];
-var RSITooltip = function RSITooltip(props) {
-  var _props$className = props.className,
-    className = _props$className === void 0 ? _CL.CL_TOOLTIP : _props$className,
-    _props$displayInit = props.displayInit,
-    displayInit = _props$displayInit === void 0 ? DF_DISPLAY_INIT : _props$displayInit,
-    _props$displayFormat = props.displayFormat,
-    displayFormat = _props$displayFormat === void 0 ? DF_DISPLAY_FORMAT : _props$displayFormat,
-    _props$displayValuesF = props.displayValuesFor,
-    displayValuesFor = _props$displayValuesF === void 0 ? DF_DISPLAY_VALUES_FOR : _props$displayValuesF,
-    _props$origin = props.origin,
-    originProp = _props$origin === void 0 ? DF_ORIGIN : _props$origin,
-    fontFamily = props.fontFamily,
-    fontSize = props.fontSize,
-    fontWeight = props.fontWeight,
-    yAccessor = props.yAccessor,
-    options = props.options,
-    labelFill = props.labelFill,
-    labelFontWeight = props.labelFontWeight,
-    textFill = props.textFill,
-    onClick = props.onClick;
-  var _renderSvg = function _renderSvg(moreProps) {
-    var _moreProps$chartConfi = moreProps.chartConfig,
-      width = _moreProps$chartConfi.width,
-      height = _moreProps$chartConfi.height,
+const RSITooltip = props => {
+  const {
+    className = _CL.CL_TOOLTIP,
+    displayInit = DF_DISPLAY_INIT,
+    displayFormat = DF_DISPLAY_FORMAT,
+    displayValuesFor = DF_DISPLAY_VALUES_FOR,
+    origin: originProp = DF_ORIGIN,
+    fontFamily,
+    fontSize,
+    fontWeight,
+    yAccessor,
+    options,
+    labelFill,
+    labelFontWeight,
+    textFill,
+    onClick
+  } = props;
+  const _renderSvg = moreProps => {
+    const {
+        chartConfig: {
+          width,
+          height
+        }
+      } = moreProps,
       currentItem = displayValuesFor(props, moreProps),
       rsi = currentItem && yAccessor(currentItem),
       value = rsi && displayFormat(rsi) || displayInit,
       origin = (0, _utils.functor)(originProp),
-      _origin = origin(width, height),
-      x = _origin[0],
-      y = _origin[1],
+      [x, y] = origin(width, height),
       tooltipLabel = "RSI (" + options.windowSize + "): ";
     return /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
       className: className,
       transform: "translate(" + x + ", " + y + ")",
       onClick: onClick,
-      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_TooltipText["default"], {
+      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_TooltipText.default, {
         x: 0,
         y: 0,
         fontFamily: fontFamily,
         fontSize: fontSize,
         fontWeight: fontWeight,
-        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_TooltipTSpan["default"], {
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_TooltipTSpan.default, {
           fill: labelFill,
           fontWeight: labelFontWeight,
           children: tooltipLabel
@@ -70,12 +66,12 @@ var RSITooltip = function RSITooltip(props) {
       })
     });
   };
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.default, {
     clip: false,
     svgDraw: _renderSvg,
     drawOn: DRAW_ON
   });
 };
 var _default = RSITooltip;
-exports["default"] = _default;
+exports.default = _default;
 //# sourceMappingURL=RSITooltip.js.map

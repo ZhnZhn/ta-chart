@@ -1,4 +1,4 @@
-import { format } from 'd3-format';
+import { format } from '../d3Format';
 
 import {
   functor,
