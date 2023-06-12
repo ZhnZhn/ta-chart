@@ -8,7 +8,7 @@ import {
 } from '../../uiApi'
 import {
   scaleLinear
-} from 'd3-scale';
+} from '../d3Scale';
 
 import {
   crCssTranslate

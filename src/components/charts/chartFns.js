@@ -1,4 +1,4 @@
-export { scaleTime } from 'd3-scale';
+export { scaleTime } from '../zhn-charts/d3Scale';
 export {
   utcMinute,
   utcHour,

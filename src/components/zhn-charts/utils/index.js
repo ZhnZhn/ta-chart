@@ -1,4 +1,4 @@
-import { scaleOrdinal } from  'd3-scale';
+import { scaleOrdinal } from  '../d3Scale';
 
 export { rebind } from './rebind';
 export { default as merge } from './merge';
