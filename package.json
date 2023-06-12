@@ -59,10 +59,9 @@
     "d3-force": "^1.2.1",
     "d3-format": "^2.0.0",
     "d3-interpolate": "^3.0.1",
-    "d3-scale": "^4.0.2",
     "d3-selection": "^2.0.0",
-    "d3-time": "^1.1.0",
-    "d3-time-format": "^2.3.0",
+    "d3-time": "^3.1.0",
+    "d3-time-format": "^4.1.0",
     "lodash.flattendeep": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -70,10 +69,18 @@
   "jest": {
     "roots": [
       "<rootDir>/js/components/zhn-charts/d3Array",
+      "<rootDir>/js/components/zhn-charts/d3Color",
+      "<rootDir>/js/components/zhn-charts/d3Format",
+      "<rootDir>/js/components/zhn-charts/d3Interpolate",
+      "<rootDir>/js/components/zhn-charts/d3Scale",
       "<rootDir>/js/components/zhn-charts/d3Shape"
     ],
     "transformIgnorePatterns": [
       "<rootDir>/js/components/zhn-charts/d3Array",
+      "<rootDir>/js/components/zhn-charts/d3Color",
+      "<rootDir>/js/components/zhn-charts/d3Format",
+      "<rootDir>/js/components/zhn-charts/d3Interpolate",
+      "<rootDir>/js/components/zhn-charts/d3Scale",
       "<rootDir>/js/components/zhn-charts/d3Shape"
     ]
   }
