@@ -19,8 +19,7 @@ module.exports = {
             "react-dom",            
                        
             "d3-force",
-            "d3-format",
-            "d3-interpolate",           
+            "d3-format",            
             "d3-selection",           
             "d3-time",
             "d3-time-format",

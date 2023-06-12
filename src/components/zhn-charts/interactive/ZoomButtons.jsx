@@ -1,6 +1,6 @@
 import { useContext } from '../../uiApi';
 
-import { interpolateNumber } from 'd3-interpolate';
+import { interpolateNumber } from '../d3Interpolate';
 import { last } from '../utils';
 
 import { ChartContext } from '../core/Chart';
