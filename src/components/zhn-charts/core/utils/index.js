@@ -15,6 +15,10 @@ export * from "./shallowEqual";
 export * from "./PureComponent";
 
 const _isArr = Array.isArray
+, _getObjKeys = Object.keys
+, mathRound = Math.round
+, mathAbs = Math.abs;
+
 
 export const sign = (
   x
@@ -28,8 +32,8 @@ export const getClosestValue = (
     ? inputValue
     : [inputValue]
   , diff = values
-      .map((each) => each - currentValue)
-      .reduce((diff1, diff2) => (Math.abs(diff1) < Math.abs(diff2) ? diff1 : diff2));
+      .map(each => each - currentValue)
+      .reduce((diff1, diff2) => (mathAbs(diff1) < mathAbs(diff2) ? diff1 : diff2));
   return currentValue + diff;
 }
 
@@ -48,6 +52,7 @@ export const MOUSEMOVE = "mousemove.pan";
 export const MOUSEUP = "mouseup.pan";
 export const TOUCHMOVE = "touchmove.pan";
 export const TOUCHEND = "touchend.pan touchcancel.pan";
+export const WHEEL = "wheel";
 
 export const getTouchProps = (
   touch
@@ -69,8 +74,8 @@ const _crPosition = (
   rect,
   container
 ) => [
-  Math.round(eventOrTouchProps.clientX - rect.left - container.clientLeft),
-  Math.round(eventOrTouchProps.clientY - rect.top - container.clientTop)
+  mathRound(eventOrTouchProps.clientX - rect.left - container.clientLeft),
+  mathRound(eventOrTouchProps.clientY - rect.top - container.clientTop)
 ];
 
 export const touchPosition = (
@@ -107,7 +112,7 @@ export const mapObject = (
   object = {},
   iteratee = (x) => x
 ) => {
-  const props = Object.keys(object)
+  const props = _getObjKeys(object)
   , result = new Array(props.length);
   props.forEach((key, index) => {
     result[index] = iteratee(object[key], key, object);

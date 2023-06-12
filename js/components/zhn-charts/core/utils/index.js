@@ -20,6 +20,7 @@ var _exportNames = {
   MOUSEUP: true,
   TOUCHMOVE: true,
   TOUCHEND: true,
+  WHEEL: true,
   getTouchProps: true,
   isObject: true,
   touchPosition: true,
@@ -27,13 +28,13 @@ var _exportNames = {
   clearCanvas: true,
   mapObject: true
 };
-exports.zipper = exports.touchPosition = exports.slidingWindow = exports.sign = exports.path = exports.mousePosition = exports.mapObject = exports.last = exports.isObject = exports.identity = exports.head = exports.getTouchProps = exports.getClosestValue = exports.functor = exports.first = exports.d3Window = exports.clearCanvas = exports.TOUCHMOVE = exports.TOUCHEND = exports.MOUSEUP = exports.MOUSEMOVE = exports.MOUSELEAVE = exports.MOUSEENTER = void 0;
+exports.zipper = exports.touchPosition = exports.slidingWindow = exports.sign = exports.path = exports.mousePosition = exports.mapObject = exports.last = exports.isObject = exports.identity = exports.head = exports.getTouchProps = exports.getClosestValue = exports.functor = exports.first = exports.d3Window = exports.clearCanvas = exports.WHEEL = exports.TOUCHMOVE = exports.TOUCHEND = exports.MOUSEUP = exports.MOUSEMOVE = exports.MOUSELEAVE = exports.MOUSEENTER = void 0;
 var _zipper = _interopRequireDefault(require("../../utils/zipper"));
-exports.zipper = _zipper["default"];
+exports.zipper = _zipper.default;
 var _slidingWindow = _interopRequireDefault(require("../../utils/slidingWindow"));
-exports.slidingWindow = _slidingWindow["default"];
+exports.slidingWindow = _slidingWindow.default;
 var _identity = _interopRequireDefault(require("../../utils/identity"));
-exports.identity = _identity["default"];
+exports.identity = _identity.default;
 var _path = require("../../utils/path");
 exports.path = _path.path;
 var _functor = require("../../utils/functor");
@@ -77,67 +78,58 @@ Object.keys(_PureComponent).forEach(function (key) {
   if (key in exports && exports[key] === _PureComponent[key]) return;
   exports[key] = _PureComponent[key];
 });
-var _isArr = Array.isArray;
-var sign = function sign(x) {
-  return (x > 0) - (x < 0);
-};
+const _isArr = Array.isArray,
+  _getObjKeys = Object.keys,
+  mathRound = Math.round,
+  mathAbs = Math.abs;
+const sign = x => (x > 0) - (x < 0);
 exports.sign = sign;
-var getClosestValue = function getClosestValue(inputValue, currentValue) {
-  var values = _isArr(inputValue) ? inputValue : [inputValue],
-    diff = values.map(function (each) {
-      return each - currentValue;
-    }).reduce(function (diff1, diff2) {
-      return Math.abs(diff1) < Math.abs(diff2) ? diff1 : diff2;
-    });
+const getClosestValue = (inputValue, currentValue) => {
+  const values = _isArr(inputValue) ? inputValue : [inputValue],
+    diff = values.map(each => each - currentValue).reduce((diff1, diff2) => mathAbs(diff1) < mathAbs(diff2) ? diff1 : diff2);
   return currentValue + diff;
 };
 exports.getClosestValue = getClosestValue;
-var d3Window = function d3Window(node) {
-  return node && (node.ownerDocument && node.ownerDocument.defaultView || node.document && node || node.defaultView);
-};
+const d3Window = node => node && (node.ownerDocument && node.ownerDocument.defaultView || node.document && node || node.defaultView);
 exports.d3Window = d3Window;
-var MOUSEENTER = "mouseenter.interaction";
+const MOUSEENTER = "mouseenter.interaction";
 exports.MOUSEENTER = MOUSEENTER;
-var MOUSELEAVE = "mouseleave.interaction";
+const MOUSELEAVE = "mouseleave.interaction";
 exports.MOUSELEAVE = MOUSELEAVE;
-var MOUSEMOVE = "mousemove.pan";
+const MOUSEMOVE = "mousemove.pan";
 exports.MOUSEMOVE = MOUSEMOVE;
-var MOUSEUP = "mouseup.pan";
+const MOUSEUP = "mouseup.pan";
 exports.MOUSEUP = MOUSEUP;
-var TOUCHMOVE = "touchmove.pan";
+const TOUCHMOVE = "touchmove.pan";
 exports.TOUCHMOVE = TOUCHMOVE;
-var TOUCHEND = "touchend.pan touchcancel.pan";
+const TOUCHEND = "touchend.pan touchcancel.pan";
 exports.TOUCHEND = TOUCHEND;
-var getTouchProps = function getTouchProps(touch) {
-  return {
-    pageX: touch.pageX,
-    pageY: touch.pageY,
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  };
-};
+const WHEEL = "wheel";
+exports.WHEEL = WHEEL;
+const getTouchProps = touch => ({
+  pageX: touch.pageX,
+  pageY: touch.pageY,
+  clientX: touch.clientX,
+  clientY: touch.clientY
+});
 exports.getTouchProps = getTouchProps;
-var isObject = function isObject(d) {
-  return d && typeof d === "object" && !_isArr(d);
-};
+const isObject = d => d && typeof d === "object" && !_isArr(d);
 exports.isObject = isObject;
-var _crPosition = function _crPosition(eventOrTouchProps, rect, container) {
-  return [Math.round(eventOrTouchProps.clientX - rect.left - container.clientLeft), Math.round(eventOrTouchProps.clientY - rect.top - container.clientTop)];
-};
-var touchPosition = function touchPosition(touch, e) {
-  var container = e.currentTarget,
+const _crPosition = (eventOrTouchProps, rect, container) => [mathRound(eventOrTouchProps.clientX - rect.left - container.clientLeft), mathRound(eventOrTouchProps.clientY - rect.top - container.clientTop)];
+const touchPosition = (touch, e) => {
+  const container = e.currentTarget,
     rect = container.getBoundingClientRect();
   return _crPosition(touch, rect, container);
 };
 exports.touchPosition = touchPosition;
-var mousePosition = function mousePosition(e, defaultRect) {
-  var container = e.currentTarget,
+const mousePosition = (e, defaultRect) => {
+  const container = e.currentTarget,
     rect = defaultRect != null ? defaultRect : container.getBoundingClientRect();
   return _crPosition(e, rect, container);
 };
 exports.mousePosition = mousePosition;
-var clearCanvas = function clearCanvas(canvasList, ratio) {
-  canvasList.forEach(function (each) {
+const clearCanvas = (canvasList, ratio) => {
+  canvasList.forEach(each => {
     each.setTransform(1, 0, 0, 1, 0, 0);
     each.clearRect(-1, -1, each.canvas.width + 2, each.canvas.height + 2);
     each.scale(ratio, ratio);
@@ -146,18 +138,16 @@ var clearCanvas = function clearCanvas(canvasList, ratio) {
 
 // copied from https://github.com/lodash/lodash/blob/master/mapObject.js
 exports.clearCanvas = clearCanvas;
-var mapObject = function mapObject(object, iteratee) {
+const mapObject = function (object, iteratee) {
   if (object === void 0) {
     object = {};
   }
   if (iteratee === void 0) {
-    iteratee = function iteratee(x) {
-      return x;
-    };
+    iteratee = x => x;
   }
-  var props = Object.keys(object),
+  const props = _getObjKeys(object),
     result = new Array(props.length);
-  props.forEach(function (key, index) {
+  props.forEach((key, index) => {
     result[index] = iteratee(object[key], key, object);
   });
   return result;
