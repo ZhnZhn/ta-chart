@@ -1,4 +1,4 @@
-import { nest as d3Nest } from 'd3-collection';
+import { nest as d3Nest } from '../d3Collection';
 import { merge } from '../d3Array';
 
 import {

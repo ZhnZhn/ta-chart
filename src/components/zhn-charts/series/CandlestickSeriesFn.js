@@ -1,4 +1,4 @@
-import { nest } from 'd3-collection';
+import { nest } from '../d3Collection';
 
 import {
 	hexToRGBA,
