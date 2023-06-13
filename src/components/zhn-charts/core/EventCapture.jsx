@@ -1,11 +1,10 @@
+import React from "react";
+
 import {
-  //mouse as pointer,
-  //touches as pointers,
   pointer,
   pointers,
   select
-} from "d3-selection";
-import React from "react";
+} from '../d3Selection';
 
 import {
   d3Window,
@@ -22,10 +21,10 @@ import {
   TOUCHMOVE,
 
   WHEEL
-} from "./utils";
+} from './utils';
 import {
   getCurrentCharts
-} from "./utils/ChartDataUtil";
+} from './utils/ChartDataUtil';
 import {
   CL_GRABBING_CURSOR,
   CL_CROSSHAIR_CURSOR

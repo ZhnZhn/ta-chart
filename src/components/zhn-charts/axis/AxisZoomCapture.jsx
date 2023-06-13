@@ -8,7 +8,7 @@ import { mean } from '../d3Array';
 import {
   select,
   pointer
-} from 'd3-selection';
+} from '../d3Selection';
 
 import {
   d3Window,

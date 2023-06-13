@@ -3,8 +3,8 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.EventCapture = void 0;
-var _d3Selection = require("d3-selection");
 var _react = _interopRequireDefault(require("react"));
+var _d3Selection = require("../d3Selection");
 var _utils = require("./utils");
 var _ChartDataUtil = require("./utils/ChartDataUtil");
 var _CL = require("../CL");
