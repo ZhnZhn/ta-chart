@@ -17,8 +17,8 @@ module.exports = {
     lib: [           
             "react",
             "react-dom",            
-                       
-            "d3-force",                        
+               
+            "d3-quadtree",                                                     
             "d3-time",
             "d3-time-format",
 

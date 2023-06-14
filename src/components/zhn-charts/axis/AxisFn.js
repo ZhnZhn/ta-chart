@@ -7,13 +7,22 @@ import {
   forceCollide,
   forceSimulation,
   forceX
-} from 'd3-force';
+} from '../d3Force';
 
 import {
   getStrokeDasharrayCanvas,
   first,
   last
 } from '../utils';
+
+const _crSign = (
+  orient
+) => orient === "top" || orient === "left"
+   ? -1
+   : 1;
+const _isXAxis = (
+  orient
+) => orient === "bottom" || orient === "top";
 
 const drawEachTick = (
   ctx,
@@ -81,9 +90,7 @@ export const tickHelper = (
     const format = tickFormat === undefined
        ? scale.tickFormat(tickArguments)
        : (d) => tickFormat(d) || ""
-    , sign = orient === "top" || orient === "left"
-       ? -1
-       : 1
+    , sign = _crSign(orient)
     , tickSpacing = Math.max(innerTickSize, 0) + tickPadding;
 
     let ticks
@@ -91,7 +98,7 @@ export const tickHelper = (
     , canvas_dy
     , textAnchor;
 
-    if (orient === "bottom" || orient === "top") {
+    if (_isXAxis(orient)) {
         const y2 = sign * innerTickSize
         , labelY = sign * tickSpacing;
 
@@ -186,10 +193,7 @@ export const drawAxisLine = (
       strokeWidth,
       range
     } = props
-    , sign = orient === "top" || orient === "left"
-       ? -1
-       : 1
-    , xAxis = orient === "bottom" || orient === "top";
+    , sign = _crSign(orient)
 
     ctx.lineWidth = strokeWidth;
     ctx.strokeStyle = strokeStyle;
@@ -198,7 +202,7 @@ export const drawAxisLine = (
     const firstPoint = first(range)
     , lastPoint = last(range)
     , tickSize = sign * outerTickSize;
-    if (xAxis) {
+    if (_isXAxis(orient)) {
         ctx.moveTo(firstPoint, tickSize);
         ctx.lineTo(firstPoint, 0);
         ctx.lineTo(lastPoint, 0);
@@ -252,19 +256,16 @@ const _drawGridLine = (
     if (gridLinesStrokeStyle !== undefined) {
         ctx.strokeStyle = gridLinesStrokeStyle;
     }
+
     ctx.beginPath();
-    const sign = orient === "top" || orient === "left"
-      ? 1
-      : -1;
-    switch (orient) {
-      case "top": case "bottom":
-        ctx.moveTo(tick.x1, 0);
-        ctx.lineTo(tick.x2, sign * height);
-        break;
-      default:
-        ctx.moveTo(0, tick.y1);
-        ctx.lineTo(sign * width, tick.y2);
-        break;
+    
+    const sign = _crSign(orient);
+    if (_isXAxis(orient)) {
+      ctx.moveTo(tick.x1, 0);
+      ctx.lineTo(tick.x2, sign * height);
+    } else {
+      ctx.moveTo(0, tick.y1);
+      ctx.lineTo(sign * width, tick.y2);
     }
 
     ctx.lineWidth = gridLinesStrokeWidth;
