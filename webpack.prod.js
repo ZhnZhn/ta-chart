@@ -19,8 +19,7 @@ module.exports = {
             "react-dom",            
                
             "d3-quadtree",                                                     
-            "d3-time",
-            "d3-time-format",
+            "d3-time",            
 
             "lodash.flattendeep"                                   
     ],

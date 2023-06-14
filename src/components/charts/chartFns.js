@@ -1,17 +1,15 @@
-export { scaleTime } from '../zhn-charts/d3Scale';
-import { format } from '../zhn-charts/d3Format';
-
 export {
   utcMinute,
   utcHour,
   utcDay
 } from 'd3-time';
-export { timeFormat } from 'd3-time-format';
+
+export { scaleTime } from '../zhn-charts/d3Scale';
+export { timeFormat } from '../zhn-charts/d3TimeFormat';
 
 export {default as timeIntervalBarWidth} from './utils/timeIntervalBarWidth';
 export {default as COLOR} from './config';
 
-import { timeFormat } from 'd3-time-format';
 import {
   utcMinute,
   utcHour,
@@ -19,6 +17,8 @@ import {
   utcWeek,
   utcMonth
 } from 'd3-time';
+import { format } from '../zhn-charts/d3Format';
+import { timeFormat } from '../zhn-charts/d3TimeFormat';
 
 const _isStr = str => typeof str === 'string';
 const _isInclude = (str, ch) => str.indexOf(ch) !== -1;

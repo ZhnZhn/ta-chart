@@ -9,7 +9,7 @@ import {
   timeTicks,
   timeTickInterval
 } from "d3-time";
-import { timeFormat } from "d3-time-format";
+import { timeFormat } from '../d3TimeFormat';
 
 import { continuous, copy } from './continuous';
 import { initRange } from './init';
