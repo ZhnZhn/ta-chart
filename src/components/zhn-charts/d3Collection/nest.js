@@ -1,5 +1,3 @@
-import map from './map';
-
 /*
 function createObject() {
   return {};
@@ -11,7 +9,7 @@ function setObject(object, key, value) {
 }
 */
 
-const createMap = () => map()
+const createMap = () => new Map()
 , setMap = (
   map,
   key,
@@ -40,7 +38,7 @@ export default function() {
     , key = keys[depth++]
     , keyValue
     , value
-    , valuesByKey = map()
+    , valuesByKey = new Map()
     , values
     , result = createResult();
 
@@ -54,7 +52,7 @@ export default function() {
       }
     }
 
-    valuesByKey.each(function(values, key) {
+    valuesByKey.forEach(function(values, key) {
       setResult(result, key, apply(values, depth, createResult, setResult));
     });
 
@@ -67,7 +65,7 @@ export default function() {
     if (rollup != null && depth >= keys.length) array = map.entries();
     else {
       array = [];
-      map.each(function(v, k) { array.push({key: k, values: entries(v, depth)}); });
+      map.forEach(function(v, k) { array.push({key: k, values: entries(v, depth)}); });
     }
     return sortKey != null
       ? array.sort(function(a, b) { return sortKey(a.key, b.key); })

@@ -1,9 +1,7 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.default = _default;
-var _map = _interopRequireDefault(require("./map"));
 /*
 function createObject() {
   return {};
@@ -14,7 +12,8 @@ function setObject(object, key, value) {
   object[key] = value;
 }
 */
-const createMap = () => (0, _map.default)(),
+
+const createMap = () => new Map(),
   setMap = (map, key, value) => {
     map.set(key, value);
   };
@@ -34,7 +33,7 @@ function _default() {
       key = keys[depth++],
       keyValue,
       value,
-      valuesByKey = (0, _map.default)(),
+      valuesByKey = new Map(),
       values,
       result = createResult();
     while (++i < n) {
@@ -46,7 +45,7 @@ function _default() {
         valuesByKey.set(keyValue, [value]);
       }
     }
-    valuesByKey.each(function (values, key) {
+    valuesByKey.forEach(function (values, key) {
       setResult(result, key, apply(values, depth, createResult, setResult));
     });
     return result;
@@ -57,7 +56,7 @@ function _default() {
       sortKey = sortKeys[depth - 1];
     if (rollup != null && depth >= keys.length) array = map.entries();else {
       array = [];
-      map.each(function (v, k) {
+      map.forEach(function (v, k) {
         array.push({
           key: k,
           values: entries(v, depth)
