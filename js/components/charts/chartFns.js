@@ -3,7 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.timeIntervalBarWidth = exports.scaleTime = exports.numberFormat8Trim = exports.numberFormat4S = exports.numberFormat4F = exports.numberFormat2F = exports.numberFormat0S = exports.crTimeInterval = exports.crTimeFormat = exports.crExtends = exports.COLOR = void 0;
-var _d3Time = require("d3-time");
+var _d3Time = require("../zhn-charts/d3Time");
 exports.utcMinute = _d3Time.utcMinute;
 exports.utcHour = _d3Time.utcHour;
 exports.utcDay = _d3Time.utcDay;

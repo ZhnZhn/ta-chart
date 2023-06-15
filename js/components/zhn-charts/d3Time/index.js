@@ -1,0 +1,31 @@
+"use strict";
+
+exports.__esModule = true;
+exports.utcYear = exports.utcWeek = exports.utcMonth = exports.utcMinute = exports.utcHour = exports.utcDay = exports.timeYear = exports.timeWeek = exports.timeTicks = exports.timeTickInterval = exports.timeThursday = exports.timeSunday = exports.timeSecond = exports.timeMonth = exports.timeMonday = exports.timeMinute = exports.timeHour = exports.timeDay = void 0;
+var _second = require("./second");
+exports.timeSecond = _second.second;
+var _minute = require("./minute");
+exports.timeMinute = _minute.timeMinute;
+exports.utcMinute = _minute.utcMinute;
+var _hour = require("./hour");
+exports.timeHour = _hour.timeHour;
+exports.utcHour = _hour.utcHour;
+var _day = require("./day");
+exports.timeDay = _day.timeDay;
+exports.utcDay = _day.utcDay;
+var _week = require("./week");
+exports.timeWeek = _week.timeSunday;
+exports.timeSunday = _week.timeSunday;
+exports.timeMonday = _week.timeMonday;
+exports.timeThursday = _week.timeThursday;
+exports.utcWeek = _week.utcSunday;
+var _month = require("./month");
+exports.timeMonth = _month.timeMonth;
+exports.utcMonth = _month.utcMonth;
+var _year = require("./year");
+exports.timeYear = _year.timeYear;
+exports.utcYear = _year.utcYear;
+var _ticks = require("./ticks");
+exports.timeTicks = _ticks.timeTicks;
+exports.timeTickInterval = _ticks.timeTickInterval;
+//# sourceMappingURL=index.js.map

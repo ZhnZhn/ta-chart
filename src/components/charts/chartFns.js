@@ -2,7 +2,7 @@ export {
   utcMinute,
   utcHour,
   utcDay
-} from 'd3-time';
+} from '../zhn-charts/d3Time';
 
 export { scaleTime } from '../zhn-charts/d3Scale';
 export { timeFormat } from '../zhn-charts/d3TimeFormat';
@@ -16,7 +16,7 @@ import {
   utcDay,
   utcWeek,
   utcMonth
-} from 'd3-time';
+} from '../zhn-charts/d3Time';
 import { format } from '../zhn-charts/d3Format';
 import { timeFormat } from '../zhn-charts/d3TimeFormat';
 

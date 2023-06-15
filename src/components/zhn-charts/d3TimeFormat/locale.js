@@ -4,7 +4,7 @@ import {
   timeMonday,
   timeThursday,
   timeYear
-} from 'd3-time';
+} from '../d3Time';
 
 const mathFloor = Math.floor
 , pads = {

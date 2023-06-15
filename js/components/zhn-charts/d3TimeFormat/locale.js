@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 exports.default = formatLocale;
-var _d3Time = require("d3-time");
+var _d3Time = require("../d3Time");
 const mathFloor = Math.floor,
   pads = {
     "-": "",
