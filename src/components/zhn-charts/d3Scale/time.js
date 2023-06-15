@@ -8,7 +8,7 @@ import {
   timeSecond,
   timeTicks,
   timeTickInterval
-} from "d3-time";
+} from '../d3Time';
 import { timeFormat } from '../d3TimeFormat';
 
 import { continuous, copy } from './continuous';

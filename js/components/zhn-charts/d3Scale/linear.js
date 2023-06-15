@@ -3,7 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.scaleLinear = scaleLinear;
-var _d3Array = require("./d3Array");
+var _d3Array = require("../d3Array");
 var _continuous = require("./continuous");
 var _init = require("./init");
 var _tickFormat = _interopRequireDefault(require("./tickFormat"));

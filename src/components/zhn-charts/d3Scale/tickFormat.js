@@ -6,7 +6,7 @@ import {
   precisionPrefix,
   precisionRound
 } from '../d3Format';
-import { tickStep } from './d3Array';
+import { tickStep } from '../d3Array';
 
 export default function tickFormat(start, stop, count, specifier) {
   let step = tickStep(start, stop, count)

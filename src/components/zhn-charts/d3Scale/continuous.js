@@ -4,7 +4,7 @@ import {
   interpolateRound
 } from '../d3Interpolate';
 
-import { bisect } from './d3Array';
+import { bisect } from '../d3Array';
 import { isUndef } from './helperFns';
 
 const arrayFrom = Array.from

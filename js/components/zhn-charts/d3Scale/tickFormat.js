@@ -3,7 +3,7 @@
 exports.__esModule = true;
 exports.default = tickFormat;
 var _d3Format = require("../d3Format");
-var _d3Array = require("./d3Array");
+var _d3Array = require("../d3Array");
 function tickFormat(start, stop, count, specifier) {
   let step = (0, _d3Array.tickStep)(start, stop, count),
     precision;

@@ -1,6 +1,6 @@
 "use strict";
 
-var _d3Time = require("d3-time");
+var _d3Time = require("../../d3Time");
 var _index = require("../index");
 var _d3Scale = require("./d3Scale.test");
 //import {interpolateHsl} from "d3-interpolate";

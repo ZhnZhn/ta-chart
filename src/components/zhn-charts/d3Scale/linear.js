@@ -1,4 +1,4 @@
-import { ticks, tickIncrement } from './d3Array';
+import { ticks, tickIncrement } from '../d3Array';
 import { continuous, copy } from './continuous';
 import { initRange } from './init';
 import tickFormat from './tickFormat';

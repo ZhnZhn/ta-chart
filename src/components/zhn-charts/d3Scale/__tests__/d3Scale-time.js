@@ -1,5 +1,11 @@
 //import {interpolateHsl} from "d3-interpolate";
-import {timeDay, timeMinute, timeMonth, timeWeek, timeYear} from "d3-time";
+import {
+  timeDay,
+  timeMinute,
+  timeMonth,
+  timeWeek,
+  timeYear
+} from '../../d3Time';
 
 import { scaleTime } from '../index';
 import { local } from './d3Scale.test';
