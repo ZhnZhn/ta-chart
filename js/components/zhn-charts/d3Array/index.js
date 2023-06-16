@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.zip = exports.ticks = exports.tickStep = exports.tickIncrement = exports.range = exports.min = exports.merge = exports.mean = exports.max = exports.extent = exports.deviation = exports.bisector = exports.bisect = void 0;
+exports.zip = exports.ticks = exports.tickStep = exports.tickIncrement = exports.range = exports.min = exports.merge = exports.mean = exports.max = exports.extent = exports.deviation = exports.bisector = exports.bisect = exports.ascending = void 0;
 var _deviation = require("./deviation");
 exports.deviation = _deviation.deviation;
 var _extent = require("./extent");
@@ -19,6 +19,7 @@ exports.range = _range.range;
 var _zip = require("./zip");
 exports.zip = _zip.zip;
 var _bisector = require("./bisector");
+exports.ascending = _bisector.ascending;
 exports.bisector = _bisector.bisector;
 exports.bisect = _bisector.bisect;
 var _ticks = require("./ticks");

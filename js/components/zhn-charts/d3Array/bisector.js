@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.bisector = exports.bisect = void 0;
+exports.bisector = exports.bisect = exports.ascending = void 0;
 const ascending = (a, b) => a == null || b == null ? NaN : a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 
 /*
@@ -17,7 +17,7 @@ function descending(a, b) {
           : NaN;
 }
 */
-
+exports.ascending = ascending;
 const zero = () => 0;
 const bisector = f => {
   let compare1, compare2, delta;

@@ -1,4 +1,4 @@
-const ascending = (
+export const ascending = (
   a,
   b
 ) => a == null || b == null

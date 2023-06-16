@@ -62,6 +62,7 @@
   "jest": {
     "roots": [
       "<rootDir>/js/components/zhn-charts/d3Array",
+      "<rootDir>/js/components/zhn-charts/d3Collection",
       "<rootDir>/js/components/zhn-charts/d3Color",
       "<rootDir>/js/components/zhn-charts/d3Format",
       "<rootDir>/js/components/zhn-charts/d3Interpolate",
@@ -70,6 +71,7 @@
     ],
     "transformIgnorePatterns": [
       "<rootDir>/js/components/zhn-charts/d3Array",
+      "<rootDir>/js/components/zhn-charts/d3Collection",
       "<rootDir>/js/components/zhn-charts/d3Color",
       "<rootDir>/js/components/zhn-charts/d3Format",
       "<rootDir>/js/components/zhn-charts/d3Interpolate",

@@ -8,6 +8,7 @@ export { range } from './range';
 export { zip } from './zip';
 
 export {
+  ascending,
   bisector,
   bisect
 } from './bisector';
