@@ -1,4 +1,8 @@
 export {
+  timeInterval
+} from './interval';
+
+export {
   second as timeSecond
 } from './second';
 

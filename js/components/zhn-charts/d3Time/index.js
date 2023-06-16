@@ -1,7 +1,9 @@
 "use strict";
 
 exports.__esModule = true;
-exports.utcYear = exports.utcWeek = exports.utcMonth = exports.utcMinute = exports.utcHour = exports.utcDay = exports.timeYear = exports.timeWeek = exports.timeTicks = exports.timeTickInterval = exports.timeThursday = exports.timeSunday = exports.timeSecond = exports.timeMonth = exports.timeMonday = exports.timeMinute = exports.timeHour = exports.timeDay = void 0;
+exports.utcYear = exports.utcWeek = exports.utcMonth = exports.utcMinute = exports.utcHour = exports.utcDay = exports.timeYear = exports.timeWeek = exports.timeTicks = exports.timeTickInterval = exports.timeThursday = exports.timeSunday = exports.timeSecond = exports.timeMonth = exports.timeMonday = exports.timeMinute = exports.timeInterval = exports.timeHour = exports.timeDay = void 0;
+var _interval = require("./interval");
+exports.timeInterval = _interval.timeInterval;
 var _second = require("./second");
 exports.timeSecond = _second.second;
 var _minute = require("./minute");

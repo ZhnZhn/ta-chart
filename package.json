@@ -67,7 +67,8 @@
       "<rootDir>/js/components/zhn-charts/d3Format",
       "<rootDir>/js/components/zhn-charts/d3Interpolate",
       "<rootDir>/js/components/zhn-charts/d3Scale",
-      "<rootDir>/js/components/zhn-charts/d3Shape"
+      "<rootDir>/js/components/zhn-charts/d3Shape",
+      "<rootDir>/js/components/zhn-charts/d3Time"
     ],
     "transformIgnorePatterns": [
       "<rootDir>/js/components/zhn-charts/d3Array",
@@ -76,7 +77,8 @@
       "<rootDir>/js/components/zhn-charts/d3Format",
       "<rootDir>/js/components/zhn-charts/d3Interpolate",
       "<rootDir>/js/components/zhn-charts/d3Scale",
-      "<rootDir>/js/components/zhn-charts/d3Shape"
+      "<rootDir>/js/components/zhn-charts/d3Shape",
+      "<rootDir>/js/components/zhn-charts/d3Time"
     ]
   }
 }
