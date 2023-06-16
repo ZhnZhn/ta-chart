@@ -49,13 +49,15 @@ export function ticks(start, stop, count) {
     ? tickSpec(stop, start, count)
     : tickSpec(start, stop, count);
   if (!(i2 >= i1)) return [];
-  const n = i2 - i1 + 1, ticks = new Array(n);
+  const n = i2 - i1 + 1
+  , ticks = new Array(n);
+  let i = 0;
   if (reverse) {
-    if (inc < 0) for (let i = 0; i < n; ++i) ticks[i] = (i2 - i) / -inc;
-    else for (let i = 0; i < n; ++i) ticks[i] = (i2 - i) * inc;
+    if (inc < 0) for (; i < n; ++i) ticks[i] = (i2 - i) / -inc;
+    else for (; i < n; ++i) ticks[i] = (i2 - i) * inc;
   } else {
-    if (inc < 0) for (let i = 0; i < n; ++i) ticks[i] = (i1 + i) / -inc;
-    else for (let i = 0; i < n; ++i) ticks[i] = (i1 + i) * inc;
+    if (inc < 0) for (; i < n; ++i) ticks[i] = (i1 + i) / -inc;
+    else for (; i < n; ++i) ticks[i] = (i1 + i) * inc;
   }
   return ticks;
 }
