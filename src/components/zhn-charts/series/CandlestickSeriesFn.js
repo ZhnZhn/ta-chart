@@ -6,10 +6,18 @@ import {
   head
 } from '../utils';
 
+const mathRound = Math.round
+, mathFloor = Math.floor
+, mathMax = Math.max
+, mathAbs = Math.abs;
+
 export const getWicksSVG = (
   candleData
 ) => candleData.map((each, index) => {
-	const d = each.wick
+	const {
+		className,
+		wick
+	} = each
   , {
     stroke,
     x,
@@ -17,11 +25,11 @@ export const getWicksSVG = (
     y2,
     y3,
     y4
-  } = d;
+  } = wick;
 	return (
     <path
       key={index}
-		  className={each.className}
+		  className={className}
 		  stroke={stroke}
 		  d={`M${x},${y1} L${x},${y2} M${x},${y3} L${x},${y4}`}
     />
@@ -36,44 +44,46 @@ export const getCandlesSVG = (
     opacity,
     candleStrokeWidth
   } = props;
-
-	const candles = candleData.map((d, index) => {
-		if (d.width <= 1) {
-			return (
-				<line
-          key={index}
-          className={d.className}
-					x1={d.x} y1={d.y}
-          x2={d.x} y2={d.y + d.height}
-					stroke={d.fill}
-        />
-		  );
-    } else if (d.height === 0) {
-			return (
-				<line
-          key={index}
-          stroke={d.fill}
-					x1={d.x} y1={d.y}
-          x2={d.x + d.width} y2={d.y + d.height}
-			  />
-			);
-    }
-		return (
-			<rect
-        key={index}
-        className={d.className}
-				fillOpacity={opacity}
-        fill={d.fill}
-        stroke={d.stroke}
-        strokeWidth={candleStrokeWidth}
-				x={d.x} y={d.y}
-        width={d.width}
-        height={d.height}
-      />
-		);
-	});
-	return candles;
+	return candleData
+	  .map((d, index) => {
+			const {
+				className,
+				fill,
+				stroke,
+				x,
+				y,
+				width,
+				height
+			} = d;
+			return d.width <= 1
+		  ? (<line
+           key={index}
+           className={className}
+					 stroke={fill}
+					 x1={x} y1={y}
+           x2={x} y2={y + height}
+        />)
+		  : d.height === 0
+		      ? (<line
+               key={index}
+							 stroke={fill}
+			         x1={x} y1={y}
+               x2={x + width} y2={y + height}
+			      />)
+			    : (<rect
+               key={index}
+               className={className}
+			         fillOpacity={opacity}
+               fill={fill}
+               stroke={stroke}
+               strokeWidth={candleStrokeWidth}
+			         x={x} y={y}
+               width={width}
+               height={height}
+            />);
+     });
 }
+
 
 export const drawOnCanvas = (
   ctx,
@@ -103,7 +113,10 @@ export const drawOnCanvas = (
 		.entries(candleData);
 
 	wickNest.forEach(outer => {
-		const { key, values } = outer;
+		const {
+			key,
+			values
+		} = outer;
 		ctx.strokeStyle = key;
 		ctx.fillStyle = key;
 		values.forEach(each => {
@@ -119,16 +132,22 @@ export const drawOnCanvas = (
 		.entries(candleData);
 
 	candleNest.forEach(outer => {
-		const { key: strokeKey, values: strokeValues } = outer;
+		const {
+			key: strokeKey,
+			values: strokeValues
+		} = outer;
 		if (strokeKey !== "none") {
 			ctx.strokeStyle = strokeKey;
 			ctx.lineWidth = candleStrokeWidth;
 		}
 		strokeValues.forEach(inner => {
-			const { key, values } = inner;
-			const fillStyle = head(values).width <= 1
-				? key
-				: hexToRGBA(key, opacity);
+			const {
+				key,
+				values
+			} = inner
+			, fillStyle = head(values).width <= 1
+				  ? key
+				  : hexToRGBA(key, opacity);
 			ctx.fillStyle = fillStyle;
 
 			values.forEach(d => {
@@ -159,7 +178,8 @@ export const getCandleData = (
     yAccessor,
     fill: fillProp,
     stroke: strokeProp,
-    wickStroke: wickStrokeProp
+    wickStroke: wickStrokeProp,
+		width: propsWidth
   } = props
 	, wickStroke = functor(wickStrokeProp)
 	, className = functor(classNames)
@@ -167,7 +187,7 @@ export const getCandleData = (
 	, fill = functor(fillProp)
 	, stroke = functor(strokeProp)
 
-	, widthFunctor = functor(props.width)
+	, widthFunctor = functor(propsWidth)
 	, width = widthFunctor(props, {
 		 xScale,
 		 xAccessor,
@@ -176,20 +196,22 @@ export const getCandleData = (
 
 	, trueOffset = 0.5 * width
 	, offset = trueOffset > 0.7
-		 ? Math.round(trueOffset)
-		 : Math.floor(trueOffset);
+		 ? mathRound(trueOffset)
+		 : mathFloor(trueOffset);
 
 	let candles = [];
 	for (let i = 0; i < plotData.length; i++) {
 		const d = plotData[i]
     //for better colors
-    , _prevD = i>0 ? plotData[i-1] : {};
+    , _prevD = i>0
+		   ? plotData[i-1]
+			 : {};
 		if (yAccessor(d).close != null) {
-			const x = Math.round(xScale(xAccessor(d)))
+			const x = mathRound(xScale(xAccessor(d)))
 			, ohlc = yAccessor(d)
       , _prevOhcl = yAccessor(_prevD)
-			, y = Math.round(yScale(Math.max(ohlc.open, ohlc.close)))
-			, height = Math.round(Math.abs(yScale(ohlc.open) - yScale(ohlc.close)));
+			, y = mathRound(yScale(mathMax(ohlc.open, ohlc.close)))
+			, height = mathRound(mathAbs(yScale(ohlc.open) - yScale(ohlc.close)));
 
 			candles.push({
 				x: x - offset,
@@ -197,10 +219,10 @@ export const getCandleData = (
 				wick: {
 					stroke: wickStroke(ohlc, _prevOhcl),
 					x: x,
-					y1: Math.round(yScale(ohlc.high)),
+					y1: mathRound(yScale(ohlc.high)),
 					y2: y,
 					y3: y + height,
-					y4: Math.round(yScale(ohlc.low)),
+					y4: mathRound(yScale(ohlc.low)),
 				},
 				height: height,
 				width: offset * 2,

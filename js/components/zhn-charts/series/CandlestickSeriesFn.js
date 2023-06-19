@@ -5,8 +5,15 @@ exports.getWicksSVG = exports.getCandlesSVG = exports.getCandleData = exports.dr
 var _d3Collection = require("../d3Collection");
 var _utils = require("../utils");
 var _jsxRuntime = require("react/jsx-runtime");
+const mathRound = Math.round,
+  mathFloor = Math.floor,
+  mathMax = Math.max,
+  mathAbs = Math.abs;
 const getWicksSVG = candleData => candleData.map((each, index) => {
-  const d = each.wick,
+  const {
+      className,
+      wick
+    } = each,
     {
       stroke,
       x,
@@ -14,9 +21,9 @@ const getWicksSVG = candleData => candleData.map((each, index) => {
       y2,
       y3,
       y4
-    } = d;
+    } = wick;
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-    className: each.className,
+    className: className,
     stroke: stroke,
     d: "M" + x + "," + y1 + " L" + x + "," + y2 + " M" + x + "," + y3 + " L" + x + "," + y4
   }, index);
@@ -27,38 +34,41 @@ const getCandlesSVG = (props, candleData) => {
     opacity,
     candleStrokeWidth
   } = props;
-  const candles = candleData.map((d, index) => {
-    if (d.width <= 1) {
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
-        className: d.className,
-        x1: d.x,
-        y1: d.y,
-        x2: d.x,
-        y2: d.y + d.height,
-        stroke: d.fill
-      }, index);
-    } else if (d.height === 0) {
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
-        stroke: d.fill,
-        x1: d.x,
-        y1: d.y,
-        x2: d.x + d.width,
-        y2: d.y + d.height
-      }, index);
-    }
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-      className: d.className,
+  return candleData.map((d, index) => {
+    const {
+      className,
+      fill,
+      stroke,
+      x,
+      y,
+      width,
+      height
+    } = d;
+    return d.width <= 1 ? /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
+      className: className,
+      stroke: fill,
+      x1: x,
+      y1: y,
+      x2: x,
+      y2: y + height
+    }, index) : d.height === 0 ? /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
+      stroke: fill,
+      x1: x,
+      y1: y,
+      x2: x + width,
+      y2: y + height
+    }, index) : /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
+      className: className,
       fillOpacity: opacity,
-      fill: d.fill,
-      stroke: d.stroke,
+      fill: fill,
+      stroke: stroke,
       strokeWidth: candleStrokeWidth,
-      x: d.x,
-      y: d.y,
-      width: d.width,
-      height: d.height
+      x: x,
+      y: y,
+      width: width,
+      height: height
     }, index);
   });
-  return candles;
 };
 exports.getCandlesSVG = getCandlesSVG;
 const drawOnCanvas = (ctx, props, moreProps) => {
@@ -101,10 +111,10 @@ const drawOnCanvas = (ctx, props, moreProps) => {
     }
     strokeValues.forEach(inner => {
       const {
-        key,
-        values
-      } = inner;
-      const fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, opacity);
+          key,
+          values
+        } = inner,
+        fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, opacity);
       ctx.fillStyle = fillStyle;
       values.forEach(d => {
         if (d.width <= 1) {
@@ -128,20 +138,21 @@ const getCandleData = (props, xAccessor, xScale, yScale, plotData) => {
       yAccessor,
       fill: fillProp,
       stroke: strokeProp,
-      wickStroke: wickStrokeProp
+      wickStroke: wickStrokeProp,
+      width: propsWidth
     } = props,
     wickStroke = (0, _utils.functor)(wickStrokeProp),
     className = (0, _utils.functor)(classNames),
     fill = (0, _utils.functor)(fillProp),
     stroke = (0, _utils.functor)(strokeProp),
-    widthFunctor = (0, _utils.functor)(props.width),
+    widthFunctor = (0, _utils.functor)(propsWidth),
     width = widthFunctor(props, {
       xScale,
       xAccessor,
       plotData
     }),
     trueOffset = 0.5 * width,
-    offset = trueOffset > 0.7 ? Math.round(trueOffset) : Math.floor(trueOffset);
+    offset = trueOffset > 0.7 ? mathRound(trueOffset) : mathFloor(trueOffset);
   let candles = [];
   for (let i = 0; i < plotData.length; i++) {
     const d = plotData[i]
@@ -149,21 +160,21 @@ const getCandleData = (props, xAccessor, xScale, yScale, plotData) => {
       ,
       _prevD = i > 0 ? plotData[i - 1] : {};
     if (yAccessor(d).close != null) {
-      const x = Math.round(xScale(xAccessor(d))),
+      const x = mathRound(xScale(xAccessor(d))),
         ohlc = yAccessor(d),
         _prevOhcl = yAccessor(_prevD),
-        y = Math.round(yScale(Math.max(ohlc.open, ohlc.close))),
-        height = Math.round(Math.abs(yScale(ohlc.open) - yScale(ohlc.close)));
+        y = mathRound(yScale(mathMax(ohlc.open, ohlc.close))),
+        height = mathRound(mathAbs(yScale(ohlc.open) - yScale(ohlc.close)));
       candles.push({
         x: x - offset,
         y: y,
         wick: {
           stroke: wickStroke(ohlc, _prevOhcl),
           x: x,
-          y1: Math.round(yScale(ohlc.high)),
+          y1: mathRound(yScale(ohlc.high)),
           y2: y,
           y3: y + height,
-          y4: Math.round(yScale(ohlc.low))
+          y4: mathRound(yScale(ohlc.low))
         },
         height: height,
         width: offset * 2,
