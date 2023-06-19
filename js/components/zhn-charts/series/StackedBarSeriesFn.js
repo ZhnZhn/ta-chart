@@ -13,29 +13,21 @@ const identityStack = function () {
     args[_key] = arguments[_key];
   }
   let keys = [];
-  function stack(data) {
-    const response = keys.map((key, i) => {
-      let arrays = data.map(d => {
-        let array = [0, d[key]];
-        array.data = d;
-        return array;
-      });
-      arrays.key = key;
-      arrays.index = i;
-      return arrays;
+  const stack = data => keys.map((key, i) => {
+    const arrays = data.map(d => {
+      const array = [0, d[key]];
+      array.data = d;
+      return array;
     });
-    return response;
-  }
-  stack.keys = function (x) {
-    if (!args.length) {
-      return keys;
-    }
-    keys = x;
-    return stack;
-  };
+    arrays.key = key;
+    arrays.index = i;
+    return arrays;
+  });
+  stack.keys = x => args.length ? (keys = x, stack) : keys;
   return stack;
 };
 exports.identityStack = identityStack;
+const _crYKey = i => "y" + i;
 const _getBars = function (props, xAccessor, yAccessor, xScale, yScale, plotData, stack, after) {
   if (stack === void 0) {
     stack = identityStack;
@@ -48,12 +40,13 @@ const _getBars = function (props, xAccessor, yAccessor, xScale, yScale, plotData
       className,
       fill,
       stroke,
-      spaceBetweenBar = 0
+      spaceBetweenBar = 0,
+      width: propsWidth
     } = props,
     getClassName = (0, _utils.functor)(className),
     getFill = (0, _utils.functor)(fill),
     getBase = (0, _utils.functor)(baseAt),
-    widthFunctor = (0, _utils.functor)(props.width),
+    widthFunctor = (0, _utils.functor)(propsWidth),
     width = widthFunctor(props, {
       xScale,
       xAccessor,
@@ -63,39 +56,39 @@ const _getBars = function (props, xAccessor, yAccessor, xScale, yScale, plotData
     eachBarWidth = (barWidth - spaceBetweenBar * (yAccessor.length - 1)) / yAccessor.length,
     offset = barWidth === 1 ? 0 : 0.5 * width;
   const ds = plotData.map(each => {
-    let d = {
+    const d = {
       appearance: {},
       x: xAccessor(each)
     };
     yAccessor.forEach((eachYAccessor, i) => {
-      const key = "y" + i;
+      const key = _crYKey(i),
+        appearance = {
+          className: getClassName(each, i),
+          stroke: stroke ? getFill(each, i) : 'none',
+          fill: getFill(each, i)
+        };
       d[key] = eachYAccessor(each);
-      const appearance = {
-        className: getClassName(each, i),
-        stroke: stroke ? getFill(each, i) : 'none',
-        fill: getFill(each, i)
-      };
       d.appearance[key] = appearance;
     });
     return d;
   });
-  const keys = yAccessor.map((_, i) => "y" + i),
+  const keys = yAccessor.map((_, i) => _crYKey(i)),
     data = stack().keys(keys)(ds),
     newData = data.map((each, i) => {
       const key = each.key;
       return each.map(d => {
-        let array = [d[0], d[1]];
+        const array = [d[0], d[1]];
         array.data = {
-          x: d.data.x,
           i,
+          x: d.data.x,
           appearance: d.data.appearance[key]
         };
         return array;
       });
     });
   const bars = (0, _d3Array.merge)(newData).map(d => {
-    let y = yScale(d[1]);
-    let h = getBase(xScale, yScale, d.data) - yScale(d[1] - d[0]);
+    let y = yScale(d[1]),
+      h = getBase(xScale, yScale, d.data) - yScale(d[1] - d[0]);
     if (h < 0) {
       y = y + h;
       h = -h;
@@ -114,8 +107,13 @@ const _getBars = function (props, xAccessor, yAccessor, xScale, yScale, plotData
   return after(bars);
 };
 const _convertToArray = item => _isArr(item) ? item : [item];
-const _doStuff = (props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction) => {
-  const [modifiedYAccessor, modifiedXAccessor, modifiedXScale, modifiedYScale, postProcessor] = props.swapScales ? [_convertToArray(props.xAccessor), props.yAccessor, yScale, xScale, postRotateAction] : [_convertToArray(props.yAccessor), xAccessor, xScale, yScale, defaultPostAction];
+const _crBars = (props, morePropsXAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction) => {
+  const {
+      xAccessor,
+      yAccessor,
+      swapScales
+    } = props,
+    [modifiedYAccessor, modifiedXAccessor, modifiedXScale, modifiedYScale, postProcessor] = swapScales ? [_convertToArray(xAccessor), yAccessor, yScale, xScale, postRotateAction] : [_convertToArray(yAccessor), morePropsXAccessor, xScale, yScale, defaultPostAction];
   return _getBars(props, modifiedXAccessor, modifiedYAccessor, modifiedXScale, modifiedYScale, plotData, stackFn, postProcessor);
 };
 const _rotateXY = array => array.map(each => ({
@@ -127,7 +125,8 @@ const _rotateXY = array => array.map(each => ({
 }));
 const drawOnCanvas2 = (ctx, props, bars) => {
   const {
-      stroke
+      stroke,
+      opacity
     } = props,
     nest = (0, _d3Collection.nest)().key(d => d.fill).entries(bars);
   nest.forEach(outer => {
@@ -138,14 +137,20 @@ const drawOnCanvas2 = (ctx, props, bars) => {
     if ((0, _utils.head)(values).width > 1) {
       ctx.strokeStyle = key;
     }
-    ctx.fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, props.opacity);
-    values.forEach(d => {
-      if (d.width <= 1) {
-        ctx.fillRect(d.x - 0.5, d.y, 1, d.height);
+    ctx.fillStyle = (0, _utils.head)(values).width <= 1 ? key : (0, _utils.hexToRGBA)(key, opacity);
+    values.forEach(_ref => {
+      let {
+        x,
+        y,
+        width,
+        height
+      } = _ref;
+      if (width <= 1) {
+        ctx.fillRect(x - 0.5, y, 1, height);
       } else {
-        ctx.fillRect(d.x, d.y, d.width, d.height);
+        ctx.fillRect(x, y, width, height);
         if (stroke) {
-          ctx.strokeRect(d.x, d.y, d.width, d.height);
+          ctx.strokeRect(x, y, width, height);
         }
       }
     });
@@ -167,7 +172,7 @@ const drawOnCanvasHelper = function (ctx, props, moreProps, stackFn, defaultPost
         yScale
       }
     } = moreProps,
-    bars = _doStuff(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction);
+    bars = _crBars(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction);
   drawOnCanvas2(ctx, props, bars);
 };
 exports.drawOnCanvasHelper = drawOnCanvasHelper;
@@ -186,32 +191,43 @@ const svgHelper = function (props, moreProps, stackFn, defaultPostAction, postRo
         yScale
       }
     } = moreProps,
-    bars = _doStuff(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction);
+    bars = _crBars(props, xAccessor, plotData, xScale, yScale, stackFn, postRotateAction, defaultPostAction);
   return getBarsSVG2(props, bars);
 };
 exports.svgHelper = svgHelper;
 const getBarsSVG2 = ( //props
-_ref, bars) => {
+_ref2, bars) => {
   let {
     opacity
-  } = _ref;
-  return bars.map((d, idx) => d.width <= 1 ? /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
-    className: d.className,
-    stroke: d.fill,
-    x1: d.x,
-    y1: d.y,
-    x2: d.x,
-    y2: d.y + d.height
-  }, idx) : /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
-    className: d.className,
-    stroke: d.stroke,
-    fill: d.fill,
-    x: d.x,
-    y: d.y,
-    width: d.width,
-    fillOpacity: opacity,
-    height: d.height
-  }, idx));
+  } = _ref2;
+  return bars.map((d, idx) => {
+    const {
+      className,
+      fill,
+      stroke,
+      x,
+      y,
+      width,
+      height
+    } = d;
+    return width <= 1 ? /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
+      className: className,
+      stroke: fill,
+      x1: x,
+      y1: y,
+      x2: x,
+      y2: y + height
+    }, idx) : /*#__PURE__*/(0, _jsxRuntime.jsx)("rect", {
+      className: className,
+      fill: fill,
+      fillOpacity: opacity,
+      stroke: stroke,
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    }, idx);
+  });
 };
 exports.getBarsSVG2 = getBarsSVG2;
 //# sourceMappingURL=StackedBarSeriesFn.js.map
