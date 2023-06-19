@@ -1,4 +1,7 @@
-import { bisector, tickStep } from '../d3Array';
+import {
+  bisector,
+  tickStep
+} from '../d3Array';
 
 import {
   durationDay,
@@ -47,25 +50,32 @@ const mathAbs = Math.abs
     [ month,  1,      durationMonth ],
     [ month,  3,  3 * durationMonth ],
     [  year,  1,      durationYear  ]
-  ];
+  ]
+  , ticks = (
+    start,
+    stop,
+    count
+  ) => {
+    const _isReverse = stop < start;
+    if (_isReverse) [start, stop] = [stop, start];
 
-  function ticks(start, stop, count) {
-    const reverse = stop < start;
-    if (reverse) [start, stop] = [stop, start];
     const interval = count && typeof count.range === "function"
       ? count
       : tickInterval(start, stop, count)
     , ticks = interval
       ? interval.range(start, +stop + 1)
       : [];
-    return reverse
+    return _isReverse
       ? ticks.reverse()
       : ticks;
   }
-
-  function tickInterval(start, stop, count) {
+  , tickInterval = (
+    start,
+    stop,
+    count
+  ) => {
     const target = mathAbs(stop - start) / count
-    , i = bisector(([,, step]) => step).right(tickIntervals, target);
+    , i = bisector(([,,step]) => step).right(tickIntervals, target);
     if (i === tickIntervals.length) return year.every(tickStep(start / durationYear, stop / durationYear, count));
     if (i === 0) return millisecond.every(mathMax(tickStep(start, stop, count), 1));
     const [
