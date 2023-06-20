@@ -2,8 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+exports.default = void 0;
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -13,59 +12,64 @@ var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
-var FN_NOOP = function FN_NOOP() {},
+const FN_NOOP = () => {},
   mathRound = Math.round,
-  mathPow = Math.pow;
-var LineSeries = function LineSeries(props) {
-  var yAccessor = props.yAccessor,
-    hoverTolerance = props.hoverTolerance,
-    highlightOnHover = props.highlightOnHover,
-    stroke = props.stroke,
-    strokeOpacity = props.strokeOpacity,
-    strokeWidth = props.strokeWidth,
-    strokeDasharray = props.strokeDasharray,
-    hoverStrokeWidth = props.hoverStrokeWidth,
-    defined = props.defined,
-    connectNulls = props.connectNulls,
-    interpolation = props.interpolation,
-    style = props.style,
-    fill = props.fill,
-    className = props.className,
-    canvasClip = props.canvasClip,
-    onClick = props.onClick,
-    onDoubleClick = props.onDoubleClick,
-    onContextMenu = props.onContextMenu,
-    onHover = props.onHover,
-    onUnHover = props.onUnHover,
-    _isHover = function _isHover(moreProps) {
+  mathPow = Math.pow,
+  _crD3LineDataSeries = (xScale, yScale, xAccessor, yAccessor) => (0, _d3Shape.d3Line)().x(d => mathRound(xScale(xAccessor(d)))).y(d => mathRound(yScale(yAccessor(d))));
+const LineSeries = props => {
+  const {
+      yAccessor,
+      hoverTolerance,
+      highlightOnHover,
+      stroke,
+      strokeOpacity,
+      strokeWidth,
+      strokeDasharray,
+      hoverStrokeWidth,
+      defined,
+      connectNulls,
+      interpolation,
+      style,
+      fill,
+      className,
+      canvasClip,
+      onClick,
+      onDoubleClick,
+      onContextMenu,
+      onHover,
+      onUnHover
+    } = props,
+    _isHover = moreProps => {
       if (!highlightOnHover) {
         return false;
       }
-      var mouseXY = moreProps.mouseXY,
-        currentItem = moreProps.currentItem,
-        xScale = moreProps.xScale,
-        xAccessor = moreProps.xAccessor,
-        plotData = moreProps.plotData,
-        _moreProps$chartConfi = moreProps.chartConfig,
-        yScale = _moreProps$chartConfi.yScale,
-        origin = _moreProps$chartConfi.origin,
-        x = mouseXY[0],
-        y = mouseXY[1],
+      const {
+          mouseXY,
+          currentItem,
+          xScale,
+          xAccessor,
+          plotData,
+          chartConfig: {
+            yScale,
+            origin
+          }
+        } = moreProps,
+        [originX, originY] = origin,
+        _getItemScaleAccessor = item => [xScale(xAccessor(item)) + originX, yScale(yAccessor(item)) + originY],
+        [x, y] = mouseXY,
         radius = hoverTolerance,
-        _getClosestItemIndexe = (0, _utils.getClosestItemIndexes)(plotData, xScale.invert(x), xAccessor),
-        left = _getClosestItemIndexe.left,
-        right = _getClosestItemIndexe.right;
+        {
+          left,
+          right
+        } = (0, _utils.getClosestItemIndexes)(plotData, xScale.invert(x), xAccessor);
       if (left === right) {
-        var cy = yScale(yAccessor(currentItem)) + origin[1],
-          cx = xScale(xAccessor(currentItem)) + origin[0];
+        const [cx, cy] = _getItemScaleAccessor(currentItem);
         return mathPow(x - cx, 2) + mathPow(y - cy, 2) < mathPow(radius, 2);
       } else {
-        var l = plotData[left],
+        const l = plotData[left],
           r = plotData[right],
-          x1 = xScale(xAccessor(l)) + origin[0],
-          y1 = yScale(yAccessor(l)) + origin[1],
-          x2 = xScale(xAccessor(r)) + origin[0],
-          y2 = yScale(yAccessor(r)) + origin[1]
+          [x1, y1] = _getItemScaleAccessor(l),
+          [x2, y2] = _getItemScaleAccessor(r)
           // y = m * x + b
           ,
           m = (y2 - y1) / (x2 - x1),
@@ -74,25 +78,23 @@ var LineSeries = function LineSeries(props) {
         return y >= desiredY - radius && y <= desiredY + radius;
       }
     },
-    _renderSVG = function _renderSVG(moreProps) {
-      var xAccessor = moreProps.xAccessor,
-        xScale = moreProps.xScale,
-        plotData = moreProps.plotData,
-        hovering = moreProps.hovering,
-        chartConfig = moreProps.chartConfig,
-        yScale = chartConfig.yScale,
-        dataSeries = (0, _d3Shape.d3Line)().x(function (d) {
-          return mathRound(xScale(xAccessor(d)));
-        }).y(function (d) {
-          return mathRound(yScale(yAccessor(d)));
-        });
+    _renderSVG = moreProps => {
+      const {
+          xAccessor,
+          xScale,
+          plotData,
+          hovering,
+          chartConfig
+        } = moreProps,
+        {
+          yScale
+        } = chartConfig,
+        dataSeries = _crD3LineDataSeries(xScale, yScale, xAccessor, yAccessor);
       if (interpolation) {
         dataSeries.curve(interpolation);
       }
       if (!connectNulls) {
-        dataSeries.defined(function (d) {
-          return defined(yAccessor(d));
-        });
+        dataSeries.defined(d => defined(yAccessor(d)));
       }
       return /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
         style: style,
@@ -105,12 +107,16 @@ var LineSeries = function LineSeries(props) {
         fill: fill
       });
     },
-    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
-      var hovering = moreProps.hovering,
-        xScale = moreProps.xScale,
-        xAccessor = moreProps.xAccessor,
-        plotData = moreProps.plotData,
-        yScale = moreProps.chartConfig.yScale;
+    _drawOnCanvas = (ctx, moreProps) => {
+      const {
+        hovering,
+        xScale,
+        xAccessor,
+        plotData,
+        chartConfig: {
+          yScale
+        }
+      } = moreProps;
       if (canvasClip) {
         ctx.save();
         canvasClip(ctx, moreProps);
@@ -118,18 +124,12 @@ var LineSeries = function LineSeries(props) {
       ctx.lineWidth = hovering ? hoverStrokeWidth : strokeWidth;
       ctx.strokeStyle = (0, _utils2.hexToRGBA)(stroke, strokeOpacity);
       ctx.setLineDash((0, _utils.getStrokeDasharray)(strokeDasharray).split(","));
-      var dataSeries = (0, _d3Shape.d3Line)().x(function (d) {
-        return mathRound(xScale(xAccessor(d)));
-      }).y(function (d) {
-        return mathRound(yScale(yAccessor(d)));
-      });
+      const dataSeries = _crD3LineDataSeries(xScale, yScale, xAccessor, yAccessor);
       if (interpolation) {
         dataSeries.curve(interpolation);
       }
       if (!connectNulls) {
-        dataSeries.defined(function (d) {
-          return defined(yAccessor(d));
-        });
+        dataSeries.defined(d => defined(yAccessor(d)));
       }
       ctx.beginPath();
       dataSeries.context(ctx)(plotData);
@@ -146,19 +146,18 @@ var LineSeries = function LineSeries(props) {
       drawOn: ['pan'],
       canvasToDraw: _contextFn.getAxisCanvas
     };
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], (0, _extends2["default"])({
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.default, {
     svgDraw: _renderSVG,
     canvasDraw: _drawOnCanvas,
     onClickWhenHover: onClick,
     onDoubleClickWhenHover: onDoubleClick,
     onContextMenuWhenHover: onContextMenu,
     onHover: onHover,
-    onUnHover: onUnHover
-  }, _hoverProps));
+    onUnHover: onUnHover,
+    ..._hoverProps
+  });
 };
-var DF_DEFINED = function DF_DEFINED(d) {
-  return !isNaN(d);
-};
+const DF_DEFINED = d => !isNaN(d);
 LineSeries.defaultProps = {
   className: _CL.CL_LINE,
   strokeWidth: 1,
@@ -176,5 +175,5 @@ LineSeries.defaultProps = {
   onContextMenu: FN_NOOP
 };
 var _default = LineSeries;
-exports["default"] = _default;
+exports.default = _default;
 //# sourceMappingURL=LineSeries.js.map

@@ -23,7 +23,15 @@ import {
 
 const FN_NOOP = () => {}
 , mathRound = Math.round
-, mathPow = Math.pow;
+, mathPow = Math.pow
+, _crD3LineDataSeries = (
+  xScale,
+  yScale,
+  xAccessor,
+  yAccessor
+) => d3Line()
+  .x(d => mathRound(xScale(xAccessor(d))))
+  .y(d => mathRound(yScale(yAccessor(d))));
 
 const LineSeries = (props) => {
   const {
@@ -64,6 +72,11 @@ const LineSeries = (props) => {
       plotData,
       chartConfig: { yScale, origin }
     } = moreProps
+    , [originX, originY] = origin
+    , _getItemScaleAccessor = item => [
+        xScale(xAccessor(item)) + originX,
+        yScale(yAccessor(item)) + originY
+    ]
 		, [x, y] = mouseXY
 		, radius = hoverTolerance
 		, {
@@ -76,17 +89,13 @@ const LineSeries = (props) => {
     );
 
 		if (left === right) {
-			const cy = yScale(yAccessor(currentItem)) + origin[1]
-			, cx = xScale(xAccessor(currentItem)) + origin[0]
-
+			const [cx, cy] = _getItemScaleAccessor(currentItem);
 			return mathPow(x - cx, 2) + mathPow(y - cy, 2) < mathPow(radius, 2);
 		} else {
 			const l = plotData[left]
 			, r = plotData[right]
-			, x1 = xScale(xAccessor(l)) + origin[0]
-			, y1 = yScale(yAccessor(l)) + origin[1]
-			, x2 = xScale(xAccessor(r)) + origin[0]
-			, y2 = yScale(yAccessor(r)) + origin[1]
+			, [x1, y1] = _getItemScaleAccessor(l)
+      , [x2, y2] = _getItemScaleAccessor(r)
 			// y = m * x + b
 			, m = (y2 - y1) / (x2 - x1)
 			, b = -1 * m * x1 + y1
@@ -104,9 +113,12 @@ const LineSeries = (props) => {
       chartConfig
     } = moreProps
 		, { yScale } = chartConfig
-		, dataSeries = d3Line()
-			.x(d => mathRound(xScale(xAccessor(d))))
-			.y(d => mathRound(yScale(yAccessor(d))));
+		, dataSeries = _crD3LineDataSeries(
+       xScale,
+       yScale,
+       xAccessor,
+       yAccessor
+    );
 
 		if (interpolation) {
 			dataSeries.curve(interpolation);
@@ -148,9 +160,12 @@ const LineSeries = (props) => {
 		ctx.strokeStyle = hexToRGBA(stroke, strokeOpacity);
 		ctx.setLineDash(getStrokeDasharray(strokeDasharray).split(","));
 
-		const dataSeries = d3Line()
-			.x(d => mathRound(xScale(xAccessor(d))))
-			.y(d => mathRound(yScale(yAccessor(d))));
+		const dataSeries = _crD3LineDataSeries(
+      xScale,
+      yScale,
+      xAccessor,
+      yAccessor
+    );
 
 		if (interpolation) {
 			dataSeries.curve(interpolation);
