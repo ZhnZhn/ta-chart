@@ -55,7 +55,6 @@
   "dependencies": {
     "@babel/runtime": "^7.22.5",
     "d3-quadtree": "^3.0.1",
-    "lodash.flattendeep": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

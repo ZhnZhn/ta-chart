@@ -1,5 +1,5 @@
+//import flattenDeep from 'lodash.flattendeep';
 import React from 'react';
-import flattenDeep from 'lodash.flattendeep';
 
 import { extent } from '../../d3Array';
 import { ChartDefaultConfig }  from '../Chart';
@@ -170,18 +170,36 @@ const setRange = (
    return scale;
 }
 
+/*
+  type Point = [number, number]
+  type yValues = Array<Array[number || void 0]> || Array<Array[Point]>
+*/
+const _flattenYValues = (
+ yValues
+) => yValues.reduce((result, arrItem) => {
+  if (!_isArr(arrItem[0])) {
+    result.push(...arrItem)
+  } else {
+    arrItem.forEach(point => {
+      result.push(...point)
+    })
+  }
+  return result;
+}, []);
+
 const yDomainFromYExtents = (
   yExtents,
   yScale,
   plotData
 ) => {
-    const yValues = yExtents
-      .map(eachExtent => plotData.map(values(eachExtent)))
-    , allYValues = flattenDeep(yValues)
-    , realYDomain = yScale.invert
-        ? extent(allYValues)
-        : [...new Set(allYValues).values()];
-    return realYDomain;
+   const yValues = yExtents
+     .map(eachExtent => plotData.map(values(eachExtent)))
+   //, allYValues = flattenDeep(yValues)
+   , allYValues = _flattenYValues(yValues)
+   , realYDomain = yScale.invert
+       ? extent(allYValues)
+       : [...new Set(allYValues).values()];
+   return realYDomain;
 }
 
 export const getChartConfigWithUpdatedYScales = (
