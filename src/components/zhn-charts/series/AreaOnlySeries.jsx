@@ -1,4 +1,5 @@
 //import PropTypes from "prop-types";
+import crCn from '../../zhn-utils/crCn';
 import { d3Area } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
@@ -71,12 +72,14 @@ const AreaOnlySeries = (props) => {
 		}
 
 		const d = areaSeries(plotData)
-		, newClassName = className
-       .concat(stroke != null ? '' : ` ${CL_LINE_STROKE}`);
+		, _className = crCn(
+       className,
+       stroke == null && CL_LINE_STROKE
+    );
 
 		return (
 			<path
-        className={newClassName}
+        className={_className}
 				style={style}
 				stroke={stroke}
 				fill={hexToRGBA(fill, opacity)}
@@ -97,9 +100,9 @@ const AreaOnlySeries = (props) => {
 			canvasClip(ctx, moreProps);
 		}
 
-    ctx.fillStyle = canvasGradient != null
-      ? canvasGradient(moreProps, ctx)
-      : hexToRGBA(fill, opacity);
+    ctx.fillStyle = canvasGradient == null
+      ? hexToRGBA(fill, opacity)
+      : canvasGradient(moreProps, ctx);
 		ctx.strokeStyle = stroke;
 
 		ctx.beginPath();
