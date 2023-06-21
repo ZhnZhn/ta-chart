@@ -1,4 +1,5 @@
 import { useContext } from '../uiApi';
+import toFirstUpperCase from '../../utils/toFirstUpperCase';
 
 import AppValue from '../contexts/AppValue';
 import AppThemeId from '../contexts/AppThemeId';
@@ -16,16 +17,13 @@ import {
   CL_SPINNER
 } from './CL';
 
-const _toFirstCapital = text => text
- .charAt(0).toUpperCase() + text.slice(1);
-
 const TitleSpan = ({
   text,
   is
 }) => (
   <span className={CL_HEADER_TITLE}>
-    {_toFirstCapital(text)}
-    { !is && <span>:&nbsp;</span> }
+    {toFirstUpperCase(text)}
+    {!is && <span>:&nbsp;</span>}
   </span>
 );
 

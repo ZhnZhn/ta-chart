@@ -1,0 +1,18 @@
+{
+ "version": 3,
+ "sources": [
+  "../../src/utils/toFirstUpperCase.js"
+ ],
+ "file": "../../src/utils/toFirstUpperCase.js",
+ "names": [
+  "toFirstUpperCase",
+  "str",
+  "charAt",
+  "toUpperCase",
+  "slice",
+  "_default",
+  "exports",
+  "default"
+ ],
+ "mappings": ";;;;AACA,MAAMA,gBAAgB,GACpBC,GAAG,IACA,OAAOA,GAAG,KAAK,QAAQ,GACxBA,GAAG,CAACC,MAAM,CAAC,CAAC,CAAC,CAACC,WAAW,CAAC,CAAC,GAAGF,GAAG,CAACG,KAAK,CAAC,CAAC,CAAC,GAC1C,EAAE;AAAC,IAAAC,QAAA,GAEQL,gBAAgB;AAAAM,OAAA,CAAAC,OAAA,GAAAF,QAAA"
+}
