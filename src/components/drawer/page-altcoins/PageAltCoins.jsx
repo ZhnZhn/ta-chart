@@ -4,25 +4,25 @@ import {
   useState,
   useReducer,
   useEffect
-} from 'react';
+} from '../../uiApi';
 
-import AppValue from '../../contexts/AppValue'
-import AppLiveUpdating from '../../contexts/AppLiveUpdating'
+import AppValue from '../../contexts/AppValue';
+import AppLiveUpdating from '../../contexts/AppLiveUpdating';
 
-import BackMenuBt from '../BackMenuBt'
-import CoinSelect from './CoinSelect'
-import FlatButton from '../../zhn-m/FlatButton'
+import BackMenuBt from '../BackMenuBt';
+import CoinSelect from './CoinSelect';
+import FlatButton from '../../zhn-m/FlatButton';
 
-import reducer from './reducer'
-import initialState from './initialState'
+import reducer from './reducer';
+import initialState from './initialState';
 import {
   EXCHANGES_SET,
   EXCHANGE_SET,
   PAIR_SET
-} from './enumAltcoin'
+} from './enumAltcoin';
 
-import loadMarkets from './loadMarkets'
-import loadPair from './loadPair'
+import loadMarkets from './loadMarkets';
+import loadPair from './loadPair';
 
 import {
   crExchange,
@@ -34,11 +34,15 @@ const DF_TIMEFRAME = '1d';
 const S_ROOT = { height: 400 }
 , S_DIV_BTS = { paddingLeft: 8 };
 
-const _isLiveUpdate = (exchange, timeframe) =>
-  exchange === 'binance' && timeframe === '1m';
+const _isLiveUpdate = (
+  exchange,
+  timeframe
+) => exchange === 'binance' && timeframe === '1m';
 
-const _isRequireProxy = (exchImpl, proxy) =>
-  exchImpl.isRequireProxy && !proxy;
+const _isRequireProxy = (
+  exchImpl,
+  proxy
+) => exchImpl.isRequireProxy && !proxy;
 
 const PageAltCoins = ({
   style,
@@ -50,8 +54,13 @@ const PageAltCoins = ({
     onLiveUpdate,
     onStopUpdate
   } = useContext(AppValue)
-  , { isLiveUpdating } = useContext(AppLiveUpdating)
-  const [state, dispatch] = useReducer(reducer, initialState)
+  , {
+    isLiveUpdating
+  } = useContext(AppLiveUpdating)
+  , [
+    state,
+    dispatch
+  ] = useReducer(reducer, initialState)
   , {
       exchange,
       pair,
@@ -59,8 +68,14 @@ const PageAltCoins = ({
       exchanges,
       markets
   } = state
-  , [timeframes, setTimeframes] = useState([])
-  , [timeframe, setTimeframe] = useState(DF_TIMEFRAME)
+  , [
+    timeframes,
+    setTimeframes
+  ] = useState([])
+  , [
+    timeframe,
+    setTimeframe
+  ] = useState(DF_TIMEFRAME)
   , refExchange = useRef(null)
 
   useEffect(() => {
@@ -126,12 +141,10 @@ const PageAltCoins = ({
       })
     }
   }
-
-  const onSelectTimeframe = (item) => {
+  , onSelectTimeframe = (item) => {
     setTimeframe((item && item.value) || DF_TIMEFRAME)
   }
-
-  const onSelectMarket = (item) => {
+  , onSelectMarket = (item) => {
     dispatch({
       type: PAIR_SET,
       pair: item && item.value || void 0

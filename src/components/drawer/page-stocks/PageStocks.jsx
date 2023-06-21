@@ -1,27 +1,21 @@
-import { useContext } from 'react'
+import { useContext } from '../../uiApi';
 
-import AppValue from '../../contexts/AppValue'
+import AppValue from '../../contexts/AppValue';
 
-import BackMenuBt from '../BackMenuBt'
-import SelectWithLoad from '../../rows/SelectWithLoad'
+import BackMenuBt from '../BackMenuBt';
+import SelectWithLoad from '../../rows/SelectWithLoad';
 
-import loadIex from './loadIex'
+import loadIex from './loadIex';
 
-const S = {
-  PAGE: {
-    height: 400
-  },
-  /*
-  TEXT: {
-    color: '#1b2836',
-    paddingLeft: 16,
-    fontWeight: 600
-  }
-  */
-};
+const S_PAGE = { height: 400 };
 
-const PageStocks = ({ style, onPrevPage }) => {
-  const { dataAction } = useContext(AppValue)
+const PageStocks = ({
+  style,
+  onPrevPage
+}) => {
+  const {
+    dataAction
+  } = useContext(AppValue)
   , onSelect = (item) => {
     if (item) {
       loadIex({
@@ -32,7 +26,7 @@ const PageStocks = ({ style, onPrevPage }) => {
   };
 
   return (
-    <div style={{...S.PAGE, ...style }}>
+    <div style={{...S_PAGE, ...style}}>
       <BackMenuBt onClick={onPrevPage} />
       <SelectWithLoad
         isShowLabels={false}
