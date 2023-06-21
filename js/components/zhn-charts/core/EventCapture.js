@@ -1,9 +1,8 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.EventCapture = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _uiApi = require("../../uiApi");
 var _d3Selection = require("../d3Selection");
 var _utils = require("./utils");
 var _ChartDataUtil = require("./utils/ChartDataUtil");
@@ -17,7 +16,7 @@ const _addMouseMoveHandleIfPanOrDragNotInProgress = function (state, ref, handle
     (0, _d3Selection.select)((0, _utils.d3Window)(ref.current)).on(_utils.MOUSEMOVE, handleMouseMove);
   }
 };
-class EventCapture extends _react.default.Component {
+class EventCapture extends _uiApi.Component {
   constructor(props) {
     super(props);
     this.clicked = void 0;
@@ -30,7 +29,7 @@ class EventCapture extends _react.default.Component {
     this.mouseInteraction = true;
     this.panEndTimeout = void 0;
     this.panHappened = void 0;
-    this.ref = /*#__PURE__*/_react.default.createRef();
+    this.ref = (0, _uiApi.createRef)();
     this.handleEnter = e => {
       const {
         onMouseEnter

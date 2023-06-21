@@ -1,5 +1,5 @@
 //import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { Component } from '../../uiApi';
 
 import LineSeries from './LineSeries';
 import AreaOnlySeries from './AreaOnlySeries';

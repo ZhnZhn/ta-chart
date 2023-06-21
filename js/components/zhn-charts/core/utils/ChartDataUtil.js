@@ -1,9 +1,8 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.getNewChartConfig = exports.getCurrentItem = exports.getCurrentCharts = exports.getChartConfigWithUpdatedYScales = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _uiApi = require("../../../uiApi");
 var _d3Array = require("../../d3Array");
 var _Chart = require("../Chart");
 var _index = require("./index");
@@ -26,10 +25,11 @@ const values = func => d => {
   const obj = func(d);
   return (0, _index.isObject)(obj) ? (0, _index.mapObject)(obj) : obj;
 };
+const _isNumber = v => typeof v === 'number';
 const isArraySize2AndNumber = yExtentsProp => {
   if (_isArr(yExtentsProp) && yExtentsProp.length === 2) {
     const [a, b] = yExtentsProp;
-    return typeof a === "number" && typeof b === "number";
+    return _isNumber(a) && _isNumber(b);
   }
   return false;
 };
@@ -38,7 +38,7 @@ const getNewChartConfig = function (innerDimension, children, existingChartConfi
   if (existingChartConfig === void 0) {
     existingChartConfig = [];
   }
-  return _react.default.Children.map(children, each => {
+  return _uiApi.Children.map(children, each => {
     if (each != null && isChartProps(each.props)) {
       const chartProps = {
           ..._Chart.ChartDefaultConfig,

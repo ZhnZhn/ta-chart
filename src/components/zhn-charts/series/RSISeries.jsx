@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component } from '../../uiApi';
 
 import LineSeries from './LineSeries';
 import StraightLine from './StraightLine';
@@ -7,7 +7,9 @@ import {
 	CL_RSI_SERIES
 } from '../CL';
 
-const _crId = () => String(Math.round(Math.random() * 10000 * 10000))
+const mathRound = Math.round
+, mathRandom = Math.random
+, _crId = () => String(mathRound(mathRandom() * 10000 * 10000))
 , _crClipPathId = () => `rsi-clip-${_crId()}`
 , _crClipPathStyle = (
 	id

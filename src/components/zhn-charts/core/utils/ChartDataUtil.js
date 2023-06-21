@@ -1,6 +1,5 @@
 //import flattenDeep from 'lodash.flattendeep';
-import React from 'react';
-
+import { Children } from '../../../uiApi';
 import { extent } from '../../d3Array';
 import { ChartDefaultConfig }  from '../Chart';
 
@@ -34,13 +33,16 @@ const values = (func) => (d) => {
     : obj;
 }
 
+const _isNumber = v => typeof v === 'number';
 const isArraySize2AndNumber = (
   yExtentsProp
 ) => {
   if (_isArr(yExtentsProp) && yExtentsProp.length === 2) {
-    const [a, b] = yExtentsProp;
-    return typeof a === "number"
-      && typeof b === "number";
+    const [
+      a,
+      b
+    ] = yExtentsProp;
+    return _isNumber(a) && _isNumber(b);
   }
   return false;
 }
@@ -55,7 +57,7 @@ export const getNewChartConfig = (
   innerDimension,
   children,
   existingChartConfig = []
-) => React.Children.map(children, each => {
+) => Children.map(children, each => {
     if (each != null && isChartProps(each.props)) {
         const chartProps = {
           ...ChartDefaultConfig,

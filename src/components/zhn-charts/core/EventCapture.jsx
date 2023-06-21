@@ -1,4 +1,7 @@
-import React from "react";
+import {
+  Component,
+  createRef
+} from '../../uiApi';
 
 import {
   pointer,
@@ -41,7 +44,7 @@ const _addMouseMoveHandleIfPanOrDragNotInProgress = (
   }
 };
 
-export class EventCapture extends React.Component {
+export class EventCapture extends Component {
     static defaultProps = {
         mouseMove: false,
         zoom: false,
@@ -62,7 +65,7 @@ export class EventCapture extends React.Component {
     panEndTimeout;
     panHappened;
 
-    ref = React.createRef();
+    ref = createRef();
 
     constructor(props) {
         super(props);

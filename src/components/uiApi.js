@@ -1,5 +1,6 @@
 export {
   Component,
+  Children,
   createRef,
   createElement,
   createContext,

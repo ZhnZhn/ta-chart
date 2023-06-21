@@ -1,24 +1,27 @@
-import { Component } from "react";
+import { Component } from '../../uiApi';
+
+const mathRound = Math.round
+, mathMax = Math.max;
 
 const _getRatio = (canvasEl) => {
   if (canvasEl != null) {
     const context = canvasEl.getContext("2d")
     , devicePixelRatio = window.devicePixelRatio || 1
-    , backingStoreRatio = context.webkitBackingStorePixelRatio ||
-        context.mozBackingStorePixelRatio ||
-        context.msBackingStorePixelRatio ||
-        context.oBackingStorePixelRatio ||
-        context.backingStorePixelRatio || 1
+    , backingStoreRatio = context.webkitBackingStorePixelRatio
+       || context.mozBackingStorePixelRatio
+       || context.msBackingStorePixelRatio
+       || context.oBackingStorePixelRatio
+       || context.backingStorePixelRatio
+       || 1
     , ratio = devicePixelRatio / backingStoreRatio;
     return ratio;
   }
   return 1;
 };
 
-const _getParentNode = el => {
-  const { parentNode } = el || {};
-  return parentNode || window;
-};
+const _getParentNode = (
+  el
+) => (el || {}).parentNode || window;
 
 const _calcWidth = (el, minWidth) => {
   const {
@@ -28,14 +31,13 @@ const _calcWidth = (el, minWidth) => {
   } = window.getComputedStyle(_getParentNode(el))
   , w = parseFloat(width) - (parseFloat(paddingLeft) + parseFloat(paddingRight));
 
-  return Math.round(Math.max(w, minWidth));
+  return mathRound(mathMax(w, minWidth));
 };
 
 
-function getDisplayName(Series) {
-	const name = Series.displayName || Series.name || "Series";
-	return name;
-}
+const _getDisplayName = (
+  Series
+) => Series.displayName || Series.name || "Series";
 
 export default function fitWidth(
   WrappedComponent,
@@ -109,7 +111,7 @@ export default function fitWidth(
 		}
 	}
 
-	ResponsiveComponent.displayName = `fitWidth(${ getDisplayName(WrappedComponent) })`;
+	ResponsiveComponent.displayName = `fitWidth(${_getDisplayName(WrappedComponent)})`;
 
 	return ResponsiveComponent;
 }

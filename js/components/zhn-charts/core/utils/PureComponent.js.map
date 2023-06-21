@@ -5,16 +5,20 @@
  ],
  "file": "../../../../../src/components/zhn-charts/core/utils/PureComponent.js",
  "names": [
+  "_uiApi",
+  "require",
+  "_shallowEqual",
   "PureComponent",
+  "Component",
   "shouldComponentUpdate",
   "nextProps",
   "nextState",
   "nextContext",
+  "shallowEqual",
   "props",
   "state",
   "context",
-  "React",
-  "Component"
+  "exports"
  ],
- "mappings": ";;;;;;;;;AAAA;;AACA;;IAEaA,a;;;;;;;;;SACXC,qB,GAAA,+BAAsBC,SAAtB,EAAiCC,SAAjC,EAA4CC,WAA5C,EAAyD;AACvD,WACE,CAAC,gCAAa,KAAKC,KAAlB,EAAyBH,SAAzB,CAAD,IACA,CAAC,gCAAa,KAAKI,KAAlB,EAAyBH,SAAzB,CADD,IAEA,CAAC,gCAAa,KAAKI,OAAlB,EAA2BH,WAA3B,CAHH;AAKD,G;;;EAPgCI,kBAAMC,S"
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AACA,IAAAC,aAAA,GAAAD,OAAA;AAEO,MAAME,aAAa,SAASC,gBAAS,CAAC;EAC3CC,qBAAqBA,CAACC,SAAS,EAAEC,SAAS,EAAEC,WAAW,EAAE;IACvD,OACE,CAAC,IAAAC,0BAAY,EAAC,IAAI,CAACC,KAAK,EAAEJ,SAAS,CAAC,IACjC,CAAC,IAAAG,0BAAY,EAAC,IAAI,CAACE,KAAK,EAAEJ,SAAS,CAAC,IACpC,CAAC,IAAAE,0BAAY,EAAC,IAAI,CAACG,OAAO,EAAEJ,WAAW,CAAC;EAE/C;AACF;AAACK,OAAA,CAAAV,aAAA,GAAAA,aAAA"
 }
