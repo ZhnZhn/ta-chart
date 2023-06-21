@@ -1,6 +1,7 @@
 import {
   memo,
   useRef,
+  useState,
   useMemo,
   getRefValue
 } from '../uiApi';
@@ -25,7 +26,7 @@ const {
   useElementWidth
 } = Ch;
 
-const INITIAL_ITEMS_NUMBER = 150
+const INITIAL_ITEMS_NUMBER = 150;
 
 const MARGIN = {
 	left: 50,
@@ -52,15 +53,16 @@ const OHLC_Y_EXTENDS = d => [d.high, d.low]
 const VOLUME_Y_EXTENDS = d => d.volume
 , VOLUME_ORIGIN = (w, h) => [0, h - 120];
 
-const sma20 = sma()
-   .options({ windowSize: 20, stroke: 'green' })
-   .merge((d, c) => {d.sma20 = c;})
-   .accessor(d => d.sma20)
-, sma50 = sma()
-   .options({ windowSize: 50, stroke: 'orange' })
-   .merge((d, c) => {d.sma50 = c;})
-   .accessor(d => d.sma50)
-, bb = bollingerBand()
+const _fSma = (
+  propName,
+  windowSize,
+  stroke
+) => sma()
+  .options({ windowSize, stroke })
+  .merge((d, c) => {d[propName] = c;})
+  .accessor(d => d[propName])
+
+const bb = bollingerBand()
    .merge((d, c) => {d.bb = c;})
    .accessor(d => d.bb)
 , rsi14 = rsi()
@@ -68,9 +70,7 @@ const sma20 = sma()
    .merge((d, c) => {d.rsi = c;})
    .accessor(d => d.rsi)
 
-//Math.round(width/12.5)
-
- const HollowChart = ({
+const HollowChart = ({
   id,
   style,
   data,
@@ -79,9 +79,19 @@ const sma20 = sma()
 }) => {
   const [width] = useElementWidth({ id })
   , _refItemsMumber = useRef(INITIAL_ITEMS_NUMBER)
+  , [smaPeriod1] = useState(20)
+  , [smaPeriod2] = useState(50)
+  , sma20 = useMemo(
+      () => _fSma('sma20', smaPeriod1, 'green'),
+      [smaPeriod1]
+    )
+  , sma50 = useMemo(
+      () => _fSma('sma50', smaPeriod2, 'orange'),
+      [smaPeriod2]
+  )
   , calculatedData = useMemo(
      () => sma50(sma20(bb(rsi14(data)))),
-     [data]
+     [data, sma20, sma50]
    )
   , [
     timeInterval,
