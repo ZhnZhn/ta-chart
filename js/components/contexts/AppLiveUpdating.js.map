@@ -5,7 +5,13 @@
  ],
  "file": "../../../src/components/contexts/AppLiveUpdating.js",
  "names": [
-  "AppLiveUpdating"
+  "_uiApi",
+  "require",
+  "AppLiveUpdating",
+  "createContext",
+  "_default",
+  "exports",
+  "default"
  ],
- "mappings": ";;;;;AAAA;;AAEA,IAAMA,eAAe,gBAAG,2BAAxB;eAEeA,e"
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AAEA,MAAMC,eAAe,GAAG,IAAAC,oBAAa,EAAC,CAAC;AAAC,IAAAC,QAAA,GAEzBF,eAAe;AAAAG,OAAA,CAAAC,OAAA,GAAAF,QAAA"
 }

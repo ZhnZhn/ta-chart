@@ -5,7 +5,13 @@
  ],
  "file": "../../../src/components/contexts/AppDispatch.js",
  "names": [
-  "AppDispatch"
+  "_uiApi",
+  "require",
+  "AppDispatch",
+  "createContext",
+  "_default",
+  "exports",
+  "default"
  ],
- "mappings": ";;;;;AAAA;;AAEA,IAAMA,WAAW,gBAAG,2BAApB;eAEeA,W"
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AAEA,MAAMC,WAAW,GAAG,IAAAC,oBAAa,EAAC,CAAC;AAAA,IAAAC,QAAA,GAEpBF,WAAW;AAAAG,OAAA,CAAAC,OAAA,GAAAF,QAAA"
 }

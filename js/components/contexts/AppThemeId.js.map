@@ -5,7 +5,13 @@
  ],
  "file": "../../../src/components/contexts/AppThemeId.js",
  "names": [
-  "AppThemeId"
+  "_uiApi",
+  "require",
+  "AppThemeId",
+  "createContext",
+  "_default",
+  "exports",
+  "default"
  ],
- "mappings": ";;;;;AAAA;;AAEA,IAAMA,UAAU,gBAAG,2BAAnB;eAEeA,U"
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AAEA,MAAMC,UAAU,GAAG,IAAAC,oBAAa,EAAC,CAAC;AAAC,IAAAC,QAAA,GAEpBF,UAAU;AAAAG,OAAA,CAAAC,OAAA,GAAAF,QAAA"
 }

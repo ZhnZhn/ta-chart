@@ -5,7 +5,13 @@
  ],
  "file": "../../../src/components/contexts/AppValue.js",
  "names": [
-  "AppValueContext"
+  "_uiApi",
+  "require",
+  "AppValueContext",
+  "createContext",
+  "_default",
+  "exports",
+  "default"
  ],
- "mappings": ";;;;;AAAA;;AAEA,IAAMA,eAAe,gBAAG,0BAAc,EAAd,CAAxB;eAEeA,e"
+ "mappings": ";;;;AAAA,IAAAA,MAAA,GAAAC,OAAA;AAEA,MAAMC,eAAe,GAAG,IAAAC,oBAAa,EAAC,CAAC,CAAC,CAAC;AAAA,IAAAC,QAAA,GAE1BF,eAAe;AAAAG,OAAA,CAAAC,OAAA,GAAAF,QAAA"
 }
