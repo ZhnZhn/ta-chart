@@ -14,7 +14,7 @@ import MovingAverage from './MovingAverage';
 
 const DRAW_ON = ['mousemove'];
 
-const MovingAverageTooltip = props => {
+export const MovingAverageTooltip = props => {
   const _renderSVG = (moreProps) => {
      const {
        chartId,
@@ -94,5 +94,3 @@ MovingAverageTooltip.defaultProps = {
   origin: [0, 10],
   width: 65,
 };
-
-export default MovingAverageTooltip

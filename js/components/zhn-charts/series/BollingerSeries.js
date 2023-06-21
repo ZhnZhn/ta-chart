@@ -2,9 +2,9 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.BollingerSeries = void 0;
 var _uiApi = require("../../uiApi");
-var _LineSeries = _interopRequireDefault(require("./LineSeries"));
+var _LineSeries = require("./LineSeries");
 var _AreaOnlySeries = _interopRequireDefault(require("./AreaOnlySeries"));
 var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
@@ -52,15 +52,15 @@ class BollingerSeries extends _uiApi.Component {
     } = this.props;
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
       className: className,
-      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.default, {
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.LineSeries, {
         yAccessor: this.yAccessorForTop,
         stroke: stroke.top,
         fill: "none"
-      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.default, {
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.LineSeries, {
         yAccessor: this.yAccessorForMiddle,
         stroke: stroke.middle,
         fill: "none"
-      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.default, {
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.LineSeries, {
         yAccessor: this.yAccessorForBottom,
         stroke: stroke.bottom,
         fill: "none"
@@ -91,12 +91,10 @@ BollingerSeries.propTypes = {
 	fill: PropTypes.string.isRequired,
 };
 */
-
+exports.BollingerSeries = BollingerSeries;
 BollingerSeries.defaultProps = {
   className: _CL.CL_BB_SERIES,
   areaClassName: _CL.CL_BB_SERIES_AREA,
   opacity: 0.2
 };
-var _default = BollingerSeries;
-exports.default = _default;
 //# sourceMappingURL=BollingerSeries.js.map

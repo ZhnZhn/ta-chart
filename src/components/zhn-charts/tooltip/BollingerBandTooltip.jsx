@@ -15,7 +15,7 @@ import TooltipTSpan from './TooltipTSpan';
 
 const DRAW_ON = ['mousemove'];
 
-const BollingerBandTooltip = (
+export const BollingerBandTooltip = (
   props
 ) => {
   const _renderSVG = (moreProps) => {
@@ -113,6 +113,4 @@ BollingerBandTooltip.defaultProps = {
   displayInit: 'n/a',
   origin: [8, 8],
   yAccessor: data => data.bb
-}
-
-export default BollingerBandTooltip
+};

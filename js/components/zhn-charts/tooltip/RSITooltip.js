@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.RSITooltip = void 0;
 var _d3Format = require("../d3Format");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _utils = require("../utils");
@@ -72,6 +72,5 @@ const RSITooltip = props => {
     drawOn: DRAW_ON
   });
 };
-var _default = RSITooltip;
-exports.default = _default;
+exports.RSITooltip = RSITooltip;
 //# sourceMappingURL=RSITooltip.js.map

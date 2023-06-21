@@ -14,7 +14,7 @@ const DF_DISPLAY_FORMAT = format('.2f')
 , DF_ORIGIN = [0, 0]
 , DRAW_ON = ['mousemove'];
 
-const RSITooltip = (props) => {
+export const RSITooltip = (props) => {
   const {
     className=CL_TOOLTIP,
     displayInit=DF_DISPLAY_INIT,
@@ -82,5 +82,3 @@ const RSITooltip = (props) => {
     />
   );
 }
-
-export default RSITooltip

@@ -1,18 +1,15 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
-exports["default"] = void 0;
-
+exports.MouseCoordinateX = void 0;
 var _helperX = require("./helperX");
-
 var _crMouseCoordinate = _interopRequireDefault(require("./crMouseCoordinate"));
-
 var _MouseCoordinateStyle = require("./MouseCoordinateStyle");
-
 //import PropTypes from "prop-types";
-var MouseCoordinateX = (0, _crMouseCoordinate["default"])(_helperX.crCoordinateProps);
+
+const MouseCoordinateX = (0, _crMouseCoordinate.default)(_helperX.crCoordinateProps);
+exports.MouseCoordinateX = MouseCoordinateX;
 MouseCoordinateX.defaultProps = {
   fill: _MouseCoordinateStyle.fill,
   textFill: _MouseCoordinateStyle.textFill,
@@ -22,6 +19,7 @@ MouseCoordinateX.defaultProps = {
   rectWidth: 80,
   rectHeight: 20,
   // rectRadius: 5,
+
   // stroke: "#684f1d",
   strokeOpacity: 1,
   strokeWidth: 1,
@@ -31,6 +29,7 @@ MouseCoordinateX.defaultProps = {
   snapX: true,
   customX: _helperX.customX
 };
+
 /*
 MouseCoordinateX.propTypes = {
 	displayFormat: PropTypes.func.isRequired,
@@ -47,7 +46,4 @@ MouseCoordinateX.propTypes = {
 	snapX: PropTypes.bool
 };
 */
-
-var _default = MouseCoordinateX;
-exports["default"] = _default;
 //# sourceMappingURL=MouseCoordinateX.js.map

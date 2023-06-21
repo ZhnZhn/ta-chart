@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.MovingAverageTooltip = void 0;
 var _d3Format = require("../d3Format");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _utils = require("../utils");
@@ -71,6 +71,7 @@ const MovingAverageTooltip = props => {
     drawOn: DRAW_ON
   });
 };
+exports.MovingAverageTooltip = MovingAverageTooltip;
 MovingAverageTooltip.defaultProps = {
   className: _CL.CL_MA_TOOLTIP,
   displayFormat: (0, _d3Format.format)('.2f'),
@@ -79,6 +80,4 @@ MovingAverageTooltip.defaultProps = {
   origin: [0, 10],
   width: 65
 };
-var _default = MovingAverageTooltip;
-exports.default = _default;
 //# sourceMappingURL=MovingAverageTooltip.js.map

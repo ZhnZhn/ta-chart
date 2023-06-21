@@ -1,6 +1,12 @@
 import { useMemo } from '../../uiApi';
 
-import Ch from '../Ch';
+import {
+  Chart,
+  YAxis,
+  MouseCoordinateY,
+  RSISeries,
+  RSITooltip
+} from '../Ch';
 import { numberFormat2F } from '../chartFns';
 
 const CL_TOOLTIP = 'rs-tooltip';
@@ -35,36 +41,36 @@ const RsiChart = ({
   );
 
   return (
-    <Ch.Chart
+    <Chart
       id={id}
       height={height}
       yExtents={yExtents}
       origin={origin}
     >
-      <Ch.YAxis
+      <YAxis
         axisAt="right"
         orient="right"
         stroke="black"
         tickStroke="#4699cb"
         tickValues={YAXIS_TICK_VALUES}
       />
-      <Ch.MouseCoordinateY
+      <MouseCoordinateY
         at="right"
         orient="right"
         displayFormat={numberFormat2F}
       />
-      <Ch.RSISeries
+      <RSISeries
         yAccessor={RSI_Y_ACCESOR}
         stroke={_rsiStroke}
       />
-      <Ch.RSITooltip
+      <RSITooltip
         className={CL_TOOLTIP}
         fontSize={15}
         yAccessor={RSI_Y_ACCESOR}
         origin={_rsiTooltipOrigin}
         options={_rsiOptions}
       />
-    </Ch.Chart>
+    </Chart>
   );
 }
 

@@ -1,14 +1,14 @@
 //import PropTypes from 'prop-types';
 import { Component } from '../../uiApi';
 
-import LineSeries from './LineSeries';
+import { LineSeries } from './LineSeries';
 import AreaOnlySeries from './AreaOnlySeries';
 import {
 	CL_BB_SERIES,
 	CL_BB_SERIES_AREA
 } from '../CL';
 
-class BollingerSeries extends Component {
+export class BollingerSeries extends Component {
 
 	yAccessorForTop = (d) => {
 		const { yAccessor } = this.props
@@ -94,5 +94,3 @@ BollingerSeries.defaultProps = {
 	areaClassName: CL_BB_SERIES_AREA,
 	opacity: 0.2
 };
-
-export default BollingerSeries

@@ -2,9 +2,9 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.RSISeries = void 0;
 var _uiApi = require("../../uiApi");
-var _LineSeries = _interopRequireDefault(require("./LineSeries"));
+var _LineSeries = require("./LineSeries");
 var _StraightLine = _interopRequireDefault(require("./StraightLine"));
 var _SVGComponent = _interopRequireDefault(require("./SVGComponent"));
 var _CL = require("../CL");
@@ -127,7 +127,7 @@ class RSISeries extends _uiApi.Component {
         strokeWidth: strokeWidth.bottom,
         strokeDasharray: strokeDasharray.bottom,
         yValue: overBought
-      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.default, {
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.LineSeries, {
         style: style1,
         canvasClip: this.topAndBottomClip,
         className: className,
@@ -135,7 +135,7 @@ class RSISeries extends _uiApi.Component {
         stroke: stroke.insideThreshold || stroke.line,
         strokeWidth: strokeWidth.insideThreshold,
         strokeDasharray: strokeDasharray.line
-      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.default, {
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_LineSeries.LineSeries, {
         style: style2,
         canvasClip: this.mainClip
         /* baseAt={yScale => yScale(middle)} */,
@@ -149,7 +149,7 @@ class RSISeries extends _uiApi.Component {
     });
   }
 }
-
+exports.RSISeries = RSISeries;
 const SHORT_DASH = 'ShortDash';
 RSISeries.defaultProps = {
   className: _CL.CL_RSI_SERIES,
@@ -183,6 +183,4 @@ RSISeries.defaultProps = {
   middle: 50,
   overBought: 30
 };
-var _default = RSISeries;
-exports.default = _default;
 //# sourceMappingURL=RSISeries.js.map

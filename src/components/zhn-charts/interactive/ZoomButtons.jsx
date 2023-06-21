@@ -24,7 +24,7 @@ const _crTransform = (
   r
 ) => `translate (${zoomX - 20}, ${y - 8 + r / 4})`;
 
-const ZoomButtons = ({
+export const ZoomButtons = ({
   zoomMultiplier,
   heightFromBase,
   r,
@@ -132,6 +132,4 @@ ZoomButtons.defaultProps = {
   strokeWidth: 1,
   textFill: '#000000',
   zoomMultiplier: 1.5
-}
-
-export default ZoomButtons
+};

@@ -1,6 +1,6 @@
 import { merge } from "../utils";
 
-import { sma } from "../calculator";
+import { sma as smaImpl } from "../calculator";
 import baseIndicator from "./baseIndicator";
 import crIndicator from './crIndicator';
 
@@ -28,11 +28,11 @@ interface SMAIndicator {
 }
 */
 
-export default () => {
+export const sma = () => {
 	const base = baseIndicator()
 		 .type(ALGORITHM_TYPE)
 		 .accessor(d => d.sma)
-	, underlyingAlgorithm = sma()
+	, underlyingAlgorithm = smaImpl()
 	, mergedAlgorithm = merge()
 		 .algorithm(underlyingAlgorithm)
 		 .merge((datum, i) => { datum.sma = i; });

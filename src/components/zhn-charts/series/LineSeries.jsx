@@ -33,7 +33,7 @@ const FN_NOOP = () => {}
   .x(d => mathRound(xScale(xAccessor(d))))
   .y(d => mathRound(yScale(yAccessor(d))));
 
-const LineSeries = (props) => {
+export const LineSeries = (props) => {
   const {
     yAccessor,
     hoverTolerance,
@@ -224,5 +224,3 @@ LineSeries.defaultProps = {
 	onDoubleClick: FN_NOOP,
 	onContextMenu: FN_NOOP
 };
-
-export default LineSeries

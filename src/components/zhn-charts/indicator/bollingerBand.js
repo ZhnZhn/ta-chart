@@ -1,5 +1,5 @@
 import { merge } from "../utils";
-import { bollingerband } from "../calculator";
+import { bollingerband as bollingerBandImpl } from "../calculator";
 import baseIndicator from "./baseIndicator";
 import crIndicator from './crIndicator';
 
@@ -27,18 +27,18 @@ interface BollingerBandIndicator {
 }
 */
 
-export default () => {
-    const base = baseIndicator()
-       .type(ALGORITHM_TYPE)
-    , underlyingAlgorithm = bollingerband()
-    , mergedAlgorithm = merge()
-       .algorithm(underlyingAlgorithm)
-       .merge((datum, i) => { datum.bollingerBand = i; })
+export const bollingerBand = () => {
+  const base = baseIndicator()
+     .type(ALGORITHM_TYPE)
+  , underlyingAlgorithm = bollingerBandImpl()
+  , mergedAlgorithm = merge()
+     .algorithm(underlyingAlgorithm)
+     .merge((datum, i) => { datum.bollingerBand = i; })
 
-    return crIndicator(
-      ALGORITHM_TYPE,
-      base,
-      underlyingAlgorithm,
-      mergedAlgorithm
-    );
+  return crIndicator(
+    ALGORITHM_TYPE,
+    base,
+    underlyingAlgorithm,
+    mergedAlgorithm
+  );
 }

@@ -1,7 +1,18 @@
 import { useMemo } from '../../uiApi';
 
 import { HAS_TOUCH } from '../../has';
-import Ch from '../Ch';
+import {
+  Chart,
+  YAxis,
+  BollingerSeries,
+  LineSeries,
+  CandlestickSeries,
+  MouseCoordinateY,
+  OHLCTooltip,
+  MovingAverageTooltip,
+  BollingerBandTooltip,
+  ZoomButtons
+} from '../Ch';
 import {
   COLOR,
   numberFormat4F,
@@ -83,44 +94,44 @@ const CandlestickChart = ({
   , [bb]);
 
   return (
-  <Ch.Chart
+  <Chart
     id={id}
     height={height}
     yExtents={yExtents}
     origin={origin}
   >
-    <Ch.YAxis
+    <YAxis
       axisAt="right"
       orient="right"
       ticks={5}
       stroke="black"
     />
-    <Ch.BollingerSeries
+    <BollingerSeries
       yAccessor={BB_Y_ACCESSOR}
       stroke={bbStroke}
       fill={bbFill}
     />
-    <Ch.LineSeries
+    <LineSeries
       yAccessor={accessorSma20}
       stroke={optionsSma20.stroke}
     />
-    <Ch.LineSeries
+    <LineSeries
       yAccessor={accessorSma50}
       stroke={optionsSma50.stroke}
     />
-    <Ch.CandlestickSeries
+    <CandlestickSeries
        width={_csWidth}
        fill={_fill}
        stroke={_stroke}
        wickStroke={_stroke}
        candleStrokeWidth={0.8}
     />
-    <Ch.MouseCoordinateY
+    <MouseCoordinateY
       at="right"
       orient="right"
       displayFormat={numberFormat4F}
     />
-    <Ch.OHLCTooltip
+    <OHLCTooltip
       fontSize={15}
       xDisplayFormat={timeFormat}
       textFill="black"
@@ -128,22 +139,22 @@ const CandlestickChart = ({
       forChart={3}
       origin={OHLC_TOOLTIP_ORIGIN}
     />
-    <Ch.MovingAverageTooltip
+    <MovingAverageTooltip
       className={CL_TOOLTIP}
       width={100}
       fontSize={15}
       origin={MA_TOOLTIP_ORIGIN}
       options={_maTooltipOption}
     />
-    <Ch.BollingerBandTooltip
+    <BollingerBandTooltip
       className={CL_TOOLTIP}
       fontSize={15}
       origin={BB_TOOLTIP_ORIGIN}
       yAccessor={BB_Y_ACCESSOR}
       options={_bbTooltipOptions}
     />
-    {HAS_TOUCH && <Ch.ZoomButtons />}
-  </Ch.Chart>
+    {HAS_TOUCH && <ZoomButtons />}
+  </Chart>
   );
 }
 

@@ -6,7 +6,14 @@ import {
   getRefValue
 } from '../uiApi';
 
-import Ch from './Ch';
+import {
+  ChartCanvas,
+  CrossHairCursor,
+  sma,
+  rsi,
+  bollingerBand,
+  useElementWidth
+} from './Ch';
 import {
   scaleTime,
   crTimeInterval,
@@ -18,13 +25,6 @@ import CandlestickChart from './series/CandlestickChart';
 import VolumeChart from './series/VolumeChart';
 import RsiChart from './series/RsiChart';
 import CloseChart from './series/CloseChart';
-
-const {
-  sma,
-  rsi,
-  bollingerBand,
-  useElementWidth
-} = Ch;
 
 const INITIAL_ITEMS_NUMBER = 150;
 
@@ -113,7 +113,7 @@ const HollowChart = ({
 		 id={id}
 		 style={{...S_EL, ...style}}
 	 >
-     <Ch.ChartCanvas
+     <ChartCanvas
        ratio={2}
        width={width}
        height={height}
@@ -158,8 +158,8 @@ const HollowChart = ({
          yExtents={VOLUME_Y_EXTENDS}
          origin={VOLUME_ORIGIN}
        />
-       <Ch.CrossHairCursor />
-		 </Ch.ChartCanvas>
+       <CrossHairCursor />
+		 </ChartCanvas>
 	 </div>
   );
 };

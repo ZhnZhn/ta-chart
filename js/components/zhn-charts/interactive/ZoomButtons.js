@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.default = void 0;
+exports.ZoomButtons = void 0;
 var _uiApi = require("../../uiApi");
 var _d3Interpolate = require("../d3Interpolate");
 var _utils = require("../utils");
@@ -101,6 +101,7 @@ const ZoomButtons = _ref => {
     })]
   });
 };
+exports.ZoomButtons = ZoomButtons;
 ZoomButtons.defaultProps = {
   fill: '#ffffff',
   fillOpacity: 0.4,
@@ -111,6 +112,4 @@ ZoomButtons.defaultProps = {
   textFill: '#000000',
   zoomMultiplier: 1.5
 };
-var _default = ZoomButtons;
-exports.default = _default;
 //# sourceMappingURL=ZoomButtons.js.map

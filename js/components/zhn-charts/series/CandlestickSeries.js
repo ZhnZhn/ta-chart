@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
+exports.CandlestickSeries = void 0;
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
 var _CL = require("../CL");
@@ -11,17 +11,23 @@ var _CandlestickSeriesFn = require("./CandlestickSeriesFn");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
-var DRAW_ON = ['pan'];
-var CandlestickSeries = function CandlestickSeries(props) {
-  var className = props.className,
-    wickClassName = props.wickClassName,
-    candleClassName = props.candleClassName,
-    clip = props.clip,
-    _renderSVG = function _renderSVG(moreProps) {
-      var xAccessor = moreProps.xAccessor,
-        xScale = moreProps.xScale,
-        plotData = moreProps.plotData,
-        yScale = moreProps.chartConfig.yScale,
+const DRAW_ON = ['pan'];
+const CandlestickSeries = props => {
+  const {
+      className,
+      wickClassName,
+      candleClassName,
+      clip
+    } = props,
+    _renderSVG = moreProps => {
+      const {
+          xAccessor,
+          xScale,
+          plotData,
+          chartConfig: {
+            yScale
+          }
+        } = moreProps,
         candleData = (0, _CandlestickSeriesFn.getCandleData)(props, xAccessor, xScale, yScale, plotData);
       return /*#__PURE__*/(0, _jsxRuntime.jsxs)("g", {
         className: className,
@@ -34,10 +40,10 @@ var CandlestickSeries = function CandlestickSeries(props) {
         }, "candles")]
       });
     },
-    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
+    _drawOnCanvas = (ctx, moreProps) => {
       (0, _CandlestickSeriesFn.drawOnCanvas)(ctx, props, moreProps);
     };
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.default, {
     clip: clip,
     svgDraw: _renderSVG,
     canvasDraw: _drawOnCanvas,
@@ -76,21 +82,15 @@ CandlestickSeries.propTypes = {
 	clip: PropTypes.bool,
 };
 */
-
-var DF_YACCESSOR = function DF_YACCESSOR(d) {
-    return {
-      open: d.open,
-      high: d.high,
-      low: d.low,
-      close: d.close
-    };
-  },
-  DF_CLASSNAMES = function DF_CLASSNAMES(d) {
-    return d.close > d.open ? _CL.CL_UP : _CL.CL_DOWN;
-  },
-  DF_FILL = function DF_FILL(d) {
-    return d.close > d.open ? '#6ba583' : '#ff0000';
-  };
+exports.CandlestickSeries = CandlestickSeries;
+const DF_YACCESSOR = d => ({
+    open: d.open,
+    high: d.high,
+    low: d.low,
+    close: d.close
+  }),
+  DF_CLASSNAMES = d => d.close > d.open ? _CL.CL_UP : _CL.CL_DOWN,
+  DF_FILL = d => d.close > d.open ? '#6ba583' : '#ff0000';
 CandlestickSeries.defaultProps = {
   className: _CL.CL_CANDLESTICK,
   wickClassName: _CL.CL_CANDLESTICK_WICK,
@@ -106,6 +106,4 @@ CandlestickSeries.defaultProps = {
   opacity: 0.5,
   clip: true
 };
-var _default = CandlestickSeries;
-exports["default"] = _default;
 //# sourceMappingURL=CandlestickSeries.js.map

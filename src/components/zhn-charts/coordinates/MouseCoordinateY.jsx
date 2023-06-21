@@ -10,7 +10,7 @@ import {
 	fontSize
 } from './MouseCoordinateStyle';
 
-const MouseCoordinateY = crMouseCoordinate(crCoordinateProps);
+export const MouseCoordinateY = crMouseCoordinate(crCoordinateProps);
 
 MouseCoordinateY.defaultProps = {
 	fill,
@@ -47,5 +47,3 @@ MouseCoordinateY.propTypes = {
 	textFill: PropTypes.string,
 };
 */
-
-export default MouseCoordinateY

@@ -7,7 +7,7 @@ import {
   getRefValue
 } from '../../uiApi';
 
-const useElementWidth = ({
+export const useElementWidth = ({
   id,
   minWidth=100,
   initialWidth=1000
@@ -47,5 +47,3 @@ const useElementWidth = ({
 
   return [width, ref];
 };
-
-export default useElementWidth

@@ -4,19 +4,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports.default = void 0;
 var _uiApi = require("../uiApi");
-var _Ch = _interopRequireDefault(require("./Ch"));
+var _Ch = require("./Ch");
 var _chartFns = require("./chartFns");
 var _CandlestickChart = _interopRequireDefault(require("./series/CandlestickChart"));
 var _VolumeChart = _interopRequireDefault(require("./series/VolumeChart"));
 var _RsiChart = _interopRequireDefault(require("./series/RsiChart"));
 var _CloseChart = _interopRequireDefault(require("./series/CloseChart"));
 var _jsxRuntime = require("react/jsx-runtime");
-const {
-  sma,
-  rsi,
-  bollingerBand,
-  useElementWidth
-} = _Ch.default;
 const INITIAL_ITEMS_NUMBER = 150;
 const MARGIN = {
   left: 50,
@@ -35,16 +29,16 @@ const OHLC_Y_EXTENDS = d => [d.high, d.low],
   OHLC_ORIGIN = (w, h) => [0, h - 420];
 const VOLUME_Y_EXTENDS = d => d.volume,
   VOLUME_ORIGIN = (w, h) => [0, h - 120];
-const _fSma = (propName, windowSize, stroke) => sma().options({
+const _fSma = (propName, windowSize, stroke) => (0, _Ch.sma)().options({
   windowSize,
   stroke
 }).merge((d, c) => {
   d[propName] = c;
 }).accessor(d => d[propName]);
-const bb = bollingerBand().merge((d, c) => {
+const bb = (0, _Ch.bollingerBand)().merge((d, c) => {
     d.bb = c;
   }).accessor(d => d.bb),
-  rsi14 = rsi().options({
+  rsi14 = (0, _Ch.rsi)().options({
     windowSize: 14
   }).merge((d, c) => {
     d.rsi = c;
@@ -57,7 +51,7 @@ const HollowChart = _ref => {
     height,
     timeframe
   } = _ref;
-  const [width] = useElementWidth({
+  const [width] = (0, _Ch.useElementWidth)({
       id
     }),
     _refItemsMumber = (0, _uiApi.useRef)(INITIAL_ITEMS_NUMBER),
@@ -77,7 +71,7 @@ const HollowChart = _ref => {
       ...S_EL,
       ...style
     },
-    children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch.default.ChartCanvas, {
+    children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Ch.ChartCanvas, {
       ratio: 2,
       width: width,
       height: height,
@@ -117,7 +111,7 @@ const HollowChart = _ref => {
         timeFormat: timeFormat,
         yExtents: VOLUME_Y_EXTENDS,
         origin: VOLUME_ORIGIN
-      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch.default.CrossHairCursor, {})]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Ch.CrossHairCursor, {})]
     })
   });
 };

@@ -1,4 +1,9 @@
-import Ch from '../Ch';
+import {
+  Chart,
+  YAxis,
+  LineSeries,
+  MouseCoordinateY
+} from '../Ch';
 import { numberFormat2F } from '../chartFns';
 
 const LS_Y_ACCESSOR = d => d.close;
@@ -9,28 +14,28 @@ const CloseChart = ({
   yExtents,
   origin
 }) => (
-  <Ch.Chart
+  <Chart
     id={id}
     height={height}
     yExtents={yExtents}
     origin={origin}
   >
-    <Ch.YAxis
+    <YAxis
       axisAt="left"
       orient="left"
       stroke="black"
       ticks={5}
     />
-    <Ch.LineSeries
+    <LineSeries
       yAccessor={LS_Y_ACCESSOR}
       stroke="black"
     />
-    <Ch.MouseCoordinateY
+    <MouseCoordinateY
       at="left"
       orient="left"
       displayFormat={numberFormat2F}
     />
-  </Ch.Chart>
+  </Chart>
 );
 
 export default CloseChart

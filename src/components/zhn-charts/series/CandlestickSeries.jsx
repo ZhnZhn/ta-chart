@@ -25,7 +25,7 @@ import {
 
 const DRAW_ON = ['pan'];
 
-const CandlestickSeries = (props) => {
+export const CandlestickSeries = (props) => {
 	const {
 		className,
 		wickClassName,
@@ -132,5 +132,3 @@ CandlestickSeries.defaultProps = {
 	opacity: 0.5,
 	clip: true
 };
-
-export default CandlestickSeries;

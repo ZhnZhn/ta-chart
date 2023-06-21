@@ -73,7 +73,7 @@ const _getBars = (
 
 const DRAW_ON = ['pan'];
 
-const BarSeries = (props) => {
+export const BarSeries = (props) => {
   const {
     swapScales,
     clip
@@ -129,5 +129,3 @@ BarSeries.propTypes = {
 */
 
 BarSeries.defaultProps = StackedBarSeries.defaultProps;
-
-export default BarSeries;

@@ -45,7 +45,7 @@ const TooltipValue = ({
 
 const DRAW_ON = ['mousemove'];
 
-const OHLCTooltip = props => {
+export const OHLCTooltip = props => {
   const _renderSVG = (moreProps) => {
       const {
         accessor,
@@ -163,6 +163,4 @@ OHLCTooltip.defaultProps = {
   ohlcFormat: format('.2f'),
   origin: [0, 0],
   percentFormat: format('+.2%')
-}
-
-export default OHLCTooltip
+};

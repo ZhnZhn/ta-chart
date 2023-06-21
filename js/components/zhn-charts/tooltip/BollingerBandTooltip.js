@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.BollingerBandTooltip = void 0;
 var _d3Format = require("../d3Format");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _utils = require("../utils");
@@ -89,6 +89,7 @@ const BollingerBandTooltip = props => {
     drawOn: DRAW_ON
   });
 };
+exports.BollingerBandTooltip = BollingerBandTooltip;
 BollingerBandTooltip.defaultProps = {
   className: _CL.CL_BB_TOOLTIP,
   displayFormat: (0, _d3Format.format)('.2f'),
@@ -97,6 +98,4 @@ BollingerBandTooltip.defaultProps = {
   origin: [8, 8],
   yAccessor: data => data.bb
 };
-var _default = BollingerBandTooltip;
-exports.default = _default;
 //# sourceMappingURL=BollingerBandTooltip.js.map

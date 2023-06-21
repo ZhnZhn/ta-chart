@@ -1,4 +1,11 @@
-import Ch from '../Ch';
+import {
+  Chart,
+  YAxis,
+  MouseCoordinateY,
+  BarSeries,
+  XAxis,
+  MouseCoordinateX
+} from '../Ch';
 import {
   COLOR,
   numberFormat4S,
@@ -22,41 +29,41 @@ const VolumeChart = ({
 }) => {
   const _bsWidth = useTimeIntervalBarWidth(timeInterval);
   return (
-     <Ch.Chart
+     <Chart
        id={id}
        height={height}
        yExtents={yExtents}
        origin={origin}
      >
-       <Ch.YAxis
+       <YAxis
          axisAt="left"
          orient="left"
          ticks={3}
          tickFormat={numberFormat0S}
          stroke="black"
        />
-       <Ch.MouseCoordinateY
+       <MouseCoordinateY
          at="left"
          orient="left"
          displayFormat={numberFormat4S}
        />
-       <Ch.BarSeries
+       <BarSeries
           width={_bsWidth}
           yAccessor={BS_Y_ACCESOR}
           fill={_fill}
           stroke={_fill}
        />
-       <Ch.XAxis
+       <XAxis
          axisAt="bottom"
          orient="bottom"
          ticks={6}
        />
-       <Ch.MouseCoordinateX
+       <MouseCoordinateX
          at="bottom"
          orient="bottom"
          displayFormat={timeFormat}
        />
-     </Ch.Chart>
+     </Chart>
   );
 }
 

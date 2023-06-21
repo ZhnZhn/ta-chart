@@ -2,32 +2,29 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+exports.XAxis = void 0;
 var _uiApi = require("../../uiApi");
 var _Chart = require("../core/Chart");
 var _Axis = _interopRequireDefault(require("./Axis"));
 var _AxisFn = require("./AxisFn");
 var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
-var _excluded = ["getMouseDelta", "outerTickSize", "showTicks", "strokeStyle", "strokeWidth", "zoomEnabled"];
-var _crAxisLocation = function _crAxisLocation(axisAt, height) {
-  return axisAt === 'top' ? 0 : axisAt === 'bottom' ? height : axisAt === 'middle' ? height / 2 : axisAt;
-};
-var _getXTicks = function _getXTicks(width) {
-  return width < 400 ? 2 : width < 500 ? 6 : 8;
-};
-var _getXScale = function _getXScale(_ref) {
-  var xScale = _ref.xScale,
-    width = _ref.width;
+const _crAxisLocation = (axisAt, height) => axisAt === 'top' ? 0 : axisAt === 'bottom' ? height : axisAt === 'middle' ? height / 2 : axisAt;
+const _getXTicks = width => width < 400 ? 2 : width < 500 ? 6 : 8;
+const _getXScale = _ref => {
+  let {
+    xScale,
+    width
+  } = _ref;
   return xScale.invert ? (0, _AxisFn.crScale)(xScale, [0, width]) : xScale;
 };
-var _crMoreProps = function _crMoreProps(props, width, height) {
-  var axisAt = props.axisAt,
-    xZoomHeight = props.xZoomHeight,
-    orient = props.orient,
-    ticks = props.ticks,
+const _crMoreProps = (props, width, height) => {
+  const {
+      axisAt,
+      xZoomHeight,
+      orient,
+      ticks
+    } = props,
     x = 0,
     y = orient === 'top' ? -xZoomHeight : 0,
     h = xZoomHeight,
@@ -35,10 +32,10 @@ var _crMoreProps = function _crMoreProps(props, width, height) {
     axisLocation = _crAxisLocation(axisAt, height);
   return {
     bg: {
-      x: x,
-      y: y,
-      h: h,
-      w: w
+      x,
+      y,
+      h,
+      w
     },
     transform: [0, axisLocation],
     range: [0, width],
@@ -46,21 +43,27 @@ var _crMoreProps = function _crMoreProps(props, width, height) {
     ticks: ticks != null ? ticks : _getXTicks(width)
   };
 };
-var XAxis = function XAxis(props) {
-  var _useContext = (0, _uiApi.useContext)(_Chart.ChartContext),
-    xAxisZoom = _useContext.xAxisZoom,
-    _useContext$chartConf = _useContext.chartConfig,
-    width = _useContext$chartConf.width,
-    height = _useContext$chartConf.height,
-    getMouseDelta = props.getMouseDelta,
-    outerTickSize = props.outerTickSize,
-    showTicks = props.showTicks,
-    strokeStyle = props.strokeStyle,
-    strokeWidth = props.strokeWidth,
-    zoomEnabled = props.zoomEnabled,
-    restProps = (0, _objectWithoutPropertiesLoose2["default"])(props, _excluded),
+const XAxis = props => {
+  const {
+      xAxisZoom,
+      chartConfig: {
+        width,
+        height
+      }
+    } = (0, _uiApi.useContext)(_Chart.ChartContext),
+    {
+      getMouseDelta,
+      outerTickSize,
+      showTicks,
+      strokeStyle,
+      strokeWidth,
+      zoomEnabled,
+      ...restProps
+    } = props,
     _moreProps = _crMoreProps(props, width, height);
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_Axis["default"], (0, _extends2["default"])({}, restProps, _moreProps, {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_Axis.default, {
+    ...restProps,
+    ..._moreProps,
     getMouseDelta: getMouseDelta,
     outerTickSize: outerTickSize,
     showTicks: showTicks,
@@ -68,9 +71,10 @@ var XAxis = function XAxis(props) {
     strokeWidth: strokeWidth,
     zoomEnabled: zoomEnabled && showTicks,
     axisZoomCallback: xAxisZoom
-  }));
+  });
 };
-var XAXIS_COLOR = '#000000',
+exports.XAxis = XAxis;
+const XAXIS_COLOR = '#000000',
   GRID_LINE_COLOR = '#e2e4ec';
 XAxis.defaultProps = {
   axisAt: 'bottom',
@@ -79,9 +83,7 @@ XAxis.defaultProps = {
   fontFamily: _CL.FONT_FAMILY,
   fontSize: 12,
   fontWeight: 400,
-  getMouseDelta: function getMouseDelta(startXY, mouseXY) {
-    return startXY[0] - mouseXY[0];
-  },
+  getMouseDelta: (startXY, mouseXY) => startXY[0] - mouseXY[0],
   gridLinesStrokeStyle: GRID_LINE_COLOR,
   gridLinesStrokeWidth: 1,
   orient: 'bottom',
@@ -100,6 +102,4 @@ XAxis.defaultProps = {
   zoomEnabled: true,
   zoomCursorClassName: _CL.CL_EW_RESIZE_CURSOR
 };
-var _default = XAxis;
-exports["default"] = _default;
 //# sourceMappingURL=XAxis.js.map

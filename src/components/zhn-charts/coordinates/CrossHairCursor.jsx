@@ -70,7 +70,7 @@ const _crLines = (
 	return [line1, line2];
 }
 
-const CrossHairCursor = (props) => {
+export const CrossHairCursor = (props) => {
   const context = useContext(ChartCanvasContext)
   , _drawOnCanvas = (ctx, moreProps) => {
 		const lines = _crLines(props, moreProps);
@@ -138,5 +138,3 @@ CrossHairCursor.defaultProps = {
 	stroke: "#000000",
 	strokeDasharray: "ShortDash"
 };
-
-export default CrossHairCursor;

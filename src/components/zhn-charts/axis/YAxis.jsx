@@ -81,7 +81,7 @@ const _crMoreProps = (
     };
 };
 
-const YAxis = (props) => {
+export const YAxis = (props) => {
   const context = useContext(ChartContext)
   , {
     chartId,
@@ -153,5 +153,3 @@ YAxis.defaultProps = {
    zoomEnabled: true,
    zoomCursorClassName: CL_NS_RESIZE_CURSOR
 };
-
-export default YAxis

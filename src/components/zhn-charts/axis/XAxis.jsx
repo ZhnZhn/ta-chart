@@ -64,7 +64,7 @@ const _crMoreProps = (
   };
 };
 
-const XAxis = (props) => {
+export const XAxis = (props) => {
   const {
     xAxisZoom,
     chartConfig: { width, height }
@@ -124,5 +124,3 @@ XAxis.defaultProps = {
    zoomEnabled: true,
    zoomCursorClassName: CL_EW_RESIZE_CURSOR
 }
-
-export default XAxis

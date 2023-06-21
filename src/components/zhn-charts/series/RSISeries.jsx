@@ -1,6 +1,6 @@
 import { Component } from '../../uiApi';
 
-import LineSeries from './LineSeries';
+import { LineSeries } from './LineSeries';
 import StraightLine from './StraightLine';
 import SVGComponent from './SVGComponent';
 import {
@@ -17,7 +17,7 @@ const mathRound = Math.round
 	clipPath: `url(#${id})`
 });
 
-class RSISeries extends Component {
+export class RSISeries extends Component {
 	constructor(props) {
 		super(props);
 		this.clipPathId1 = _crClipPathId();
@@ -205,5 +205,3 @@ RSISeries.defaultProps = {
 	middle: 50,
 	overBought: 30
 };
-
-export default RSISeries

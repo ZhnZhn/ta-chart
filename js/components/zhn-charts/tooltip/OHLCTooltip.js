@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.OHLCTooltip = void 0;
 var _d3Format = require("../d3Format");
 var _utils = require("../utils");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
@@ -135,6 +135,7 @@ const OHLCTooltip = props => {
     drawOn: DRAW_ON
   });
 };
+exports.OHLCTooltip = OHLCTooltip;
 OHLCTooltip.defaultProps = {
   className: _CL.CL_OHLC_TOOLTIP,
   fontFamily: _CL.FONT_FAMILY,
@@ -147,6 +148,4 @@ OHLCTooltip.defaultProps = {
   origin: [0, 0],
   percentFormat: (0, _d3Format.format)('+.2%')
 };
-var _default = OHLCTooltip;
-exports.default = _default;
 //# sourceMappingURL=OHLCTooltip.js.map

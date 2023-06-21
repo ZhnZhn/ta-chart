@@ -2,7 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports.default = void 0;
+exports.LineSeries = void 0;
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -157,6 +157,7 @@ const LineSeries = props => {
     ..._hoverProps
   });
 };
+exports.LineSeries = LineSeries;
 const DF_DEFINED = d => !isNaN(d);
 LineSeries.defaultProps = {
   className: _CL.CL_LINE,
@@ -174,6 +175,4 @@ LineSeries.defaultProps = {
   onDoubleClick: FN_NOOP,
   onContextMenu: FN_NOOP
 };
-var _default = LineSeries;
-exports.default = _default;
 //# sourceMappingURL=LineSeries.js.map
