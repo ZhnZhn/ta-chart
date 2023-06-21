@@ -1,16 +1,15 @@
 import {
   useEffect,
   cloneElement
-} from 'react'
+} from '../uiApi';
 
 import useToggle from '../hooks/useToggle';
 
-
-const CL_DRAWER_BT = 'drawer-bt'
-, CL_DRAWER_SPAN = 'drawer-span'
-, CL_DRAWER_SVG = 'drawer-svg'
-, CL_DRAWER = 'drawer'
-, CL_DRAWER_MODAL = 'drawer-modal'
+const CL_DRAWER = 'drawer'
+, CL_DRAWER_BT = `${CL_DRAWER}-bt`
+, CL_DRAWER_SPAN = `${CL_DRAWER}-span`
+, CL_DRAWER_SVG = `${CL_DRAWER}-svg`
+, CL_DRAWER_MODAL = `${CL_DRAWER}-modal`
 
 , S_BT_DRAWER = {
   position: 'absolute',
@@ -36,12 +35,14 @@ const CL_DRAWER_BT = 'drawer-bt'
 };
 
 
-
 const Drawer = ({
   btStyle,
   children
 }) => {
-  const [isOpen, toggleIsOpen] = useToggle();
+  const [
+    isOpen,
+    toggleIsOpen
+  ] = useToggle();
 
   useEffect(() => {
     document.body.style.overflowY = isOpen

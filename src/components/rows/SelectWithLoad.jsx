@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react'
+import {
+  useState,
+  useEffect
+} from '../uiApi';
 
-import RowInputSelect from './RowInputSelect'
-import loadOptions from './loadOptions'
+import RowInputSelect from './RowInputSelect';
+import loadOptions from './loadOptions';
 
 const SelectWithLoad = (props) => {
   const { optionURI } = props
@@ -11,7 +14,9 @@ const SelectWithLoad = (props) => {
 
   const _onLoadOptions = () => loadOptions({
     uri: optionURI,
-    setOptions, setIsLoading, setIsLoadingFailed
+    setOptions,
+    setIsLoading,
+    setIsLoadingFailed
   })
 
   useEffect(_onLoadOptions, [optionURI])
