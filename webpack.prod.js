@@ -2,6 +2,7 @@
 
 const path = require('path')
     , webpack = require('webpack')
+    , { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin')  
     , HtmlWebpackPlugin = require('html-webpack-plugin')
     , babelConfig = require('./babel.config')
     , TerserPlugin = require('terser-webpack-plugin');
@@ -50,6 +51,7 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   plugins : [
+    new BundleStatsWebpackPlugin(),
     new HtmlWebpackPlugin({
       minify: false,
       filename: path.resolve('index.html'),
