@@ -1,0 +1,20 @@
+{
+ "version": 3,
+ "sources": [
+  "../../src/adapters/adapters.js"
+ ],
+ "file": "../../src/adapters/adapters.js",
+ "names": [
+  "_binance",
+  "_interopRequireDefault",
+  "require",
+  "_bitstamp",
+  "adapters",
+  "binance",
+  "bitstamp",
+  "_default",
+  "exports",
+  "default"
+ ],
+ "mappings": ";;;;;AAAA,IAAAA,QAAA,GAAAC,sBAAA,CAAAC,OAAA;AACA,IAAAC,SAAA,GAAAF,sBAAA,CAAAC,OAAA;AAEA,MAAME,QAAQ,GAAG;EACfC,OAAO,EAAPA,gBAAO;EACPC,QAAQ,EAARA;AACF,CAAC;AAAC,IAAAC,QAAA,GAAAC,OAAA,CAAAC,OAAA,GAEaL,QAAQ"
+}

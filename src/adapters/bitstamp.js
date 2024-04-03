@@ -8,13 +8,13 @@ import {
 const API_URL = 'https://www.bitstamp.net/api/v2'
 , MARKET_URL = `${API_URL}/trading-pairs-info/`
 , OHCLV_URL = `${API_URL}/ohlc`
-, _crOhlcvUrl = (pair, timeframe, proxy) =>
-   `${proxy}/${OHCLV_URL}/${pair}?step=${timeframe}&limit=300`;
+, _crOhlcvUrl = (
+  pair,
+  timeframe
+) => `${OHCLV_URL}/${pair}?step=${timeframe}&limit=300`;
 
 const bitstamp = {
-  isRequireProxy: true,
-
-  fetchMarkets: (proxy) => fetchImpl(`${proxy}/${MARKET_URL}`)
+  fetchMarkets: () => fetchImpl(`${MARKET_URL}`)
     .then(items => getItems(items)
       .reduce((result, item) => {
          const { trading, name, url_symbol } = item || {}
@@ -44,8 +44,8 @@ const bitstamp = {
     {caption:"3d", value: {v:"259200",tf:"3d"}}
   ],
 
-  fetchOHLCV: (pair, timeframe, proxy) =>
-    fetchImpl(_crOhlcvUrl(pair, timeframe, proxy))
+  fetchOHLCV: (pair, timeframe) =>
+    fetchImpl(_crOhlcvUrl(pair, timeframe))
       .then(json => getItems((json || {}).data, 'ohlc')
          .reduce((result, p) => {
             if (isObj(p)) {
@@ -61,7 +61,6 @@ const bitstamp = {
             return result;
          }, [])
       )
-
 };
 
 export default bitstamp

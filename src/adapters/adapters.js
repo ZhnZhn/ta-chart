@@ -1,7 +1,5 @@
-
 import binance from './binance';
 import bitstamp from './bitstamp';
-
 
 const adapters = {
   binance,
