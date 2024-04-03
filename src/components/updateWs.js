@@ -1,7 +1,8 @@
-const C = {
-  URI_BASE: 'wss://stream.binance.com:9443/ws/',
-  URI_SUFFIX: '@kline_1m'
-}
+const BINANCE_WSS_URI = 'wss://stream.binance.com:9443/ws/'
+, BINANCE_WSS_SUFFIX = '@kline_1m'
+, _crBinanceWssUri = (
+  pair
+) => `${BINANCE_WSS_URI}${pair}${BINANCE_WSS_SUFFIX}`;
 
 const NORMAL_CLOSE = 1000;
 const NO_STATUS_RECEIVED = 1005;
@@ -17,21 +18,27 @@ const _crPoint = (E, k) => ({
 
 let ws;
 
-function closeWs(code=NO_STATUS_RECEIVED){
+const closeWs = (code=NO_STATUS_RECEIVED) => {
   if (ws) { ws.close(code) }
 }
 
-function connect(pair, onMessage, onOpen, onClose, onSecond){
+const connectToWs = (
+  pair,
+  onMessage,
+  onOpen,
+  onClose,
+  onSecond
+) => {
   let _prevMinute;
-  ws = new WebSocket(`${C.URI_BASE}${pair}${C.URI_SUFFIX}`)
+  ws = new WebSocket(_crBinanceWssUri(pair))
 
-  ws.addEventListener('open', function(){
+  ws.addEventListener('open', () => {
     _prevMinute = (new Date()).getMinutes()
     onOpen();
   })
-  ws.addEventListener('message', function(event){
+  ws.addEventListener('message', (evt) => {
     try {
-      const { E, k } = JSON.parse(event.data)
+      const { E, k } = JSON.parse(evt.data)
       , _d = new Date(E)
       , _m = _d.getMinutes();
       if (_prevMinute !== _m) {
@@ -45,10 +52,10 @@ function connect(pair, onMessage, onOpen, onClose, onSecond){
       console.log(err)
     }
   })
-  ws.addEventListener('error', function(err){
+  ws.addEventListener('error', (err) => {
     onClose()
   })
-  ws.addEventListener('close', function(event){
+  ws.addEventListener('close', (evt) => {
     onClose()
   })
 }
@@ -58,8 +65,20 @@ const _toPair = pair => (''+pair)
   .toLowerCase();
 
 const updateWs = {
-  startLiveUpdate: ({ pair, onMessage, onOpen, onClose, onSecond }) => {
-    connect(_toPair(pair), onMessage, onOpen, onClose, onSecond)
+  startLiveUpdate: ({
+    pair,
+    onMessage,
+    onOpen,
+    onClose,
+    onSecond
+  }) => {
+    connectToWs(
+      _toPair(pair),
+      onMessage,
+      onOpen,
+      onClose,
+      onSecond
+    )
   },
   stopLiveUpdate: () => {
      try {

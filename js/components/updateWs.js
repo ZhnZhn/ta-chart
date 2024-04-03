@@ -1,53 +1,44 @@
 "use strict";
 
 exports.__esModule = true;
-exports["default"] = void 0;
-var C = {
-  URI_BASE: 'wss://stream.binance.com:9443/ws/',
-  URI_SUFFIX: '@kline_1m'
-};
-var NORMAL_CLOSE = 1000;
-var NO_STATUS_RECEIVED = 1005;
-
-var _crPoint = function _crPoint(E, k) {
-  return {
-    date: E,
-    high: parseFloat(k.h),
-    low: parseFloat(k.l),
-    open: parseFloat(k.o),
-    close: parseFloat(k.c),
-    volume: parseFloat(k.v)
-  };
-};
-
-var ws;
-
-function closeWs(code) {
+exports.default = void 0;
+const BINANCE_WSS_URI = 'wss://stream.binance.com:9443/ws/',
+  BINANCE_WSS_SUFFIX = '@kline_1m',
+  _crBinanceWssUri = pair => "" + BINANCE_WSS_URI + pair + BINANCE_WSS_SUFFIX;
+const NORMAL_CLOSE = 1000;
+const NO_STATUS_RECEIVED = 1005;
+const _crPoint = (E, k) => ({
+  date: E,
+  high: parseFloat(k.h),
+  low: parseFloat(k.l),
+  open: parseFloat(k.o),
+  close: parseFloat(k.c),
+  volume: parseFloat(k.v)
+});
+let ws;
+const closeWs = function (code) {
   if (code === void 0) {
     code = NO_STATUS_RECEIVED;
   }
-
   if (ws) {
     ws.close(code);
   }
-}
-
-function connect(pair, onMessage, onOpen, onClose, onSecond) {
-  var _prevMinute;
-
-  ws = new WebSocket("" + C.URI_BASE + pair + C.URI_SUFFIX);
-  ws.addEventListener('open', function () {
+};
+const connectToWs = (pair, onMessage, onOpen, onClose, onSecond) => {
+  let _prevMinute;
+  ws = new WebSocket(_crBinanceWssUri(pair));
+  ws.addEventListener('open', () => {
     _prevMinute = new Date().getMinutes();
     onOpen();
   });
-  ws.addEventListener('message', function (event) {
+  ws.addEventListener('message', evt => {
     try {
-      var _JSON$parse = JSON.parse(event.data),
-          E = _JSON$parse.E,
-          k = _JSON$parse.k,
-          _d = new Date(E),
-          _m = _d.getMinutes();
-
+      const {
+          E,
+          k
+        } = JSON.parse(evt.data),
+        _d = new Date(E),
+        _m = _d.getMinutes();
       if (_prevMinute !== _m) {
         _prevMinute = _m;
         onMessage(_crPoint(E, k));
@@ -59,28 +50,26 @@ function connect(pair, onMessage, onOpen, onClose, onSecond) {
       console.log(err);
     }
   });
-  ws.addEventListener('error', function (err) {
+  ws.addEventListener('error', err => {
     onClose();
   });
-  ws.addEventListener('close', function (event) {
+  ws.addEventListener('close', evt => {
     onClose();
   });
-}
-
-var _toPair = function _toPair(pair) {
-  return ('' + pair).replace('/', '').toLowerCase();
 };
-
-var updateWs = {
-  startLiveUpdate: function startLiveUpdate(_ref) {
-    var pair = _ref.pair,
-        onMessage = _ref.onMessage,
-        onOpen = _ref.onOpen,
-        onClose = _ref.onClose,
-        onSecond = _ref.onSecond;
-    connect(_toPair(pair), onMessage, onOpen, onClose, onSecond);
+const _toPair = pair => ('' + pair).replace('/', '').toLowerCase();
+const updateWs = {
+  startLiveUpdate: _ref => {
+    let {
+      pair,
+      onMessage,
+      onOpen,
+      onClose,
+      onSecond
+    } = _ref;
+    connectToWs(_toPair(pair), onMessage, onOpen, onClose, onSecond);
   },
-  stopLiveUpdate: function stopLiveUpdate() {
+  stopLiveUpdate: () => {
     try {
       closeWs(NORMAL_CLOSE);
     } catch (err) {
@@ -88,6 +77,5 @@ var updateWs = {
     }
   }
 };
-var _default = updateWs;
-exports["default"] = _default;
+var _default = exports.default = updateWs;
 //# sourceMappingURL=updateWs.js.map
