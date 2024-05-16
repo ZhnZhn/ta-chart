@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   useRef,
   useImperativeHandle
 } from '../uiApi';
@@ -11,15 +10,19 @@ import crStyle from '../zhn-utils/crStyle';
 import CaptionInput from './CaptionInput';
 
 const CL_BT_FLAT = 'bt-flat'
-, CL_BT_FLAT_DIV = 'bt-flat__div'
-, CL_BT_FLAT_SPAN = 'bt-flat__span'
+, CL_BT_FLAT_DIV = `${CL_BT_FLAT}__div`
+, CL_BT_FLAT_SPAN = `${CL_BT_FLAT}__span`
 , S_PRIMARY = { color: '#607d8b' };
 
-const _crAccessKey = (title, accessKey) => accessKey
+const _crAccessKey = (
+  title,
+  accessKey
+) => accessKey
   ? `${title} [${accessKey}]`
   : title;
 
-const FlatButton = forwardRef(({
+const FlatButton = ({
+  refEl,
   className,
   style,
   clDiv=CL_BT_FLAT_DIV,
@@ -31,11 +34,11 @@ const FlatButton = forwardRef(({
   timeout=500,
   onClick,
   children
-}, ref) => {
+}) => {
   const _refBt = useRef()
   , _hClick = useThrottleClick(onClick, timeout);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refEl, () => ({
     focus: () => {
       const _btEl = _refBt.current;
       if (_btEl) {
@@ -69,6 +72,6 @@ const FlatButton = forwardRef(({
       </div>
     </button>
   );
-});
+};
 
 export default FlatButton
