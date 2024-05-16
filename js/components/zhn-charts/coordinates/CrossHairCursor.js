@@ -60,10 +60,18 @@ const _crLines = (props, moreProps) => {
     };
   return [line1, line2];
 };
+const DF_PROPS = {
+  customX: _customX,
+  opacity: 0.3,
+  snapX: true,
+  stroke: "#000000",
+  strokeDasharray: "ShortDash"
+};
 const CrossHairCursor = props => {
-  const context = (0, _uiApi.useContext)(_ChartCanvas.ChartCanvasContext),
+  const _props = (0, _uiApi.getProps)(props, DF_PROPS),
+    context = (0, _uiApi.useContext)(_ChartCanvas.ChartCanvasContext),
     _drawOnCanvas = (ctx, moreProps) => {
-      const lines = _crLines(props, moreProps);
+      const lines = _crLines(_props, moreProps);
       if (_isArr(lines)) {
         const {
             margin,
@@ -88,7 +96,7 @@ const CrossHairCursor = props => {
       }
     },
     _renderSvg = moreProps => {
-      const lines = _crLines(props, moreProps);
+      const lines = _crLines(_props, moreProps);
       return _isArr(lines) ? /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
         className: (0, _crCn.default)(_CL.CL_CHARTS_CROSSHAIR, props.className),
         children: lines.map((_ref2, index) => {
@@ -112,11 +120,4 @@ const CrossHairCursor = props => {
   });
 };
 exports.CrossHairCursor = CrossHairCursor;
-CrossHairCursor.defaultProps = {
-  customX: _customX,
-  opacity: 0.3,
-  snapX: true,
-  stroke: "#000000",
-  strokeDasharray: "ShortDash"
-};
 //# sourceMappingURL=CrossHairCursor.js.map

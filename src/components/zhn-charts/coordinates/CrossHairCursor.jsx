@@ -1,4 +1,7 @@
-import { useContext } from '../../uiApi';
+import {
+  getProps,
+  useContext
+} from '../../uiApi';
 import crCn from '../../zhn-utils/crCn';
 
 import { ChartCanvasContext } from '../core/ChartCanvas'
@@ -70,10 +73,19 @@ const _crLines = (
 	return [line1, line2];
 }
 
+const DF_PROPS = {
+  customX: _customX,
+  opacity: 0.3,
+  snapX: true,
+	stroke: "#000000",
+	strokeDasharray: "ShortDash"
+}
+
 export const CrossHairCursor = (props) => {
-  const context = useContext(ChartCanvasContext)
+  const _props = getProps(props, DF_PROPS)
+  , context = useContext(ChartCanvasContext)
   , _drawOnCanvas = (ctx, moreProps) => {
-		const lines = _crLines(props, moreProps);
+		const lines = _crLines(_props, moreProps);
 		if (_isArr(lines)) {
 			const {
         margin,
@@ -107,7 +119,7 @@ export const CrossHairCursor = (props) => {
 		}
   }
   , _renderSvg = (moreProps) => {
-		  const lines = _crLines(props, moreProps);
+		  const lines = _crLines(_props, moreProps);
 		  return _isArr(lines) ? (
 		    <g className={crCn(CL_CHARTS_CROSSHAIR, props.className)}>
 		      {lines.map(({ strokeDasharray, ...restProps }, index) =>
@@ -129,12 +141,4 @@ export const CrossHairCursor = (props) => {
       svgDraw={_renderSvg}
    />
   );
-};
-
-CrossHairCursor.defaultProps = {
-  customX: _customX,
-  opacity: 0.3,
-  snapX: true,
-	stroke: "#000000",
-	strokeDasharray: "ShortDash"
-};
+}
