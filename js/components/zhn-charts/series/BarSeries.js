@@ -3,10 +3,10 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.BarSeries = void 0;
+var _uiApi = require("../../uiApi");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
 var _utils = require("../utils");
-var _StackedBarSeries = _interopRequireDefault(require("./StackedBarSeries"));
 var _StackedBarSeriesFn = require("./StackedBarSeriesFn");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
@@ -59,18 +59,19 @@ const _getBars = (props, moreProps) => {
 };
 const DRAW_ON = ['pan'];
 const BarSeries = props => {
-  const {
+  const _props = (0, _uiApi.getProps)(props, _StackedBarSeriesFn.DF_PROPS),
+    {
       swapScales,
       clip
-    } = props,
+    } = _props,
     _renderSVG = moreProps => /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-      children: swapScales ? (0, _StackedBarSeriesFn.svgHelper)(props, moreProps, _StackedBarSeriesFn.identityStack) : (0, _StackedBarSeriesFn.getBarsSVG2)(props, _getBars(props, moreProps))
+      children: swapScales ? (0, _StackedBarSeriesFn.svgHelper)(_props, moreProps, _StackedBarSeriesFn.identityStack) : (0, _StackedBarSeriesFn.getBarsSVG2)(_props, _getBars(_props, moreProps))
     }),
     _drawOnCanvas = (ctx, moreProps) => {
       if (swapScales) {
-        (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, props, moreProps, _StackedBarSeriesFn.identityStack);
+        (0, _StackedBarSeriesFn.drawOnCanvasHelper)(ctx, _props, moreProps, _StackedBarSeriesFn.identityStack);
       } else {
-        (0, _StackedBarSeriesFn.drawOnCanvas2)(ctx, props, _getBars(props, moreProps));
+        (0, _StackedBarSeriesFn.drawOnCanvas2)(ctx, _props, _getBars(_props, moreProps));
       }
     };
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.default, {
@@ -106,5 +107,4 @@ BarSeries.propTypes = {
 };
 */
 exports.BarSeries = BarSeries;
-BarSeries.defaultProps = _StackedBarSeries.default.defaultProps;
 //# sourceMappingURL=BarSeries.js.map

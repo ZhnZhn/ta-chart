@@ -2,8 +2,7 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+exports.default = void 0;
 var _utils = require("../utils");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -11,61 +10,68 @@ var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from "prop-types";
 
-var mathRound = Math.round;
-var _getLineDash = function _getLineDash(strokeDasharray) {
-  return (0, _utils.getStrokeDasharray)(strokeDasharray).split(",");
+const mathRound = Math.round;
+const _getLineDash = strokeDasharray => (0, _utils.getStrokeDasharray)(strokeDasharray).split(",");
+const _getValueFromScale = (scale, value) => mathRound(scale(value));
+const _getLineCoordinates = (type, xScale, yScale, xValue, yValue, width, height) => type === "horizontal" ? {
+  x1: 0,
+  y1: _getValueFromScale(yScale, yValue),
+  x2: width,
+  y2: _getValueFromScale(yScale, yValue)
+} : {
+  x1: _getValueFromScale(xScale, xValue),
+  y1: 0,
+  x2: _getValueFromScale(xScale, xValue),
+  y2: height
 };
-var _getValueFromScale = function _getValueFromScale(scale, value) {
-  return mathRound(scale(value));
-};
-var _getLineCoordinates = function _getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height) {
-  return type === "horizontal" ? {
-    x1: 0,
-    y1: _getValueFromScale(yScale, yValue),
-    x2: width,
-    y2: _getValueFromScale(yScale, yValue)
-  } : {
-    x1: _getValueFromScale(xScale, xValue),
-    y1: 0,
-    x2: _getValueFromScale(xScale, xValue),
-    y2: height
-  };
-};
-var DRAW_ON = ['pan'];
-var StraightLine = function StraightLine(props) {
-  var type = props.type,
-    className = props.className,
-    opacity = props.opacity,
-    stroke = props.stroke,
-    strokeWidth = props.strokeWidth,
-    strokeDasharray = props.strokeDasharray,
-    yValue = props.yValue,
-    xValue = props.xValue,
-    _renderSVG = function _renderSVG(moreProps) {
-      var width = moreProps.width,
-        height = moreProps.height,
-        xScale = moreProps.xScale,
-        yScale = moreProps.chartConfig.yScale,
+const DRAW_ON = ['pan'];
+const StraightLine = props => {
+  const {
+      type = 'horizontal',
+      className = _CL.CL_LINE,
+      opacity = 0.5,
+      stroke = '#000000',
+      strokeWidth = 1,
+      strokeDasharray = 'Solid',
+      yValue,
+      xValue
+    } = props,
+    _renderSVG = moreProps => {
+      const {
+          width,
+          height,
+          xScale,
+          chartConfig: {
+            yScale
+          }
+        } = moreProps,
         lineCoordinates = _getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height);
-      return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", (0, _extends2["default"])({
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
         className: className,
         strokeDasharray: (0, _utils.getStrokeDasharray)(strokeDasharray),
         stroke: stroke,
         strokeWidth: strokeWidth,
-        strokeOpacity: opacity
-      }, lineCoordinates));
+        strokeOpacity: opacity,
+        ...lineCoordinates
+      });
     },
-    _drawOnCanvas = function _drawOnCanvas(ctx, moreProps) {
-      var xScale = moreProps.xScale,
-        _moreProps$chartConfi = moreProps.chartConfig,
-        yScale = _moreProps$chartConfi.yScale,
-        width = _moreProps$chartConfi.width,
-        height = _moreProps$chartConfi.height,
-        _getLineCoordinates2 = _getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height),
-        x1 = _getLineCoordinates2.x1,
-        y1 = _getLineCoordinates2.y1,
-        x2 = _getLineCoordinates2.x2,
-        y2 = _getLineCoordinates2.y2;
+    _drawOnCanvas = (ctx, moreProps) => {
+      const {
+          xScale
+        } = moreProps,
+        {
+          chartConfig: {
+            yScale,
+            width,
+            height
+          }
+        } = moreProps,
+        {
+          x1,
+          y1,
+          x2,
+          y2
+        } = _getLineCoordinates(type, xScale, yScale, xValue, yValue, width, height);
       ctx.beginPath();
       ctx.strokeStyle = (0, _utils.hexToRGBA)(stroke, opacity);
       ctx.lineWidth = strokeWidth;
@@ -74,7 +80,7 @@ var StraightLine = function StraightLine(props) {
       ctx.lineTo(x2, y2);
       ctx.stroke();
     };
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent["default"], {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericChartComponent.default, {
     svgDraw: _renderSVG,
     canvasDraw: _drawOnCanvas,
     canvasToDraw: _contextFn.getAxisCanvas,
@@ -102,15 +108,5 @@ StraightLine.propTypes = {
 	},
 };
 */
-
-StraightLine.defaultProps = {
-  type: 'horizontal',
-  className: _CL.CL_LINE,
-  opacity: 0.5,
-  stroke: '#000000',
-  strokeWidth: 1,
-  strokeDasharray: 'Solid'
-};
-var _default = StraightLine;
-exports["default"] = _default;
+var _default = exports.default = StraightLine;
 //# sourceMappingURL=StraightLine.js.map

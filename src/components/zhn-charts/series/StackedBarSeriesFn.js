@@ -5,11 +5,32 @@ import {
   identity,
   hexToRGBA,
   head,
-  functor
+  functor,
+  plotDataLengthBarWidth
 } from '../utils';
+
+import { CL_BAR } from '../CL';
 
 const _isArr = Array.isArray
 , mathRound = Math.round;
+
+const DF_BASE_AT = (
+  xScale,
+  yScale
+) => head(yScale.range());
+
+export const DF_PROPS = {
+	baseAt: DF_BASE_AT,
+	direction: 'up',
+	className: CL_BAR,
+	stroke: true,
+	fill: '#4682b4',
+	opacity: 0.5,
+	width: plotDataLengthBarWidth,
+	widthRatio: 0.8,
+	clip: true,
+	swapScales: false
+};
 
 export const identityStack = (
   ...args

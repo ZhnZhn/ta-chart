@@ -50,12 +50,12 @@ const DRAW_ON = ['pan'];
 
 const StraightLine = (props) => {
   const {
-    type,
-    className,
-    opacity,
-    stroke,
-    strokeWidth,
-    strokeDasharray,
+    type='horizontal',
+    className=CL_LINE,
+    opacity=0.5,
+    stroke='#000000',
+    strokeWidth=1,
+    strokeDasharray='Solid',
     yValue,
     xValue
   } = props
@@ -147,14 +147,5 @@ StraightLine.propTypes = {
 	},
 };
 */
-
-StraightLine.defaultProps = {
-  type: 'horizontal',
-	className: CL_LINE,
-  opacity: 0.5,
-	stroke: '#000000',
-	strokeWidth: 1,
-	strokeDasharray: 'Solid'
-};
 
 export default StraightLine

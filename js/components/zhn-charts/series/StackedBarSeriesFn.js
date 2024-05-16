@@ -1,13 +1,27 @@
 "use strict";
 
 exports.__esModule = true;
-exports.svgHelper = exports.identityStack = exports.getBarsSVG2 = exports.drawOnCanvasHelper = exports.drawOnCanvas2 = void 0;
+exports.svgHelper = exports.identityStack = exports.getBarsSVG2 = exports.drawOnCanvasHelper = exports.drawOnCanvas2 = exports.DF_PROPS = void 0;
 var _d3Collection = require("../d3Collection");
 var _d3Array = require("../d3Array");
 var _utils = require("../utils");
+var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 const _isArr = Array.isArray,
   mathRound = Math.round;
+const DF_BASE_AT = (xScale, yScale) => (0, _utils.head)(yScale.range());
+const DF_PROPS = exports.DF_PROPS = {
+  baseAt: DF_BASE_AT,
+  direction: 'up',
+  className: _CL.CL_BAR,
+  stroke: true,
+  fill: '#4682b4',
+  opacity: 0.5,
+  width: _utils.plotDataLengthBarWidth,
+  widthRatio: 0.8,
+  clip: true,
+  swapScales: false
+};
 const identityStack = function () {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];

@@ -32,19 +32,21 @@ const _crAreaSeries = (
   .y0(d => functor(base)(yScale, d, moreProps))
   .y1(d => mathRound(yScale(yAccessor(d))));
 
-const DRAW_ON = ['pan'];
+const DRAW_ON = ['pan']
+, DF_DEFINED = d => !isNaN(d)
+, DF_BASE = (yScale) => first(yScale.range());
 
 const AreaOnlySeries = (props) => {
   const {
     yAccessor,
-    defined,
-    base,
+    defined=DF_DEFINED,
+    base=DF_BASE,
     style,
 
-    className,
+    className=CL_LINE,
     stroke,
-    fill,
-    opacity,
+    fill='none',
+    opacity=1,
     interpolation,
 
     canvasGradient,
@@ -153,16 +155,5 @@ AreaOnlySeries.propTypes = {
 	canvasGradient: PropTypes.func
 };
 */
-
-const DF_DEFINED = d => !isNaN(d)
-, DF_BASE = (yScale) => first(yScale.range());
-
-AreaOnlySeries.defaultProps = {
-	className: CL_LINE,
-	fill: 'none',
-	opacity: 1,
-	defined: DF_DEFINED,
-	base: DF_BASE
-};
 
 export default AreaOnlySeries;

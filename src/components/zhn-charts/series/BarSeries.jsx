@@ -1,10 +1,11 @@
 //import PropTypes from "prop-types";
+import { getProps } from '../../uiApi';
 import GenericChartComponent from '../core/GenericChartComponent';
 import { getAxisCanvas } from '../core/contextFn';
 import { functor } from '../utils';
 
-import StackedBarSeries from './StackedBarSeries';
 import {
+  DF_PROPS,
   drawOnCanvasHelper,
   drawOnCanvas2,
   getBarsSVG2,
@@ -74,23 +75,24 @@ const _getBars = (
 const DRAW_ON = ['pan'];
 
 export const BarSeries = (props) => {
-  const {
+  const _props = getProps(props, DF_PROPS)
+  , {
     swapScales,
     clip
-  } = props
+  } = _props
   , _renderSVG = (moreProps) => (
      <g>
        {swapScales
-         ? svgHelper(props, moreProps, identityStack)
-         : getBarsSVG2(props, _getBars(props, moreProps))
+         ? svgHelper(_props, moreProps, identityStack)
+         : getBarsSVG2(_props, _getBars(_props, moreProps))
        }
      </g>
   )
   , _drawOnCanvas = (ctx, moreProps) => {
 		 if (swapScales) {
-       drawOnCanvasHelper(ctx, props, moreProps, identityStack);
+       drawOnCanvasHelper(ctx, _props, moreProps, identityStack);
 		 } else {
-       drawOnCanvas2(ctx, props, _getBars(props, moreProps));
+       drawOnCanvas2(ctx, _props, _getBars(_props, moreProps));
 		 }
 	};
   return (
@@ -127,5 +129,3 @@ BarSeries.propTypes = {
 	swapScales: PropTypes.bool,
 };
 */
-
-BarSeries.defaultProps = StackedBarSeries.defaultProps;

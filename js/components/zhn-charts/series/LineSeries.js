@@ -3,6 +3,7 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.LineSeries = void 0;
+var _uiApi = require("../../uiApi");
 var _d3Shape = require("../d3Shape");
 var _GenericChartComponent = _interopRequireDefault(require("../core/GenericChartComponent"));
 var _contextFn = require("../core/contextFn");
@@ -16,8 +17,26 @@ const FN_NOOP = () => {},
   mathRound = Math.round,
   mathPow = Math.pow,
   _crD3LineDataSeries = (xScale, yScale, xAccessor, yAccessor) => (0, _d3Shape.d3Line)().x(d => mathRound(xScale(xAccessor(d)))).y(d => mathRound(yScale(yAccessor(d))));
+const DF_DEFINED = d => !isNaN(d),
+  DF_PROPS = {
+    className: _CL.CL_LINE,
+    strokeWidth: 1,
+    strokeOpacity: 1,
+    hoverStrokeWidth: 4,
+    fill: 'none',
+    stroke: '#4682b4',
+    strokeDasharray: 'Solid',
+    defined: DF_DEFINED,
+    hoverTolerance: 6,
+    highlightOnHover: false,
+    connectNulls: false,
+    onClick: FN_NOOP,
+    onDoubleClick: FN_NOOP,
+    onContextMenu: FN_NOOP
+  };
 const LineSeries = props => {
-  const {
+  const _props = (0, _uiApi.getProps)(props, DF_PROPS),
+    {
       yAccessor,
       hoverTolerance,
       highlightOnHover,
@@ -38,7 +57,7 @@ const LineSeries = props => {
       onContextMenu,
       onHover,
       onUnHover
-    } = props,
+    } = _props,
     _isHover = moreProps => {
       if (!highlightOnHover) {
         return false;
@@ -158,21 +177,4 @@ const LineSeries = props => {
   });
 };
 exports.LineSeries = LineSeries;
-const DF_DEFINED = d => !isNaN(d);
-LineSeries.defaultProps = {
-  className: _CL.CL_LINE,
-  strokeWidth: 1,
-  strokeOpacity: 1,
-  hoverStrokeWidth: 4,
-  fill: 'none',
-  stroke: '#4682b4',
-  strokeDasharray: 'Solid',
-  defined: DF_DEFINED,
-  hoverTolerance: 6,
-  highlightOnHover: false,
-  connectNulls: false,
-  onClick: FN_NOOP,
-  onDoubleClick: FN_NOOP,
-  onContextMenu: FN_NOOP
-};
 //# sourceMappingURL=LineSeries.js.map

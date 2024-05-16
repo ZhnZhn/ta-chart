@@ -1,4 +1,5 @@
 //import PropTypes from "prop-types";
+import { getProps } from '../../uiApi';
 import { d3Line } from '../d3Shape';
 
 import GenericChartComponent from '../core/GenericChartComponent';
@@ -33,8 +34,27 @@ const FN_NOOP = () => {}
   .x(d => mathRound(xScale(xAccessor(d))))
   .y(d => mathRound(yScale(yAccessor(d))));
 
+const DF_DEFINED = d => !isNaN(d)
+, DF_PROPS = {
+  className: CL_LINE,
+  strokeWidth: 1,
+  strokeOpacity: 1,
+  hoverStrokeWidth: 4,
+  fill: 'none',
+  stroke: '#4682b4',
+  strokeDasharray: 'Solid',
+  defined: DF_DEFINED,
+  hoverTolerance: 6,
+  highlightOnHover: false,
+  connectNulls: false,
+  onClick: FN_NOOP,
+  onDoubleClick: FN_NOOP,
+  onContextMenu: FN_NOOP
+};
+
 export const LineSeries = (props) => {
-  const {
+  const _props = getProps(props, DF_PROPS)
+  , {
     yAccessor,
     hoverTolerance,
     highlightOnHover,
@@ -58,7 +78,7 @@ export const LineSeries = (props) => {
     onContextMenu,
     onHover,
     onUnHover
-  } = props
+  } = _props
   , _isHover = (moreProps) => {
 		if (!highlightOnHover) {
       return false;
@@ -205,22 +225,4 @@ export const LineSeries = (props) => {
       {..._hoverProps}
     />
   );
-};
-
-const DF_DEFINED = d => !isNaN(d);
-LineSeries.defaultProps = {
-	className: CL_LINE,
-	strokeWidth: 1,
-	strokeOpacity: 1,
-	hoverStrokeWidth: 4,
-	fill: 'none',
-	stroke: '#4682b4',
-	strokeDasharray: 'Solid',
-	defined: DF_DEFINED,
-	hoverTolerance: 6,
-	highlightOnHover: false,
-	connectNulls: false,
-	onClick: FN_NOOP,
-	onDoubleClick: FN_NOOP,
-	onContextMenu: FN_NOOP
-};
+}

@@ -14,17 +14,19 @@ var _jsxRuntime = require("react/jsx-runtime");
 
 const mathRound = Math.round;
 const _crAreaSeries = (base, defined, xAccessor, yAccessor, xScale, yScale, moreProps) => (0, _d3Shape.d3Area)().defined(d => defined(yAccessor(d))).x(d => mathRound(xScale(xAccessor(d)))).y0(d => (0, _utils.functor)(base)(yScale, d, moreProps)).y1(d => mathRound(yScale(yAccessor(d))));
-const DRAW_ON = ['pan'];
+const DRAW_ON = ['pan'],
+  DF_DEFINED = d => !isNaN(d),
+  DF_BASE = yScale => (0, _utils.first)(yScale.range());
 const AreaOnlySeries = props => {
   const {
       yAccessor,
-      defined,
-      base,
+      defined = DF_DEFINED,
+      base = DF_BASE,
       style,
-      className,
+      className = _CL.CL_LINE,
       stroke,
-      fill,
-      opacity,
+      fill = 'none',
+      opacity = 1,
       interpolation,
       canvasGradient,
       canvasClip
@@ -103,16 +105,5 @@ AreaOnlySeries.propTypes = {
 	canvasGradient: PropTypes.func
 };
 */
-
-const DF_DEFINED = d => !isNaN(d),
-  DF_BASE = yScale => (0, _utils.first)(yScale.range());
-AreaOnlySeries.defaultProps = {
-  className: _CL.CL_LINE,
-  fill: 'none',
-  opacity: 1,
-  defined: DF_DEFINED,
-  base: DF_BASE
-};
-var _default = AreaOnlySeries;
-exports.default = _default;
+var _default = exports.default = AreaOnlySeries;
 //# sourceMappingURL=AreaOnlySeries.js.map

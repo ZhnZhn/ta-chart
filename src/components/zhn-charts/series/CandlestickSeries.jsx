@@ -1,4 +1,5 @@
 //import PropTypes from "prop-types";
+import { getProps } from '../../uiApi';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
@@ -23,15 +24,45 @@ import {
 	getWicksSVG
 } from './CandlestickSeriesFn';
 
-const DRAW_ON = ['pan'];
+const DRAW_ON = ['pan']
+
+, DF_YACCESSOR = d => ({
+	open: d.open,
+	high: d.high,
+	low: d.low,
+	close: d.close
+})
+, DF_CLASSNAMES = d => d.close > d.open
+	 ? CL_UP
+	 : CL_DOWN
+, DF_FILL = d => d.close > d.open
+	 ? '#6ba583'
+	 : '#ff0000'
+
+, DF_PROPS = {
+	className: CL_CANDLESTICK,
+	wickClassName: CL_CANDLESTICK_WICK,
+	candleClassName: CL_CANDLESTICK_CANDLE,
+	yAccessor: DF_YACCESSOR,
+	classNames: DF_CLASSNAMES,
+	width: plotDataLengthBarWidth,
+	wickStroke: '#000000',
+	fill: DF_FILL,
+	stroke: '#000000',
+	candleStrokeWidth: 0.5,
+	widthRatio: 0.8,
+	opacity: 0.5,
+	clip: true
+}
 
 export const CandlestickSeries = (props) => {
-	const {
+	const _props = getProps(props, DF_PROPS)
+	, {
 		className,
 		wickClassName,
 		candleClassName,
 		clip
-	} = props
+	} = _props
 	, _renderSVG = (moreProps) => {
       const {
 	      xAccessor,
@@ -40,7 +71,7 @@ export const CandlestickSeries = (props) => {
         chartConfig: { yScale }
       } = moreProps
       , candleData = getCandleData(
-         props,
+         _props,
          xAccessor,
          xScale,
          yScale,
@@ -53,13 +84,13 @@ export const CandlestickSeries = (props) => {
             {getWicksSVG(candleData)}
           </g>
           <g className={candleClassName} key="candles">
-            {getCandlesSVG(props, candleData)}
+            {getCandlesSVG(_props, candleData)}
           </g>
        </g>
 	   );
 	}
 	, _drawOnCanvas = (ctx, moreProps) => {
-		  drawOnCanvas(ctx, props, moreProps);
+		  drawOnCanvas(ctx, _props, moreProps);
 	};
 
 	return (
@@ -103,32 +134,3 @@ CandlestickSeries.propTypes = {
 	clip: PropTypes.bool,
 };
 */
-
-const DF_YACCESSOR = d => ({
-	open: d.open,
-	high: d.high,
-	low: d.low,
-	close: d.close
-})
-, DF_CLASSNAMES = d => d.close > d.open
-	 ? CL_UP
-	 : CL_DOWN
-, DF_FILL = d => d.close > d.open
-	 ? '#6ba583'
-	 : '#ff0000'
-
-CandlestickSeries.defaultProps = {
-	className: CL_CANDLESTICK,
-	wickClassName: CL_CANDLESTICK_WICK,
-	candleClassName: CL_CANDLESTICK_CANDLE,
-	yAccessor: DF_YACCESSOR,
-	classNames: DF_CLASSNAMES,
-	width: plotDataLengthBarWidth,
-	wickStroke: '#000000',
-	fill: DF_FILL,
-	stroke: '#000000',
-	candleStrokeWidth: 0.5,
-	widthRatio: 0.8,
-	opacity: 0.5,
-	clip: true
-};
