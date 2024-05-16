@@ -1,4 +1,5 @@
-import { format } from "../d3Format";
+import { getProps } from '../../uiApi';
+import { format } from '../d3Format';
 
 import GenericChartComponent from '../core/GenericChartComponent';
 import {
@@ -13,12 +14,21 @@ import {
 import TooltipText from './TooltipText';
 import TooltipTSpan from './TooltipTSpan';
 
-const DRAW_ON = ['mousemove'];
+const DRAW_ON = ['mousemove']
+, DF_PROPS = {
+  className: CL_BB_TOOLTIP,
+  displayFormat: format('.2f'),
+  displayValuesFor: (_, props) => props.currentItem,
+  displayInit: 'n/a',
+  origin: [8, 8],
+  yAccessor: data => data.bb
+};
 
 export const BollingerBandTooltip = (
   props
 ) => {
-  const _renderSVG = (moreProps) => {
+  const _props = getProps(props, DF_PROPS)
+  , _renderSVG = (moreProps) => {
       const {
         onClick,
         displayFormat,
@@ -34,12 +44,12 @@ export const BollingerBandTooltip = (
         fontFamily,
         fontSize,
         fontWeight,
-      } = props
+      } = _props
       , {
         chartConfig: { width, height },
         fullData,
       } = moreProps
-      , currentItem = displayValuesFor(props, moreProps)
+      , currentItem = displayValuesFor(_props, moreProps)
           ?? last(fullData);
 
       let top = displayInit
@@ -104,13 +114,4 @@ export const BollingerBandTooltip = (
        drawOn={DRAW_ON}
     />
   );
-};
-
-BollingerBandTooltip.defaultProps = {
-  className: CL_BB_TOOLTIP,
-  displayFormat: format('.2f'),
-  displayValuesFor: (_, props) => props.currentItem,
-  displayInit: 'n/a',
-  origin: [8, 8],
-  yAccessor: data => data.bb
 };

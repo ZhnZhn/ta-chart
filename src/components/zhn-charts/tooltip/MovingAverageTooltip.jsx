@@ -1,3 +1,4 @@
+import { getProps } from '../../uiApi';
 import { format } from '../d3Format';
 
 import GenericChartComponent from '../core/GenericChartComponent';
@@ -12,10 +13,19 @@ import {
 
 import MovingAverage from './MovingAverage';
 
-const DRAW_ON = ['mousemove'];
+const DRAW_ON = ['mousemove']
+, DF_PROPS = {
+  className: CL_MA_TOOLTIP,
+  displayFormat: format('.2f'),
+  displayInit: 'n/a',
+  displayValuesFor: (_, props) => props.currentItem,
+  origin: [0, 10],
+  width: 65,
+};
 
 export const MovingAverageTooltip = props => {
-  const _renderSVG = (moreProps) => {
+  const _props = getProps(props, DF_PROPS)
+  , _renderSVG = (moreProps) => {
      const {
        chartId,
        chartConfig,
@@ -36,8 +46,8 @@ export const MovingAverageTooltip = props => {
         displayFormat,
         displayValuesFor,
         options,
-     } = props
-     , currentItem = displayValuesFor(props, moreProps)
+     } = _props
+     , currentItem = displayValuesFor(_props, moreProps)
          ?? last(fullData)
      , origin = functor(originProp)
      , [x, y] = origin(width, height)
@@ -85,12 +95,3 @@ export const MovingAverageTooltip = props => {
     />
   );
 }
-
-MovingAverageTooltip.defaultProps = {
-  className: CL_MA_TOOLTIP,
-  displayFormat: format('.2f'),
-  displayInit: 'n/a',
-  displayValuesFor: (_, props) => props.currentItem,
-  origin: [0, 10],
-  width: 65,
-};

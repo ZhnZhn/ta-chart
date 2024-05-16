@@ -1,3 +1,4 @@
+import { getProps } from '../../uiApi';
 import { format } from '../d3Format';
 
 import {
@@ -43,10 +44,23 @@ const TooltipValue = ({
   </>
 );
 
-const DRAW_ON = ['mousemove'];
+const DRAW_ON = ['mousemove']
+, DF_PROPS = {
+  className: CL_OHLC_TOOLTIP,
+  fontFamily: FONT_FAMILY,
+  fontWeight: 'bold',
+  accessor: d => d,
+  changeFormat: format('+.2f'),
+  displayTexts: displayTextsDefault,
+  displayValuesFor: (_, props) => props.currentItem,
+  ohlcFormat: format('.2f'),
+  origin: [0, 0],
+  percentFormat: format('+.2%')
+};
 
 export const OHLCTooltip = props => {
-  const _renderSVG = (moreProps) => {
+  const _props = getProps(props, DF_PROPS)
+  , _renderSVG = (moreProps) => {
       const {
         accessor,
         changeFormat,
@@ -62,12 +76,12 @@ export const OHLCTooltip = props => {
         onClick,
         percentFormat,
         textFill
-      } = props
+      } = _props
       , {
         chartConfig: { width, height },
         fullData
       } = moreProps
-      , currentItem = displayValuesFor(props, moreProps)
+      , currentItem = displayValuesFor(_props, moreProps)
           ?? last(fullData)
       , { na } = displayTexts;
 
@@ -151,16 +165,3 @@ export const OHLCTooltip = props => {
     />
   );
 }
-
-OHLCTooltip.defaultProps = {
-  className: CL_OHLC_TOOLTIP,
-  fontFamily: FONT_FAMILY,
-  fontWeight: 'bold',
-  accessor: d => d,
-  changeFormat: format('+.2f'),
-  displayTexts: displayTextsDefault,
-  displayValuesFor: (_, props) => props.currentItem,
-  ohlcFormat: format('.2f'),
-  origin: [0, 0],
-  percentFormat: format('+.2%')
-};
