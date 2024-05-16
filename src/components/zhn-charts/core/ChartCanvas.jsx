@@ -943,7 +943,7 @@ export class ChartCanvas extends Component {
                onDoubleClick={onDoubleClick}
             >
                 <CanvasContainer
-                   ref={this.canvasContainerRef}
+                   refEl={this.canvasContainerRef}
                    ratio={ratio}
                    width={width}
                    height={height}

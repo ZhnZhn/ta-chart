@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   memo,
   useRef,
   useImperativeHandle,
@@ -9,17 +8,18 @@ import {
 const _getCanvasContext = ref =>
   getRefValue(ref)?.getContext('2d') ?? void 0;
 
-export const CanvasContainer = memo(forwardRef(({
+export const CanvasContainer = memo(({
+  refEl,
   style,
   width,
   height,
   ratio
-}, ref) => {
+}) => {
   const _refBg = useRef()
   , _refAxes = useRef()
   , _refMouse = useRef();
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refEl, () => ({
      getCanvasContexts: () => ({
        bg: _getCanvasContext(_refBg),
        axes: _getCanvasContext(_refAxes),
@@ -53,4 +53,4 @@ export const CanvasContainer = memo(forwardRef(({
        />
     </div>
   );
-}))
+})
