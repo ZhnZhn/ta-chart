@@ -5,7 +5,6 @@ export {
   createElement,
   createContext,
   cloneElement,
-  forwardRef,
   memo,
   useContext,
   useRef,
