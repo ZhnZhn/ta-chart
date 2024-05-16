@@ -1,4 +1,5 @@
 import {
+  getProps,
   useContext,
   useCallback
 } from '../../uiApi';
@@ -81,8 +82,38 @@ const _crMoreProps = (
     };
 };
 
+const YAXIS_COLOR = '#000000'
+, GRID_LINE_COLOR = '#e2e4ec'
+, DF_PROPS = {
+  axisAt: 'right',
+  className: CL_Y_AXIS,
+  domainClassName: CL_AXIS_DOMAIN,
+  fontFamily: FONT_FAMILY,
+  fontSize: 12,
+  fontWeight: 400,
+  getMouseDelta: (startXY, mouseXY) => startXY[1] - mouseXY[1],
+  gridLinesStrokeStyle: GRID_LINE_COLOR,
+  gridLinesStrokeWidth: 1,
+  innerTickSize: 4,
+  outerTickSize: 0,
+  orient: 'right',
+  showDomain: true,
+  showGridLines: false,
+  showTicks: true,
+  showTickLabel: true,
+  strokeStyle: YAXIS_COLOR,
+  strokeWidth: 1,
+  tickPadding: 4,
+  tickLabelFill: YAXIS_COLOR,
+  tickStrokeStyle: YAXIS_COLOR,
+  yZoomWidth: 40,
+  zoomEnabled: true,
+  zoomCursorClassName: CL_NS_RESIZE_CURSOR
+};
+
 export const YAxis = (props) => {
-  const context = useContext(ChartContext)
+  const _props = getProps(props, DF_PROPS)
+  , context = useContext(ChartContext)
   , {
     chartId,
     chartConfig: {width, height, yPan},
@@ -98,12 +129,12 @@ export const YAxis = (props) => {
     strokeStyle,
     strokeWidth,
     ...restProps
-  } = props
+  } = _props
   , {
     zoomEnabled,
     ...moreProps
   } = _crMoreProps(
-    props,
+    _props,
     width,
     height,
     yPan
@@ -123,33 +154,3 @@ export const YAxis = (props) => {
     />
   );
 }
-
-const YAXIS_COLOR = '#000000'
-, GRID_LINE_COLOR = '#e2e4ec';
-
-YAxis.defaultProps = {
-   axisAt: 'right',
-   className: CL_Y_AXIS,
-   domainClassName: CL_AXIS_DOMAIN,
-   fontFamily: FONT_FAMILY,
-   fontSize: 12,
-   fontWeight: 400,
-   getMouseDelta: (startXY, mouseXY) => startXY[1] - mouseXY[1],
-   gridLinesStrokeStyle: GRID_LINE_COLOR,
-   gridLinesStrokeWidth: 1,
-   innerTickSize: 4,
-   outerTickSize: 0,
-   orient: 'right',
-   showDomain: true,
-   showGridLines: false,
-   showTicks: true,
-   showTickLabel: true,
-   strokeStyle: YAXIS_COLOR,
-   strokeWidth: 1,
-   tickPadding: 4,
-   tickLabelFill: YAXIS_COLOR,
-   tickStrokeStyle: YAXIS_COLOR,
-   yZoomWidth: 40,
-   zoomEnabled: true,
-   zoomCursorClassName: CL_NS_RESIZE_CURSOR
-};

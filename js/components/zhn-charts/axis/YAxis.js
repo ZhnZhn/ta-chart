@@ -45,8 +45,37 @@ const _crMoreProps = (props, width, height, yPan) => {
     zoomEnabled: yPan
   };
 };
+const YAXIS_COLOR = '#000000',
+  GRID_LINE_COLOR = '#e2e4ec',
+  DF_PROPS = {
+    axisAt: 'right',
+    className: _CL.CL_Y_AXIS,
+    domainClassName: _CL.CL_AXIS_DOMAIN,
+    fontFamily: _CL.FONT_FAMILY,
+    fontSize: 12,
+    fontWeight: 400,
+    getMouseDelta: (startXY, mouseXY) => startXY[1] - mouseXY[1],
+    gridLinesStrokeStyle: GRID_LINE_COLOR,
+    gridLinesStrokeWidth: 1,
+    innerTickSize: 4,
+    outerTickSize: 0,
+    orient: 'right',
+    showDomain: true,
+    showGridLines: false,
+    showTicks: true,
+    showTickLabel: true,
+    strokeStyle: YAXIS_COLOR,
+    strokeWidth: 1,
+    tickPadding: 4,
+    tickLabelFill: YAXIS_COLOR,
+    tickStrokeStyle: YAXIS_COLOR,
+    yZoomWidth: 40,
+    zoomEnabled: true,
+    zoomCursorClassName: _CL.CL_NS_RESIZE_CURSOR
+  };
 const YAxis = props => {
-  const context = (0, _uiApi.useContext)(_Chart.ChartContext),
+  const _props = (0, _uiApi.getProps)(props, DF_PROPS),
+    context = (0, _uiApi.useContext)(_Chart.ChartContext),
     {
       chartId,
       chartConfig: {
@@ -65,11 +94,11 @@ const YAxis = props => {
       strokeStyle,
       strokeWidth,
       ...restProps
-    } = props,
+    } = _props,
     {
       zoomEnabled,
       ...moreProps
-    } = _crMoreProps(props, width, height, yPan);
+    } = _crMoreProps(_props, width, height, yPan);
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_Axis.default, {
     ...restProps,
     ...moreProps,
@@ -83,32 +112,4 @@ const YAxis = props => {
   });
 };
 exports.YAxis = YAxis;
-const YAXIS_COLOR = '#000000',
-  GRID_LINE_COLOR = '#e2e4ec';
-YAxis.defaultProps = {
-  axisAt: 'right',
-  className: _CL.CL_Y_AXIS,
-  domainClassName: _CL.CL_AXIS_DOMAIN,
-  fontFamily: _CL.FONT_FAMILY,
-  fontSize: 12,
-  fontWeight: 400,
-  getMouseDelta: (startXY, mouseXY) => startXY[1] - mouseXY[1],
-  gridLinesStrokeStyle: GRID_LINE_COLOR,
-  gridLinesStrokeWidth: 1,
-  innerTickSize: 4,
-  outerTickSize: 0,
-  orient: 'right',
-  showDomain: true,
-  showGridLines: false,
-  showTicks: true,
-  showTickLabel: true,
-  strokeStyle: YAXIS_COLOR,
-  strokeWidth: 1,
-  tickPadding: 4,
-  tickLabelFill: YAXIS_COLOR,
-  tickStrokeStyle: YAXIS_COLOR,
-  yZoomWidth: 40,
-  zoomEnabled: true,
-  zoomCursorClassName: _CL.CL_NS_RESIZE_CURSOR
-};
 //# sourceMappingURL=YAxis.js.map

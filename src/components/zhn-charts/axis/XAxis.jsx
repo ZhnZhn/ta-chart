@@ -1,4 +1,7 @@
-import { useContext } from '../../uiApi';
+import {
+  getProps,
+  useContext
+} from '../../uiApi';
 
 import { ChartContext } from '../core/Chart';
 import Axis from './Axis';
@@ -64,8 +67,38 @@ const _crMoreProps = (
   };
 };
 
+const XAXIS_COLOR = '#000000'
+, GRID_LINE_COLOR = '#e2e4ec'
+, DF_PROPS = {
+  axisAt: 'bottom',
+  className: CL_X_AXIS,
+  domainClassName: CL_AXIS_DOMAIN,
+  fontFamily: FONT_FAMILY,
+  fontSize: 12,
+  fontWeight: 400,
+  getMouseDelta: (startXY, mouseXY) => startXY[0] - mouseXY[0],
+  gridLinesStrokeStyle: GRID_LINE_COLOR,
+  gridLinesStrokeWidth: 1,
+  orient: 'bottom',
+  outerTickSize: 0,
+  innerTickSize: 4,
+  showDomain: true,
+  showGridLines: false,
+  showTicks: true,
+  showTickLabel: true,
+  strokeStyle: XAXIS_COLOR,
+  strokeWidth: 1,
+  tickPadding: 4,
+  tickLabelFill: XAXIS_COLOR,
+  tickStrokeStyle: XAXIS_COLOR,
+  xZoomHeight: 25,
+  zoomEnabled: true,
+  zoomCursorClassName: CL_EW_RESIZE_CURSOR
+};
+
 export const XAxis = (props) => {
-  const {
+  const _props = getProps(props, DF_PROPS)
+  , {
     xAxisZoom,
     chartConfig: { width, height }
   } = useContext(ChartContext)
@@ -77,8 +110,12 @@ export const XAxis = (props) => {
     strokeWidth,
     zoomEnabled,
     ...restProps
-  } = props
-  , _moreProps = _crMoreProps(props, width, height);
+  } = _props
+  , _moreProps = _crMoreProps(
+    _props,
+    width,
+    height
+  );
 
   return (
     <Axis
@@ -93,34 +130,4 @@ export const XAxis = (props) => {
       axisZoomCallback={xAxisZoom}
    />
   );
-}
-
-const XAXIS_COLOR = '#000000'
-, GRID_LINE_COLOR = '#e2e4ec';
-
-XAxis.defaultProps = {
-   axisAt: 'bottom',
-   className: CL_X_AXIS,
-   domainClassName: CL_AXIS_DOMAIN,
-   fontFamily: FONT_FAMILY,
-   fontSize: 12,
-   fontWeight: 400,
-   getMouseDelta: (startXY, mouseXY) => startXY[0] - mouseXY[0],
-   gridLinesStrokeStyle: GRID_LINE_COLOR,
-   gridLinesStrokeWidth: 1,
-   orient: 'bottom',
-   outerTickSize: 0,
-   innerTickSize: 4,
-   showDomain: true,
-   showGridLines: false,
-   showTicks: true,
-   showTickLabel: true,
-   strokeStyle: XAXIS_COLOR,
-   strokeWidth: 1,
-   tickPadding: 4,
-   tickLabelFill: XAXIS_COLOR,
-   tickStrokeStyle: XAXIS_COLOR,
-   xZoomHeight: 25,
-   zoomEnabled: true,
-   zoomCursorClassName: CL_EW_RESIZE_CURSOR
 }
