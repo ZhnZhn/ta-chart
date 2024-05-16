@@ -17,6 +17,14 @@ export {
   useImperativeHandle
 } from 'react';
 
+export const getProps = (
+  props,
+  dfProps
+) => ({
+  ...dfProps,
+  ...props
+})
+
 export const getRefValue = ref => (ref || {}).current
 
 export const setRefValue = (

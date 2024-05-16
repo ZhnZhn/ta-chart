@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.getRefElementStyle = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.Component = exports.Children = void 0;
+exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.getRefElementStyle = exports.getProps = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.Component = exports.Children = void 0;
 var _react = require("react");
 exports.Component = _react.Component;
 exports.Children = _react.Children;
@@ -19,6 +19,11 @@ exports.useMemo = _react.useMemo;
 exports.useEffect = _react.useEffect;
 exports.useLayoutEffect = _react.useLayoutEffect;
 exports.useImperativeHandle = _react.useImperativeHandle;
+const getProps = (props, dfProps) => ({
+  ...dfProps,
+  ...props
+});
+exports.getProps = getProps;
 const getRefValue = ref => (ref || {}).current;
 exports.getRefValue = getRefValue;
 const setRefValue = (ref, value) => {
