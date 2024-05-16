@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   useRef,
   useState,
   useCallback,
@@ -26,7 +25,8 @@ const S_INPUT_TEXT = {
 , OFF = 'off'
 , FN_NOOP = () => {};
 
-const InputText = forwardRef(({
+const InputText = ({
+  refEl,
   initValue,
   style,
   spellCheck,
@@ -34,9 +34,14 @@ const InputText = forwardRef(({
   type=C_TEXT,
   maxLenght=125,
   onEnter=FN_NOOP
-}, ref) => {
+}) => {
   const _refInput = useRef()
-  , [value, setValue] = useState(() => initValue != null ? initValue : C_BLANK)
+  , [
+    value,
+    setValue
+  ] = useState(
+    () => initValue != null ? initValue : C_BLANK
+  )
   , _hInputChange = useCallback(event => {
       const { value } = event.target;
       if (value.length <= maxLenght) {
@@ -59,7 +64,7 @@ const InputText = forwardRef(({
   // onEnter
   /*eslint-enable react-hooks/exhaustive-deps */
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refEl, () => ({
     getValue: () => (_refInput.current || {}).value,
     setValue: value => setValue(value)
   }), [])
@@ -89,6 +94,6 @@ const InputText = forwardRef(({
       onKeyDown={_hKeyDown}
     />
   );
-});
+};
 
 export default InputText

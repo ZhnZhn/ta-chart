@@ -73,7 +73,7 @@ const PageSetting = ({
         </span>
         <InputText
           key={proxyKey}
-          ref={refInput}
+          refEl={refInput}
           style={S_INPUT}
           initValue={_proxy}
           placeholder={LOCALHOST}
