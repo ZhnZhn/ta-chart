@@ -1,3 +1,5 @@
+import { getProps } from '../../uiApi';
+
 import GenericChartComponent from '../core/GenericChartComponent';
 import { getMouseCanvas } from '../core/contextFn';
 
@@ -7,20 +9,24 @@ import { drawOnCanvas } from './EdgeCoordinateV3';
 const DRAWN_ON = ['mousemove', 'pan', 'drag'];
 
 const crMouseCoordinate = (
-  crCoordinateProps
-) => props => {
-  const _renderSVG = (moreProps) => {
-     const _props = crCoordinateProps(props, moreProps);
-     return _props == null
+  crCoordinateProps,
+  dfProps
+) => (
+  props
+) => {
+  const _props = getProps(props, dfProps)
+  , _renderSVG = (moreProps) => {
+     const _coordinateProps = crCoordinateProps(_props, moreProps);
+     return _coordinateProps == null
        ? null
-       : renderSVG(_props);
+       : renderSVG(_coordinateProps);
   }
   , _drawOnCanvas = (ctx, moreProps) => {
-     const _props = crCoordinateProps(props, moreProps);
-     if (_props == null) {
+     const _coordinateProps = crCoordinateProps(_props, moreProps);
+     if (_coordinateProps == null) {
        return null;
      }
-     drawOnCanvas(ctx, _props);
+     drawOnCanvas(ctx, _coordinateProps);
   };
 
   return (

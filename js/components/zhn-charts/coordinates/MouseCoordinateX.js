@@ -8,9 +8,7 @@ var _crMouseCoordinate = _interopRequireDefault(require("./crMouseCoordinate"));
 var _MouseCoordinateStyle = require("./MouseCoordinateStyle");
 //import PropTypes from "prop-types";
 
-const MouseCoordinateX = (0, _crMouseCoordinate.default)(_helperX.crCoordinateProps);
-exports.MouseCoordinateX = MouseCoordinateX;
-MouseCoordinateX.defaultProps = {
+const DF_PROPS = {
   fill: _MouseCoordinateStyle.fill,
   textFill: _MouseCoordinateStyle.textFill,
   fontFamily: _MouseCoordinateStyle.fontFamily,
@@ -29,6 +27,7 @@ MouseCoordinateX.defaultProps = {
   snapX: true,
   customX: _helperX.customX
 };
+const MouseCoordinateX = exports.MouseCoordinateX = (0, _crMouseCoordinate.default)(_helperX.crCoordinateProps, DF_PROPS);
 
 /*
 MouseCoordinateX.propTypes = {

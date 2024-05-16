@@ -11,9 +11,7 @@ import {
 	fontSize
 } from './MouseCoordinateStyle';
 
-export const MouseCoordinateX = crMouseCoordinate(crCoordinateProps);
-
-MouseCoordinateX.defaultProps = {
+const DF_PROPS = {
 	fill,
 	textFill,
 	fontFamily,
@@ -32,7 +30,12 @@ MouseCoordinateX.defaultProps = {
 	opacity: 1,
 	snapX: true,
 	customX
-};
+}
+
+export const MouseCoordinateX = crMouseCoordinate(
+	crCoordinateProps,
+	DF_PROPS
+);
 
 /*
 MouseCoordinateX.propTypes = {
