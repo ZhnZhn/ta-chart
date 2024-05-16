@@ -1,12 +1,11 @@
 import {
-    memo,
-    forwardRef,
-    useContext,
-    useRef,
-    useCallback,
-    useMemo,
-    useEffect,
-    useImperativeHandle
+  memo,
+  useContext,
+  useRef,
+  useCallback,
+  useMemo,
+  useEffect,
+  useImperativeHandle
 } from '../../uiApi';
 
 import useRerender from '../../hooks/useRerender';
@@ -18,17 +17,17 @@ import { findChartConfig } from './ChartFn';
 const _assign = Object.assign;
 
 const aliases = {
-    mouseleave: "mousemove", // to draw interactive after mouse exit
-    panend: "pan",
-    pinchzoom: "pan",
-    mousedown: "mousemove",
-    click: "mousemove",
-    contextmenu: "mousemove",
-    dblclick: "mousemove",
-    dragstart: "drag",
-    dragend: "drag",
-    dragcancel: "drag",
-    zoom: "zoom",
+  mouseleave: "mousemove", // to draw interactive after mouse exit
+  panend: "pan",
+  pinchzoom: "pan",
+  mousedown: "mousemove",
+  click: "mousemove",
+  contextmenu: "mousemove",
+  dblclick: "mousemove",
+  dragstart: "drag",
+  dragend: "drag",
+  dragcancel: "drag",
+  zoom: "zoom",
 };
 
 const DF_CANVAS_TO_DRAW = (
@@ -47,8 +46,9 @@ const _crStyle = (
     : void 0;
 };
 
-export const GenericComponent = memo(forwardRef((props, ref) => {
+export const GenericComponent = memo(props => {
        const {
+          refEl,
           isHover,
           clip=true,
           edgeClip=false,
@@ -124,7 +124,7 @@ export const GenericComponent = memo(forwardRef((props, ref) => {
            };
         }, [context, getMoreProps, chartId]);
 
-        useImperativeHandle(ref, () => ({
+        useImperativeHandle(refEl, () => ({
              getMoreProps: _getMoreProps
           }),
           [_getMoreProps]
@@ -407,8 +407,8 @@ export const GenericComponent = memo(forwardRef((props, ref) => {
              {svgDraw(_getMoreProps())}
           </g>
         );
-    })
-);
+});
+
 
 export const getAxisCanvas = (contexts) => {
     return contexts.axes;

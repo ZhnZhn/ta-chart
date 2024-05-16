@@ -119,7 +119,7 @@ const GenericChartComponent = ({
    return (
      <GenericComponent
         {...restProps}
-        ref={refComp}
+        refEl={refComp}
         drawOn={drawOn}
         preCanvasDraw={_preCanvasDraw}
         postCanvasDraw={_postCanvasDraw}

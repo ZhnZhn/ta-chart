@@ -3,7 +3,6 @@
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.getMouseCanvas = exports.getAxisCanvas = exports.GenericComponent = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _uiApi = require("../../uiApi");
 var _useRerender = _interopRequireDefault(require("../../hooks/useRerender"));
 var _useEventCallback = _interopRequireDefault(require("../../hooks/useEventCallback"));
@@ -11,8 +10,8 @@ var _ChartCanvas = require("./ChartCanvas");
 var _Chart = require("./Chart");
 var _ChartFn = require("./ChartFn");
 var _jsxRuntime = require("react/jsx-runtime");
-var _assign = Object.assign;
-var aliases = {
+const _assign = Object.assign;
+const aliases = {
   mouseleave: "mousemove",
   // to draw interactive after mouse exit
   panend: "pan",
@@ -26,39 +25,42 @@ var aliases = {
   dragcancel: "drag",
   zoom: "zoom"
 };
-var DF_CANVAS_TO_DRAW = function DF_CANVAS_TO_DRAW(contexts) {
-  return contexts.mouseCoord;
-};
-var _crStyle = function _crStyle(chartId, clip) {
-  var _suffix = chartId !== void 0 ? "-" + chartId : "";
+const DF_CANVAS_TO_DRAW = contexts => contexts.mouseCoord;
+const _crStyle = (chartId, clip) => {
+  const _suffix = chartId !== void 0 ? "-" + chartId : "";
   return clip ? {
     clipPath: "url(#chart-area-clip" + _suffix + ")"
   } : void 0;
 };
-var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, ref) {
-  var isHover = props.isHover,
-    _props$clip = props.clip,
-    clip = _props$clip === void 0 ? true : _props$clip,
-    _props$edgeClip = props.edgeClip,
-    edgeClip = _props$edgeClip === void 0 ? false : _props$edgeClip,
-    _props$canvasToDraw = props.canvasToDraw,
-    canvasToDraw = _props$canvasToDraw === void 0 ? DF_CANVAS_TO_DRAW : _props$canvasToDraw,
-    canvasDraw = props.canvasDraw,
-    svgDraw = props.svgDraw,
-    preCanvasDraw = props.preCanvasDraw,
-    postCanvasDraw = props.postCanvasDraw,
-    updateMoreProps = props.updateMoreProps,
-    getMoreProps = props.getMoreProps,
+const GenericComponent = exports.GenericComponent = (0, _uiApi.memo)(props => {
+  const {
+      refEl,
+      isHover,
+      clip = true,
+      edgeClip = false,
+      canvasToDraw = DF_CANVAS_TO_DRAW,
+      canvasDraw,
+      svgDraw,
+      preCanvasDraw,
+      postCanvasDraw,
+      updateMoreProps,
+      getMoreProps
+    } = props,
     context = (0, _uiApi.useContext)(_ChartCanvas.ChartCanvasContext),
-    _useContext = (0, _uiApi.useContext)(_Chart.ChartContext),
-    chartId = _useContext.chartId,
-    subscriberId = (0, _uiApi.useMemo)(function () {
-      return (context.generateSubscriptionId == null ? void 0 : context.generateSubscriptionId()) || 0;
-    }, []),
-    rerenderComponent = (0, _useRerender["default"])(),
-    getCanvasContexts = context.getCanvasContexts,
-    subscribe = context.subscribe,
-    unsubscribe = context.unsubscribe,
+    {
+      chartId
+    } = (0, _uiApi.useContext)(_Chart.ChartContext)
+
+    /*eslint-disable react-hooks/exhaustive-deps */,
+    subscriberId = (0, _uiApi.useMemo)(() => (context.generateSubscriptionId == null ? void 0 : context.generateSubscriptionId()) || 0, [])
+    // context
+    /*eslint-enable react-hooks/exhaustive-deps */,
+    rerenderComponent = (0, _useRerender.default)(),
+    {
+      getCanvasContexts,
+      subscribe,
+      unsubscribe
+    } = context,
     moreProps = (0, _uiApi.useRef)({
       chartId: context.chartId,
       hovering: false,
@@ -72,46 +74,44 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
     dragInProgressRef = (0, _uiApi.useRef)(false),
     evaluationInProgressRef = (0, _uiApi.useRef)(false),
     iSetTheCursorClassRef = (0, _uiApi.useRef)(false);
-  var _updateMoreProps = (0, _uiApi.useCallback)(function (newMoreProps, moreProps) {
+  const _updateMoreProps = (0, _uiApi.useCallback)((newMoreProps, moreProps) => {
     _assign(moreProps, newMoreProps || {});
-    updateMoreProps == null ? void 0 : updateMoreProps(newMoreProps, moreProps);
+    updateMoreProps == null || updateMoreProps(newMoreProps, moreProps);
   }, [updateMoreProps]);
-  var _getMoreProps = (0, _uiApi.useCallback)(function () {
-    var chartConfigs = context.chartConfigs,
-      xAccessor = context.xAccessor,
-      displayXAccessor = context.displayXAccessor,
-      width = context.width,
-      height = context.height,
-      fullData = context.fullData,
+  const _getMoreProps = (0, _uiApi.useCallback)(() => {
+    const {
+        chartConfigs,
+        xAccessor,
+        displayXAccessor,
+        width,
+        height,
+        fullData
+      } = context,
       otherMoreProps = getMoreProps == null ? void 0 : getMoreProps(moreProps.current);
-    return (0, _extends2["default"])({
-      displayXAccessor: displayXAccessor,
-      width: width,
-      height: height
-    }, moreProps.current, {
-      fullData: fullData,
-      chartConfigs: chartConfigs,
-      xAccessor: xAccessor
-    }, otherMoreProps, {
-      chartConfig: (0, _ChartFn.findChartConfig)(chartConfigs, chartId)
-    });
-  }, [context, getMoreProps, chartId]);
-  (0, _uiApi.useImperativeHandle)(ref, function () {
     return {
-      getMoreProps: _getMoreProps
+      displayXAccessor,
+      width,
+      height,
+      ...moreProps.current,
+      fullData,
+      chartConfigs,
+      xAccessor,
+      ...otherMoreProps,
+      chartConfig: (0, _ChartFn.findChartConfig)(chartConfigs, chartId)
     };
-  }, [_getMoreProps]);
-  var _isHover = (0, _uiApi.useCallback)(function (e) {
-      return isHover === undefined ? false : isHover(_getMoreProps(), e);
-    }, [isHover, _getMoreProps]),
-    _preCanvasDraw = (0, _uiApi.useCallback)(function (ctx, moreProps) {
-      preCanvasDraw == null ? void 0 : preCanvasDraw(ctx, moreProps);
+  }, [context, getMoreProps, chartId]);
+  (0, _uiApi.useImperativeHandle)(refEl, () => ({
+    getMoreProps: _getMoreProps
+  }), [_getMoreProps]);
+  const _isHover = (0, _uiApi.useCallback)(e => isHover === undefined ? false : isHover(_getMoreProps(), e), [isHover, _getMoreProps]),
+    _preCanvasDraw = (0, _uiApi.useCallback)((ctx, moreProps) => {
+      preCanvasDraw == null || preCanvasDraw(ctx, moreProps);
     }, [preCanvasDraw]),
-    _postCanvasDraw = (0, _uiApi.useCallback)(function (ctx, moreProps) {
-      postCanvasDraw == null ? void 0 : postCanvasDraw(ctx, moreProps);
+    _postCanvasDraw = (0, _uiApi.useCallback)((ctx, moreProps) => {
+      postCanvasDraw == null || postCanvasDraw(ctx, moreProps);
     }, [postCanvasDraw]);
-  var evaluateType = (0, _useEventCallback["default"])(function (type, e) {
-    var newType = aliases[type] || type,
+  const evaluateType = (0, _useEventCallback.default)((type, e) => {
+    const newType = aliases[type] || type,
       proceed = props.drawOn.includes(newType);
     if (!proceed) {
       return;
@@ -151,26 +151,30 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
         }
       case "click":
         {
-          var onClick = props.onClick,
-            onClickOutside = props.onClickOutside,
-            onClickWhenHover = props.onClickWhenHover;
-          var _moreProps = _getMoreProps();
-          if (_moreProps.hovering && onClickWhenHover !== undefined) {
-            onClickWhenHover(e, _moreProps);
+          const {
+            onClick,
+            onClickOutside,
+            onClickWhenHover
+          } = props;
+          const moreProps = _getMoreProps();
+          if (moreProps.hovering && onClickWhenHover !== undefined) {
+            onClickWhenHover(e, moreProps);
           } else if (onClickOutside !== undefined) {
-            onClickOutside(e, _moreProps);
+            onClickOutside(e, moreProps);
           }
           if (onClick !== undefined) {
-            onClick(e, _moreProps);
+            onClick(e, moreProps);
           }
           break;
         }
       case "mousemove":
         {
-          var prevHover = moreProps.current.hovering;
+          const prevHover = moreProps.current.hovering;
           moreProps.current.hovering = _isHover(e);
-          var amIOnTop = context.amIOnTop,
-            setCursorClass = context.setCursorClass;
+          const {
+            amIOnTop,
+            setCursorClass
+          } = context;
           if (moreProps.current.hovering && !props.selected && /* && !prevHover */
           amIOnTop(subscriberId) && props.onHover !== undefined) {
             setCursorClass("react-financial-charts-pointer-cursor");
@@ -182,7 +186,7 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
             iSetTheCursorClassRef.current = false;
             setCursorClass(null);
           }
-          var morePropsSub = _getMoreProps();
+          const morePropsSub = _getMoreProps();
           if (moreProps.current.hovering && !prevHover) {
             if (props.onHover) {
               props.onHover(e, morePropsSub);
@@ -200,12 +204,12 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
         }
       case "dblclick":
         {
-          var _morePropsSub = _getMoreProps();
+          const morePropsSub = _getMoreProps();
           if (props.onDoubleClick) {
-            props.onDoubleClick(e, _morePropsSub);
+            props.onDoubleClick(e, morePropsSub);
           }
           if (moreProps.current.hovering && props.onDoubleClickWhenHover) {
-            props.onDoubleClickWhenHover(e, _morePropsSub);
+            props.onDoubleClickWhenHover(e, morePropsSub);
           }
           break;
         }
@@ -227,8 +231,10 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
       case "dragstart":
         {
           if (getPanConditions().draggable) {
-            var _amIOnTop = context.amIOnTop;
-            if (_amIOnTop(subscriberId)) {
+            const {
+              amIOnTop
+            } = context;
+            if (amIOnTop(subscriberId)) {
               dragInProgressRef.current = true;
               if (props.onDragStart !== undefined) {
                 props.onDragStart(e, _getMoreProps());
@@ -255,8 +261,10 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
       case "dragcancel":
         {
           if (dragInProgressRef.current || iSetTheCursorClassRef.current) {
-            var _setCursorClass = context.setCursorClass;
-            _setCursorClass(null);
+            const {
+              setCursorClass
+            } = context;
+            setCursorClass(null);
           }
           break;
         }
@@ -264,7 +272,7 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
         return;
     }
   });
-  var listener = (0, _useEventCallback["default"])(function (type, newMoreProps, state, e) {
+  const listener = (0, _useEventCallback.default)((type, newMoreProps, state, e) => {
     if (newMoreProps) {
       _updateMoreProps(newMoreProps, moreProps.current);
     }
@@ -272,27 +280,28 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
     evaluateType(type, e);
     evaluationInProgressRef.current = false;
   });
-  var drawOnCanvas = (0, _uiApi.useCallback)(function () {
+  const drawOnCanvas = (0, _uiApi.useCallback)(() => {
     if (canvasDraw === void 0 || canvasToDraw === void 0) {
       return;
     }
-    var moreProps = _getMoreProps(),
+    const moreProps = _getMoreProps(),
       contexts = getCanvasContexts == null ? void 0 : getCanvasContexts();
     if (contexts === void 0) {
       return;
     }
-    var ctx = canvasToDraw(contexts);
+    const ctx = canvasToDraw(contexts);
     if (ctx !== void 0) {
       _preCanvasDraw(ctx, moreProps);
       canvasDraw(ctx, moreProps);
       _postCanvasDraw(ctx, moreProps);
     }
   }, [canvasToDraw, canvasDraw, getCanvasContexts, _preCanvasDraw, _postCanvasDraw, _getMoreProps]);
-  var draw = (0, _useEventCallback["default"])(function (_ref) {
-    var trigger = _ref.trigger,
-      _ref$force = _ref.force,
-      force = _ref$force === void 0 ? false : _ref$force;
-    var type = aliases[trigger] || trigger,
+  const draw = (0, _useEventCallback.default)(_ref => {
+    let {
+      trigger,
+      force = false
+    } = _ref;
+    const type = aliases[trigger] || trigger,
       proceed = props.drawOn.indexOf(type) > -1;
     if (proceed || props.selected /* this is to draw as soon as you select */ || force) {
       if (canvasDraw === undefined) {
@@ -302,8 +311,8 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
       }
     }
   });
-  var getPanConditions = (0, _useEventCallback["default"])(function () {
-    var draggable = moreProps.current.hovering && (props.selected || props.enableDragOnHover);
+  const getPanConditions = (0, _useEventCallback.default)(() => {
+    const draggable = moreProps.current.hovering && (props.selected || props.enableDragOnHover);
     return {
       draggable: !!draggable,
       panEnabled: !props.disablePan
@@ -311,8 +320,10 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
   });
 
   /*eslint-disable react-hooks/exhaustive-deps */
-  (0, _uiApi.useEffect)(function () {
-    var setCursorClass = context.setCursorClass;
+  (0, _uiApi.useEffect)(() => {
+    const {
+      setCursorClass
+    } = context;
     if (props.selected && moreProps.current.hovering) {
       iSetTheCursorClassRef.current = true;
       setCursorClass(props.interactiveCursorClass);
@@ -324,7 +335,7 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
   // context, props.interactiveCursorClass
   /*eslint-enable react-hooks/exhaustive-deps */
 
-  (0, _uiApi.useEffect)(function () {
+  (0, _uiApi.useEffect)(() => {
     if (canvasDraw !== void 0 && !evaluationInProgressRef.current) {
       _updateMoreProps(void 0, moreProps.current);
       drawOnCanvas();
@@ -332,16 +343,16 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
   });
 
   /*eslint-disable react-hooks/exhaustive-deps */
-  (0, _uiApi.useEffect)(function () {
+  (0, _uiApi.useEffect)(() => {
     subscribe(subscriberId, {
-      chartId: chartId,
-      clip: clip,
-      edgeClip: edgeClip,
-      listener: listener,
-      draw: draw,
-      getPanConditions: getPanConditions
+      chartId,
+      clip,
+      edgeClip,
+      listener,
+      draw,
+      getPanConditions
     });
-    return function () {
+    return () => {
       unsubscribe(subscriberId);
       if (iSetTheCursorClassRef.current) {
         context.setCursorClass(null);
@@ -355,13 +366,12 @@ var GenericComponent = (0, _uiApi.memo)((0, _uiApi.forwardRef)(function (props, 
     style: _crStyle(chartId, clip),
     children: svgDraw(_getMoreProps())
   });
-}));
-exports.GenericComponent = GenericComponent;
-var getAxisCanvas = function getAxisCanvas(contexts) {
+});
+const getAxisCanvas = contexts => {
   return contexts.axes;
 };
 exports.getAxisCanvas = getAxisCanvas;
-var getMouseCanvas = function getMouseCanvas(contexts) {
+const getMouseCanvas = contexts => {
   return contexts.mouseCoord;
 };
 exports.getMouseCanvas = getMouseCanvas;

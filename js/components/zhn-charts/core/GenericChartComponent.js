@@ -1,48 +1,52 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+exports.default = void 0;
 var _uiApi = require("../../uiApi");
 var _GenericComponent = require("./GenericComponent");
 var _Chart = require("./Chart");
 var _ChartFn = require("./ChartFn");
 var _jsxRuntime = require("react/jsx-runtime");
-var _excluded = ["refComp", "drawOn"];
-var _isArr = Array.isArray,
+const _isArr = Array.isArray,
   ALWAYS_TRUE_TYPES = ['drag', 'dragend'];
-var _drawRectClip = function _drawRectClip(ctx, x1, y1, x2, y2) {
+const _drawRectClip = (ctx, x1, y1, x2, y2) => {
   ctx.beginPath();
   ctx.rect(x1, y1, x2, y2);
   ctx.clip();
 };
-var DF_DRAW_ON = [];
-var GenericChartComponent = function GenericChartComponent(_ref) {
-  var refComp = _ref.refComp,
-    _ref$drawOn = _ref.drawOn,
-    drawOn = _ref$drawOn === void 0 ? DF_DRAW_ON : _ref$drawOn,
-    restProps = (0, _objectWithoutPropertiesLoose2["default"])(_ref, _excluded);
-  var chartContexValue = (0, _uiApi.useContext)(_Chart.ChartContext),
-    clip = restProps.clip,
-    edgeClip = restProps.edgeClip,
-    disablePan = restProps.disablePan,
-    chartId = chartContexValue.chartId,
-    ratio = chartContexValue.ratio,
-    _chartContexValue$mar = chartContexValue.margin,
-    left = _chartContexValue$mar.left,
-    right = _chartContexValue$mar.right,
-    top = _chartContexValue$mar.top,
-    _preCanvasDraw = (0, _uiApi.useCallback)(function (ctx, moreProps) {
-      var chartConfig = (0, _ChartFn.findChartConfig)(moreProps.chartConfigs, chartId);
+const DF_DRAW_ON = [];
+const GenericChartComponent = _ref => {
+  let {
+    refComp,
+    drawOn = DF_DRAW_ON,
+    ...restProps
+  } = _ref;
+  const chartContexValue = (0, _uiApi.useContext)(_Chart.ChartContext),
+    {
+      clip,
+      edgeClip,
+      disablePan
+    } = restProps,
+    {
+      chartId,
+      ratio,
+      margin: {
+        left,
+        right,
+        top
+      }
+    } = chartContexValue,
+    _preCanvasDraw = (0, _uiApi.useCallback)((ctx, moreProps) => {
+      const chartConfig = (0, _ChartFn.findChartConfig)(moreProps.chartConfigs, chartId);
       if (!chartConfig) {
         return;
       }
       ctx.save();
-      var width = chartConfig.width,
-        height = chartConfig.height,
-        origin = chartConfig.origin,
+      const {
+          width,
+          height,
+          origin
+        } = chartConfig,
         _ratio = 0.5 * ratio,
         canvasOriginX = _ratio + origin[0] + left,
         canvasOriginY = _ratio + origin[1] + top;
@@ -56,55 +60,55 @@ var GenericChartComponent = function GenericChartComponent(_ref) {
         _drawRectClip(ctx, -1, -1, width + 1, height + 1);
       }
     }, [left, right, top, ratio, clip, edgeClip, chartId]),
-    _postCanvasDraw = (0, _uiApi.useCallback)(function (ctx, moreProps) {
+    _postCanvasDraw = (0, _uiApi.useCallback)((ctx, moreProps) => {
       ctx.restore();
     }, []),
-    _updateMoreProps = (0, _uiApi.useCallback)(function (fromMoreProps, toMoreProps) {
-      var _ref2 = fromMoreProps || toMoreProps,
-        chartConfig = _ref2.chartConfig;
+    _updateMoreProps = (0, _uiApi.useCallback)((fromMoreProps, toMoreProps) => {
+      const {
+        chartConfig
+      } = fromMoreProps || toMoreProps;
       if (chartConfig && _isArr(chartConfig)) {
-        toMoreProps.chartConfig = chartConfig.find(function (each) {
-          return each.id === chartId;
-        });
+        toMoreProps.chartConfig = chartConfig.find(each => each.id === chartId);
       }
       if (toMoreProps.chartConfig) {
-        var _toMoreProps$chartCon = toMoreProps.chartConfig.origin,
-          ox = _toMoreProps$chartCon[0],
-          oy = _toMoreProps$chartCon[1],
-          mouseXY = fromMoreProps.mouseXY,
-          startPos = fromMoreProps.startPos;
+        const {
+            origin: [ox, oy]
+          } = toMoreProps.chartConfig,
+          {
+            mouseXY,
+            startPos
+          } = fromMoreProps;
         if (mouseXY) {
-          var x = mouseXY[0],
-            y = mouseXY[1];
+          const [x, y] = mouseXY;
           toMoreProps.mouseXY = [x - ox, y - oy];
         }
         if (startPos) {
-          var _x = startPos[0],
-            _y = startPos[1];
-          toMoreProps.startPos = [_x - ox, _y - oy];
+          const [x, y] = startPos;
+          toMoreProps.startPos = [x - ox, y - oy];
         }
       }
     }, [chartId]),
-    _shouldTypeProceed = (0, _uiApi.useCallback)(function (type, moreProps) {
+    _shouldTypeProceed = (0, _uiApi.useCallback)((type, moreProps) => {
       if (disablePan && (type === 'mousemove' || type === 'click')) {
         return true;
       }
-      var _ref3 = moreProps || {},
-        currentCharts = _ref3.currentCharts;
+      const {
+        currentCharts
+      } = moreProps || {};
       if (currentCharts && ALWAYS_TRUE_TYPES.indexOf(type) === -1) {
         return currentCharts.indexOf(chartId) > -1;
       }
       return true;
     }, [disablePan, chartId]);
-  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericComponent.GenericComponent, (0, _extends2["default"])({}, restProps, {
-    ref: refComp,
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_GenericComponent.GenericComponent, {
+    ...restProps,
+    refEl: refComp,
     drawOn: drawOn,
     preCanvasDraw: _preCanvasDraw,
     postCanvasDraw: _postCanvasDraw,
     updateMoreProps: _updateMoreProps,
     shouldTypeProceed: _shouldTypeProceed
-  }));
+  });
 };
-var _default = GenericChartComponent;
-exports["default"] = _default;
+var _default = exports.default = GenericChartComponent;
 //# sourceMappingURL=GenericChartComponent.js.map
