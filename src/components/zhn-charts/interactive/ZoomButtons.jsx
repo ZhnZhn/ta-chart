@@ -25,14 +25,14 @@ const _crTransform = (
 ) => `translate (${zoomX - 20}, ${y - 8 + r / 4})`;
 
 export const ZoomButtons = ({
-  zoomMultiplier,
-  heightFromBase,
-  r,
-  fill,
-  fillOpacity,
-  stroke,
-  strokeWidth,
-  textFill
+  zoomMultiplier=1.5,
+  heightFromBase=32,
+  r=16,
+  fill='#ffffff',
+  fillOpacity=0.4,
+  stroke='grey',
+  strokeWidth=1,
+  textFill='#000000'
 }) => {
   const context = useContext(ChartContext)
   , _zoom = (direction) => {
@@ -122,14 +122,3 @@ export const ZoomButtons = ({
     </g>
   );
 }
-
-ZoomButtons.defaultProps = {
-  fill: '#ffffff',
-  fillOpacity: 0.4,
-  heightFromBase: 32,
-  r: 16,
-  stroke: 'grey',
-  strokeWidth: 1,
-  textFill: '#000000',
-  zoomMultiplier: 1.5
-};

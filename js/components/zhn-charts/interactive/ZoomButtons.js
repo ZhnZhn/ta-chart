@@ -21,14 +21,14 @@ const S_SVG_G = {
 const _crTransform = (zoomX, y, r) => "translate (" + (zoomX - 20) + ", " + (y - 8 + r / 4) + ")";
 const ZoomButtons = _ref => {
   let {
-    zoomMultiplier,
-    heightFromBase,
-    r,
-    fill,
-    fillOpacity,
-    stroke,
-    strokeWidth,
-    textFill
+    zoomMultiplier = 1.5,
+    heightFromBase = 32,
+    r = 16,
+    fill = '#ffffff',
+    fillOpacity = 0.4,
+    stroke = 'grey',
+    strokeWidth = 1,
+    textFill = '#000000'
   } = _ref;
   const context = (0, _uiApi.useContext)(_Chart.ChartContext),
     _zoom = direction => {
@@ -102,14 +102,4 @@ const ZoomButtons = _ref => {
   });
 };
 exports.ZoomButtons = ZoomButtons;
-ZoomButtons.defaultProps = {
-  fill: '#ffffff',
-  fillOpacity: 0.4,
-  heightFromBase: 32,
-  r: 16,
-  stroke: 'grey',
-  strokeWidth: 1,
-  textFill: '#000000',
-  zoomMultiplier: 1.5
-};
 //# sourceMappingURL=ZoomButtons.js.map
