@@ -1,12 +1,10 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
-exports["default"] = void 0;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+exports.default = void 0;
 var _uiApi = require("../uiApi");
 var _jsxRuntime = require("react/jsx-runtime");
-var S_ARROW_CELL = {
+const S_ARROW_CELL = {
     position: 'absolute',
     top: 10,
     right: 0,
@@ -28,22 +26,23 @@ var S_ARROW_CELL = {
   },
   ANIMATION_CIRCLE = "circle infinite 1.25s linear",
   BORDER_COLOR = "#1b75bb transparent transparent";
-var ArrowCell = (0, _uiApi.forwardRef)(function (_ref, ref) {
-  var arrowStyle = _ref.arrowStyle,
-    onClick = _ref.onClick;
-  var _refArrowCell = (0, _uiApi.useRef)(),
+const ArrowCell = _ref => {
+  let {
+    refEl,
+    arrowStyle,
+    onClick
+  } = _ref;
+  const _refArrowCell = (0, _uiApi.useRef)(),
     _refArrow = (0, _uiApi.useRef)();
-  (0, _uiApi.useImperativeHandle)(ref, function () {
-    return {
-      startAnimation: function startAnimation() {
-        (0, _uiApi.getRefElementStyle)(_refArrowCell).animation = ANIMATION_CIRCLE;
-        (0, _uiApi.getRefElementStyle)(_refArrow).borderColor = BORDER_COLOR;
-      },
-      stopAnimation: function stopAnimation() {
-        (0, _uiApi.getRefElementStyle)(_refArrowCell).animation = "";
-      }
-    };
-  });
+  (0, _uiApi.useImperativeHandle)(refEl, () => ({
+    startAnimation: () => {
+      (0, _uiApi.getRefElementStyle)(_refArrowCell).animation = ANIMATION_CIRCLE;
+      (0, _uiApi.getRefElementStyle)(_refArrow).borderColor = BORDER_COLOR;
+    },
+    stopAnimation: () => {
+      (0, _uiApi.getRefElementStyle)(_refArrowCell).animation = "";
+    }
+  }));
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
     type: "button",
     ref: _refArrowCell,
@@ -52,10 +51,12 @@ var ArrowCell = (0, _uiApi.forwardRef)(function (_ref, ref) {
     onClick: onClick,
     children: /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
       ref: _refArrow,
-      style: (0, _extends2["default"])({}, S_ARROW, arrowStyle)
+      style: {
+        ...S_ARROW,
+        ...arrowStyle
+      }
     })
   });
-});
-var _default = ArrowCell;
-exports["default"] = _default;
+};
+var _default = exports.default = ArrowCell;
 //# sourceMappingURL=ArrowCell.js.map
