@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.getRefElementStyle = exports.getProps = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.Component = exports.Children = void 0;
+exports.useState = exports.useRef = exports.useReducer = exports.useMemo = exports.useLayoutEffect = exports.useImperativeHandle = exports.useEffect = exports.useContext = exports.useCallback = exports.setRefValue = exports.memo = exports.getRefValue = exports.getRefElementStyle = exports.getProps = exports.createRef = exports.createElement = exports.createContext = exports.cloneElement = exports.bindTo = exports.Component = exports.Children = void 0;
 var _react = require("react");
 exports.Component = _react.Component;
 exports.Children = _react.Children;
@@ -37,4 +37,11 @@ const getRefElementStyle = ref => {
   return _element && _element.style || {};
 };
 exports.getRefElementStyle = getRefElementStyle;
+const bindTo = function (fn) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+  return fn.bind(null, ...args);
+};
+exports.bindTo = bindTo;
 //# sourceMappingURL=uiApi.js.map

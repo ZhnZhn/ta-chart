@@ -40,3 +40,8 @@ export const getRefElementStyle = ref => {
   const _element = getRefValue(ref);
   return (_element && _element.style) || {};
 };
+
+export const bindTo = (
+  fn,
+  ...args
+) => fn.bind(null, ...args)
