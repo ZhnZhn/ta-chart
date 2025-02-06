@@ -1,63 +1,35 @@
-import {
-  useRef,
-  useImperativeHandle,
-  getRefElementStyle
-} from '../uiApi';
+import { CL_BT_ARROW } from './CL';
 
-const S_ARROW_CELL = {
-  position: 'absolute',
-  top: 10,
-  right: 0,
-  width: 35,
-  paddingRight: 5,
-  textAlign: 'center',
-  verticalAlign: 'middle',
-  cursor: 'pointer'
+const S_SVG_OPEN = {
+  color: "#1b75bb"
 }
-, S_ARROW = {
-  position: 'relative',
-  top: 2,
-  display: 'inline-block',
-  height: 0,
-  width: 0,
-  borderColor: '#999 transparent transparent',
-  borderStyle: 'solid',
-  borderWidth: '10px 8px 4px'
-}
-, ANIMATION_CIRCLE = "circle infinite 1.25s linear"
-, BORDER_COLOR = "#1b75bb transparent transparent";
+, S_SVG_CLOSE = {
+  color: "#858585"
+};
 
 const ArrowCell = ({
-  refEl,
-  arrowStyle,
+  isShowOption,
   onClick
-}) => {
-  const _refArrowCell = useRef()
-  , _refArrow = useRef();
-
-  useImperativeHandle(refEl, () => ({
-    startAnimation: () => {
-      getRefElementStyle(_refArrowCell).animation = ANIMATION_CIRCLE;
-      getRefElementStyle(_refArrow).borderColor = BORDER_COLOR;
-    },
-    stopAnimation: () => {
-      getRefElementStyle(_refArrowCell).animation = "";
-    }
-  }))
-
-  return (
-    <button
-       type="button"
-       ref={_refArrowCell}
-       style={S_ARROW_CELL}
-       tabIndex="-1"
-       onClick={onClick}>
-      <span
-         ref={_refArrow}
-         style={{...S_ARROW, ...arrowStyle}}
-      />
-    </button>
-  );
-}
+}) => (
+  <button
+     className={CL_BT_ARROW}
+     type="button"
+     tabIndex="-1"
+     aria-label="Toggle suggestions"
+     onClick={onClick}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      focusable="false"
+      style={isShowOption ? S_SVG_OPEN : S_SVG_CLOSE}
+    >
+      <path d="M 3,6 L 10,12.5 M 10,12.5 L 17,6" />
+    </svg>
+  </button>
+);
 
 export default ArrowCell

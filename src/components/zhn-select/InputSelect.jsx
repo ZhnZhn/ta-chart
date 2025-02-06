@@ -59,8 +59,7 @@ const InputSelect = (
 
     isWithInput=false,
     onSelect=FN_NOOP
-  } = props
-  , _refArrowCell = useRef()
+  } = props  
   , _refDomInputText = useRef()
   , [
     state,
@@ -236,7 +235,7 @@ const InputSelect = (
   ] = crAfterInputEl(
      props,
      state,
-     _refArrowCell,
+     isShowOption,
      toggleIsShowOption
    )
   , [
