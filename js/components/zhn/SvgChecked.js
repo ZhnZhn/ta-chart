@@ -1,31 +1,28 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 exports.__esModule = true;
-exports["default"] = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
+exports.default = void 0;
+var _Svg = _interopRequireDefault(require("./Svg100"));
 var _jsxRuntime = require("react/jsx-runtime");
-
-var S = {
-  display: 'inline-block',
-  width: 16,
-  height: 16
-};
-
-var SvgChecked = function SvgChecked(_ref) {
-  var style = _ref.style,
-      color = _ref.color;
+const DF_COLOR = '#64e346',
+  S_SPAN = {
+    display: 'inline-block',
+    width: 16,
+    height: 16
+  };
+const SvgChecked = _ref => {
+  let {
+    style,
+    color = DF_COLOR
+  } = _ref;
   return /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
-    style: (0, _extends2["default"])({}, S, style),
-    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("svg", {
-      viewBox: "0 0 16 16",
-      width: "100%",
-      height: "100%",
-      preserveAspectRatio: "none",
-      xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      ...S_SPAN,
+      ...style
+    },
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_Svg.default, {
+      w: "16",
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
         d: "M 2,5 L 8,14 14,1",
         stroke: color,
@@ -36,10 +33,5 @@ var SvgChecked = function SvgChecked(_ref) {
     })
   });
 };
-
-SvgChecked.defaultProps = {
-  color: '#64e346'
-};
-var _default = SvgChecked;
-exports["default"] = _default;
+var _default = exports.default = SvgChecked;
 //# sourceMappingURL=SvgChecked.js.map

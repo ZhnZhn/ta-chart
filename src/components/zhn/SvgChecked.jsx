@@ -1,3 +1,5 @@
+import Svg100 from './Svg100';
+
 const DF_COLOR = '#64e346'
 , S_SPAN = {
   display: 'inline-block',
@@ -10,10 +12,7 @@ const SvgChecked = ({
   color=DF_COLOR
 }) => (
   <span style={{...S_SPAN, ...style}}>
-    <svg
-      viewBox="0 0 16 16" width="100%" height="100%"
-      preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg100 w="16">
       <path
         d="M 2,5 L 8,14 14,1"
         stroke={color}
@@ -21,7 +20,7 @@ const SvgChecked = ({
         strokeWidth="3"
         strokeLinecap="round"
       />
-    </svg>
+    </Svg100>
   </span>
 );
 
