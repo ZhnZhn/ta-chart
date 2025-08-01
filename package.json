@@ -30,6 +30,7 @@
   "author": "Yevhenii Molodyi",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@babel/runtime": "^7.28.2",
     "d3-quadtree": "^3.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -42,7 +43,6 @@
     "@babel/plugin-transform-runtime": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-react": "^7.27.1",
-    "@babel/runtime": "^7.27.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
     "babel-loader": "^10.0.0",
     "bundle-stats-webpack-plugin": "^4.20.2",
@@ -55,7 +55,7 @@
     "jest": "^30.0.5",
     "react-refresh": "^0.17.0",
     "terser-webpack-plugin": "^5.3.14",
-    "webpack": "^5.100.2",
+    "webpack": "^5.101.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
