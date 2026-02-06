@@ -56,12 +56,10 @@ export default function fitWidth(
 
 		componentDidMount() {
 			window.addEventListener("resize", this._hWindowResize);
-			this._hWindowResize();
-			/* eslint-disable react/no-did-mount-set-state */
+			this._hWindowResize();			
 			this.setState({
         ratio: _getRatio(this.testCanvas)
 			});
-			/* eslint-enable react/no-did-mount-set-state */
 		}
 		componentWillUnmount() {
 			window.removeEventListener("resize", this._hWindowResize);

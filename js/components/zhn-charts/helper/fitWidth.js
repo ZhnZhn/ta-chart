@@ -35,46 +35,40 @@ function fitWidth(WrappedComponent, withRef, minWidth) {
     minWidth = 100;
   }
   class ResponsiveComponent extends _uiApi.Component {
-    constructor() {
-      super(...arguments);
-      this.state = {};
-      this.saveNode = node => {
-        this.node = node;
-      };
-      this.setTestCanvas = node => {
-        this.testCanvas = node;
-      };
-      this._hWindowResize = () => {
-        this.setState({
-          width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
-        });
-        /*
-        this.setState({
-        width: 0
-        }, () => {
-        this.setState({
-            width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
-        });
-        });
-        */
-      };
-      this.getWrappedInstance = () => {
-        return this.node;
-      };
-    }
+    state = {};
+    saveNode = node => {
+      this.node = node;
+    };
+    setTestCanvas = node => {
+      this.testCanvas = node;
+    };
     componentDidMount() {
       window.addEventListener("resize", this._hWindowResize);
       this._hWindowResize();
-      /* eslint-disable react/no-did-mount-set-state */
       this.setState({
         ratio: _getRatio(this.testCanvas)
       });
-      /* eslint-enable react/no-did-mount-set-state */
     }
-
     componentWillUnmount() {
       window.removeEventListener("resize", this._hWindowResize);
     }
+    _hWindowResize = () => {
+      this.setState({
+        width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
+      });
+      /*
+      this.setState({
+      width: 0
+      }, () => {
+      this.setState({
+          width: _calcWidth(_getParentNode(this.testCanvas), minWidth)
+      });
+      });
+      */
+    };
+    getWrappedInstance = () => {
+      return this.node;
+    };
     render() {
       const {
           width,
@@ -96,7 +90,7 @@ function fitWidth(WrappedComponent, withRef, minWidth) {
       });
     }
   }
-  ResponsiveComponent.displayName = "fitWidth(" + _getDisplayName(WrappedComponent) + ")";
+  ResponsiveComponent.displayName = `fitWidth(${_getDisplayName(WrappedComponent)})`;
   return ResponsiveComponent;
 }
 //# sourceMappingURL=fitWidth.js.map

@@ -15,16 +15,39 @@ let frame = 0 // is an animation frame pending?
    ? window.requestAnimationFrame.bind(window)
    : function(f) { setTimeout(f, 17); };
 
-export function now() {
-  return clockNow || (setFrame(clearNow), clockNow = clock.now() + clockSkew);
-}
-
 function clearNow() {
   clockNow = 0;
 }
 
+export function now() {
+  return clockNow || (setFrame(clearNow), clockNow = clock.now() + clockSkew);
+}
+
 export function Timer() {
   this._call = this._time = this._next = null;
+}
+
+export function timer(callback, delay, time) {
+  const t = new Timer;
+  t.restart(callback, delay, time);
+  return t;
+}
+
+function sleep(time) {
+  if (frame) return; // Soonest alarm already set, or will be.
+  if (timeout) timeout = clearTimeout(timeout);
+  let delay = time - clockNow; // Strictly less than if we recomputed clockNow.
+  if (delay > 24) {
+    if (time < Infinity) timeout = setTimeout(wake, time - clock.now() - clockSkew);
+    if (interval) interval = clearInterval(interval);
+  } else {
+    if (!interval) {
+      clockLast = clock.now();
+      interval = setInterval(poke, pokeDelay);
+    }
+    frame = 1;
+    setFrame(wake);
+  }
 }
 
 Timer.prototype = timer.prototype = {
@@ -49,12 +72,6 @@ Timer.prototype = timer.prototype = {
     }
   }
 };
-
-export function timer(callback, delay, time) {
-  const t = new Timer;
-  t.restart(callback, delay, time);
-  return t;
-}
 
 export function timerFlush() {
   now(); // Get the current time, if not already set.
@@ -103,21 +120,4 @@ function nap() {
   }
   taskTail = t0;
   sleep(time);
-}
-
-function sleep(time) {
-  if (frame) return; // Soonest alarm already set, or will be.
-  if (timeout) timeout = clearTimeout(timeout);
-  let delay = time - clockNow; // Strictly less than if we recomputed clockNow.
-  if (delay > 24) {
-    if (time < Infinity) timeout = setTimeout(wake, time - clock.now() - clockSkew);
-    if (interval) interval = clearInterval(interval);
-  } else {
-    if (!interval) {
-      clockLast = clock.now();
-      interval = setInterval(poke, pokeDelay);
-    }
-    frame = 1;
-    setFrame(wake);
-  }
 }

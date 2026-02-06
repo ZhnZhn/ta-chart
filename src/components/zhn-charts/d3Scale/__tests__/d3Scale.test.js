@@ -14,8 +14,8 @@ export function local(year, month, day, hours, minutes, seconds, milliseconds) {
   return new Date(year, month, day, hours, minutes, seconds, milliseconds);
 }
 
-describe('d3Scale helper fns', () => {
-  test('', () => {
+describe('d3Scale', () => {
+  it('d3Scale helper functions', () => {
     expect(true).toBe(true)
   })
 })

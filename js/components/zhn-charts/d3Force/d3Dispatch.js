@@ -6,6 +6,9 @@ const noop = {
     value: () => {}
   },
   hasOwnProperty = Object.prototype.hasOwnProperty;
+function Dispatch(_) {
+  this._ = _;
+}
 function dispatch() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
@@ -19,9 +22,6 @@ function dispatch() {
     _[t] = [];
   }
   return new Dispatch(_);
-}
-function Dispatch(_) {
-  this._ = _;
 }
 function parseTypenames(typenames, types) {
   return typenames.trim().split(/^|\s+/).map(function (t) {
@@ -37,6 +37,32 @@ function parseTypenames(typenames, types) {
       name: name
     };
   });
+}
+function get(type, name) {
+  let i = 0,
+    n = type.length,
+    c;
+  for (; i < n; ++i) {
+    if ((c = type[i]).name === name) {
+      return c.value;
+    }
+  }
+}
+function set(type, name, callback) {
+  let i = 0,
+    n = type.length;
+  for (; i < n; ++i) {
+    if (type[i].name === name) {
+      type[i] = noop;
+      type = type.slice(0, i).concat(type.slice(i + 1));
+      break;
+    }
+  }
+  if (callback != null) type.push({
+    name: name,
+    value: callback
+  });
+  return type;
 }
 Dispatch.prototype = dispatch.prototype = {
   constructor: Dispatch,
@@ -83,32 +109,5 @@ Dispatch.prototype = dispatch.prototype = {
     for (; i < n; ++i) t[i].value.apply(that, args);
   }
 };
-function get(type, name) {
-  let i = 0,
-    n = type.length,
-    c;
-  for (; i < n; ++i) {
-    if ((c = type[i]).name === name) {
-      return c.value;
-    }
-  }
-}
-function set(type, name, callback) {
-  let i = 0,
-    n = type.length;
-  for (; i < n; ++i) {
-    if (type[i].name === name) {
-      type[i] = noop;
-      type = type.slice(0, i).concat(type.slice(i + 1));
-      break;
-    }
-  }
-  if (callback != null) type.push({
-    name: name,
-    value: callback
-  });
-  return type;
-}
-var _default = dispatch;
-exports.default = _default;
+var _default = exports.default = dispatch;
 //# sourceMappingURL=d3Dispatch.js.map

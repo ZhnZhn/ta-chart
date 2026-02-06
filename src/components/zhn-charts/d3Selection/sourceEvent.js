@@ -1,5 +1,5 @@
-export default function(event) {
+export default function(evt) {
   let sourceEvent;
-  while (sourceEvent = event.sourceEvent) event = sourceEvent;
-  return event;
+  while (sourceEvent = evt.sourceEvent) evt = sourceEvent;
+  return evt;
 }

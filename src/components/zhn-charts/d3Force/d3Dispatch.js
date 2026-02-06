@@ -1,6 +1,10 @@
 const noop = {value: () => {}}
 , hasOwnProperty = Object.prototype.hasOwnProperty;
 
+function Dispatch(_) {
+  this._ = _;
+}
+
 function dispatch(...args) {
   let i
   , n = args.length
@@ -11,10 +15,6 @@ function dispatch(...args) {
     _[t] = [];
   }
   return new Dispatch(_);
-}
-
-function Dispatch(_) {
-  this._ = _;
 }
 
 function parseTypenames(typenames, types) {
@@ -28,6 +28,30 @@ function parseTypenames(typenames, types) {
     if (t && !hasOwnProperty.call(types, t)) throw new Error("unknown type: " + t);
     return {type: t, name: name};
   });
+}
+
+function get(type, name) {
+  let i = 0, n = type.length, c;
+  for (; i < n; ++i) {
+    if ((c = type[i]).name === name) {
+      return c.value;
+    }
+  }
+}
+
+function set(type, name, callback) {
+  let i = 0, n = type.length;
+  for (; i < n; ++i) {
+    if (type[i].name === name) {
+      type[i] = noop;
+      type = type
+        .slice(0, i)
+        .concat(type.slice(i + 1));
+      break;
+    }
+  }
+  if (callback != null) type.push({name: name, value: callback});
+  return type;
 }
 
 Dispatch.prototype = dispatch.prototype = {
@@ -77,29 +101,5 @@ Dispatch.prototype = dispatch.prototype = {
     for (; i < n; ++i) t[i].value.apply(that, args);
   }
 };
-
-function get(type, name) {
-  let i = 0, n = type.length, c;
-  for (; i < n; ++i) {
-    if ((c = type[i]).name === name) {
-      return c.value;
-    }
-  }
-}
-
-function set(type, name, callback) {
-  let i = 0, n = type.length;
-  for (; i < n; ++i) {
-    if (type[i].name === name) {
-      type[i] = noop;
-      type = type
-        .slice(0, i)
-        .concat(type.slice(i + 1));
-      break;
-    }
-  }
-  if (callback != null) type.push({name: name, value: callback});
-  return type;
-}
 
 export default dispatch;

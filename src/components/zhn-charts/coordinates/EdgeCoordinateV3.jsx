@@ -214,6 +214,26 @@ export function renderSVG(props) {
 	);
 }
 
+const _roundRect = (
+  ctx,
+  x,
+  y,
+  width,
+  height,
+  radius
+) => {
+	ctx.beginPath();
+	ctx.moveTo(x + radius, y);
+	ctx.lineTo(x + width - radius, y);
+	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+	ctx.lineTo(x + width, y + height - radius);
+	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+	ctx.lineTo(x + radius, y + height);
+	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+	ctx.lineTo(x, y + radius);
+	ctx.quadraticCurveTo(x, y, x + radius, y);
+	ctx.closePath();
+}
 
 export function drawOnCanvas(ctx, props) {
 	const { fontSize, fontFamily } = props;
@@ -283,7 +303,7 @@ export function drawOnCanvas(ctx, props) {
 			ctx.closePath();
 		} else {
 			if (rectRadius) {
-				roundRect(ctx, x, y, rectWidth, rectHeight, 3);
+				_roundRect(ctx, x, y, rectWidth, rectHeight, 3);
 			} else {
 				ctx.rect(x, y, rectWidth, rectHeight);
 			}
@@ -305,18 +325,4 @@ export function drawOnCanvas(ctx, props) {
 			edge.coordinate.edgeYText
 		);
 	}
-}
-
-function roundRect(ctx, x, y, width, height, radius) {
-	ctx.beginPath();
-	ctx.moveTo(x + radius, y);
-	ctx.lineTo(x + width - radius, y);
-	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-	ctx.lineTo(x + width, y + height - radius);
-	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-	ctx.lineTo(x + radius, y + height);
-	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-	ctx.lineTo(x, y + radius);
-	ctx.quadraticCurveTo(x, y, x + radius, y);
-	ctx.closePath();
 }

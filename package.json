@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage",
     "transpile": "babel ./src --out-dir ./js --source-maps --ignore test.js",
     "transpile:all": "babel ./src --out-dir ./js --source-maps",
-    "lint": "eslint -c .eslintrc-build.json ./src > lint.txt",
+    "lint:one": "eslint -c eslint.config.js",
     "css:min": "node ut/css-min.js",
     "build:prod": "webpack --color --progress --config webpack.prod.js",
     "stats": "npm run stats:json && npm run stats:report",

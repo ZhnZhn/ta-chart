@@ -51,8 +51,7 @@ export default function() {
 	, source
 	, skipInitial = 0
 	, misc;
-
-	// eslint-disable-next-line prefer-const
+	
 	let slidingWindow = function(data) {
 		const sourceFunction = source || path(sourcePath)
 		, size = functor(windowSize).apply(this, arguments)
@@ -102,6 +101,6 @@ export default function() {
 	slidingWindow.source = (...args) => args.length
 	  ? (source = args[0], slidingWindow)
 		: source
-	
+
 	return slidingWindow;
 }

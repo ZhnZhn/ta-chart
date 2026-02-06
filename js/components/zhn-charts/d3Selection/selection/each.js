@@ -12,7 +12,8 @@ function _default(callback) {
     node;
   for (; j < m; ++j) {
     for (group = groups[j], i = 0, n = group.length, node; i < n; ++i) {
-      if (node = group[i]) callback.call(node, node.__data__, i, group);
+      node = group[i];
+      if (node) callback.call(node, node.__data__, i, group);
     }
   }
   return this;

@@ -18,8 +18,7 @@ export const customX = (
 		_coordinate
 	] = snapX
 		? [xScale(xAccessor(currentItem)), displayXAccessor(currentItem)]
-		: [mouseXY[0], xScale.invert(x)];
-
+		: [mouseXY[0], xScale.invert(0)];  
 	return {
 		x,
 		coordinate: displayFormat(_coordinate)

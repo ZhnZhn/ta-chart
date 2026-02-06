@@ -12,7 +12,7 @@ export function assertPathEqual(actual, expected) {
 }
 
 describe('d3Path', () => {
-  test('d3Path helper functions', () => {
+  it('d3Path helper functions', () => {
     expect(true).toBe(true)
   })
 })

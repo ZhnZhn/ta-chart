@@ -1,102 +1,112 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
 exports.drawOnCanvas = drawOnCanvas;
 exports.renderSVG = renderSVG;
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _utils = require("../utils");
 var _CL = require("../CL");
 var _jsxRuntime = require("react/jsx-runtime");
 function helper(props) {
-  var displayCoordinate = props.coordinate,
-    show = props.show,
-    type = props.type,
-    orient = props.orient,
-    edgeAt = props.edgeAt,
-    hideLine = props.hideLine,
-    lineStrokeDasharray = props.lineStrokeDasharray,
-    fill = props.fill,
-    opacity = props.opacity,
-    fontFamily = props.fontFamily,
-    fontSize = props.fontSize,
-    textFill = props.textFill,
-    lineStroke = props.lineStroke,
-    lineOpacity = props.lineOpacity,
-    stroke = props.stroke,
-    strokeOpacity = props.strokeOpacity,
-    strokeWidth = props.strokeWidth,
-    arrowWidth = props.arrowWidth,
-    rectWidth = props.rectWidth,
-    rectHeight = props.rectHeight,
-    rectRadius = props.rectRadius,
-    x1 = props.x1,
-    y1 = props.y1,
-    x2 = props.x2,
-    y2 = props.y2,
-    dx = props.dx;
+  const {
+      coordinate: displayCoordinate,
+      show,
+      type,
+      orient,
+      edgeAt,
+      hideLine,
+      lineStrokeDasharray
+    } = props,
+    {
+      fill,
+      opacity,
+      fontFamily,
+      fontSize,
+      textFill,
+      lineStroke,
+      lineOpacity
+    } = props,
+    {
+      stroke,
+      strokeOpacity,
+      strokeWidth
+    } = props,
+    {
+      arrowWidth,
+      rectWidth,
+      rectHeight,
+      rectRadius
+    } = props,
+    {
+      x1,
+      y1,
+      x2,
+      y2,
+      dx
+    } = props;
   if (!show) return null;
-  var coordinateBase, coordinate;
+  let coordinateBase, coordinate;
   if (displayCoordinate != null) {
-    var textAnchor = "middle";
+    const textAnchor = "middle";
     // TODO: Below it is necessary to implement logic for the possibility of alignment from the right or from the left.
 
-    var edgeXRect, edgeYRect, edgeXText, edgeYText;
+    let edgeXRect, edgeYRect, edgeXText, edgeYText;
     if (type === "horizontal") {
       edgeXRect = dx + (orient === "right" ? edgeAt + 1 : edgeAt - rectWidth - 1);
       edgeYRect = y1 - rectHeight / 2 - strokeWidth;
       edgeXText = dx + (orient === "right" ? edgeAt + rectWidth / 2 : edgeAt - rectWidth / 2);
       edgeYText = y1;
     } else {
-      var dy = orient === "bottom" ? strokeWidth - 1 : -strokeWidth + 1;
+      const dy = orient === "bottom" ? strokeWidth - 1 : -strokeWidth + 1;
       edgeXRect = x1 - rectWidth / 2;
       edgeYRect = (orient === "bottom" ? edgeAt : edgeAt - rectHeight) + dy;
       edgeXText = x1;
       edgeYText = (orient === "bottom" ? edgeAt + rectHeight / 2 : edgeAt - rectHeight / 2) + dy;
     }
     coordinateBase = {
-      edgeXRect: edgeXRect,
-      edgeYRect: edgeYRect,
+      edgeXRect,
+      edgeYRect,
       rectHeight: rectHeight + strokeWidth,
-      rectWidth: rectWidth,
-      rectRadius: rectRadius,
-      fill: fill,
-      opacity: opacity,
-      arrowWidth: arrowWidth,
-      stroke: stroke,
-      strokeOpacity: strokeOpacity,
-      strokeWidth: strokeWidth
+      rectWidth,
+      rectRadius,
+      fill,
+      opacity,
+      arrowWidth,
+      stroke,
+      strokeOpacity,
+      strokeWidth
     };
     coordinate = {
-      edgeXText: edgeXText,
-      edgeYText: edgeYText,
-      textAnchor: textAnchor,
-      fontFamily: fontFamily,
-      fontSize: fontSize,
-      textFill: textFill,
-      displayCoordinate: displayCoordinate
+      edgeXText,
+      edgeYText,
+      textAnchor,
+      fontFamily,
+      fontSize,
+      textFill,
+      displayCoordinate
     };
   }
   return {
-    coordinateBase: coordinateBase,
-    coordinate: coordinate,
-    orient: orient,
+    coordinateBase,
+    coordinate,
+    orient,
     line: hideLine ? void 0 : {
       opacity: lineOpacity,
       stroke: lineStroke,
       strokeDasharray: lineStrokeDasharray,
-      x1: x1,
-      y1: y1,
-      x2: x2,
-      y2: y2
+      x1,
+      y1,
+      x2,
+      y2
     }
   };
 }
 function renderSVG(props) {
-  var className = props.className;
-  var edge = helper(props);
+  const {
+    className
+  } = props;
+  const edge = helper(props);
   if (edge === null) return null;
-  var line, coordinateBase, coordinateEl;
+  let line, coordinateBase, coordinateEl;
   if (edge.line) {
     line = /*#__PURE__*/(0, _jsxRuntime.jsx)("line", {
       className: _CL.CL_CHARTS_CROSS_HAIR,
@@ -110,13 +120,14 @@ function renderSVG(props) {
     });
   }
   if (edge.coordinateBase) {
-    var _edge$coordinateBase = edge.coordinateBase,
-      rectWidth = _edge$coordinateBase.rectWidth,
-      rectHeight = _edge$coordinateBase.rectHeight,
-      arrowWidth = _edge$coordinateBase.arrowWidth;
-    var path = edge.orient === "left" ? "M0,0L0," + rectHeight + "L" + rectWidth + "," + rectHeight + "L" + (rectWidth + arrowWidth) + ",10L" + rectWidth + ",0L0,0L0,0" : "M0," + arrowWidth + "L" + arrowWidth + "," + rectHeight + "L" + (rectWidth + arrowWidth) + "," + rectHeight + "L" + (rectWidth + arrowWidth) + ",0L" + arrowWidth + ",0L0," + arrowWidth;
+    const {
+      rectWidth,
+      rectHeight,
+      arrowWidth
+    } = edge.coordinateBase;
+    const path = edge.orient === "left" ? `M0,0L0,${rectHeight}L${rectWidth},${rectHeight}L${rectWidth + arrowWidth},10L${rectWidth},0L0,0L0,0` : `M0,${arrowWidth}L${arrowWidth},${rectHeight}L${rectWidth + arrowWidth},${rectHeight}L${rectWidth + arrowWidth},0L${arrowWidth},0L0,${arrowWidth}`;
     coordinateBase = edge.orient === "left" || edge.orient === "right" ? /*#__PURE__*/(0, _jsxRuntime.jsx)("g", {
-      transform: "translate(" + edge.coordinateBase.edgeXRect + "," + edge.coordinateBase.edgeYRect + ")",
+      transform: `translate(${edge.coordinateBase.edgeXRect},${edge.coordinateBase.edgeYRect})`,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
         d: path,
         className: _CL.CL_CHARTS_TEXT_BACKGROUND,
@@ -138,14 +149,15 @@ function renderSVG(props) {
       fill: edge.coordinateBase.fill,
       opacity: edge.coordinateBase.opacity
     }, 1);
-    var _edge$coordinate = edge.coordinate,
-      edgeXText = _edge$coordinate.edgeXText,
-      edgeYText = _edge$coordinate.edgeYText,
-      textAnchor = _edge$coordinate.textAnchor,
-      fontFamily = _edge$coordinate.fontFamily,
-      fontSize = _edge$coordinate.fontSize,
-      textFill = _edge$coordinate.textFill,
-      displayCoordinate = _edge$coordinate.displayCoordinate;
+    const {
+      edgeXText,
+      edgeYText,
+      textAnchor,
+      fontFamily,
+      fontSize,
+      textFill,
+      displayCoordinate
+    } = edge.coordinate;
     coordinateEl = /*#__PURE__*/(0, _jsxRuntime.jsx)("text", {
       x: edgeXText,
       y: edgeYText,
@@ -162,20 +174,34 @@ function renderSVG(props) {
     children: [line, coordinateBase, coordinateEl]
   });
 }
+const _roundRect = (ctx, x, y, width, height, radius) => {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+};
 function drawOnCanvas(ctx, props) {
-  var fontSize = props.fontSize,
-    fontFamily = props.fontFamily;
-  ctx.font = fontSize + "px " + fontFamily;
+  const {
+    fontSize,
+    fontFamily
+  } = props;
+  ctx.font = `${fontSize}px ${fontFamily}`;
   ctx.textBaseline = "middle";
-  var width = Math.round(ctx.measureText(props.coordinate).width + 10);
-  var edge = helper((0, _extends2["default"])({}, props, {
+  const width = Math.round(ctx.measureText(props.coordinate).width + 10);
+  const edge = helper({
+    ...props,
     rectWidth: width
-  }));
+  });
   if (edge === null) return;
   if (edge.line) {
-    var dashArray = (0, _utils.getStrokeDasharray)(edge.line.strokeDasharray).split(",").map(function (d) {
-      return +d;
-    });
+    const dashArray = (0, _utils.getStrokeDasharray)(edge.line.strokeDasharray).split(",").map(d => +d);
     ctx.setLineDash(dashArray);
     ctx.strokeStyle = (0, _utils.hexToRGBA)(edge.line.stroke, edge.line.opacity);
     ctx.lineWidth = 1;
@@ -186,19 +212,20 @@ function drawOnCanvas(ctx, props) {
   }
   ctx.setLineDash([]);
   if (edge.coordinateBase) {
-    var _edge$coordinateBase2 = edge.coordinateBase,
-      rectWidth = _edge$coordinateBase2.rectWidth,
-      rectHeight = _edge$coordinateBase2.rectHeight,
-      rectRadius = _edge$coordinateBase2.rectRadius,
-      arrowWidth = _edge$coordinateBase2.arrowWidth;
+    const {
+      rectWidth,
+      rectHeight,
+      rectRadius,
+      arrowWidth
+    } = edge.coordinateBase;
     ctx.fillStyle = (0, _utils.hexToRGBA)(edge.coordinateBase.fill, edge.coordinateBase.opacity);
     if (edge.coordinateBase.stroke) {
       ctx.strokeStyle = (0, _utils.hexToRGBA)(edge.coordinateBase.stroke, edge.coordinateBase.strokeOpacity);
       ctx.lineWidth = edge.coordinateBase.strokeWidth;
     }
-    var x = edge.coordinateBase.edgeXRect;
-    var y = edge.coordinateBase.edgeYRect;
-    var halfHeight = rectHeight / 2;
+    let x = edge.coordinateBase.edgeXRect;
+    const y = edge.coordinateBase.edgeYRect;
+    const halfHeight = rectHeight / 2;
     ctx.beginPath();
     if (edge.orient === "right") {
       x -= arrowWidth;
@@ -218,7 +245,7 @@ function drawOnCanvas(ctx, props) {
       ctx.closePath();
     } else {
       if (rectRadius) {
-        roundRect(ctx, x, y, rectWidth, rectHeight, 3);
+        _roundRect(ctx, x, y, rectWidth, rectHeight, 3);
       } else {
         ctx.rect(x, y, rectWidth, rectHeight);
       }
@@ -231,18 +258,5 @@ function drawOnCanvas(ctx, props) {
     ctx.textAlign = edge.coordinate.textAnchor === "middle" ? "center" : edge.coordinate.textAnchor;
     ctx.fillText(edge.coordinate.displayCoordinate, edge.coordinate.edgeXText, edge.coordinate.edgeYText);
   }
-}
-function roundRect(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-  ctx.closePath();
 }
 //# sourceMappingURL=EdgeCoordinateV3.js.map

@@ -18,13 +18,13 @@ export default function(evt, node) {
     if (node.getBoundingClientRect) {
       const rect = node.getBoundingClientRect();
       return [
-        event.clientX - rect.left - node.clientLeft,
-        event.clientY - rect.top - node.clientTop
+        evt.clientX - rect.left - node.clientLeft,
+        evt.clientY - rect.top - node.clientTop
       ];
     }
   }
   return [
-    event.pageX,
-    event.pageY
+    evt.pageX,
+    evt.pageY
   ];
 }

@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 exports.default = _default;
-function _default(event) {
+function _default(evt) {
   let sourceEvent;
-  while (sourceEvent = event.sourceEvent) event = sourceEvent;
-  return event;
+  while (sourceEvent = evt.sourceEvent) evt = sourceEvent;
+  return evt;
 }
 //# sourceMappingURL=sourceEvent.js.map

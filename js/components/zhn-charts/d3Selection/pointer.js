@@ -18,9 +18,9 @@ function _default(evt, node) {
     }
     if (node.getBoundingClientRect) {
       const rect = node.getBoundingClientRect();
-      return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
+      return [evt.clientX - rect.left - node.clientLeft, evt.clientY - rect.top - node.clientTop];
     }
   }
-  return [event.pageX, event.pageY];
+  return [evt.pageX, evt.pageY];
 }
 //# sourceMappingURL=pointer.js.map
