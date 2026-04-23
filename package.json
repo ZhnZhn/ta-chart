@@ -62,10 +62,8 @@
     "webpack-dev-server": "^5.2.3"
   },
   "overrides": {
-    "js-yaml": "~4.1.1",
-    "glob": "~11.1.0",
-    "serialize-javascript": "~7.0.3",
-    "brace-expansion": "~5.0.5"
+    "glob": "~13.0.6",
+    "uuid": "~14.0.0"
   },
   "jest": {
     "roots": [
