@@ -17,6 +17,7 @@ ut
 webpack.dev.js
 webpack.dev.dll.js
 webpack.dev.dll-jsx.js
+rspack.dev.js
 app/*_dev_*.js
 
 
