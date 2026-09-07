@@ -14,7 +14,7 @@
     "lint:one": "eslint -c eslint.config.js",
     "lint:biome": "npx @biomejs/biome lint ./src > _lint.txt 2>&1",
     "css:min": "node ut/css-min.js",
-    "build:prod": "webpack --color --progress --config webpack.prod.js",
+    "build:prod": "webpack --color --progress --config webpack.prod.js",    
     "stats": "npm run stats:json && npm run stats:report",
     "stats:json": "webpack --profile --json --config webpack.dll-jsx.js > stats.json",
     "stats:report": "webpack-bundle-analyzer stats.json --no-open --mode static",
@@ -62,7 +62,7 @@
     "jest": "^30.5.1",
     "react-refresh": "^0.18.0",
     "terser-webpack-plugin": "^5.6.1",
-    "webpack": "^5.109.2",
+    "webpack": "^5.110.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^7.2.3"
   },
