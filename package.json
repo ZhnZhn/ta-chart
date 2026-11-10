@@ -33,7 +33,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@babel/runtime": "^7.29.10",
-    "d3-quadtree": "^3.0.1",
+    "d3-quadtree": "^3.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
