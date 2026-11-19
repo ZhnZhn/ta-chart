@@ -10,6 +10,25 @@ const _crWidthHeightViewBoxProps = (
   viewBox
 });
 
+export const Svg100 = ({
+  w,
+  h=w,
+  children,
+  ...restProps
+}) => (
+  <svg
+    {..._crWidthHeightViewBoxProps(
+      "100%",
+      "100%",
+      `0 0 ${w} ${h}`
+    )}
+    preserveAspectRatio="none"
+    {...restProps}
+  >
+    {children}
+  </svg>
+)
+
 export const Svg = ({
   w,
   h=w,

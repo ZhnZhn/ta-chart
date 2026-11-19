@@ -1,4 +1,4 @@
-import Svg100 from './Svg100';
+import { Svg100 } from './Svg';
 
 const DF_COLOR = '#64e346'
 , S_SPAN = {

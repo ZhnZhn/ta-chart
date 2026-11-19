@@ -1,4 +1,4 @@
-import Svg100 from './Svg100';
+import { Svg100 } from './Svg';
 
 const STROKE_COLOR = '#f44336'
 , CL = "svg-close"
