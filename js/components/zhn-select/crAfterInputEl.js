@@ -4,7 +4,6 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 exports.__esModule = true;
 exports.default = void 0;
 var _ArrowCell = _interopRequireDefault(require("./ArrowCell"));
-var _ButtonCircle = _interopRequireDefault(require("../zhn/ButtonCircle2"));
 var _CL = require("./CL");
 var _jsxRuntime = require("react/jsx-runtime");
 const crAfterInputEl = (props, state, isShowOption, hToggleOptions) => {
@@ -24,7 +23,8 @@ const crAfterInputEl = (props, state, isShowOption, hToggleOptions) => {
   })] : isLoading ? [`Loading ${optionNames}...`, /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
     className: _CL.CL_SPINNER,
     "data-loader": "circle"
-  })] : isLoadingFailed ? [`Loading ${optionNames} Failed`, /*#__PURE__*/(0, _jsxRuntime.jsx)(_ButtonCircle.default, {
+  })] : isLoadingFailed ? [`Loading ${optionNames} Failed`, /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+    type: "button",
     className: _CL.CL_SPINNER_FAILED,
     "data-loader": "circle-failed",
     onClick: onLoadOption

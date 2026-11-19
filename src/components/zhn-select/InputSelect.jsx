@@ -59,7 +59,7 @@ const InputSelect = (
 
     isWithInput=false,
     onSelect=FN_NOOP
-  } = props  
+  } = props
   , _refDomInputText = useRef()
   , [
     state,
@@ -266,7 +266,6 @@ const InputSelect = (
          onKeyDown={_hInputKeyDown}
       />
       {afterInputEl}
-      <hr className={CL_INPUT_HR} />
       <DivOptions
          refOptionsElement={_refOptionsElement}
          refIndexElement={_refIndexElement}
@@ -276,8 +275,6 @@ const InputSelect = (
          indexActiveOption={indexActiveOption}
          nFiltered={nFiltered}
          nAll={nAll}
-         onStepUp={_stepUpOption}
-         onStepDown={_stepDownOption}
          onClear={_initStateFromProps}
       >
         {domOptions}
@@ -285,6 +282,10 @@ const InputSelect = (
     </div>
   );
 }
+
+/*
+<hr className={CL_INPUT_HR} />
+*/
 
 /*
 InputSelect.propTypes = {

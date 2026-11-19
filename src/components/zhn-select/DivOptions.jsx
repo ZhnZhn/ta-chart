@@ -18,8 +18,6 @@ const DivOptions = ({
   indexActiveOption,
   nFiltered,
   nAll,
-  onStepUp,
-  onStepDown,
   onClear,
   children
 }) => {
@@ -46,8 +44,6 @@ const DivOptions = ({
          indexActiveOption={indexActiveOption}
          nAll={nAll}
          nFiltered={nFiltered}
-         onStepUp={onStepUp}
-         onStepDown={onStepDown}
          onClear={onClear}
       />
     </div>

@@ -18,19 +18,16 @@ var _jsxRuntime = require("react/jsx-runtime");
 //import PropTypes from 'prop-types'
 
 const DF_OPTIONS = [];
-const _crInitialStateFromProps = _ref => {
-  let {
-    optionName,
-    optionNames,
-    options = DF_OPTIONS
-  } = _ref;
-  return {
-    value: '',
-    initialOptions: options,
-    options: options,
-    optionNames: optionNames || optionName || ''
-  };
-};
+const _crInitialStateFromProps = ({
+  optionName,
+  optionNames,
+  options = DF_OPTIONS
+}) => ({
+  value: '',
+  initialOptions: options,
+  options: options,
+  optionNames: optionNames || optionName || ''
+});
 const FN_NOOP = () => {};
 const InputSelect = props => {
   const {
@@ -205,9 +202,7 @@ const InputSelect = props => {
       placeholder: placeholder,
       onChange: _hInputChange,
       onKeyDown: _hInputKeyDown
-    }), afterInputEl, /*#__PURE__*/(0, _jsxRuntime.jsx)("hr", {
-      className: _CL.CL_INPUT_HR
-    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_DivOptions.default, {
+    }), afterInputEl, /*#__PURE__*/(0, _jsxRuntime.jsx)(_DivOptions.default, {
       refOptionsElement: _refOptionsElement,
       refIndexElement: _refIndexElement,
       optionsStyle: optionsStyle,
@@ -216,13 +211,15 @@ const InputSelect = props => {
       indexActiveOption: indexActiveOption,
       nFiltered: nFiltered,
       nAll: nAll,
-      onStepUp: _stepUpOption,
-      onStepDown: _stepDownOption,
       onClear: _initStateFromProps,
       children: domOptions
     })]
   });
 };
+
+/*
+<hr className={CL_INPUT_HR} />
+*/
 
 /*
 InputSelect.propTypes = {

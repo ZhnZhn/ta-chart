@@ -13,21 +13,18 @@ const S_BLOCK = {
   S_NONE = {
     display: 'none'
   };
-const DivOptions = _ref => {
-  let {
-    refOptionsElement,
-    refIndexElement,
-    optionsStyle,
-    width,
-    isShowOption,
-    indexActiveOption,
-    nFiltered,
-    nAll,
-    onStepUp,
-    onStepDown,
-    onClear,
-    children
-  } = _ref;
+const DivOptions = ({
+  refOptionsElement,
+  refIndexElement,
+  optionsStyle,
+  width,
+  isShowOption,
+  indexActiveOption,
+  nFiltered,
+  nAll,
+  onClear,
+  children
+}) => {
   const _widthStyle = (0, _crStyleWidth.default)(width, isShowOption ? S_BLOCK : S_NONE);
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     className: _CL.CL_OPTIONS,
@@ -46,8 +43,6 @@ const DivOptions = _ref => {
       indexActiveOption: indexActiveOption,
       nAll: nAll,
       nFiltered: nFiltered,
-      onStepUp: onStepUp,
-      onStepDown: onStepDown,
       onClear: onClear
     })]
   });
