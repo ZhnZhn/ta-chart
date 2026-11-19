@@ -1,12 +1,25 @@
 import FlatButton from '../zhn-m/FlatButton';
+import { SvgArrowLeft } from '../zhn/Svg';
 
-const CL_DRAWER_LIST_BT = 'drawer__list-bt';
+const CL_DRAWER_LIST_BT = 'drawer__list-bt'
+, S_SVG_ARROW_LEFT = {
+  verticalAlign: 'text-bottom'
+};
 
-const BackMenuBt = ({ onClick }) => (
+const svgComp = (
+  <SvgArrowLeft
+    style={S_SVG_ARROW_LEFT}
+  />
+);
+
+const BackMenuBt = (
+  props
+) => (
   <FlatButton
     className={CL_DRAWER_LIST_BT}
-    caption="< Menu"
-    onClick={onClick}
+    svgComp={svgComp}
+    caption="Menu"
+    onClick={props.onClick}
   />
 );
 
