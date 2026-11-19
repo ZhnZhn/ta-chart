@@ -1,0 +1,42 @@
+const _crWidthHeightViewBoxProps = (
+  width,
+  height,
+  viewBox
+) => ({
+  "aria-hidden": "true",
+  xlmns: "http://www.w3.org/2000/svg",
+  width,
+  height,
+  viewBox
+});
+
+export const Svg = ({
+  w,
+  h=w,
+  children,
+  ...restProps
+}) => (
+  <svg
+    {..._crWidthHeightViewBoxProps(
+      `${w}px`,
+      `${h}px`,
+      `0 0 ${w} ${h}`
+    )}
+    {...restProps}
+  >
+    {children}
+  </svg>
+)
+
+export const SvgArrowDown = ({
+  style
+}) => (
+  <Svg
+    w="20"
+    aria-hidden="true"
+    focusable="false"
+    style={style}
+  >
+    <path d="M 3,6 L 10,12.5 M 10,12.5 L 17,6" />
+  </Svg>
+)
