@@ -1,3 +1,5 @@
+import { SvgArrowDown } from '../zhn/Svg';
+
 import { CL_BT_ARROW } from './CL';
 
 const S_SVG_OPEN = {
@@ -7,28 +9,22 @@ const S_SVG_OPEN = {
   color: "#858585"
 };
 
-const ArrowCell = ({
-  isShowOption,
-  onClick
-}) => (
+const ArrowCell = (
+  props
+) => (
   <button
-     className={CL_BT_ARROW}
-     type="button"
-     tabIndex="-1"
-     aria-label="Toggle suggestions"
-     onClick={onClick}
+    aria-label="Toggle suggestions"
+    type="button"
+    className={CL_BT_ARROW}
+    tabIndex="-1"
+    onClick={props.onClick}
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      aria-hidden="true"
-      focusable="false"
-      style={isShowOption ? S_SVG_OPEN : S_SVG_CLOSE}
-    >
-      <path d="M 3,6 L 10,12.5 M 10,12.5 L 17,6" />
-    </svg>
+    <SvgArrowDown
+      style={props.isShowOption
+        ? S_SVG_OPEN
+        : S_SVG_CLOSE
+      }
+    />
   </button>
 );
 
