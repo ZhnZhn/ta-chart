@@ -29,6 +29,7 @@ const FlatButton = ({
   clCaption,
   isPrimary,
   title='',
+  svgComp,
   caption,
   accessKey,
   timeout=500,
@@ -63,6 +64,7 @@ const FlatButton = ({
       onClick={_hClick}
     >
       <div className={clDiv}>
+        {svgComp}
         <CaptionInput
           className={_clCaption}
           caption={caption}
