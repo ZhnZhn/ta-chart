@@ -4,13 +4,14 @@
   display: inline-block;
   background-color: #e1e1cb;
   width: 160px;
+  border-radius: 2px;
 }
 
 .zhn-select__input {
   background: transparent none repeat scroll 0 0;
   border: medium none;
   outline: medium none;
-  height: 30px;
+  height: 36px;
   padding-left: 10px;
   color: green;
   //width: 140px;
@@ -25,17 +26,18 @@
   top: 6px;
   right: 10px;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 .zhn-select__spinner--failed {
   position: absolute;
   top: 6px;
   right: 10px;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-color: #f44336;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -54,17 +56,6 @@
   stroke-linecap: round;
 }
 
-.zhn-select__input__hr {
-  border-width: medium medium 1px;
-  border-style: none none solid;
-  border-color: #1b75bb;
-  border-image: none;
-  margin: 0;
-  margin-left: 10px;
-  margin-bottom: 5px;
-  margin-right: 40px;
-}
-
 .zhn-select__options {
   z-index: 10;
   position: absolute;
@@ -73,20 +64,22 @@
   color: green;
   width: 160px;
   //height: 160px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 0 0 3px 3px;
 }
 
 .zhn-select__options__div {
   background-color: #d5d5bc;
-  min-height: 160px;
+
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
   max-height: 200px;
-  padding-bottom: 2px;
-  overflow-y: auto;
+  margin-top: -2px;
+  margin-bottom: -1px;
+
   overflow-x: hidden;
-
+  overflow-y: auto;
+  
   overscroll-behavior: contain;
-
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;
 }
@@ -112,9 +105,8 @@
 .zhn-select__footer {
   position: relative;
   background-color: silver;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   line-height: 1.5;
+  border-radius: 0 0 5px 5px;
 }
 .zhn-select__footer__index {
   display: inline-block;
@@ -127,11 +119,6 @@
 .zhn-select__footer__bts {
   display: inline-block;
   position: absolute;
-  top: 4px;
+  top: 0;
   right: 8px;
-  color: black;
-  font-weight: bold;
-}
-.zhn-select__footer--margin {
-  margin-right: 4px;
 }
