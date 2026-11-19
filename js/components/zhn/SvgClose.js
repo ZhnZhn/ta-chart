@@ -4,31 +4,22 @@ exports.__esModule = true;
 exports.default = void 0;
 var _Svg = require("./Svg");
 var _jsxRuntime = require("react/jsx-runtime");
-const STROKE_COLOR = '#f44336',
-  CL = "svg-close",
-  S_SVG = {
-    padding: 3
+const CL_SVG_CLOSE = "svg-close",
+  S_SVG_X = {
+    padding: 3,
+    stroke: '#f44336'
   };
 const SvgClose = ({
   style,
   tabIndex = -1,
   onClick
 }) => /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
-  className: CL,
+  className: CL_SVG_CLOSE,
   style: style,
   tabIndex: tabIndex,
   onClick: onClick,
-  children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Svg.Svg100, {
-    w: "12",
-    style: S_SVG,
-    strokeWidth: "2",
-    stroke: STROKE_COLOR,
-    strokeLinecap: "round",
-    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-      d: "M 0,0 L 12,12"
-    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-      d: "M 12,0 L 0,12"
-    })]
+  children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_Svg.SvgX, {
+    style: S_SVG_X
   })
 });
 var _default = exports.default = SvgClose;

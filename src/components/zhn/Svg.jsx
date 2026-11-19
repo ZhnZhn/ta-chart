@@ -29,6 +29,20 @@ export const Svg100 = ({
   </svg>
 )
 
+export const SvgX = (
+  props
+) => (
+  <Svg100
+    w="12"
+    strokeWidth="2"
+    strokeLinecap="round"
+    style={props.style}
+  >
+    <path d="M 0,0 L 12,12" />
+    <path d="M 12,0 L 0,12" />
+  </Svg100>
+)
+
 export const Svg = ({
   w,
   h=w,

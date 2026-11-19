@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.SvgArrowLeft = exports.SvgArrowDown = exports.Svg100 = exports.Svg = void 0;
+exports.SvgX = exports.SvgArrowLeft = exports.SvgArrowDown = exports.Svg100 = exports.Svg = void 0;
 var _jsxRuntime = require("react/jsx-runtime");
 const _crWidthHeightViewBoxProps = (width, height, viewBox) => ({
   "aria-hidden": "true",
@@ -22,6 +22,18 @@ const Svg100 = ({
   children: children
 });
 exports.Svg100 = Svg100;
+const SvgX = props => /*#__PURE__*/(0, _jsxRuntime.jsxs)(Svg100, {
+  w: "12",
+  strokeWidth: "2",
+  strokeLinecap: "round",
+  style: props.style,
+  children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+    d: "M 0,0 L 12,12"
+  }), /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+    d: "M 12,0 L 0,12"
+  })]
+});
+exports.SvgX = SvgX;
 const Svg = ({
   w,
   h = w,
