@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.SvgArrowDown = exports.Svg = void 0;
+exports.SvgArrowLeft = exports.SvgArrowDown = exports.Svg = void 0;
 var _jsxRuntime = require("react/jsx-runtime");
 const _crWidthHeightViewBoxProps = (width, height, viewBox) => ({
   "aria-hidden": "true",
@@ -33,4 +33,22 @@ const SvgArrowDown = ({
   })
 });
 exports.SvgArrowDown = SvgArrowDown;
+const S_ARROW = {
+    stroke: 'currentColor',
+    strokeWidth: 2.5,
+    strokeLinecap: 'round'
+  },
+  S_ARROW_LEFT = {
+    transform: 'rotate(90deg)'
+  };
+const _fSvgArrow = arrowStyle => ({
+  style
+}) => /*#__PURE__*/(0, _jsxRuntime.jsx)(SvgArrowDown, {
+  style: {
+    ...S_ARROW,
+    ...arrowStyle,
+    ...style
+  }
+});
+const SvgArrowLeft = exports.SvgArrowLeft = _fSvgArrow(S_ARROW_LEFT);
 //# sourceMappingURL=Svg.js.map
